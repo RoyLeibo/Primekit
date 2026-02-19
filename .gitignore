@@ -1,0 +1,36 @@
+# Dart/Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+pubspec.lock
+
+# Coverage
+coverage/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Generated
+*.g.dart
+*.freezed.dart
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Test logs
+test-results/

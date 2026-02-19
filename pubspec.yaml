@@ -1,0 +1,77 @@
+name: primekit
+description: >
+  Primekit — A modular developer toolkit for Flutter applications.
+  Eliminate boilerplate, ship faster. 15 production-grade utility modules
+  covering analytics, auth, billing, ads, membership, email, storage,
+  permissions, forms, notifications, network, device, UI, routing, and i18n.
+version: 0.1.0
+homepage: https://github.com/RoyLeibo/Primekit
+repository: https://github.com/RoyLeibo/Primekit
+issue_tracker: https://github.com/RoyLeibo/Primekit/issues
+documentation: https://github.com/RoyLeibo/Primekit/tree/main/doc
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Networking
+  dio: ^5.4.0
+  connectivity_plus: ^6.0.3
+
+  # Storage
+  shared_preferences: ^2.2.3
+  flutter_secure_storage: ^9.2.2
+  hive_flutter: ^1.1.0
+
+  # Permissions
+  permission_handler: ^11.3.1
+
+  # Device info
+  device_info_plus: ^10.1.2
+  package_info_plus: ^8.0.2
+
+  # Local notifications
+  flutter_local_notifications: ^17.2.2
+  timezone: ^0.9.4
+
+  # Biometrics
+  local_auth: ^2.3.0
+  local_auth_android: ^1.0.56
+  local_auth_darwin: ^1.6.1
+  local_auth_platform_interface: ^1.1.0
+
+  # Logging
+  logger: ^2.4.0
+
+  # Crypto / encoding
+  crypto: ^3.0.3
+  convert: ^3.1.1
+
+  # File system
+  path_provider: ^2.1.0
+
+  # Routing
+  go_router: ^13.0.0
+
+  # Utils
+  collection: ^1.18.0
+  intl: ^0.19.0
+  uuid: ^4.4.0
+  rxdart: ^0.28.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
+  build_runner: ^2.4.12
+  test: ^1.25.2
+  coverage: ^1.9.0
+
+# Make all modules importable as separate libraries for tree-shaking
+flutter:
+  uses-material-design: true
