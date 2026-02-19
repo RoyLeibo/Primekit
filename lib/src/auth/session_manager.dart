@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 
 import '../core/exceptions.dart';
 import '../core/logger.dart';
-import '../storage/secure_prefs.dart';
-import 'token_store.dart';
+import '../storage/secure_prefs.dart' show SecurePrefs, SecurePrefsBase;
+import 'token_store.dart' show TokenStore, TokenStoreBase;
 
 // ---------------------------------------------------------------------------
 // Session state
@@ -87,8 +87,8 @@ abstract class SessionStateProvider {
 /// ```
 final class SessionManager extends ChangeNotifier implements SessionStateProvider {
   SessionManager._internal({
-    required TokenStore tokenStore,
-    required SecurePrefs securePrefs,
+    required TokenStoreBase tokenStore,
+    required SecurePrefsBase securePrefs,
   })  : _tokenStore = tokenStore,
         _securePrefs = securePrefs;
 
@@ -107,8 +107,8 @@ final class SessionManager extends ChangeNotifier implements SessionStateProvide
   /// Replaces the singleton with a test double. Call in test `setUp`.
   @visibleForTesting
   static void resetForTesting({
-    required TokenStore tokenStore,
-    required SecurePrefs securePrefs,
+    required TokenStoreBase tokenStore,
+    required SecurePrefsBase securePrefs,
   }) {
     _instance?.dispose();
     _instance = SessionManager._internal(
@@ -117,8 +117,8 @@ final class SessionManager extends ChangeNotifier implements SessionStateProvide
     );
   }
 
-  final TokenStore _tokenStore;
-  final SecurePrefs _securePrefs;
+  final TokenStoreBase _tokenStore;
+  final SecurePrefsBase _securePrefs;
 
   static const String _keyUserId = 'pk_session_user_id';
   static const String _keyUserData = 'pk_session_user_data';
@@ -132,12 +132,14 @@ final class SessionManager extends ChangeNotifier implements SessionStateProvide
       StreamController<SessionState>.broadcast();
 
   /// The current session state.
+  @override
   SessionState get state => _state;
 
   /// A broadcast stream that emits every time [state] changes.
   Stream<SessionState> get stateStream => _stateController.stream;
 
   /// Whether the user is currently authenticated.
+  @override
   bool get isAuthenticated => _state is SessionAuthenticated;
 
   /// The authenticated user's identifier, or `null` when unauthenticated.

@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:primekit/src/auth/session_manager.dart';
-import 'package:primekit/src/auth/token_store.dart';
-import 'package:primekit/src/storage/secure_prefs.dart';
+import 'package:primekit/src/auth/token_store.dart' show TokenStoreBase;
+import 'package:primekit/src/storage/secure_prefs.dart' show SecurePrefsBase;
 
 // ---------------------------------------------------------------------------
 // Mocks
 // ---------------------------------------------------------------------------
 
-class MockTokenStore extends Mock implements TokenStore {}
-class MockSecurePrefs extends Mock implements SecurePrefs {}
+class MockTokenStore extends Mock implements TokenStoreBase {}
+class MockSecurePrefs extends Mock implements SecurePrefsBase {}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -35,8 +35,8 @@ void main() {
     mockSecurePrefs = MockSecurePrefs();
 
     SessionManager.resetForTesting(
-      tokenStore: mockTokenStore,
-      securePrefs: mockSecurePrefs,
+      tokenStore: mockTokenStore,  // TokenStoreBase
+      securePrefs: mockSecurePrefs, // SecurePrefsBase
     );
     session = SessionManager.instance;
   });
@@ -171,9 +171,12 @@ void main() {
         accessToken: makeJwt(sub: 'stream_user'),
         refreshToken: refreshToken,
       );
+      // Allow microtasks to settle.
+      await Future<void>.value();
 
-      await sub.cancel();
+      expect(states, isNotEmpty);
       expect(states.last, isA<SessionAuthenticated>());
+      await sub.cancel();
     });
   });
 
@@ -261,12 +264,20 @@ void main() {
         refreshToken: 'rt',
       );
       await session.logout();
+      // Allow all microtasks and async work to complete.
+      await Future<void>.value();
+      await Future<void>.value();
 
       await sub.cancel();
 
       expect(
         emitted,
-        [SessionLoading, SessionUnauthenticated, SessionAuthenticated, SessionUnauthenticated],
+        [
+          SessionLoading,
+          SessionUnauthenticated,
+          SessionAuthenticated,
+          SessionUnauthenticated,
+        ],
       );
     });
   });

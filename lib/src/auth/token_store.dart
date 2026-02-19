@@ -55,6 +55,7 @@ final class TokenStore implements TokenStoreBase {
   /// Persists [token] as the access token.
   ///
   /// Throws [StorageException] on failure.
+  @override
   Future<void> saveAccessToken(String token) async {
     try {
       await _storage.write(key: _keyAccessToken, value: token);
@@ -77,6 +78,7 @@ final class TokenStore implements TokenStoreBase {
   /// Persists [token] as the refresh token.
   ///
   /// Throws [StorageException] on failure.
+  @override
   Future<void> saveRefreshToken(String token) async {
     try {
       await _storage.write(key: _keyRefreshToken, value: token);
@@ -103,6 +105,7 @@ final class TokenStore implements TokenStoreBase {
   /// Returns the stored access token, or `null` if none exists.
   ///
   /// Throws [StorageException] on failure.
+  @override
   Future<String?> getAccessToken() async {
     try {
       return await _storage.read(key: _keyAccessToken);
@@ -124,6 +127,7 @@ final class TokenStore implements TokenStoreBase {
   /// Returns the stored refresh token, or `null` if none exists.
   ///
   /// Throws [StorageException] on failure.
+  @override
   Future<String?> getRefreshToken() async {
     try {
       return await _storage.read(key: _keyRefreshToken);
@@ -155,6 +159,7 @@ final class TokenStore implements TokenStoreBase {
   ///
   /// Returns `false` when no token is stored or when the token cannot be
   /// decoded.
+  @override
   Future<bool> hasValidToken() async {
     final token = await getAccessToken();
     if (token == null) return false;
@@ -168,6 +173,7 @@ final class TokenStore implements TokenStoreBase {
   /// Removes both the access and refresh tokens from secure storage.
   ///
   /// Throws [StorageException] on failure.
+  @override
   Future<void> clearAll() async {
     try {
       await Future.wait([

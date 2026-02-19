@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 
 import '../core/exceptions.dart';
 import '../core/logger.dart';
-import 'token_store.dart';
+import 'token_store.dart' show TokenStoreBase;
 
 /// A callback that receives the current refresh token and must return a fresh
 /// access token on success, or `null` on failure.
@@ -42,14 +42,14 @@ typedef TokenRefreshCallback = Future<String?> Function(String refreshToken);
 /// ```
 final class AuthInterceptor extends Interceptor {
   AuthInterceptor({
-    required TokenStore tokenStore,
+    required TokenStoreBase tokenStore,
     required TokenRefreshCallback onRefresh,
     required VoidCallback onSessionExpired,
   })  : _tokenStore = tokenStore,
         _onRefresh = onRefresh,
         _onSessionExpired = onSessionExpired;
 
-  final TokenStore _tokenStore;
+  final TokenStoreBase _tokenStore;
   final TokenRefreshCallback _onRefresh;
   final VoidCallback _onSessionExpired;
 

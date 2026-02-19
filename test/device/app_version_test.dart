@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:primekit/primekit.dart';
+import 'package:primekit/device.dart';
 
 void main() {
   group('VersionInfo', () {

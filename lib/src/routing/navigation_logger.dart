@@ -18,7 +18,7 @@ abstract interface class NavigationAnalyticsProvider {
 
 /// A [NavigatorObserver] that logs every route transition.
 ///
-/// Attach it to [MaterialApp.navigatorObservers] or [GoRouter] observers to
+/// Attach it to [MaterialApp.navigatorObservers] or `GoRouter` observers to
 /// automatically capture push, pop, and replace events:
 ///
 /// ```dart

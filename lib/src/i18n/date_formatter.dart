@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 
 /// Locale-aware date and time formatting utilities.
 ///
-/// All methods accept an optional [locale] parameter. When omitted, the
-/// method falls back to [Intl.defaultLocale] or the system locale.
+/// All methods accept an optional `locale` parameter. When omitted, the
+/// method falls back to the default locale or the system locale.
 ///
 /// ```dart
 /// PkDateFormatter.shortDate(DateTime.now())             // '2/19/2026'

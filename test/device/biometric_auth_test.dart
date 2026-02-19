@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:primekit/primekit.dart';
+import 'package:primekit/device.dart';
 
 // BiometricAuth wraps local_auth which requires a real device/platform channel.
 // Unit tests therefore cover only the enum contracts and mapping logic that

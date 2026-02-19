@@ -19,7 +19,7 @@ class DeepLinkRoute {
 
   final Object _pattern;
 
-  /// Translates a matched [uri] into a go_router destination path.
+  /// Translates a matched uri into a GoRouter-compatible destination path.
   final String Function(Uri uri) handler;
 
   /// Returns `true` if this route matches [uri].

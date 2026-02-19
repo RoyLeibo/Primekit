@@ -21,13 +21,13 @@ import 'package:flutter/material.dart';
 class EmptyState extends StatelessWidget {
   /// Creates a fully customisable empty-state widget.
   const EmptyState({
-    super.key,
     required this.message,
     this.title,
     this.icon,
     this.illustration,
     this.actionLabel,
     this.onAction,
+    super.key,
   });
 
   // ---------------------------------------------------------------------------

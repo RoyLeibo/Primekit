@@ -17,4 +17,4 @@ export 'migration_runner.dart'
         MigrationRunner,
         MigrationStore,
         SharedPrefsMigrationStore;
-export 'secure_prefs.dart' show SecurePrefs;
+export 'secure_prefs.dart' show SecurePrefs, SecurePrefsBase;

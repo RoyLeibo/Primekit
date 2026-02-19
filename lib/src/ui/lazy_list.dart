@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 class LazyList<T> extends StatefulWidget {
   /// Creates an infinite-scroll list.
   const LazyList({
-    super.key,
     required this.onLoadPage,
     required this.itemBuilder,
     this.pageSize = 20,
@@ -25,6 +24,7 @@ class LazyList<T> extends StatefulWidget {
     this.errorWidget,
     this.shrinkWrap = false,
     this.physics,
+    super.key,
   });
 
   /// Async callback that fetches a single page of data.
@@ -33,7 +33,7 @@ class LazyList<T> extends StatefulWidget {
   /// Return an empty list to signal the end of data.
   final Future<List<T>> Function(int page, int pageSize) onLoadPage;
 
-  /// Builds a single list item from [item] at position [index].
+  /// Builds a single list item from item at the given position index.
   final Widget Function(BuildContext context, T item, int index) itemBuilder;
 
   /// Number of items per page. Defaults to 20.

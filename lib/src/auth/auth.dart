@@ -17,4 +17,4 @@ export 'session_manager.dart'
         SessionState,
         SessionStateProvider,
         SessionUnauthenticated;
-export 'token_store.dart' show TokenStore;
+export 'token_store.dart' show TokenStore, TokenStoreBase;

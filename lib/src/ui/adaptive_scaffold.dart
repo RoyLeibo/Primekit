@@ -45,19 +45,19 @@ class AdaptiveDestination {
 class AdaptiveScaffold extends StatelessWidget {
   /// Creates an adaptive scaffold.
   const AdaptiveScaffold({
-    super.key,
     required this.destinations,
     required this.body,
     this.floatingActionButton,
     this.appBar,
     this.selectedIndex = 0,
     this.onDestinationSelected,
+    super.key,
   }) : assert(destinations.length >= 2, 'At least 2 destinations required');
 
   /// The list of top-level navigation destinations.
   final List<AdaptiveDestination> destinations;
 
-  /// Builder that returns the body widget for the given [index].
+  /// Builder that returns the body widget for the currently selected index.
   final Widget Function(int index) body;
 
   /// Optional floating action button forwarded to the [Scaffold].

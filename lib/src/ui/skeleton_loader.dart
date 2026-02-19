@@ -27,9 +27,9 @@ class SkeletonLoader extends StatefulWidget {
   /// When [isLoading] is `true` the shimmer placeholder is shown; otherwise
   /// [child] is rendered normally.
   const SkeletonLoader({
-    super.key,
     required this.child,
     this.isLoading = true,
+    super.key,
   });
 
   // ---------------------------------------------------------------------------
@@ -217,9 +217,9 @@ class _ShimmerBoxState extends State<_ShimmerBox>
 
 class _SkeletonTextWidget extends StatelessWidget {
   const _SkeletonTextWidget({
-    super.key,
     required this.lines,
     this.fixedWidth,
+    super.key,
   });
 
   final int lines;
@@ -244,7 +244,7 @@ class _SkeletonTextWidget extends StatelessWidget {
 }
 
 class _SkeletonCardWidget extends StatelessWidget {
-  const _SkeletonCardWidget({super.key, required this.height});
+  const _SkeletonCardWidget({required this.height, super.key});
 
   final double height;
 
@@ -254,7 +254,7 @@ class _SkeletonCardWidget extends StatelessWidget {
 }
 
 class _SkeletonAvatarWidget extends StatelessWidget {
-  const _SkeletonAvatarWidget({super.key, required this.size});
+  const _SkeletonAvatarWidget({required this.size, super.key});
 
   final double size;
 
@@ -265,9 +265,9 @@ class _SkeletonAvatarWidget extends StatelessWidget {
 
 class _SkeletonListItemWidget extends StatelessWidget {
   const _SkeletonListItemWidget({
-    super.key,
     required this.hasAvatar,
     required this.textLines,
+    super.key,
   });
 
   final bool hasAvatar;
@@ -275,7 +275,6 @@ class _SkeletonListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (hasAvatar) ...[
             const _ShimmerBox(width: 48, height: 48, borderRadius: 24),

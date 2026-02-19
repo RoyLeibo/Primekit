@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
@@ -15,6 +16,16 @@ class MockGoRouterState extends Mock implements GoRouterState {}
 // ---------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------
+
+/// A minimal [StatelessWidget] used to obtain a real [BuildContext]
+/// inside [testWidgets].
+class _TestApp extends StatelessWidget {
+  const _TestApp({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => MaterialApp(home: child);
+}
 
 void main() {
   late MockSessionStateProvider mockSession;
@@ -46,7 +57,7 @@ void main() {
   }
 
   // ---------------------------------------------------------------------------
-  // publicPaths
+  // publicPaths (no BuildContext needed)
   // ---------------------------------------------------------------------------
 
   group('publicPaths', () {
@@ -57,7 +68,10 @@ void main() {
 
     test('includes additional paths supplied at construction', () {
       final guard = makeGuard(publicPaths: ['/about', '/terms']);
-      expect(guard.publicPaths, containsAll(['/login', '/about', '/terms']));
+      expect(
+        guard.publicPaths,
+        containsAll(['/login', '/about', '/terms']),
+      );
     });
   });
 
@@ -66,31 +80,47 @@ void main() {
   // ---------------------------------------------------------------------------
 
   group('SessionLoading', () {
-    test('redirects to loadingPath when not already there', () {
-      setSessionState(const SessionLoading());
-      setLocation('/home');
-      final guard = makeGuard(loadingPath: '/loading');
-
-      final result = guard.redirect(null as dynamic, mockRouterState);
-      expect(result, '/loading');
+    testWidgets('redirects to loadingPath when not already there',
+        (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(const SessionLoading());
+            setLocation('/home');
+            final guard = makeGuard(loadingPath: '/loading');
+            final result = guard.redirect(context, mockRouterState);
+            expect(result, '/loading');
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
 
-    test('returns null when already on loadingPath', () {
-      setSessionState(const SessionLoading());
-      setLocation('/loading');
-      final guard = makeGuard(loadingPath: '/loading');
-
-      final result = guard.redirect(null as dynamic, mockRouterState);
-      expect(result, isNull);
+    testWidgets('returns null when already on loadingPath', (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(const SessionLoading());
+            setLocation('/loading');
+            final guard = makeGuard(loadingPath: '/loading');
+            expect(guard.redirect(context, mockRouterState), isNull);
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
 
-    test('returns null when loadingPath is not set', () {
-      setSessionState(const SessionLoading());
-      setLocation('/home');
-      final guard = makeGuard();
-
-      final result = guard.redirect(null as dynamic, mockRouterState);
-      expect(result, isNull);
+    testWidgets('returns null when loadingPath is not set', (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(const SessionLoading());
+            setLocation('/home');
+            expect(makeGuard().redirect(context, mockRouterState), isNull);
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
   });
 
@@ -101,29 +131,47 @@ void main() {
   group('SessionAuthenticated', () {
     final authenticated = SessionAuthenticated(userId: 'u1');
 
-    test('allows navigation to a protected route', () {
-      setSessionState(authenticated);
-      setLocation('/dashboard');
-
-      final result = makeGuard().redirect(null as dynamic, mockRouterState);
-      expect(result, isNull);
+    testWidgets('allows navigation to a protected route', (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(authenticated);
+            setLocation('/dashboard');
+            expect(makeGuard().redirect(context, mockRouterState), isNull);
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
 
-    test('redirects authenticated user away from loginPath to /', () {
-      setSessionState(authenticated);
-      setLocation('/login');
-
-      final result = makeGuard().redirect(null as dynamic, mockRouterState);
-      expect(result, '/');
+    testWidgets('redirects authenticated user away from loginPath to /',
+        (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(authenticated);
+            setLocation('/login');
+            expect(makeGuard().redirect(context, mockRouterState), '/');
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
 
-    test('allows access to public paths when authenticated', () {
-      setSessionState(authenticated);
-      setLocation('/about');
-
-      final result = makeGuard(publicPaths: ['/about'])
-          .redirect(null as dynamic, mockRouterState);
-      expect(result, isNull);
+    testWidgets('allows access to public paths when authenticated',
+        (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(authenticated);
+            setLocation('/about');
+            final result = makeGuard(publicPaths: ['/about'])
+                .redirect(context, mockRouterState);
+            expect(result, isNull);
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
   });
 
@@ -134,49 +182,78 @@ void main() {
   group('SessionUnauthenticated', () {
     const unauthenticated = SessionUnauthenticated();
 
-    test('redirects to loginPath for a protected route', () {
-      setSessionState(unauthenticated);
-      setLocation('/dashboard');
-
-      final result = makeGuard().redirect(null as dynamic, mockRouterState);
-      expect(result, '/login');
+    testWidgets('redirects to loginPath for a protected route', (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(unauthenticated);
+            setLocation('/dashboard');
+            expect(makeGuard().redirect(context, mockRouterState), '/login');
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
 
-    test('allows access to loginPath', () {
-      setSessionState(unauthenticated);
-      setLocation('/login');
-
-      final result = makeGuard().redirect(null as dynamic, mockRouterState);
-      expect(result, isNull);
+    testWidgets('allows access to loginPath', (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(unauthenticated);
+            setLocation('/login');
+            expect(makeGuard().redirect(context, mockRouterState), isNull);
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
 
-    test('allows access to explicitly listed public paths', () {
-      setSessionState(unauthenticated);
-      setLocation('/terms');
-
-      final result = makeGuard(publicPaths: ['/terms'])
-          .redirect(null as dynamic, mockRouterState);
-      expect(result, isNull);
+    testWidgets('allows access to explicitly listed public paths',
+        (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(unauthenticated);
+            setLocation('/terms');
+            final result = makeGuard(publicPaths: ['/terms'])
+                .redirect(context, mockRouterState);
+            expect(result, isNull);
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
 
-    test('allows access to sub-path of public parent', () {
-      setSessionState(unauthenticated);
-      setLocation('/login/forgot-password');
-
-      final result = makeGuard().redirect(null as dynamic, mockRouterState);
-      expect(result, isNull);
+    testWidgets('allows access to sub-path of public parent', (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(unauthenticated);
+            setLocation('/login/forgot-password');
+            expect(makeGuard().redirect(context, mockRouterState), isNull);
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
 
-    test('blocks access to path that only shares a prefix with a public path',
-        () {
-      setSessionState(unauthenticated);
-      // /loginextra does NOT start with /login/
-      setLocation('/loginextra');
-
-      final result = makeGuard().redirect(null as dynamic, mockRouterState);
-      // /loginextra is not equal to /login and does not start with /login/
-      // so it should be blocked.
-      expect(result, '/login');
+    testWidgets(
+        'blocks access to path that only shares a prefix with a public path',
+        (tester) async {
+      await tester.pumpWidget(
+        Builder(
+          builder: (context) {
+            setSessionState(unauthenticated);
+            // /loginextra is not /login and does not start with /login/
+            setLocation('/loginextra');
+            expect(
+              makeGuard().redirect(context, mockRouterState),
+              '/login',
+            );
+            return const SizedBox.shrink();
+          },
+        ),
+      );
     });
   });
 }

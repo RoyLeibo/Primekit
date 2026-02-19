@@ -80,7 +80,7 @@ class SendGridProvider implements EmailProvider {
     try {
       final body = _buildPayload(message);
 
-      final response = await dio.post<void>(
+      final response = await dio.post<Map<String, dynamic>>(
         _endpoint,
         data: body,
         options: Options(
