@@ -30,11 +30,6 @@ import 'ad_event_logger.dart';
 // PkBannerAd widget
 // ---------------------------------------------------------------------------
 
-/// The vertical position of a banner ad stub placeholder.
-///
-/// Use this when google_mobile_ads is unavailable or during testing.
-enum _BannerPlaceholderStyle { outlined, filled }
-
 /// A Flutter widget that loads and displays a Google AdMob banner ad.
 ///
 /// Handles loading state, error state, and auto-reload on failure (default
@@ -191,16 +186,6 @@ class _PkBannerAdState extends State<PkBannerAd> {
       'google_mobile_ads is not installed. '
       'Add it to pubspec.yaml to enable banner ads.',
     );
-  }
-
-  void _onAdLoaded() {
-    if (!mounted) return;
-    setState(() {
-      _isLoaded = true;
-      _hasFailed = false;
-    });
-    AdEventLogger.instance.log(AdEvent.loaded('banner'));
-    PrimekitLogger.debug('PkBannerAd: ad loaded.', tag: _tag);
   }
 
   void _onAdFailed(String reason) {

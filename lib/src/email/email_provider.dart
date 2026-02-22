@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 
-import '../core/exceptions.dart';
 import '../core/logger.dart';
 import 'email_message.dart';
 
@@ -124,7 +121,7 @@ class SendGridProvider implements EmailProvider {
         reason: e.message ?? 'Network error',
         statusCode: e.response?.statusCode,
       );
-    } catch (e, stack) {
+    } on Object catch (e, stack) {
       PrimekitLogger.error(
         'Unexpected error sending via SendGrid.',
         tag: _tag,

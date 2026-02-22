@@ -101,6 +101,7 @@ class PushHandler {
   // Callbacks stored for re-use after re-initialization.
   void Function(PushMessage message)? _onMessage;
   void Function(PushMessage message)? _onMessageOpenedApp;
+  // ignore: unused_field — used when firebase_messaging is integrated (see initialize())
   void Function(String? token)? _onTokenRefresh;
 
   // ---------------------------------------------------------------------------

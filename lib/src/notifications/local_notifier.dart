@@ -105,7 +105,6 @@ class LocalNotifier {
   static LocalNotifier get instance => _instance;
 
   static const String _tag = 'LocalNotifier';
-  static const String _defaultChannelId = 'general';
 
   final FlutterLocalNotificationsPlugin _plugin =
       FlutterLocalNotificationsPlugin();

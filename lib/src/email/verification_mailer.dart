@@ -39,6 +39,7 @@ class VerificationMailer {
         _appName = appName,
         _otpTtl = otpTtl;
 
+  // ignore: unused_field — stored for subclass/provider use or future from-address support
   final String _fromEmail;
   final String _appName;
   final Duration _otpTtl;
