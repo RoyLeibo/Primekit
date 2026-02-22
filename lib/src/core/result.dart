@@ -1,3 +1,5 @@
+import 'exceptions.dart';
+
 /// A discriminated union representing either a successful value [S]
 /// or a failure [F].
 ///
@@ -51,7 +53,7 @@ sealed class Result<S, F> {
   }) =>
       switch (this) {
         Success(:final value) => success(value),
-        Failure(:final failure) => failure(failure),
+        Failure(failure: final f) => failure(f),
       };
 
   /// Maps the success value using [transform], leaving failures unchanged.
@@ -69,10 +71,10 @@ sealed class Result<S, F> {
   /// Flat-maps the success value, used for chaining operations.
   Future<Result<T, F>> asyncMap<T>(
     Future<Result<T, F>> Function(S value) transform,
-  ) async =>
+  ) =>
       switch (this) {
         Success(:final value) => transform(value),
-        Failure(:final failure) => Result.failure(failure),
+        Failure(:final failure) => Future.value(Result.failure(failure)),
       };
 
   /// Returns [other] if this is a failure, otherwise returns this.
@@ -125,6 +127,3 @@ final class Failure<S, F> extends Result<S, F> {
 
 /// Convenience typedef for results that fail with a [PrimekitException].
 typedef PkResult<T> = Result<T, PrimekitException>;
-
-// ignore: avoid_relative_lib_imports — circular-safe import path
-import 'exceptions.dart';

@@ -175,7 +175,9 @@ void main() {
       });
 
       test('returns future relative', () {
-        final future = DateTime.now().add(const Duration(days: 2));
+        // Add a 1-hour buffer so the duration stays clearly in the 2-day
+        // bucket even after a few milliseconds of test execution time.
+        final future = DateTime.now().add(const Duration(days: 2, hours: 1));
         expect(future.relative, equals('in 2 days'));
       });
     });

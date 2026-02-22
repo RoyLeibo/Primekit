@@ -58,7 +58,8 @@ extension PrimekitListExtensions<T> on List<T> {
       ];
 
   /// Flattens one level of nesting if this is a `List<List<T>>`.
-  List<T> get flattened => expand((e) => e is List<T> ? e : [e]).toList();
+  List<T> get flattened =>
+      expand<T>((e) => e is List<T> ? e as List<T> : [e]).toList();
 
   /// Returns a random element, or `null` if empty.
   T? get random {
