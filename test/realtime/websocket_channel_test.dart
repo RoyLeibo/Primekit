@@ -229,15 +229,26 @@ void main() {
     final fixedTime = DateTime(2024);
 
     test('equality is based on id', () {
-      final msg1 = RealtimeMessage(id: 'abc', payload: const {}, receivedAt: fixedTime);
-      final msg2 = RealtimeMessage(id: 'abc', payload: const {'extra': true}, receivedAt: fixedTime);
-      final msg3 = RealtimeMessage(id: 'def', payload: const {}, receivedAt: fixedTime);
+      final msg1 =
+          RealtimeMessage(id: 'abc', payload: const {}, receivedAt: fixedTime);
+      final msg2 = RealtimeMessage(
+        id: 'abc',
+        payload: const {'extra': true},
+        receivedAt: fixedTime,
+      );
+      final msg3 =
+          RealtimeMessage(id: 'def', payload: const {}, receivedAt: fixedTime);
       expect(msg1, equals(msg2));
       expect(msg1, isNot(equals(msg3)));
     });
 
     test('toString includes id and type', () {
-      final msg = RealtimeMessage(id: 'xyz', type: 'chat', payload: const {}, receivedAt: fixedTime);
+      final msg = RealtimeMessage(
+        id: 'xyz',
+        type: 'chat',
+        payload: const {},
+        receivedAt: fixedTime,
+      );
       expect(msg.toString(), contains('xyz'));
       expect(msg.toString(), contains('chat'));
     });
