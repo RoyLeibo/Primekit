@@ -7,15 +7,97 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-## [Unreleased]
+## [0.2.0] — 2026-02-22
 
-### Planned for v0.2.0
-- `RevenueCatBillingProvider` — bundled RevenueCat integration
-- `FirebaseAnalyticsProvider` — bundled Firebase Analytics provider
-- `MixpanelProvider` — bundled Mixpanel provider
-- `primekit_cli` — code generation CLI
-- Riverpod integration helpers (`pkRef`, `pkProvider`)
-- BLoC integration helpers
+### Added
+
+**Realtime Module** (`primekit/realtime.dart`)
+- `PkWebSocketChannel` — auto-reconnecting WebSocket with exponential backoff, ping/pong keepalive, and connect timeout
+- `FirebaseRtdbChannel` — Firebase Realtime Database channel implementation
+- `RealtimeManager` — multi-channel coordinator with named channel registry
+- `PresenceService` — online/away/offline presence tracking with last-seen timestamps
+- `MessageBuffer` — persistent offline message buffer backed by SharedPreferences with FIFO eviction
+- `RealtimeChannel` — abstract interface for all channel implementations
+
+**Crash Module** (`primekit/crash.dart`)
+- `CrashReporter` — abstract crash reporting interface
+- `FirebaseCrashReporter` — Firebase Crashlytics implementation
+- `SentryCrashReporter` — Sentry Flutter implementation
+- `MultiCrashReporter` — fan-out reporter dispatching to multiple backends
+- `ErrorBoundary` — Flutter widget that catches render errors and reports them
+- `CrashConfig` — global configuration (user info, custom keys, log limits)
+
+**Feature Flags Module** (`primekit/flags.dart`)
+- `FlagService` — feature flag resolution with caching and fallback
+- `FlagProvider` — abstract provider interface
+- `FirebaseFlagProvider` — Firebase Remote Config implementation
+- `MongoFlagProvider` — MongoDB Atlas Data API implementation
+- `LocalFlagProvider` — in-memory provider for tests and overrides
+- `FlagCache` — TTL-based local flag cache with SharedPreferences persistence
+- `FeatureFlag` — typed flag definition with default values
+
+**Async State Module** (`primekit/async_state.dart`)
+- `AsyncStateValue<T>` — sealed class: `IdleState`, `LoadingState`, `SuccessState`, `FailureState`
+- `AsyncStateNotifier<T>` — ChangeNotifier wrapper for async operations with `execute()`
+- `AsyncBuilder<T>` — widget that rebuilds for each async state with typed builders
+- `PaginatedStateNotifier<T>` — paginated async state with page tracking and append-on-load
+
+**Dependency Injection Module** (`primekit/di.dart`)
+- `ServiceLocator` — singleton registry with lazy factories and eager singletons
+- `PkServiceScope` — inherited widget providing a `ServiceLocator` to the widget tree
+- `PkServiceScopeWidget` — root widget for scoped DI
+- `Module` — abstract interface for grouping related registrations
+- `Disposable` — mixin for services that need lifecycle cleanup
+
+**Offline Sync Module** (`primekit/sync.dart`)
+- `SyncRepository<T>` — generic offline-first repository with optimistic updates
+- `SyncDataSource` — abstract local/remote data source interface
+- `PendingChangeStore` — SharedPreferences-backed queue of unsynced operations
+- `ConflictResolver` — pluggable conflict resolution (local-wins, remote-wins, merge)
+- `SyncDocument<T>` — versioned document wrapper with `updatedAt` tracking
+- `SyncState` — sealed sync status: idle, syncing, synced, conflict, error
+
+**Media Module** (`primekit/media.dart`)
+- `MediaPicker` — unified photo/video/file picker wrapping image_picker
+- `ImageCompressor` — quality/size/dimension compression via flutter_image_compress
+- `ImageCropperService` — interactive cropping via image_cropper
+- `MediaUploader` — chunked upload with progress stream and cancellation
+- `MediaFile` — typed value object (path, mime, size, dimensions)
+- `UploadTask` — observable upload task with progress, pause, resume, cancel
+
+**RBAC Module** (`primekit/rbac.dart`)
+- `RbacService` — role resolution and permission checking
+- `RbacPolicy` — declarative permission policy definition
+- `RbacContext` — request context (user, resource, action)
+- `RbacProvider` — abstract role/permission data source
+- `RbacGate` — widget that conditionally renders based on permission check
+- `PermissionDeniedWidget` — fallback widget for insufficient permissions
+
+**Social Module** (`primekit/social.dart`)
+- `FollowService` — follow/unfollow with follower/following count streams
+- `ProfileService` — user profile CRUD with avatar and display name management
+- `ActivityFeed` — paginated activity/notification feed
+- `ActivityFeedSource` — abstract feed data source
+- `ShareService` — native share sheet integration
+- `SocialAuthProvider` — abstract interface for Google/Apple sign-in
+- `UserProfile` — typed value object with copyWith
+
+**Background Tasks Module** (`primekit/background.dart`)
+- `TaskScheduler` — Workmanager-backed one-off and periodic task scheduler
+- `TaskRegistry` — static callback dispatcher required by Workmanager
+- `BackgroundTask` — typed task definition with constraints and payload
+- `TaskResult` — success/failure/retry result type for background callbacks
+- `CommonTasks` — pre-built task factories (sync, cache refresh, cleanup)
+
+### Changed
+- `pubspec.yaml`: bumped version to `0.2.0`; added `web_socket_channel`, `sentry_flutter`, `workmanager`, `image_picker`, `flutter_image_compress`, `image_cropper`, `google_sign_in` dependencies
+
+### Fixed
+- `Result.when()` pattern variable shadowing in `Failure` branch (`failure: final f`)
+- `Result.asyncMap()` return type: removed `async`, wrapped failure branch in `Future.value()`
+- `list_extensions.dart` `flattened` getter: added explicit type parameter `expand<T>` to fix `List<Object?>` inference
+- `websocket_channel.dart`: `_closeSocket()` now fire-and-forgets `sink.close()` with timeout to prevent indefinite hang on unestablished sockets
+- `websocket_channel.dart`: stale socket leaked when `ready.timeout()` threw; now captured, nulled, and abandoned immediately in the catch block
 
 ---
 
@@ -142,5 +224,5 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-[Unreleased]: https://github.com/RoyLeibo/Primekit/compare/v0.1.0...HEAD
+[0.2.0]: https://github.com/RoyLeibo/Primekit/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/RoyLeibo/Primekit/releases/tag/v0.1.0

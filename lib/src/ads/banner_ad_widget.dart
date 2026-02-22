@@ -26,22 +26,6 @@ import 'ad_event_logger.dart';
 //
 //   import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-/// Stub classes used when google_mobile_ads is not available in the current
-/// build context. Replace with the real imports when the package is present.
-///
-/// These allow the Primekit package to compile without mandating google_mobile_ads
-/// as a hard dependency.
-class _AdSize {
-  const _AdSize._(this.width, this.height);
-  final int width;
-  final int height;
-  static const _AdSize banner = _AdSize._(320, 50);
-  static const _AdSize largeBanner = _AdSize._(320, 100);
-  static const _AdSize mediumRectangle = _AdSize._(300, 250);
-  static const _AdSize fullBanner = _AdSize._(468, 60);
-  static const _AdSize leaderboard = _AdSize._(728, 90);
-}
-
 // ---------------------------------------------------------------------------
 // PkBannerAd widget
 // ---------------------------------------------------------------------------
@@ -188,7 +172,7 @@ class _PkBannerAdState extends State<PkBannerAd> {
         tag: _tag,
       );
       _loadBannerAdDynamic();
-    } catch (e, stack) {
+    } on Object catch (e, stack) {
       PrimekitLogger.error(
         'PkBannerAd: google_mobile_ads not available or ad load failed.',
         tag: _tag,

@@ -89,7 +89,6 @@ class AdManager {
   // ---------------------------------------------------------------------------
 
   AdUnitConfig? _config;
-  bool _testMode = false;
   ConsentStatus _consentStatus = ConsentStatus.unknown;
   bool _initialized = false;
 
@@ -118,7 +117,6 @@ class AdManager {
     ConsentStatus? consentStatus,
   }) {
     _config = config;
-    _testMode = testMode;
     _consentStatus = consentStatus ?? ConsentStatus.unknown;
 
     PrimekitLogger.info(
@@ -436,7 +434,9 @@ class AdManager {
     _interstitialAd = null;
     _rewardedAd = null;
     await Future.wait([
+      // ignore: invalid_use_of_visible_for_testing_member
       _cooldown.resetForTesting(),
+      // ignore: invalid_use_of_visible_for_testing_member
       _frequencyCap.resetForTesting(),
     ]);
   }
