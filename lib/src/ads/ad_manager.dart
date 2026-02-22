@@ -184,9 +184,9 @@ class AdManager {
   /// Returns a [PkBannerAd] widget sized to [size]. The widget manages its
   /// own lifecycle — no need to hold a reference.
   ///
-  /// [size] defaults to [_PkAdSize.banner] (320×50). Use [_PkAdSize.mediumRectangle]
+  /// [size] defaults to [PkAdSize.banner] (320×50). Use [PkAdSize.mediumRectangle]
   /// for a 300×250 rectangle.
-  Widget buildBanner({_PkAdSize size = _PkAdSize.banner}) {
+  Widget buildBanner({PkAdSize size = PkAdSize.banner}) {
     _assertInitialized('buildBanner');
     return PkBannerAd(
       adUnitId: _config!.bannerId,

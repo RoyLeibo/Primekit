@@ -250,6 +250,8 @@ class LocalNotifier {
         notificationDetails,
         payload: payload,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
       );
     }
 

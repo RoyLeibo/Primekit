@@ -32,7 +32,9 @@ export 'src/membership/membership.dart';
 export 'src/network/network.dart';
 export 'src/notifications/notifications.dart';
 export 'src/permissions/permissions.dart';
-export 'src/rbac/rbac.dart';
+// Hide RBAC's Permission to avoid conflict with permission_handler's Permission.
+// Access RbacPermission directly via: import 'package:primekit/src/rbac/rbac.dart';
+export 'src/rbac/rbac.dart' hide Permission;
 export 'src/realtime/realtime.dart';
 export 'src/routing/routing.dart';
 export 'src/social/social.dart';

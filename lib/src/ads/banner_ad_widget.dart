@@ -80,7 +80,7 @@ class PkBannerAd extends StatefulWidget {
   const PkBannerAd({
     super.key,
     required this.adUnitId,
-    this.size = const _PkAdSize.banner(),
+    this.size = PkAdSize.banner,
     this.placeholder,
     this.reloadDelay = const Duration(seconds: 60),
   });
@@ -89,7 +89,7 @@ class PkBannerAd extends StatefulWidget {
   final String adUnitId;
 
   /// The desired ad size. Defaults to banner (320×50).
-  final _PkAdSize size;
+  final PkAdSize size;
 
   /// Widget shown while the ad is loading or on error.
   final Widget? placeholder;
@@ -104,16 +104,16 @@ class PkBannerAd extends StatefulWidget {
 /// Normalised ad size enum used by [PkBannerAd] without a hard dependency
 /// on google_mobile_ads.
 ///
-/// When you add google_mobile_ads to your pubspec, [_PkAdSize] values map
+/// When you add google_mobile_ads to your pubspec, [PkAdSize] values map
 /// 1:1 to the corresponding [AdSize] constants.
-enum _PkAdSize {
+enum PkAdSize {
   banner(width: 320, height: 50),
   largeBanner(width: 320, height: 100),
   mediumRectangle(width: 300, height: 250),
   fullBanner(width: 468, height: 60),
   leaderboard(width: 728, height: 90);
 
-  const _PkAdSize({required this.width, required this.height});
+  const PkAdSize({required this.width, required this.height});
 
   final int width;
   final int height;
