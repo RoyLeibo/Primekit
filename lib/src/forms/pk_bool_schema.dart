@@ -1,5 +1,4 @@
 import 'pk_schema.dart';
-import 'validation_result.dart';
 
 /// A schema that validates boolean values.
 ///

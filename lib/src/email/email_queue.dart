@@ -429,7 +429,7 @@ class EmailQueue {
 
     if (isConnected && pendingCount > 0) {
       PrimekitLogger.info(
-        'Connectivity restored; auto-flushing ${pendingCount} pending emails.',
+        'Connectivity restored; auto-flushing $pendingCount pending emails.',
         tag: _tag,
       );
       flush();

@@ -63,7 +63,9 @@ abstract final class PrimekitLogger {
 
     // ignore: avoid_print — intentional debug output
     print('$icon $prefix $message');
+    // ignore: avoid_print
     if (error != null) print('   Error: $error');
+    // ignore: avoid_print
     if (stackTrace != null) print('   StackTrace: $stackTrace');
   }
 }

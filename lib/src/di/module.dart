@@ -1,6 +1,3 @@
-/// DiModule — groups related service registrations.
-library primekit_di_module;
-
 import 'service_locator.dart';
 
 /// A logical grouping of service registrations.

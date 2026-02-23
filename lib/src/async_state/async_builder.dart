@@ -1,6 +1,3 @@
-/// Widget helpers for rendering [AsyncState] and [AsyncStateNotifier].
-library primekit_async_builder;
-
 import 'package:flutter/material.dart';
 
 import 'async_state_notifier.dart';
@@ -111,7 +108,7 @@ class AsyncStateBuilder<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: notifier,
-    builder: (_, __) => AsyncBuilder<T>(
+    builder: (_, _) => AsyncBuilder<T>(
       state: notifier.state,
       data: data,
       loading: loading,

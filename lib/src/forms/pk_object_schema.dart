@@ -1,5 +1,4 @@
 import 'pk_schema.dart';
-import 'validation_result.dart';
 
 /// A schema that validates a [Map<String, dynamic>] by delegating each key
 /// to its corresponding child schema.

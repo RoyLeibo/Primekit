@@ -93,10 +93,7 @@ class NavigationLogger extends NavigatorObserver {
 
     analyticsProvider?.logScreenView(
       currentName,
-      parameters: {
-        'event': event,
-        if (previousName != null) 'previous_screen': previousName,
-      },
+      parameters: {'event': event, 'previous_screen': ?previousName},
     );
   }
 

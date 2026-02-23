@@ -41,7 +41,7 @@ final class TokenStore implements TokenStoreBase {
   static TokenStore get instance => _instance;
 
   static const _storage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
     iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
   );
 

@@ -1,9 +1,3 @@
-/// Pagination-aware state and notifier.
-///
-/// Provides a ready-made pattern for infinite-scroll lists, separating the
-/// concerns of first-page loading, subsequent page loading, and errors.
-library primekit_paginated_state;
-
 import 'package:flutter/foundation.dart';
 
 /// Immutable snapshot of a paginated list's state.

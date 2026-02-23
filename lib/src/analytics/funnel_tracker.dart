@@ -334,7 +334,7 @@ final class FunnelTracker {
         'steps_completed': state.completedSteps.length,
         'last_step': state.completedSteps.lastOrNull,
         'duration_seconds': duration.inSeconds,
-        if (reason != null) 'reason': reason,
+        'reason': ?reason,
       },
     );
 
@@ -365,7 +365,7 @@ final class FunnelTracker {
   }) {
     final params = <String, Object?>{
       'funnel_name': funnelName,
-      if (userId != null) 'user_id': userId,
+      'user_id': ?userId,
       ...extra,
     };
 

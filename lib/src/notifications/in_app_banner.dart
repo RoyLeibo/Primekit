@@ -299,7 +299,7 @@ class _InAppBannerState extends State<InAppBanner>
                           Text(
                             widget.message,
                             style: TextStyle(
-                              color: fg.withOpacity(0.9),
+                              color: fg.withValues(alpha: 0.9),
                               fontSize: 13,
                               fontWeight: FontWeight.w400,
                               height: 1.4,
@@ -315,7 +315,7 @@ class _InAppBannerState extends State<InAppBanner>
                       onTap: _dismiss,
                       child: Icon(
                         Icons.close_rounded,
-                        color: fg.withOpacity(0.6),
+                        color: fg.withValues(alpha: 0.6),
                         size: 18,
                       ),
                     ),

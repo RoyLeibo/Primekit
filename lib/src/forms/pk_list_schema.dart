@@ -1,5 +1,4 @@
 import 'pk_schema.dart';
-import 'validation_result.dart';
 
 /// A schema that validates a [List] where each element is validated by
 /// [itemSchema].

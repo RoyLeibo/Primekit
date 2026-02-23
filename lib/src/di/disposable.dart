@@ -1,6 +1,3 @@
-/// Disposable interface for services managed by [ServiceLocator].
-library primekit_disposable;
-
 import 'service_locator.dart';
 import 'service_scope.dart';
 

@@ -268,7 +268,7 @@ final class MongoSyncSource implements SyncDataSource {
   /// Renames MongoDB's `_id` field to `id` for portability.
   Map<String, dynamic> _normaliseId(Map<String, dynamic> doc) {
     final id = doc['_id']?['\$oid'] as String? ?? doc['id'] as String?;
-    return {...doc, if (id != null) 'id': id}..remove('_id');
+    return {...doc, 'id': ?id}..remove('_id');
   }
 
   /// Converts the app-level `updatedAt` ISO-8601 string to a MongoDB Extended

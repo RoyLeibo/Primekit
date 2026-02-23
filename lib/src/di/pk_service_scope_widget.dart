@@ -1,6 +1,3 @@
-/// Flutter widget that provides a [ServiceScope] to a subtree.
-library primekit_service_scope_widget;
-
 import 'package:flutter/widgets.dart';
 
 import 'service_locator.dart';

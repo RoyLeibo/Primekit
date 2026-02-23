@@ -1,19 +1,3 @@
-/// Core sealed class for representing the four states of an async operation.
-///
-/// Replaces the common `isLoading`/`error`/`data` bool triad with a typed,
-/// exhaustive sealed class.
-///
-/// ```dart
-/// AsyncState<User> state = AsyncState.loading();
-///
-/// state.when(
-///   loading: () => const CircularProgressIndicator(),
-///   data: (user) => Text(user.name),
-///   error: (e, st) => Text('Error: $e'),
-/// );
-/// ```
-library primekit_async_state_value;
-
 /// Represents the four possible states of an asynchronous operation:
 /// loading, data, error, and refreshing.
 ///

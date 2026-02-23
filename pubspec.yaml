@@ -1,11 +1,7 @@
 name: primekit
-description: >
-  Primekit — A modular developer toolkit for Flutter applications.
-  Eliminate boilerplate, ship faster. 25 production-grade utility modules
-  covering analytics, auth, billing, ads, membership, email, storage,
-  permissions, forms, notifications, network, device, UI, routing, i18n,
-  offline sync, real-time, crash reporting, feature flags, DI, background
-  tasks, media, RBAC, and social features.
+description: >-
+  Modular Flutter toolkit: 25 production-grade utility modules covering auth,
+  analytics, billing, storage, forms, notifications, network, routing, and more.
 version: 0.2.0
 homepage: https://github.com/RoyLeibo/Primekit
 repository: https://github.com/RoyLeibo/Primekit

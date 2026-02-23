@@ -1,7 +1,3 @@
-/// Core service locator with singleton, lazy-singleton, factory, scoped, and
-/// async-singleton lifetimes.
-library primekit_service_locator;
-
 import 'disposable.dart';
 import 'module.dart';
 

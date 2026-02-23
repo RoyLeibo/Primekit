@@ -1,6 +1,3 @@
-/// Scoped service lifetime — per-screen or per-feature instances.
-library primekit_service_scope;
-
 import 'disposable.dart';
 import 'service_locator.dart';
 

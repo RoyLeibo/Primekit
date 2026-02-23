@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'pk_schema.dart';
-import 'validation_result.dart';
 
 /// A Flutter form field backed by a [PkSchema].
 ///

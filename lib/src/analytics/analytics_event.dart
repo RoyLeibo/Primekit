@@ -34,10 +34,7 @@ final class AnalyticsEvent {
     String? screenClass,
   }) => AnalyticsEvent(
     name: 'screen_view',
-    parameters: {
-      'screen_name': screenName,
-      if (screenClass != null) 'screen_class': screenClass,
-    },
+    parameters: {'screen_name': screenName, 'screen_class': ?screenClass},
   );
 
   /// Records a button-tap interaction.
@@ -48,10 +45,7 @@ final class AnalyticsEvent {
     String? screen,
   }) => AnalyticsEvent(
     name: 'button_tap',
-    parameters: {
-      'button_name': buttonName,
-      if (screen != null) 'screen': screen,
-    },
+    parameters: {'button_name': buttonName, 'screen': ?screen},
   );
 
   /// Records a purchase event.
@@ -96,10 +90,7 @@ final class AnalyticsEvent {
     String? errorMessage,
   }) => AnalyticsEvent(
     name: 'app_error',
-    parameters: {
-      'error_name': errorName,
-      if (errorMessage != null) 'error_message': errorMessage,
-    },
+    parameters: {'error_name': errorName, 'error_message': ?errorMessage},
   );
 
   // ---------------------------------------------------------------------------

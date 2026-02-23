@@ -1,12 +1,3 @@
-/// RBAC — role-based access control with typed permissions, resource scoping,
-/// and Firebase / MongoDB backends.
-///
-/// Import this barrel to access the full RBAC module:
-/// ```dart
-/// import 'package:primekit/src/rbac/rbac.dart';
-/// ```
-library primekit_rbac;
-
 export 'permission.dart' show Permission, Role;
 export 'providers/firebase_rbac_provider.dart' show FirebaseRbacProvider;
 export 'providers/mongo_rbac_provider.dart' show MongoRbacProvider;

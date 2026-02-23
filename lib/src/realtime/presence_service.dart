@@ -115,18 +115,18 @@ class FirebasePresenceService extends PresenceService {
 
     final onlineRecord = <String, dynamic>{
       'userId': userId,
-      if (displayName != null) 'displayName': displayName,
+      'displayName': ?displayName,
       'isOnline': true,
       'lastSeen': ServerValue.timestamp,
-      if (metadata != null) 'metadata': metadata,
+      'metadata': ?metadata,
     };
 
     final offlineRecord = <String, dynamic>{
       'userId': userId,
-      if (displayName != null) 'displayName': displayName,
+      'displayName': ?displayName,
       'isOnline': false,
       'lastSeen': ServerValue.timestamp,
-      if (metadata != null) 'metadata': metadata,
+      'metadata': ?metadata,
     };
 
     // Register the offline state to be applied automatically on disconnection.

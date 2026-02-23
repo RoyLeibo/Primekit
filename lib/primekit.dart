@@ -1,18 +1,3 @@
-/// Primekit — A modular developer toolkit for Flutter applications.
-///
-/// Import the full library:
-/// ```dart
-/// import 'package:primekit/primekit.dart';
-/// ```
-///
-/// Or import individual modules for tree-shaking:
-/// ```dart
-/// import 'package:primekit/analytics.dart';
-/// import 'package:primekit/auth.dart';
-/// import 'package:primekit/billing.dart';
-/// ```
-library primekit;
-
 export 'src/ads/ads.dart';
 export 'src/analytics/analytics.dart';
 export 'src/async_state/async_state.dart';
@@ -32,8 +17,6 @@ export 'src/membership/membership.dart';
 export 'src/network/network.dart';
 export 'src/notifications/notifications.dart';
 export 'src/permissions/permissions.dart';
-// Hide RBAC's Permission to avoid conflict with permission_handler's Permission.
-// Access RbacPermission directly via: import 'package:primekit/src/rbac/rbac.dart';
 export 'src/rbac/rbac.dart' hide Permission;
 export 'src/realtime/realtime.dart';
 export 'src/routing/routing.dart';

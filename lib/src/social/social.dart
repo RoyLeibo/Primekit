@@ -1,12 +1,3 @@
-/// Social — user profiles, activity feeds, follow graph, social OAuth,
-/// and share sheet integration.
-///
-/// Import this barrel to access the full Social module:
-/// ```dart
-/// import 'package:primekit/src/social/social.dart';
-/// ```
-library primekit_social;
-
 export 'activity_feed.dart'
     show
         ActivityFeed,

@@ -1,11 +1,3 @@
-/// Media — image/video picker, compression, cropping, and upload pipeline.
-///
-/// Import this barrel to access the full Media module:
-/// ```dart
-/// import 'package:primekit/src/media/media.dart';
-/// ```
-library primekit_media;
-
 export 'avatar_uploader.dart' show AvatarUploader;
 export 'image_compressor.dart' show ImageCompressor;
 export 'image_cropper_service.dart' show ImageCropperService;

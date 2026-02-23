@@ -105,7 +105,7 @@ class FirebaseRtdbChannel implements RealtimeChannel {
     final ref = _db.ref(_path);
     final envelope = <String, dynamic>{
       'id': _uuid.v4(),
-      if (type != null) 'type': type,
+      'type': ?type,
       'payload': payload,
       'sentAt': DateTime.now().toIso8601String(),
     };

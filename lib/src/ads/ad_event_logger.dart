@@ -156,7 +156,7 @@ class AdEventLogger {
   void log(AdEvent event) {
     _updateCounters(event);
     _forwardToAnalytics(event);
-    PrimekitLogger.debug('${event.toString()}', tag: _tag);
+    PrimekitLogger.debug(event.toString(), tag: _tag);
   }
 
   // ---------------------------------------------------------------------------
@@ -208,10 +208,7 @@ class AdEventLogger {
       ),
       AdShown(:final adType, :final screenName) => AnalyticsEvent(
         name: 'ad_impression',
-        parameters: {
-          'ad_type': adType,
-          if (screenName != null) 'screen_name': screenName,
-        },
+        parameters: {'ad_type': adType, 'screen_name': ?screenName},
       ),
       AdClicked(:final adType) => AnalyticsEvent(
         name: 'ad_click',

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the compress method from the ImageCompressor class, for the Dart programming language.">
+  <title>compress method - ImageCompressor class - primekit library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">primekit</a></li>
+    <li><a href="../../primekit/">primekit.dart</a></li>
+    <li><a href="../../primekit/ImageCompressor-class.html">ImageCompressor</a></li>
+    <li class="self-crumb">compress static method</li>
+  </ol>
+  <div class="self-name">compress</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="primekit&#47;ImageCompressor-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">compress</span> static method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+<span class="returntype"><a href="https://api.flutter.dev/flutter/flutter_test/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../primekit/MediaFile-class.html">MediaFile</a></span>&gt;</span></span>
+<span class="name ">compress</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="compress-param-source"><span class="type-annotation"><a href="../../primekit/MediaFile-class.html">MediaFile</a></span> <span class="parameter-name">source</span>, {</span></li>
+<li><span class="parameter" id="compress-param-quality"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">quality</span> = <span class="default-value">85</span>, </span></li>
+<li><span class="parameter" id="compress-param-maxWidth"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">maxWidth</span>, </span></li>
+<li><span class="parameter" id="compress-param-maxHeight"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a>?</span> <span class="parameter-name">maxHeight</span>, </span></li>
+<li><span class="parameter" id="compress-param-format"><span class="type-annotation"><a href="https://pub.dev/documentation/flutter_image_compress_platform_interface/1.0.5/flutter_image_compress_platform_interface/CompressFormat.html">CompressFormat</a></span> <span class="parameter-name">format</span> = <span class="default-value">CompressFormat.jpeg</span>, </span></li>
+</ol>})
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Compresses <code>source</code> to <code>quality</code> (0–100) and optional max dimensions.</p>
+<p>The result is written to a new temp file. <code>format</code> defaults to JPEG.</p>
+<p>Throws an <a href="https://api.flutter.dev/flutter/dart-core/Exception-class.html">Exception</a> if compression fails.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">static Future&lt;MediaFile&gt; compress(
+  MediaFile source, {
+  int quality = 85,
+  int? maxWidth,
+  int? maxHeight,
+  CompressFormat format = CompressFormat.jpeg,
+}) async {
+  try {
+    final targetPath = _buildTargetPath(source.path, format);
+    final result = await FlutterImageCompress.compressAndGetFile(
+      source.path,
+      targetPath,
+      quality: quality,
+      minWidth: maxWidth ?? 1920,
+      minHeight: maxHeight ?? 1920,
+      format: format,
+    );
+
+    if (result == null) {
+      throw Exception(
+        &#39;Compression returned null for path: ${source.path}&#39;,
+      );
+    }
+
+    final outFile = File(result.path);
+    final sizeBytes = await outFile.length();
+    final dims = await getDimensions(result.path);
+
+    return source.copyWith(
+      path: result.path,
+      name: _basename(result.path),
+      sizeBytes: sizeBytes,
+      mimeType: _mimeForFormat(format),
+      width: dims.width,
+      height: dims.height,
+    );
+  } on Exception {
+    rethrow;
+  } catch (error) {
+    throw Exception(&#39;ImageCompressor.compress failed: $error&#39;);
+  }
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">primekit</a></li>
+    <li><a href="../../primekit/">primekit</a></li>
+    <li><a href="../../primekit/ImageCompressor-class.html">ImageCompressor</a></li>
+    <li class="self-crumb">compress static method</li>
+</ol>
+
+    <h5>ImageCompressor class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    primekit
+      0.2.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

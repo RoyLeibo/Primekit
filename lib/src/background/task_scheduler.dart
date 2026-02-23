@@ -97,10 +97,7 @@ final class TaskScheduler {
       TaskRegistry.register(entry.key, entry.value);
     }
 
-    await wm.Workmanager().initialize(
-      callbackDispatcher,
-      isInDebugMode: isInDebugMode,
-    );
+    await wm.Workmanager().initialize(callbackDispatcher);
 
     _instance._initialized = true;
     PrimekitLogger.info('TaskScheduler initialised.', tag: _tag);

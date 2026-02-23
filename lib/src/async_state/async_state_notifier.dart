@@ -1,7 +1,3 @@
-/// [AsyncStateNotifier] — a [ChangeNotifier] that wraps async operations and
-/// exposes their state as [AsyncState].
-library primekit_async_state_notifier;
-
 import 'package:flutter/foundation.dart';
 
 import 'async_state_value.dart';

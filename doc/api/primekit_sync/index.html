@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="primekit_sync library API docs, for the Dart programming language.">
+  <title>primekit_sync library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">primekit</a></li>
+    <li class="self-crumb">sync.dart</li>
+  </ol>
+  <div class="self-name">primekit_sync</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar=""
+    data-below-sidebar="primekit_sync&#47;primekit_sync-library-sidebar.html">
+  
+    <div>
+      
+
+      <h1>
+        <span class="kind-library">sync</span>
+        library 
+ 
+
+      </h1>
+    </div>
+
+    
+<section class="desc markdown">
+  <p>Primekit Sync module.</p>
+<p>Offline-first repository with conflict resolution, sync state machine,
+and pluggable backends (Firebase Firestore, MongoDB Atlas Data API, custom).</p>
+<pre class="language-dart"><code class="language-dart">import 'package:primekit/sync.dart';
+</code></pre>
+</section>
+
+
+    <section class="summary offset-anchor" id="classes">
+      <h2>Classes</h2>
+      <dl>
+          <dt id="ClientWinsResolver">
+  <span class="name "><a href="../primekit/ClientWinsResolver-class.html">ClientWinsResolver</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Always chooses the local document, making the client authoritative.
+</dd>
+
+          <dt id="ConflictResolver">
+  <span class="name "><a href="../primekit/ConflictResolver-class.html">ConflictResolver</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Strategy for resolving write conflicts between a local and a remote
+version of the same document.
+</dd>
+
+          <dt id="FieldMergeResolver">
+  <span class="name "><a href="../primekit/FieldMergeResolver-class.html">FieldMergeResolver</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Resolves conflicts at the field level using per-field timestamps.
+</dd>
+
+          <dt id="FirestoreSyncSource">
+  <span class="name "><a href="../primekit/FirestoreSyncSource-class.html">FirestoreSyncSource</a></span> 
+
+</dt>
+<dd>
+  A <a href="../primekit/SyncDataSource-class.html">SyncDataSource</a> backed by Google Cloud Firestore.
+</dd>
+
+          <dt id="LastWriteWinsResolver">
+  <span class="name "><a href="../primekit/LastWriteWinsResolver-class.html">LastWriteWinsResolver</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Resolves conflicts by comparing the <code>updatedAt</code> ISO-8601 timestamp field.
+</dd>
+
+          <dt id="ManualConflictResolver">
+  <span class="name "><a href="../primekit/ManualConflictResolver-class.html">ManualConflictResolver</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Defers conflict resolution to a user-supplied callback.
+</dd>
+
+          <dt id="MongoSyncSource">
+  <span class="name "><a href="../primekit/MongoSyncSource-class.html">MongoSyncSource</a></span> 
+
+</dt>
+<dd>
+  A <a href="../primekit/SyncDataSource-class.html">SyncDataSource</a> backed by the MongoDB Atlas Data API (REST).
+</dd>
+
+          <dt id="PendingChangeStore">
+  <span class="name "><a href="../primekit/PendingChangeStore-class.html">PendingChangeStore</a></span> 
+
+</dt>
+<dd>
+  Persists <a href="../primekit/SyncChange-class.html">SyncChange</a> objects to <a href="https://pub.dev/documentation/shared_preferences/2.5.4/shared_preferences/SharedPreferences-class.html">SharedPreferences</a> so that unsynced
+local writes survive app restarts.
+</dd>
+
+          <dt id="ServerWinsResolver">
+  <span class="name "><a href="../primekit/ServerWinsResolver-class.html">ServerWinsResolver</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Always chooses the remote document, making the server authoritative.
+</dd>
+
+          <dt id="SyncChange">
+  <span class="name "><a href="../primekit/SyncChange-class.html">SyncChange</a></span> 
+
+</dt>
+<dd>
+  A single pending change waiting to be pushed to the remote backend.
+</dd>
+
+          <dt id="SyncDataSource">
+  <span class="name "><a href="../primekit/SyncDataSource-class.html">SyncDataSource</a></span> 
+
+</dt>
+<dd>
+  Abstract remote backend used by <a href="../primekit/SyncRepository-class.html">SyncRepository</a>.
+</dd>
+
+          <dt id="SyncDocument">
+  <span class="name "><a href="../primekit/SyncDocument-class.html">SyncDocument</a></span> 
+
+</dt>
+<dd>
+  Base contract for any document that participates in offline sync.
+</dd>
+
+          <dt id="SyncMeta">
+  <span class="name "><a href="../primekit/SyncMeta-class.html">SyncMeta</a></span> 
+
+</dt>
+<dd>
+  Immutable metadata attached to every synced document.
+</dd>
+
+          <dt id="SyncRepository">
+  <span class="name "><a href="../primekit/SyncRepository-class.html">SyncRepository</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Generic offline-first repository that transparently persists data locally
+and synchronises with a remote <a href="../primekit/SyncDataSource-class.html">SyncDataSource</a>.
+</dd>
+
+          <dt id="SyncState">
+  <span class="name "><a href="../primekit/SyncState-class.html">SyncState</a></span> 
+
+</dt>
+<dd>
+  Immutable snapshot of the sync engine's state at a point in time.
+</dd>
+
+          <dt id="SyncStateManager">
+  <span class="name "><a href="../primekit/SyncStateManager-class.html">SyncStateManager</a></span> 
+
+</dt>
+<dd>
+  Manages <a href="../primekit/SyncState-class.html">SyncState</a> transitions and broadcasts changes to listeners.
+</dd>
+
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="enums">
+      <h2>Enums</h2>
+      <dl>
+          <dt id="SyncOperation">
+  <span class="name "><a href="../primekit/SyncOperation.html">SyncOperation</a></span> 
+
+</dt>
+<dd>
+  The type of write operation applied to a document.
+</dd>
+
+          <dt id="SyncStatus">
+  <span class="name "><a href="../primekit/SyncStatus.html">SyncStatus</a></span> 
+
+</dt>
+<dd>
+  The current phase of the sync state machine.
+</dd>
+
+      </dl>
+    </section>
+
+
+
+
+
+
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">primekit</a></li>
+    <li class="self-crumb">sync.dart</li>
+</ol>
+
+    <h5><span class="package-name">primekit</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="../primekit_ads/">ads</a></li>
+      <li><a href="../primekit_analytics/">analytics</a></li>
+      <li><a href="../primekit_async_state/">async_state</a></li>
+      <li><a href="../primekit_auth/">auth</a></li>
+      <li><a href="../primekit_background/">background</a></li>
+      <li><a href="../primekit_billing/">billing</a></li>
+      <li><a href="../primekit_crash/">crash</a></li>
+      <li><a href="../primekit_device/">device</a></li>
+      <li><a href="../primekit_di/">di</a></li>
+      <li><a href="../primekit_email/">email</a></li>
+      <li><a href="../primekit_flags/">flags</a></li>
+      <li><a href="../primekit_forms/">forms</a></li>
+      <li><a href="../primekit_i18n/">i18n</a></li>
+      <li><a href="../primekit_media/">media</a></li>
+      <li><a href="../primekit_membership/">membership</a></li>
+      <li><a href="../primekit_network/">network</a></li>
+      <li><a href="../primekit_notifications/">notifications</a></li>
+      <li><a href="../primekit_permissions/">permissions</a></li>
+      <li><a href="../primekit/">primekit</a></li>
+      <li><a href="../primekit_rbac/">rbac</a></li>
+      <li><a href="../primekit_realtime/">realtime</a></li>
+      <li><a href="../primekit_routing/">routing</a></li>
+      <li><a href="../primekit_social/">social</a></li>
+      <li><a href="../primekit_storage/">storage</a></li>
+      <li><a href="../primekit_sync/">sync</a></li>
+      <li><a href="../primekit_ui/">ui</a></li>
+</ol>
+
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <h5>primekit_sync library</h5>
+  </div><!--/sidebar-offcanvas-right-->
+</main>
+<footer>
+  <span class="no-break">
+    primekit
+      0.2.0
+  </span>
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+
