@@ -34,3 +34,5 @@ coverage/
 
 # Test logs
 test-results/
+doc/
+analysis_options.yaml.bak
