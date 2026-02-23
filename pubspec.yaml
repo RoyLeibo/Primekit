@@ -14,14 +14,9 @@ documentation: https://github.com/RoyLeibo/Primekit/tree/main/doc
 
 topics:
   - flutter
-  - toolkit
   - utilities
-  - analytics
   - authentication
-  - storage
-  - forms
-  - networking
-  - realtime
+  - analytics
   - notifications
 
 environment:
