@@ -159,25 +159,26 @@ final class DeviceInfo {
   }
 
   static DeviceInfo _fromWeb() => DeviceInfo._(
-        const DeviceDetails(
-          deviceId: 'web',
-          platform: 'web',
-          osVersion: 'unknown',
-          model: 'Browser',
-          manufacturer: 'unknown',
-          isPhysicalDevice: false,
-          screenWidth: 0,
-          screenHeight: 0,
-          pixelRatio: 1.0,
-          isTablet: false,
-        ),
-      );
+    const DeviceDetails(
+      deviceId: 'web',
+      platform: 'web',
+      osVersion: 'unknown',
+      model: 'Browser',
+      manufacturer: 'unknown',
+      isPhysicalDevice: false,
+      screenWidth: 0,
+      screenHeight: 0,
+      pixelRatio: 1.0,
+      isTablet: false,
+    ),
+  );
 
   static Future<DeviceInfo> _fromAndroid() async {
     final info = await _plugin.androidInfo;
     // Tablet detection: Android declares this standard feature on tablets.
-    final isTablet = info.systemFeatures
-        .contains('android.hardware.type.tablet');
+    final isTablet = info.systemFeatures.contains(
+      'android.hardware.type.tablet',
+    );
     return DeviceInfo._(
       DeviceDetails(
         deviceId: info.id,
@@ -268,17 +269,17 @@ final class DeviceInfo {
   }
 
   static DeviceInfo _fallback(String platform) => DeviceInfo._(
-        DeviceDetails(
-          deviceId: 'unknown',
-          platform: platform,
-          osVersion: 'unknown',
-          model: 'unknown',
-          manufacturer: 'unknown',
-          isPhysicalDevice: false,
-          screenWidth: 0,
-          screenHeight: 0,
-          pixelRatio: 1.0,
-          isTablet: false,
-        ),
-      );
+    DeviceDetails(
+      deviceId: 'unknown',
+      platform: platform,
+      osVersion: 'unknown',
+      model: 'unknown',
+      manufacturer: 'unknown',
+      isPhysicalDevice: false,
+      screenWidth: 0,
+      screenHeight: 0,
+      pixelRatio: 1.0,
+      isTablet: false,
+    ),
+  );
 }

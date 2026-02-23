@@ -32,9 +32,9 @@ class FirebaseRtdbChannel implements RealtimeChannel {
     required String path,
     FirebaseDatabase? database,
     int maxMessages = 100,
-  })  : _path = path,
-        _db = database ?? FirebaseDatabase.instance,
-        _maxMessages = maxMessages;
+  }) : _path = path,
+       _db = database ?? FirebaseDatabase.instance,
+       _maxMessages = maxMessages;
 
   @override
   final String channelId;
@@ -127,9 +127,7 @@ class FirebaseRtdbChannel implements RealtimeChannel {
       id: data['id'] as String? ?? event.snapshot.key ?? _uuid.v4(),
       type: data['type'] as String?,
       payload: data['payload'] is Map
-          ? Map<String, dynamic>.from(
-              data['payload'] as Map<Object?, Object?>,
-            )
+          ? Map<String, dynamic>.from(data['payload'] as Map<Object?, Object?>)
           : data,
       receivedAt: DateTime.now(),
       senderId: data['senderId'] as String?,

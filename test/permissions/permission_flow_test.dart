@@ -73,23 +73,24 @@ void main() {
       expect(result.requiredGrantedFor(requests), isTrue);
     });
 
-    test('requiredGrantedFor returns false when required permission denied', () {
-      final requests = [
-        const PermissionRequest(
-          permission: Permission.camera,
-          title: 'Camera',
-          message: 'Required',
-        ),
-      ];
+    test(
+      'requiredGrantedFor returns false when required permission denied',
+      () {
+        final requests = [
+          const PermissionRequest(
+            permission: Permission.camera,
+            title: 'Camera',
+            message: 'Required',
+          ),
+        ];
 
-      final result = PermissionFlowResult(
-        statuses: {
-          Permission.camera: PermissionStatus.denied,
-        },
-      );
+        final result = PermissionFlowResult(
+          statuses: {Permission.camera: PermissionStatus.denied},
+        );
 
-      expect(result.requiredGrantedFor(requests), isFalse);
-    });
+        expect(result.requiredGrantedFor(requests), isFalse);
+      },
+    );
 
     test('requiredGrantedFor returns false when required status is absent', () {
       final requests = [

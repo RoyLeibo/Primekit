@@ -150,10 +150,7 @@ class AdManager {
       return;
     }
 
-    await Future.wait([
-      _cooldown.load(),
-      _frequencyCap.load(),
-    ]);
+    await Future.wait([_cooldown.load(), _frequencyCap.load()]);
 
     // In a real integration, replace this comment block with:
     //
@@ -186,10 +183,7 @@ class AdManager {
   /// for a 300×250 rectangle.
   Widget buildBanner({PkAdSize size = PkAdSize.banner}) {
     _assertInitialized('buildBanner');
-    return PkBannerAd(
-      adUnitId: _config!.bannerId,
-      size: size,
-    );
+    return PkBannerAd(adUnitId: _config!.bannerId, size: size);
   }
 
   // ---------------------------------------------------------------------------
@@ -225,10 +219,12 @@ class AdManager {
       'loadInterstitial called — google_mobile_ads not yet installed.',
       tag: _tag,
     );
-    _emit(AdEvent.failed(
-      'interstitial',
-      error: 'google_mobile_ads SDK not installed.',
-    ));
+    _emit(
+      AdEvent.failed(
+        'interstitial',
+        error: 'google_mobile_ads SDK not installed.',
+      ),
+    );
   }
 
   /// Shows the preloaded interstitial ad if all pacing rules allow it.
@@ -329,10 +325,9 @@ class AdManager {
       'loadRewarded called — google_mobile_ads not yet installed.',
       tag: _tag,
     );
-    _emit(AdEvent.failed(
-      'rewarded',
-      error: 'google_mobile_ads SDK not installed.',
-    ));
+    _emit(
+      AdEvent.failed('rewarded', error: 'google_mobile_ads SDK not installed.'),
+    );
   }
 
   /// Shows the preloaded rewarded ad.

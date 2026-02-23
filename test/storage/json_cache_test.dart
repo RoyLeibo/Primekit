@@ -89,7 +89,9 @@ void main() {
     });
 
     test('returns false for expired entry', () async {
-      await cache.set('expired', {'k': 'v'}, ttl: const Duration(milliseconds: 1));
+      await cache.set('expired', {
+        'k': 'v',
+      }, ttl: const Duration(milliseconds: 1));
       await Future<void>.delayed(const Duration(milliseconds: 50));
       expect(await cache.has('expired'), isFalse);
     });

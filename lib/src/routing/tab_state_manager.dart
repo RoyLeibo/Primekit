@@ -27,7 +27,7 @@ class TabStateManager {
   ///
   /// Asserts that [tabCount] is at least 1.
   TabStateManager({required int tabCount})
-      : assert(tabCount > 0, 'tabCount must be at least 1') {
+    : assert(tabCount > 0, 'tabCount must be at least 1') {
     _controllers = List.generate(
       tabCount,
       (index) => ScrollController(debugLabel: 'tab_$index'),

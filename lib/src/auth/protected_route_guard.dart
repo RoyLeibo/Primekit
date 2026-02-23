@@ -2,7 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/logger.dart';
-import 'session_manager.dart' show SessionAuthenticated, SessionLoading, SessionStateProvider;
+import 'session_manager.dart'
+    show SessionAuthenticated, SessionLoading, SessionStateProvider;
 
 /// A [GoRouter] redirect guard that protects routes from unauthenticated
 /// access.
@@ -33,11 +34,8 @@ final class ProtectedRouteGuard {
     this.loginPath = '/login',
     this.loadingPath,
     List<String>? publicPaths,
-  })  : _sessionManager = sessionManager,
-        _publicPaths = {
-          loginPath,
-          if (publicPaths != null) ...publicPaths,
-        };
+  }) : _sessionManager = sessionManager,
+       _publicPaths = {loginPath, if (publicPaths != null) ...publicPaths};
 
   final SessionStateProvider _sessionManager;
 

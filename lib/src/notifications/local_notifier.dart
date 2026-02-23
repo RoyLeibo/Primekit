@@ -157,20 +157,22 @@ class LocalNotifier {
     );
 
     await _plugin.initialize(
-      initSettings,
+      settings: initSettings,
       onDidReceiveNotificationResponse: _onNotificationResponse,
       onDidReceiveBackgroundNotificationResponse: _onBackgroundResponse,
     );
 
     // Register Android notification channels.
     if (Platform.isAndroid) {
-      final androidPlugin =
-          _plugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>();
+      final androidPlugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
       if (androidPlugin != null) {
         for (final channel in channels) {
-          await androidPlugin
-              .createNotificationChannel(channel.toAndroidChannel());
+          await androidPlugin.createNotificationChannel(
+            channel.toAndroidChannel(),
+          );
         }
       }
     }
@@ -200,7 +202,13 @@ class LocalNotifier {
 
     final notificationDetails = details ?? _buildDetails(channel);
 
-    await _plugin.show(id, title, body, notificationDetails, payload: payload);
+    await _plugin.show(
+      id: id,
+      title: title,
+      body: body,
+      notificationDetails: notificationDetails,
+      payload: payload,
+    );
     PrimekitLogger.debug(
       'LocalNotifier: showed notification id=$id title="$title"',
       tag: _tag,
@@ -233,24 +241,22 @@ class LocalNotifier {
 
     if (repeats && repeatInterval != null) {
       await _plugin.periodicallyShowWithDuration(
-        id,
-        title,
-        body,
-        _toNativeDuration(repeatInterval),
-        notificationDetails,
+        id: id,
+        title: title,
+        body: body,
+        repeatDurationInterval: _toNativeDuration(repeatInterval),
+        notificationDetails: notificationDetails,
         payload: payload,
       );
     } else {
       await _plugin.zonedSchedule(
-        id,
-        title,
-        body,
-        tzScheduledAt,
-        notificationDetails,
+        id: id,
+        title: title,
+        body: body,
+        scheduledDate: tzScheduledAt,
+        notificationDetails: notificationDetails,
         payload: payload,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
       );
     }
 
@@ -268,7 +274,7 @@ class LocalNotifier {
   /// Cancels the notification with [id].
   Future<void> cancel(int id) async {
     _assertInitialized('cancel');
-    await _plugin.cancel(id);
+    await _plugin.cancel(id: id);
     PrimekitLogger.debug(
       'LocalNotifier: cancelled notification id=$id',
       tag: _tag,
@@ -279,7 +285,10 @@ class LocalNotifier {
   Future<void> cancelAll() async {
     _assertInitialized('cancelAll');
     await _plugin.cancelAll();
-    PrimekitLogger.info('LocalNotifier: cancelled all notifications.', tag: _tag);
+    PrimekitLogger.info(
+      'LocalNotifier: cancelled all notifications.',
+      tag: _tag,
+    );
   }
 
   // ---------------------------------------------------------------------------
@@ -342,11 +351,11 @@ class LocalNotifier {
       );
 
   Duration _toNativeDuration(RepeatInterval interval) => switch (interval) {
-        RepeatInterval.everyMinute => const Duration(minutes: 1),
-        RepeatInterval.hourly => const Duration(hours: 1),
-        RepeatInterval.daily => const Duration(days: 1),
-        RepeatInterval.weekly => const Duration(days: 7),
-      };
+    RepeatInterval.everyMinute => const Duration(minutes: 1),
+    RepeatInterval.hourly => const Duration(hours: 1),
+    RepeatInterval.daily => const Duration(days: 1),
+    RepeatInterval.weekly => const Duration(days: 7),
+  };
 
   void _assertInitialized(String caller) {
     if (!_initialized) {

@@ -28,9 +28,9 @@ final class CachedFlagProvider implements FlagProvider {
     required FlagProvider delegate,
     Duration ttl = const Duration(hours: 1),
     SharedPreferences? prefs,
-  })  : _delegate = delegate,
-        _ttl = ttl,
-        _prefs = prefs;
+  }) : _delegate = delegate,
+       _ttl = ttl,
+       _prefs = prefs;
 
   final FlagProvider _delegate;
   final Duration _ttl;
@@ -142,17 +142,20 @@ final class CachedFlagProvider implements FlagProvider {
     if (!_isCacheStale || _refreshing) return;
     _refreshing = true;
     unawaited(
-      _delegate.refresh().then((_) async {
-        await _hydrateCacheFromDelegate();
-        _refreshing = false;
-      }).catchError((Object error) {
-        PrimekitLogger.warning(
-          'Background flag refresh failed.',
-          tag: _tag,
-          error: error,
-        );
-        _refreshing = false;
-      }),
+      _delegate
+          .refresh()
+          .then((_) async {
+            await _hydrateCacheFromDelegate();
+            _refreshing = false;
+          })
+          .catchError((Object error) {
+            PrimekitLogger.warning(
+              'Background flag refresh failed.',
+              tag: _tag,
+              error: error,
+            );
+            _refreshing = false;
+          }),
     );
   }
 
@@ -236,10 +239,7 @@ final class CachedFlagProvider implements FlagProvider {
       Map<String, dynamic>.of(_memoryCache);
 
   /// Directly seeds the cache (for testing stale-while-revalidate logic).
-  void seedCacheForTesting(
-    Map<String, dynamic> data, {
-    DateTime? cachedAt,
-  }) {
+  void seedCacheForTesting(Map<String, dynamic> data, {DateTime? cachedAt}) {
     _memoryCache = Map<String, dynamic>.unmodifiable(data);
     _cachedAt = cachedAt;
   }

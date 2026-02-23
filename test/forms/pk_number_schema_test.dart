@@ -53,7 +53,9 @@ void main() {
       });
 
       test('custom message is used', () {
-        final result = PkSchema.number().min(0, message: 'Must be positive').validate(-1);
+        final result = PkSchema.number()
+            .min(0, message: 'Must be positive')
+            .validate(-1);
         expect(result.firstError, equals('Must be positive'));
       });
     });

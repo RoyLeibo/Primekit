@@ -21,8 +21,9 @@ import 'package:flutter/services.dart';
 abstract final class ShareService {
   ShareService._();
 
-  static const MethodChannel _channel =
-      MethodChannel('dev.fluttercommunity.plus/share');
+  static const MethodChannel _channel = MethodChannel(
+    'dev.fluttercommunity.plus/share',
+  );
 
   // ---------------------------------------------------------------------------
   // shareText
@@ -38,21 +39,16 @@ abstract final class ShareService {
     Rect? sharePositionOrigin,
   }) async {
     try {
-      await _channel.invokeMethod<void>(
-        'share',
-        <String, dynamic>{
-          'text': text,
-          if (subject != null) 'subject': subject,
-          if (sharePositionOrigin != null)
-            'originX': sharePositionOrigin.left,
-          if (sharePositionOrigin != null)
-            'originY': sharePositionOrigin.top,
-          if (sharePositionOrigin != null)
-            'originWidth': sharePositionOrigin.width,
-          if (sharePositionOrigin != null)
-            'originHeight': sharePositionOrigin.height,
-        },
-      );
+      await _channel.invokeMethod<void>('share', <String, dynamic>{
+        'text': text,
+        if (subject != null) 'subject': subject,
+        if (sharePositionOrigin != null) 'originX': sharePositionOrigin.left,
+        if (sharePositionOrigin != null) 'originY': sharePositionOrigin.top,
+        if (sharePositionOrigin != null)
+          'originWidth': sharePositionOrigin.width,
+        if (sharePositionOrigin != null)
+          'originHeight': sharePositionOrigin.height,
+      });
     } on PlatformException catch (e) {
       throw Exception('ShareService.shareText failed: ${e.message}');
     }
@@ -70,11 +66,10 @@ abstract final class ShareService {
     required Uri url,
     String? text,
     String? subject,
-  }) =>
-      shareText(
-        text: text != null ? '$text\n$url' : url.toString(),
-        subject: subject,
-      );
+  }) => shareText(
+    text: text != null ? '$text\n$url' : url.toString(),
+    subject: subject,
+  );
 
   // ---------------------------------------------------------------------------
   // shareFile
@@ -93,14 +88,11 @@ abstract final class ShareService {
       throw ArgumentError('File not found: $filePath');
     }
     try {
-      await _channel.invokeMethod<void>(
-        'shareFiles',
-        <String, dynamic>{
-          'paths': [filePath],
-          if (text != null) 'text': text,
-          if (mimeType != null) 'mimeTypes': [mimeType],
-        },
-      );
+      await _channel.invokeMethod<void>('shareFiles', <String, dynamic>{
+        'paths': [filePath],
+        if (text != null) 'text': text,
+        if (mimeType != null) 'mimeTypes': [mimeType],
+      });
     } on PlatformException catch (e) {
       throw Exception('ShareService.shareFile failed: ${e.message}');
     }
@@ -126,12 +118,12 @@ abstract final class ShareService {
     required String host,
     required String path,
     Map<String, String>? queryParameters,
-  }) =>
-      Uri(
-        scheme: scheme,
-        host: host,
-        path: path,
-        queryParameters:
-            queryParameters?.isNotEmpty ?? false ? queryParameters : null,
-      );
+  }) => Uri(
+    scheme: scheme,
+    host: host,
+    path: path,
+    queryParameters: queryParameters?.isNotEmpty ?? false
+        ? queryParameters
+        : null,
+  );
 }

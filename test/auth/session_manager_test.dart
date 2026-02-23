@@ -11,6 +11,7 @@ import 'package:primekit/src/storage/secure_prefs.dart' show SecurePrefsBase;
 // ---------------------------------------------------------------------------
 
 class MockTokenStore extends Mock implements TokenStoreBase {}
+
 class MockSecurePrefs extends Mock implements SecurePrefsBase {}
 
 // ---------------------------------------------------------------------------
@@ -35,7 +36,7 @@ void main() {
     mockSecurePrefs = MockSecurePrefs();
 
     SessionManager.resetForTesting(
-      tokenStore: mockTokenStore,  // TokenStoreBase
+      tokenStore: mockTokenStore, // TokenStoreBase
       securePrefs: mockSecurePrefs, // SecurePrefsBase
     );
     session = SessionManager.instance;
@@ -73,35 +74,51 @@ void main() {
       expect(session.isAuthenticated, isFalse);
     });
 
-    test('transitions to unauthenticated when token valid but no userId', () async {
-      when(() => mockTokenStore.hasValidToken()).thenAnswer((_) async => true);
-      when(() => mockSecurePrefs.getString(any())).thenAnswer((_) async => null);
-      when(() => mockTokenStore.clearAll()).thenAnswer((_) async {});
+    test(
+      'transitions to unauthenticated when token valid but no userId',
+      () async {
+        when(
+          () => mockTokenStore.hasValidToken(),
+        ).thenAnswer((_) async => true);
+        when(
+          () => mockSecurePrefs.getString(any()),
+        ).thenAnswer((_) async => null);
+        when(() => mockTokenStore.clearAll()).thenAnswer((_) async {});
 
-      await session.restore();
+        await session.restore();
 
-      expect(session.state, isA<SessionUnauthenticated>());
-      verify(() => mockTokenStore.clearAll()).called(1);
-    });
+        expect(session.state, isA<SessionUnauthenticated>());
+        verify(() => mockTokenStore.clearAll()).called(1);
+      },
+    );
 
-    test('restores authenticated state when token and userId are present', () async {
-      const userId = 'user_abc';
-      when(() => mockTokenStore.hasValidToken()).thenAnswer((_) async => true);
-      when(() => mockSecurePrefs.getString('pk_session_user_id'))
-          .thenAnswer((_) async => userId);
-      when(() => mockSecurePrefs.getJson('pk_session_user_data'))
-          .thenAnswer((_) async => {'name': 'Alice'});
+    test(
+      'restores authenticated state when token and userId are present',
+      () async {
+        const userId = 'user_abc';
+        when(
+          () => mockTokenStore.hasValidToken(),
+        ).thenAnswer((_) async => true);
+        when(
+          () => mockSecurePrefs.getString('pk_session_user_id'),
+        ).thenAnswer((_) async => userId);
+        when(
+          () => mockSecurePrefs.getJson('pk_session_user_data'),
+        ).thenAnswer((_) async => {'name': 'Alice'});
 
-      await session.restore();
+        await session.restore();
 
-      expect(session.state, isA<SessionAuthenticated>());
-      expect(session.currentUserId, userId);
-      final authenticated = session.state as SessionAuthenticated;
-      expect(authenticated.userData, {'name': 'Alice'});
-    });
+        expect(session.state, isA<SessionAuthenticated>());
+        expect(session.currentUserId, userId);
+        final authenticated = session.state as SessionAuthenticated;
+        expect(authenticated.userData, {'name': 'Alice'});
+      },
+    );
 
     test('falls back to unauthenticated on storage exception', () async {
-      when(() => mockTokenStore.hasValidToken()).thenThrow(Exception('Storage error'));
+      when(
+        () => mockTokenStore.hasValidToken(),
+      ).thenThrow(Exception('Storage error'));
 
       await session.restore();
 
@@ -118,10 +135,18 @@ void main() {
     const refreshToken = 'refresh.token.here';
 
     setUp(() {
-      when(() => mockTokenStore.saveAccessToken(any())).thenAnswer((_) async {});
-      when(() => mockTokenStore.saveRefreshToken(any())).thenAnswer((_) async {});
-      when(() => mockSecurePrefs.setString(any(), any())).thenAnswer((_) async {});
-      when(() => mockSecurePrefs.setJson(any(), any())).thenAnswer((_) async {});
+      when(
+        () => mockTokenStore.saveAccessToken(any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => mockTokenStore.saveRefreshToken(any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => mockSecurePrefs.setString(any(), any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => mockSecurePrefs.setJson(any(), any()),
+      ).thenAnswer((_) async {});
     });
 
     test('stores tokens and transitions to authenticated', () async {
@@ -150,7 +175,8 @@ void main() {
       );
 
       verify(
-        () => mockSecurePrefs.setJson('pk_session_user_data', {'role': 'admin'}),
+        () =>
+            mockSecurePrefs.setJson('pk_session_user_data', {'role': 'admin'}),
       ).called(1);
     });
 
@@ -186,9 +212,15 @@ void main() {
 
   group('logout', () {
     setUp(() {
-      when(() => mockTokenStore.saveAccessToken(any())).thenAnswer((_) async {});
-      when(() => mockTokenStore.saveRefreshToken(any())).thenAnswer((_) async {});
-      when(() => mockSecurePrefs.setString(any(), any())).thenAnswer((_) async {});
+      when(
+        () => mockTokenStore.saveAccessToken(any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => mockTokenStore.saveRefreshToken(any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => mockSecurePrefs.setString(any(), any()),
+      ).thenAnswer((_) async {});
       when(() => mockTokenStore.clearAll()).thenAnswer((_) async {});
       when(() => mockSecurePrefs.remove(any())).thenAnswer((_) async {});
     });
@@ -247,16 +279,20 @@ void main() {
   group('stateStream', () {
     test('emits state changes in order', () async {
       when(() => mockTokenStore.hasValidToken()).thenAnswer((_) async => false);
-      when(() => mockTokenStore.saveAccessToken(any())).thenAnswer((_) async {});
-      when(() => mockTokenStore.saveRefreshToken(any())).thenAnswer((_) async {});
-      when(() => mockSecurePrefs.setString(any(), any())).thenAnswer((_) async {});
+      when(
+        () => mockTokenStore.saveAccessToken(any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => mockTokenStore.saveRefreshToken(any()),
+      ).thenAnswer((_) async {});
+      when(
+        () => mockSecurePrefs.setString(any(), any()),
+      ).thenAnswer((_) async {});
       when(() => mockTokenStore.clearAll()).thenAnswer((_) async {});
       when(() => mockSecurePrefs.remove(any())).thenAnswer((_) async {});
 
       final emitted = <Type>[];
-      final sub = session.stateStream.listen(
-        (s) => emitted.add(s.runtimeType),
-      );
+      final sub = session.stateStream.listen((s) => emitted.add(s.runtimeType));
 
       await session.restore();
       await session.login(
@@ -270,15 +306,12 @@ void main() {
 
       await sub.cancel();
 
-      expect(
-        emitted,
-        [
-          SessionLoading,
-          SessionUnauthenticated,
-          SessionAuthenticated,
-          SessionUnauthenticated,
-        ],
-      );
+      expect(emitted, [
+        SessionLoading,
+        SessionUnauthenticated,
+        SessionAuthenticated,
+        SessionUnauthenticated,
+      ]);
     });
   });
 }

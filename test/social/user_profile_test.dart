@@ -109,16 +109,8 @@ void main() {
 
     group('equality', () {
       test('equal profiles', () {
-        final a = UserProfile(
-          id: 'u1',
-          displayName: 'Alice',
-          createdAt: now,
-        );
-        final b = UserProfile(
-          id: 'u1',
-          displayName: 'Alice',
-          createdAt: now,
-        );
+        final a = UserProfile(id: 'u1', displayName: 'Alice', createdAt: now);
+        final b = UserProfile(id: 'u1', displayName: 'Alice', createdAt: now);
         expect(a, b);
       });
 

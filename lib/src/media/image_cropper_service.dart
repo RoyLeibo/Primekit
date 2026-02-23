@@ -43,7 +43,8 @@ abstract final class ImageCropperService {
     String? toolbarTitle,
   }) async {
     try {
-      final effectivePresets = presets ??
+      final effectivePresets =
+          presets ??
           const [
             CropAspectRatioPreset.original,
             CropAspectRatioPreset.square,
@@ -89,15 +90,14 @@ abstract final class ImageCropperService {
   static Future<MediaFile?> cropSquare(
     MediaFile source, {
     Color? toolbarColor,
-  }) =>
-      crop(
-        source,
-        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-        presets: const [CropAspectRatioPreset.square],
-        cropStyle: CropStyle.circle,
-        toolbarColor: toolbarColor,
-        toolbarTitle: 'Crop Avatar',
-      );
+  }) => crop(
+    source,
+    aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+    presets: const [CropAspectRatioPreset.square],
+    cropStyle: CropStyle.circle,
+    toolbarColor: toolbarColor,
+    toolbarTitle: 'Crop Avatar',
+  );
 
   // ---------------------------------------------------------------------------
   // Private helpers

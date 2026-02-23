@@ -49,7 +49,9 @@ class PrimekitConfig {
     bool enableCrashReporting = true,
   }) async {
     if (_instance != null) {
-      PrimekitLogger.warning('PrimekitConfig.initialize() called more than once. Ignoring.');
+      PrimekitLogger.warning(
+        'PrimekitConfig.initialize() called more than once. Ignoring.',
+      );
       return;
     }
 
@@ -99,18 +101,7 @@ class PrimekitConfig {
 }
 
 /// The deployment environment.
-enum PrimekitEnvironment {
-  debug,
-  staging,
-  production,
-}
+enum PrimekitEnvironment { debug, staging, production }
 
 /// Controls how much Primekit logs.
-enum PrimekitLogLevel {
-  verbose,
-  debug,
-  info,
-  warning,
-  error,
-  none,
-}
+enum PrimekitLogLevel { verbose, debug, info, warning, error, none }

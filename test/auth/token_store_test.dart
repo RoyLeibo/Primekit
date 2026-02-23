@@ -15,8 +15,9 @@ String makeJwt({int? exp, String? sub}) {
     if (exp != null) 'exp': exp,
   };
   final payloadJson = jsonEncode(claims);
-  final payloadB64 =
-      base64Url.encode(utf8.encode(payloadJson)).replaceAll('=', '');
+  final payloadB64 = base64Url
+      .encode(utf8.encode(payloadJson))
+      .replaceAll('=', '');
   return '$fakeHeader.$payloadB64.fakesig';
 }
 
@@ -59,7 +60,8 @@ bool isTokenExpired(String token) {
 void main() {
   group('JWT expiry logic', () {
     test('valid token with future exp returns false (not expired)', () {
-      final futureExp = DateTime.now()
+      final futureExp =
+          DateTime.now()
               .toUtc()
               .add(const Duration(hours: 1))
               .millisecondsSinceEpoch ~/
@@ -68,7 +70,8 @@ void main() {
     });
 
     test('expired token with past exp returns true', () {
-      final pastExp = DateTime.now()
+      final pastExp =
+          DateTime.now()
               .toUtc()
               .subtract(const Duration(hours: 1))
               .millisecondsSinceEpoch ~/
@@ -92,29 +95,35 @@ void main() {
       expect(isTokenExpired('header.!!!invalid!!.sig'), isTrue);
     });
 
-    test('applies 30-second clock-skew: token with 29s remaining is expired',
-        () {
-      final almostExpiredExp = DateTime.now()
-              .toUtc()
-              .add(const Duration(seconds: 29))
-              .millisecondsSinceEpoch ~/
-          1000;
-      expect(isTokenExpired(makeJwt(exp: almostExpiredExp)), isTrue);
-    });
+    test(
+      'applies 30-second clock-skew: token with 29s remaining is expired',
+      () {
+        final almostExpiredExp =
+            DateTime.now()
+                .toUtc()
+                .add(const Duration(seconds: 29))
+                .millisecondsSinceEpoch ~/
+            1000;
+        expect(isTokenExpired(makeJwt(exp: almostExpiredExp)), isTrue);
+      },
+    );
 
     test(
-        'applies 30-second clock-skew: token with 31s remaining is not expired',
-        () {
-      final safeExp = DateTime.now()
-              .toUtc()
-              .add(const Duration(seconds: 31))
-              .millisecondsSinceEpoch ~/
-          1000;
-      expect(isTokenExpired(makeJwt(exp: safeExp)), isFalse);
-    });
+      'applies 30-second clock-skew: token with 31s remaining is not expired',
+      () {
+        final safeExp =
+            DateTime.now()
+                .toUtc()
+                .add(const Duration(seconds: 31))
+                .millisecondsSinceEpoch ~/
+            1000;
+        expect(isTokenExpired(makeJwt(exp: safeExp)), isFalse);
+      },
+    );
 
     test('exp claim exactly at boundary (30s) is considered expired', () {
-      final boundaryExp = DateTime.now()
+      final boundaryExp =
+          DateTime.now()
               .toUtc()
               .add(const Duration(seconds: 30))
               .millisecondsSinceEpoch ~/
@@ -122,18 +131,16 @@ void main() {
       // now.isAfter(expiresAt - 30s) == now.isAfter(now) == false when exact.
       // The result depends on sub-second precision; we test that expired-at-now
       // is true.
-      final expiredNow = DateTime.now()
-              .toUtc()
-              .millisecondsSinceEpoch ~/
-          1000;
+      final expiredNow = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
       expect(isTokenExpired(makeJwt(exp: expiredNow)), isTrue);
     });
 
     test('non-numeric exp returns true', () {
       const fakeHeader = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
       final payloadJson = jsonEncode({'exp': 'not-a-number'});
-      final payloadB64 =
-          base64Url.encode(utf8.encode(payloadJson)).replaceAll('=', '');
+      final payloadB64 = base64Url
+          .encode(utf8.encode(payloadJson))
+          .replaceAll('=', '');
       final badJwt = '$fakeHeader.$payloadB64.fakesig';
       expect(isTokenExpired(badJwt), isTrue);
     });
@@ -148,9 +155,11 @@ void main() {
       final exp = 9999999999;
       final jwt = makeJwt(exp: exp, sub: 'user_123');
       final parts = jwt.split('.');
-      final decoded = jsonDecode(
-        utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
-      ) as Map<String, dynamic>;
+      final decoded =
+          jsonDecode(
+                utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))),
+              )
+              as Map<String, dynamic>;
       expect(decoded['exp'], exp);
       expect(decoded['sub'], 'user_123');
     });

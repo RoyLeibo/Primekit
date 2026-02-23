@@ -53,7 +53,7 @@ class PkBannerAd extends StatefulWidget {
   /// Creates a banner ad widget.
   ///
   /// [adUnitId] is the AdMob ad unit ID for this banner.
-  /// [size] defaults to [AdSize.banner] (320×50).
+  /// [size] defaults to [PkAdSize.banner] (320×50).
   /// [placeholder] is shown while the ad is loading; defaults to a
   /// [SizedBox] with the appropriate dimensions.
   const PkBannerAd({

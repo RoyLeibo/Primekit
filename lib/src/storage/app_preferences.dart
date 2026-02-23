@@ -95,9 +95,9 @@ final class AppPreferences {
       final double v => _setDouble(prefKey, v),
       final Map<String, dynamic> v => _setJson(prefKey, v),
       _ => throw ArgumentError(
-          'AppPreferences.set: unsupported type ${T.toString()}. '
-          'Use String, bool, int, double, or Map<String, dynamic>.',
-        ),
+        'AppPreferences.set: unsupported type ${T.toString()}. '
+        'Use String, bool, int, double, or Map<String, dynamic>.',
+      ),
     };
   }
 

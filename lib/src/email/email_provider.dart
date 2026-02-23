@@ -55,16 +55,15 @@ class SendGridProvider implements EmailProvider {
     required String apiKey,
     required String fromEmail,
     String? fromName,
-  })  : _apiKey = apiKey,
-        _fromEmail = fromEmail,
-        _fromName = fromName;
+  }) : _apiKey = apiKey,
+       _fromEmail = fromEmail,
+       _fromName = fromName;
 
   final String _apiKey;
   final String _fromEmail;
   final String? _fromName;
 
-  static const String _endpoint =
-      'https://api.sendgrid.com/v3/mail/send';
+  static const String _endpoint = 'https://api.sendgrid.com/v3/mail/send';
   static const String _tag = 'SendGridProvider';
 
   @override
@@ -94,8 +93,7 @@ class SendGridProvider implements EmailProvider {
       if (statusCode == 202) {
         // SendGrid returns 202 Accepted with no message ID in the body;
         // the message ID is in the X-Message-Id response header.
-        final messageId =
-            response.headers.value('x-message-id') ?? 'unknown';
+        final messageId = response.headers.value('x-message-id') ?? 'unknown';
         PrimekitLogger.info(
           'Email sent via SendGrid. messageId=$messageId',
           tag: _tag,
@@ -103,12 +101,9 @@ class SendGridProvider implements EmailProvider {
         return EmailResult.success(messageId: messageId);
       }
 
-      final reason = _extractError(response.data) ??
-          'Unexpected status code $statusCode';
-      PrimekitLogger.warning(
-        'SendGrid rejected email: $reason',
-        tag: _tag,
-      );
+      final reason =
+          _extractError(response.data) ?? 'Unexpected status code $statusCode';
+      PrimekitLogger.warning('SendGrid rejected email: $reason', tag: _tag);
       return EmailResult.failure(reason: reason, statusCode: statusCode);
     } on DioException catch (e, stack) {
       PrimekitLogger.error(
@@ -134,7 +129,7 @@ class SendGridProvider implements EmailProvider {
 
   Map<String, dynamic> _buildPayload(EmailMessage message) {
     final from = <String, String>{'email': _fromEmail};
-    if (_fromName != null) from['name'] = _fromName!;
+    if (_fromName != null) from['name'] = _fromName;
 
     final to = <String, String>{'email': message.to};
     if (message.toName != null) to['name'] = message.toName!;
@@ -208,11 +203,9 @@ class SendGridProvider implements EmailProvider {
 /// ```
 class ResendProvider implements EmailProvider {
   /// Creates a Resend email provider.
-  const ResendProvider({
-    required String apiKey,
-    required String fromEmail,
-  })  : _apiKey = apiKey,
-        _fromEmail = fromEmail;
+  const ResendProvider({required String apiKey, required String fromEmail})
+    : _apiKey = apiKey,
+      _fromEmail = fromEmail;
 
   final String _apiKey;
   final String _fromEmail;
@@ -246,8 +239,7 @@ class ResendProvider implements EmailProvider {
       final responseData = response.data;
 
       if (statusCode == 200 || statusCode == 201) {
-        final messageId =
-            responseData?['id']?.toString() ?? 'unknown';
+        final messageId = responseData?['id']?.toString() ?? 'unknown';
         PrimekitLogger.info(
           'Email sent via Resend. messageId=$messageId',
           tag: _tag,
@@ -255,13 +247,11 @@ class ResendProvider implements EmailProvider {
         return EmailResult.success(messageId: messageId);
       }
 
-      final reason = responseData?['message']?.toString() ??
+      final reason =
+          responseData?['message']?.toString() ??
           responseData?['error']?.toString() ??
           'Unexpected status code $statusCode';
-      PrimekitLogger.warning(
-        'Resend rejected email: $reason',
-        tag: _tag,
-      );
+      PrimekitLogger.warning('Resend rejected email: $reason', tag: _tag);
       return EmailResult.failure(reason: reason, statusCode: statusCode);
     } on DioException catch (e, stack) {
       PrimekitLogger.error(
@@ -306,12 +296,7 @@ class ResendProvider implements EmailProvider {
 
     if (message.attachments.isNotEmpty) {
       payload['attachments'] = message.attachments
-          .map(
-            (a) => {
-              'filename': a.filename,
-              'content': a.base64Content,
-            },
-          )
+          .map((a) => {'filename': a.filename, 'content': a.base64Content})
           .toList();
     }
 
@@ -357,13 +342,13 @@ class SmtpProvider implements EmailProvider {
     bool ssl = true,
     required String relayUrl,
     String? authToken,
-  })  : _host = host,
-        _port = port,
-        _username = username,
-        _password = password,
-        _ssl = ssl,
-        _relayUrl = relayUrl,
-        _authToken = authToken;
+  }) : _host = host,
+       _port = port,
+       _username = username,
+       _password = password,
+       _ssl = ssl,
+       _relayUrl = relayUrl,
+       _authToken = authToken;
 
   final String _host;
   final int _port;
@@ -394,9 +379,7 @@ class SmtpProvider implements EmailProvider {
     final dio = Dio();
 
     try {
-      final headers = <String, String>{
-        'Content-Type': 'application/json',
-      };
+      final headers = <String, String>{'Content-Type': 'application/json'};
       if (_authToken != null) {
         headers['Authorization'] = 'Bearer $_authToken';
       }
@@ -450,13 +433,11 @@ class SmtpProvider implements EmailProvider {
         return EmailResult.success(messageId: messageId);
       }
 
-      final reason = responseData?['error']?.toString() ??
+      final reason =
+          responseData?['error']?.toString() ??
           responseData?['message']?.toString() ??
           'Relay returned status $statusCode';
-      PrimekitLogger.warning(
-        'SMTP relay rejected email: $reason',
-        tag: _tag,
-      );
+      PrimekitLogger.warning('SMTP relay rejected email: $reason', tag: _tag);
       return EmailResult.failure(reason: reason, statusCode: statusCode);
     } on DioException catch (e, stack) {
       PrimekitLogger.error(

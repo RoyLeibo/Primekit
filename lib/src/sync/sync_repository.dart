@@ -53,15 +53,15 @@ class SyncRepository<T> extends ChangeNotifier {
     Duration syncInterval = const Duration(minutes: 5),
     String? userId,
     PendingChangeStore? pendingChangeStore,
-  })  : _collection = collection,
-        _remoteSource = remoteSource,
-        _fromJson = fromJson,
-        _conflictResolver =
-            conflictResolver ?? LastWriteWinsResolver<T>(),
-        _syncInterval = syncInterval,
-        _userId = userId,
-        _pendingStore =
-            pendingChangeStore ?? PendingChangeStore(storageKey: 'primekit_sync_$collection') {
+  }) : _collection = collection,
+       _remoteSource = remoteSource,
+       _fromJson = fromJson,
+       _conflictResolver = conflictResolver ?? LastWriteWinsResolver<T>(),
+       _syncInterval = syncInterval,
+       _userId = userId,
+       _pendingStore =
+           pendingChangeStore ??
+           PendingChangeStore(storageKey: 'primekit_sync_$collection') {
     _syncStateManager = SyncStateManager();
     _startSyncTimer();
   }
@@ -172,10 +172,7 @@ class SyncRepository<T> extends ChangeNotifier {
     _syncStateManager.updatePendingChanges(await _pendingStore.count);
     notifyListeners();
 
-    PrimekitLogger.debug(
-      'Created document $id in $_collection',
-      tag: _tag,
-    );
+    PrimekitLogger.debug('Created document $id in $_collection', tag: _tag);
 
     return _fromJson(doc);
   }
@@ -222,10 +219,7 @@ class SyncRepository<T> extends ChangeNotifier {
     _syncStateManager.updatePendingChanges(await _pendingStore.count);
     notifyListeners();
 
-    PrimekitLogger.debug(
-      'Updated document $id in $_collection',
-      tag: _tag,
-    );
+    PrimekitLogger.debug('Updated document $id in $_collection', tag: _tag);
 
     return _fromJson(updated);
   }
@@ -278,7 +272,8 @@ class SyncRepository<T> extends ChangeNotifier {
   int get pendingChangesCount => _syncStateManager.state.pendingChanges;
 
   /// All pending [SyncChange] objects waiting to be pushed.
-  List<SyncChange> get pendingChanges => []; // Populated lazily via async getter
+  List<SyncChange> get pendingChanges =>
+      []; // Populated lazily via async getter
 
   /// Triggers a sync cycle: pushes pending local changes, then pulls remote
   /// changes since the last sync timestamp.
@@ -380,10 +375,7 @@ class SyncRepository<T> extends ChangeNotifier {
 
     // Try batch push first; fall back to individual pushes on failure
     try {
-      await _remoteSource.pushBatch(
-        collection: _collection,
-        changes: changes,
-      );
+      await _remoteSource.pushBatch(collection: _collection, changes: changes);
       await _pendingStore.clear();
     } catch (_) {
       // Fallback: push individually

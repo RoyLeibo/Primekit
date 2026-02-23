@@ -25,8 +25,7 @@ final class PendingChangeStore {
   /// Creates a [PendingChangeStore].
   ///
   /// [storageKey] may be overridden in tests to isolate storage namespaces.
-  PendingChangeStore({String? storageKey})
-      : _key = storageKey ?? _defaultKey;
+  PendingChangeStore({String? storageKey}) : _key = storageKey ?? _defaultKey;
 
   static const String _defaultKey = 'primekit_sync_pending_changes';
   static const String _tag = 'PendingChangeStore';
@@ -125,10 +124,7 @@ final class PendingChangeStore {
     final raw = prefs.getString(_key);
     if (raw == null || raw.isEmpty) return [];
     final list = jsonDecode(raw) as List<dynamic>;
-    return list
-        .cast<Map<String, dynamic>>()
-        .map(SyncChange.fromJson)
-        .toList();
+    return list.cast<Map<String, dynamic>>().map(SyncChange.fromJson).toList();
   }
 
   Future<void> _save(List<SyncChange> changes) async {

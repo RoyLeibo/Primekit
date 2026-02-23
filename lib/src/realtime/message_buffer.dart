@@ -37,11 +37,11 @@ final class BufferedMessage {
 
   /// Serialises this message to a JSON map.
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'type': type,
-        'payload': payload,
-        'queuedAt': queuedAt.toIso8601String(),
-      };
+    'id': id,
+    'type': type,
+    'payload': payload,
+    'queuedAt': queuedAt.toIso8601String(),
+  };
 }
 
 /// Buffers outgoing messages when a `RealtimeChannel` is disconnected.
@@ -67,7 +67,7 @@ class MessageBuffer {
   ///
   /// [maxSize] caps the number of messages retained. Defaults to 100.
   MessageBuffer({required String channelId, this.maxSize = 100})
-      : _prefsKey = '_pk_msg_buf_$channelId';
+    : _prefsKey = '_pk_msg_buf_$channelId';
 
   /// The maximum number of messages held in the buffer.
   final int maxSize;
@@ -130,9 +130,7 @@ class MessageBuffer {
 
   List<BufferedMessage> _decode(List<String> raw) => raw
       .map(
-        (s) => BufferedMessage.fromJson(
-          jsonDecode(s) as Map<String, dynamic>,
-        ),
+        (s) => BufferedMessage.fromJson(jsonDecode(s) as Map<String, dynamic>),
       )
       .toList();
 }

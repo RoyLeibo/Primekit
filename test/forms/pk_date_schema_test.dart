@@ -32,39 +32,63 @@ void main() {
 
     group('after', () {
       test('date after boundary passes', () {
-        expect(PkSchema.date().after(earlyDate).validate(baseDate).isValid, isTrue);
+        expect(
+          PkSchema.date().after(earlyDate).validate(baseDate).isValid,
+          isTrue,
+        );
       });
 
       test('date equal to boundary fails (exclusive)', () {
-        expect(PkSchema.date().after(baseDate).validate(baseDate).isValid, isFalse);
+        expect(
+          PkSchema.date().after(baseDate).validate(baseDate).isValid,
+          isFalse,
+        );
       });
 
       test('date before boundary fails', () {
-        expect(PkSchema.date().after(baseDate).validate(earlyDate).isValid, isFalse);
+        expect(
+          PkSchema.date().after(baseDate).validate(earlyDate).isValid,
+          isFalse,
+        );
       });
     });
 
     group('before', () {
       test('date before boundary passes', () {
-        expect(PkSchema.date().before(lateDate).validate(baseDate).isValid, isTrue);
+        expect(
+          PkSchema.date().before(lateDate).validate(baseDate).isValid,
+          isTrue,
+        );
       });
 
       test('date equal to boundary fails (exclusive)', () {
-        expect(PkSchema.date().before(baseDate).validate(baseDate).isValid, isFalse);
+        expect(
+          PkSchema.date().before(baseDate).validate(baseDate).isValid,
+          isFalse,
+        );
       });
 
       test('date after boundary fails', () {
-        expect(PkSchema.date().before(baseDate).validate(lateDate).isValid, isFalse);
+        expect(
+          PkSchema.date().before(baseDate).validate(lateDate).isValid,
+          isFalse,
+        );
       });
     });
 
     group('notBefore / notAfter', () {
       test('notBefore with equal date passes', () {
-        expect(PkSchema.date().notBefore(baseDate).validate(baseDate).isValid, isTrue);
+        expect(
+          PkSchema.date().notBefore(baseDate).validate(baseDate).isValid,
+          isTrue,
+        );
       });
 
       test('notAfter with equal date passes', () {
-        expect(PkSchema.date().notAfter(baseDate).validate(baseDate).isValid, isTrue);
+        expect(
+          PkSchema.date().notAfter(baseDate).validate(baseDate).isValid,
+          isTrue,
+        );
       });
     });
 

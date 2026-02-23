@@ -27,8 +27,7 @@ class MembershipScope extends InheritedNotifier<MembershipService> {
   ///
   /// Throws a [FlutterError] if no [MembershipScope] ancestor is found.
   static MembershipService of(BuildContext context) {
-    final scope =
-        context.dependOnInheritedWidgetOfExactType<MembershipScope>();
+    final scope = context.dependOnInheritedWidgetOfExactType<MembershipScope>();
     if (scope == null) {
       throw FlutterError(
         'MembershipScope.of() called with a context that does not contain a '

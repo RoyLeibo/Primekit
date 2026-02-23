@@ -74,11 +74,7 @@ void main() {
     });
 
     test('expired code returns OtpValidationResult.expired', () {
-      service.store(
-        key,
-        code,
-        ttl: const Duration(milliseconds: 1),
-      );
+      service.store(key, code, ttl: const Duration(milliseconds: 1));
       // Allow the entry to expire.
       Future.delayed(const Duration(milliseconds: 10));
       // Force evaluation after expiry via a direct future wait in sync test.
@@ -92,7 +88,10 @@ void main() {
     });
 
     test('validate returns notFound when no entry exists', () {
-      expect(service.validate('missing_key', '000000'), OtpValidationResult.notFound);
+      expect(
+        service.validate('missing_key', '000000'),
+        OtpValidationResult.notFound,
+      );
     });
 
     test('overwriting existing key replaces entry', () {
@@ -115,17 +114,19 @@ void main() {
     const code = '654321';
     const wrongCode = '000000';
 
-    test('returns maxAttemptsReached after $OtpService.maxAttempts failures',
-        () {
-      service.store(key, code);
-      for (var i = 0; i < OtpService.maxAttempts; i++) {
-        service.validate(key, wrongCode);
-      }
-      expect(
-        service.validate(key, code),
-        OtpValidationResult.maxAttemptsReached,
-      );
-    });
+    test(
+      'returns maxAttemptsReached after $OtpService.maxAttempts failures',
+      () {
+        service.store(key, code);
+        for (var i = 0; i < OtpService.maxAttempts; i++) {
+          service.validate(key, wrongCode);
+        }
+        expect(
+          service.validate(key, code),
+          OtpValidationResult.maxAttemptsReached,
+        );
+      },
+    );
 
     test('correct code after N-1 failures still succeeds', () {
       service.store(key, code);
@@ -184,10 +185,7 @@ void main() {
     });
 
     test('incrementAttempts creates new OtpEntry with attempts + 1', () {
-      final entry = OtpEntry(
-        code: '000000',
-        expiresAt: DateTime.utc(9999),
-      );
+      final entry = OtpEntry(code: '000000', expiresAt: DateTime.utc(9999));
       final incremented = entry.incrementAttempts();
       expect(incremented.attempts, 1);
       expect(incremented.code, entry.code);

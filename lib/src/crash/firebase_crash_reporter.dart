@@ -22,7 +22,7 @@ class FirebaseCrashReporter implements CrashReporter {
   /// Supply a custom [crashlytics] instance for testing; otherwise
   /// [FirebaseCrashlytics.instance] is used.
   FirebaseCrashReporter({FirebaseCrashlytics? crashlytics})
-      : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
+    : _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
 
   final FirebaseCrashlytics _crashlytics;
 

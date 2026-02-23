@@ -58,10 +58,7 @@ final class FirestoreSyncSource implements SyncDataSource {
     String? userId,
   }) {
     if (userId != null && userId.isNotEmpty) {
-      return _firestore
-          .collection('users')
-          .doc(userId)
-          .collection(collection);
+      return _firestore.collection('users').doc(userId).collection(collection);
     }
     return _firestore.collection(collection);
   }
@@ -95,9 +92,10 @@ final class FirestoreSyncSource implements SyncDataSource {
     required String collection,
     String? userId,
   }) {
-    return _collectionRef(collection, userId: userId)
-        .snapshots()
-        .map((snap) => snap.docs.map(_docToMap).toList());
+    return _collectionRef(
+      collection,
+      userId: userId,
+    ).snapshots().map((snap) => snap.docs.map(_docToMap).toList());
   }
 
   // ---------------------------------------------------------------------------
@@ -119,8 +117,7 @@ final class FirestoreSyncSource implements SyncDataSource {
 
     // Extract userId from the document if present for user-scoped collections
     final userId = document['userId'] as String?;
-    final ref =
-        _collectionRef(collection, userId: userId).doc(id);
+    final ref = _collectionRef(collection, userId: userId).doc(id);
 
     switch (operation) {
       case SyncOperation.create:
@@ -132,7 +129,10 @@ final class FirestoreSyncSource implements SyncDataSource {
         final isDeleted = document['isDeleted'] as bool? ?? false;
         if (isDeleted) {
           // Write the soft-delete marker so other clients can sync the deletion
-          await ref.set({'isDeleted': true, timestampField: FieldValue.serverTimestamp()}, SetOptions(merge: true));
+          await ref.set({
+            'isDeleted': true,
+            timestampField: FieldValue.serverTimestamp(),
+          }, SetOptions(merge: true));
         } else {
           await ref.delete();
         }
@@ -168,11 +168,10 @@ final class FirestoreSyncSource implements SyncDataSource {
           case SyncOperation.delete:
             final isDeleted = doc['isDeleted'] as bool? ?? false;
             if (isDeleted) {
-              batch.set(
-                ref,
-                {'isDeleted': true, timestampField: FieldValue.serverTimestamp()},
-                SetOptions(merge: true),
-              );
+              batch.set(ref, {
+                'isDeleted': true,
+                timestampField: FieldValue.serverTimestamp(),
+              }, SetOptions(merge: true));
             } else {
               batch.delete(ref);
             }
@@ -209,9 +208,6 @@ final class FirestoreSyncSource implements SyncDataSource {
 
   Map<String, dynamic> _preparePayload(Map<String, dynamic> document) {
     // Replace 'updatedAt' with a server timestamp for accuracy
-    return {
-      ...document,
-      timestampField: FieldValue.serverTimestamp(),
-    };
+    return {...document, timestampField: FieldValue.serverTimestamp()};
   }
 }

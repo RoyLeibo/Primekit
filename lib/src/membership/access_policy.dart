@@ -104,6 +104,5 @@ class AccessPolicy {
   bool get isEmpty => _policy.isEmpty;
 
   /// Returns a copy of the underlying policy map (immutable snapshot).
-  Map<String, MembershipTier> get snapshot =>
-      Map.unmodifiable(Map.of(_policy));
+  Map<String, MembershipTier> get snapshot => Map.unmodifiable(Map.of(_policy));
 }

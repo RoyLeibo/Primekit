@@ -32,10 +32,10 @@ class ContactFormMailer {
     String subject = 'New Contact Form Submission',
     String? fromEmail,
     int maxRetries = 3,
-  })  : _toEmail = toEmail,
-        _subject = subject,
-        _fromEmail = fromEmail,
-        _maxRetries = maxRetries.clamp(1, 10);
+  }) : _toEmail = toEmail,
+       _subject = subject,
+       _fromEmail = fromEmail,
+       _maxRetries = maxRetries.clamp(1, 10);
 
   final String _toEmail;
   final String _subject;

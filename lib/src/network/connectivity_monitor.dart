@@ -40,8 +40,9 @@ final class ConnectivityMonitor {
   final Connectivity _connectivity = Connectivity();
 
   /// Backing subject — starts with `true` (optimistic) until first check.
-  final BehaviorSubject<bool> _statusSubject =
-      BehaviorSubject<bool>.seeded(true);
+  final BehaviorSubject<bool> _statusSubject = BehaviorSubject<bool>.seeded(
+    true,
+  );
 
   StreamSubscription<List<ConnectivityResult>>? _subscription;
 
@@ -54,9 +55,8 @@ final class ConnectivityMonitor {
   ///
   /// The stream is backed by a [BehaviorSubject], so new subscribers
   /// immediately receive the latest known status.
-  Stream<bool> get isConnected => _statusSubject.stream
-      .debounceTime(_debounceDuration)
-      .distinct();
+  Stream<bool> get isConnected =>
+      _statusSubject.stream.debounceTime(_debounceDuration).distinct();
 
   /// The most recently observed connectivity status.
   ///

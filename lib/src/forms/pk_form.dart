@@ -22,8 +22,8 @@ class PkFormController extends ChangeNotifier {
   PkFormController._({
     required PkObjectSchema schema,
     required Future<void> Function(Map<String, dynamic>) onSubmit,
-  })  : _schema = schema,
-        _onSubmit = onSubmit;
+  }) : _schema = schema,
+       _onSubmit = onSubmit;
 
   final PkObjectSchema _schema;
   final Future<void> Function(Map<String, dynamic>) _onSubmit;
@@ -54,10 +54,7 @@ class PkFormController extends ChangeNotifier {
 
   /// Updates the value for [fieldName] and re-validates the affected field.
   void setValue(String fieldName, dynamic value) {
-    _values = {
-      ..._values,
-      fieldName: value,
-    };
+    _values = {..._values, fieldName: value};
     _revalidate();
     notifyListeners();
   }
@@ -108,9 +105,7 @@ class PkFormController extends ChangeNotifier {
 
   void _revalidate() {
     final result = _validateSchema();
-    _errors = result.isValid
-        ? const {}
-        : Map.unmodifiable(result.errors);
+    _errors = result.isValid ? const {} : Map.unmodifiable(result.errors);
   }
 
   ValidationResult _validateSchema() => _schema.validate(_values);
@@ -212,10 +207,8 @@ class _PkFormState extends State<PkForm> {
   }
 
   @override
-  Widget build(BuildContext context) => PkFormScope(
-        controller: _controller,
-        child: widget.builder(_controller),
-      );
+  Widget build(BuildContext context) =>
+      PkFormScope(controller: _controller, child: widget.builder(_controller));
 }
 
 /// An [InheritedWidget] that makes [PkFormController] available to all
@@ -235,9 +228,8 @@ class PkFormScope extends InheritedWidget {
 
   /// Returns the [PkFormController] from the nearest [PkFormScope], or
   /// `null` if there is no ancestor [PkFormScope].
-  static PkFormController? of(BuildContext context) => context
-      .dependOnInheritedWidgetOfExactType<PkFormScope>()
-      ?.controller;
+  static PkFormController? of(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<PkFormScope>()?.controller;
 
   @override
   bool updateShouldNotify(PkFormScope oldWidget) =>

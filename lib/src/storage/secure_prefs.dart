@@ -44,7 +44,7 @@ final class SecurePrefs implements SecurePrefsBase {
   static SecurePrefs get instance => _instance;
 
   static const _storage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
     iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
   );
 
@@ -54,18 +54,15 @@ final class SecurePrefs implements SecurePrefsBase {
 
   /// Stores [value] under [key] as a raw string.
   @override
-  Future<void> setString(String key, String value) =>
-      _write(key, value);
+  Future<void> setString(String key, String value) => _write(key, value);
 
   /// Stores [value] under [key] as `'true'` or `'false'`.
   @override
-  Future<void> setBool(String key, bool value) =>
-      _write(key, value.toString());
+  Future<void> setBool(String key, bool value) => _write(key, value.toString());
 
   /// Stores [value] under [key] as its decimal string representation.
   @override
-  Future<void> setInt(String key, int value) =>
-      _write(key, value.toString());
+  Future<void> setInt(String key, int value) => _write(key, value.toString());
 
   /// Stores [value] under [key] as its string representation.
   @override

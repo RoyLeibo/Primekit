@@ -20,7 +20,7 @@ final class LocalFlagProvider implements FlagProvider {
   ///
   /// All flag values must be JSON-compatible primitives or maps.
   LocalFlagProvider(Map<String, dynamic> flags)
-      : _flags = Map<String, dynamic>.unmodifiable(flags);
+    : _flags = Map<String, dynamic>.unmodifiable(flags);
 
   final Map<String, dynamic> _flags;
 

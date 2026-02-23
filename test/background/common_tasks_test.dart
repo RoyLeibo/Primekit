@@ -65,10 +65,11 @@ void main() {
     test('execute removes expired cache entries', () async {
       // Seed prefs with an expired entry.
       final expiredTime = DateTime.now().toUtc().subtract(
-            const Duration(hours: 2),
-          );
+        const Duration(hours: 2),
+      );
       SharedPreferences.setMockInitialValues({
-        'pk_json_cache::old_key': '{"data":{},"expiresAt":"'
+        'pk_json_cache::old_key':
+            '{"data":{},"expiresAt":"'
             '${expiredTime.toIso8601String()}"}',
         'pk_json_cache::valid_key': '{"data":{},"expiresAt":null}',
         'unrelated_key': 'untouched',
@@ -88,7 +89,8 @@ void main() {
     test('execute keeps entries that are not expired', () async {
       final futureTime = DateTime.now().toUtc().add(const Duration(hours: 1));
       SharedPreferences.setMockInitialValues({
-        'pk_json_cache::fresh': '{"data":{},"expiresAt":"'
+        'pk_json_cache::fresh':
+            '{"data":{},"expiresAt":"'
             '${futureTime.toIso8601String()}"}',
       });
 

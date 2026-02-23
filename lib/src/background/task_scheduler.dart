@@ -35,9 +35,9 @@ void callbackDispatcher() {
   wm.Workmanager().executeTask(
     (String taskName, Map<String, dynamic>? inputData) =>
         TaskScheduler._dispatchTask(
-      taskName: taskName,
-      inputData: inputData ?? {},
-    ),
+          taskName: taskName,
+          inputData: inputData ?? {},
+        ),
   );
 }
 
@@ -132,7 +132,7 @@ final class TaskScheduler {
         frequency: frequency,
         inputData: inputData,
         constraints: _toConstraints(constraints),
-        existingWorkPolicy: _toPolicy(existingPolicy),
+        existingWorkPolicy: _toPeriodicPolicy(existingPolicy),
       );
       PrimekitLogger.info(
         'Scheduled periodic task "$uniqueName" '
@@ -167,10 +167,7 @@ final class TaskScheduler {
         inputData: inputData,
         constraints: _toConstraints(constraints),
       );
-      PrimekitLogger.info(
-        'Scheduled one-off task "$uniqueName".',
-        tag: _tag,
-      );
+      PrimekitLogger.info('Scheduled one-off task "$uniqueName".', tag: _tag);
     } on Exception catch (error, stack) {
       PrimekitLogger.error(
         'Failed to schedule one-off task "$uniqueName".',
@@ -253,20 +250,20 @@ final class TaskScheduler {
   // ---------------------------------------------------------------------------
 
   wm.Constraints _toConstraints(BackgroundConstraints c) => wm.Constraints(
-        networkType: switch (c.networkType) {
-          NetworkType.notRequired => wm.NetworkType.not_required,
-          NetworkType.connected => wm.NetworkType.connected,
-          NetworkType.unmetered => wm.NetworkType.unmetered,
-        },
-        requiresCharging: c.requiresCharging,
-        requiresDeviceIdle: c.requiresDeviceIdle,
-      );
+    networkType: switch (c.networkType) {
+      NetworkType.notRequired => wm.NetworkType.notRequired,
+      NetworkType.connected => wm.NetworkType.connected,
+      NetworkType.unmetered => wm.NetworkType.unmetered,
+    },
+    requiresCharging: c.requiresCharging,
+    requiresDeviceIdle: c.requiresDeviceIdle,
+  );
 
-  wm.ExistingWorkPolicy _toPolicy(ExistingWorkPolicy policy) =>
+  wm.ExistingPeriodicWorkPolicy _toPeriodicPolicy(ExistingWorkPolicy policy) =>
       switch (policy) {
-        ExistingWorkPolicy.replace => wm.ExistingWorkPolicy.replace,
-        ExistingWorkPolicy.keep => wm.ExistingWorkPolicy.keep,
-        ExistingWorkPolicy.append => wm.ExistingWorkPolicy.append,
+        ExistingWorkPolicy.replace => wm.ExistingPeriodicWorkPolicy.replace,
+        ExistingWorkPolicy.keep => wm.ExistingPeriodicWorkPolicy.keep,
+        ExistingWorkPolicy.append => wm.ExistingPeriodicWorkPolicy.keep,
       };
 
   void _assertInitialized() {

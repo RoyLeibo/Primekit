@@ -44,10 +44,10 @@ class RbacGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
-        listenable: RbacService.instance,
-        builder: (ctx, _) {
-          final allowed = RbacService.instance.can(permission);
-          return allowed ? child : (fallback ?? const SizedBox.shrink());
-        },
-      );
+    listenable: RbacService.instance,
+    builder: (ctx, _) {
+      final allowed = RbacService.instance.can(permission);
+      return allowed ? child : (fallback ?? const SizedBox.shrink());
+    },
+  );
 }

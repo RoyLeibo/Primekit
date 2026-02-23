@@ -26,12 +26,11 @@ final class EmailAttachment {
     String? filename,
     List<int>? content,
     String? contentType,
-  }) =>
-      EmailAttachment(
-        filename: filename ?? this.filename,
-        content: content ?? List.unmodifiable(this.content),
-        contentType: contentType ?? this.contentType,
-      );
+  }) => EmailAttachment(
+    filename: filename ?? this.filename,
+    content: content ?? List.unmodifiable(this.content),
+    contentType: contentType ?? this.contentType,
+  );
 
   @override
   String toString() =>
@@ -100,17 +99,16 @@ final class EmailMessage {
     String? replyTo,
     List<EmailAttachment>? attachments,
     Map<String, String>? headers,
-  }) =>
-      EmailMessage(
-        to: to ?? this.to,
-        toName: toName ?? this.toName,
-        subject: subject ?? this.subject,
-        textBody: textBody ?? this.textBody,
-        htmlBody: htmlBody ?? this.htmlBody,
-        replyTo: replyTo ?? this.replyTo,
-        attachments: attachments ?? List.unmodifiable(this.attachments),
-        headers: headers ?? Map.unmodifiable(this.headers),
-      );
+  }) => EmailMessage(
+    to: to ?? this.to,
+    toName: toName ?? this.toName,
+    subject: subject ?? this.subject,
+    textBody: textBody ?? this.textBody,
+    htmlBody: htmlBody ?? this.htmlBody,
+    replyTo: replyTo ?? this.replyTo,
+    attachments: attachments ?? List.unmodifiable(this.attachments),
+    headers: headers ?? Map.unmodifiable(this.headers),
+  );
 
   @override
   String toString() =>
@@ -127,15 +125,12 @@ sealed class EmailResult {
   const EmailResult();
 
   /// Creates a successful send result with the provider's [messageId].
-  const factory EmailResult.success({required String messageId}) =
-      EmailSuccess;
+  const factory EmailResult.success({required String messageId}) = EmailSuccess;
 
   /// Creates a failure result with a human-readable [reason] and optional
   /// HTTP [statusCode].
-  const factory EmailResult.failure({
-    required String reason,
-    int? statusCode,
-  }) = EmailFailure;
+  const factory EmailResult.failure({required String reason, int? statusCode}) =
+      EmailFailure;
 
   /// Returns `true` if the email was sent successfully.
   bool get isSuccess => this is EmailSuccess;
@@ -147,11 +142,10 @@ sealed class EmailResult {
   T when<T>({
     required T Function(EmailSuccess result) success,
     required T Function(EmailFailure result) failure,
-  }) =>
-      switch (this) {
-        EmailSuccess() => success(this as EmailSuccess),
-        EmailFailure() => failure(this as EmailFailure),
-      };
+  }) => switch (this) {
+    EmailSuccess() => success(this as EmailSuccess),
+    EmailFailure() => failure(this as EmailFailure),
+  };
 }
 
 /// The success variant of [EmailResult].

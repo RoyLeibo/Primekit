@@ -83,24 +83,18 @@ void main() {
       expect(label, 'success');
 
       result = const TaskResult.retry(reason: 'net');
-      expect(
-        switch (result) {
-          TaskSuccess() => 'success',
-          TaskRetry() => 'retry',
-          TaskFailure() => 'failure',
-        },
-        'retry',
-      );
+      expect(switch (result) {
+        TaskSuccess() => 'success',
+        TaskRetry() => 'retry',
+        TaskFailure() => 'failure',
+      }, 'retry');
 
       result = TaskResult.failure(StateError('bad'));
-      expect(
-        switch (result) {
-          TaskSuccess() => 'success',
-          TaskRetry() => 'retry',
-          TaskFailure() => 'failure',
-        },
-        'failure',
-      );
+      expect(switch (result) {
+        TaskSuccess() => 'success',
+        TaskRetry() => 'retry',
+        TaskFailure() => 'failure',
+      }, 'failure');
     });
   });
 }

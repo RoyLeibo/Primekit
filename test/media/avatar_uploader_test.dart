@@ -48,10 +48,7 @@ void main() {
     group('uploadFile', () {
       test('builds remotePath as pathPrefix/userId.jpg', () {
         const userId = 'user_abc';
-        const file = MediaFile(
-          path: '/tmp/photo.jpg',
-          mimeType: 'image/jpeg',
-        );
+        const file = MediaFile(path: '/tmp/photo.jpg', mimeType: 'image/jpeg');
         const expectedUrl = 'https://cdn.example.com/avatars/user_abc.jpg';
 
         when(
@@ -122,13 +119,15 @@ void main() {
           userId: userId,
         );
 
-        final capturedPath = verify(
-          () => mockUploader.upload(
-            file: any(named: 'file'),
-            remotePath: captureAny(named: 'remotePath'),
-            metadata: any(named: 'metadata'),
-          ),
-        ).captured.first as String;
+        final capturedPath =
+            verify(
+                  () => mockUploader.upload(
+                    file: any(named: 'file'),
+                    remotePath: captureAny(named: 'remotePath'),
+                    metadata: any(named: 'metadata'),
+                  ),
+                ).captured.first
+                as String;
 
         expect(capturedPath, contains(userId));
       });

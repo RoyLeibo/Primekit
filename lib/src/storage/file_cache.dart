@@ -54,11 +54,7 @@ final class FileCache {
   /// [cacheKey] overrides the default key derived from [url]'s SHA-256 hash.
   ///
   /// Throws [StorageException] on fetch or I/O failure.
-  Future<File> getOrFetch(
-    String url, {
-    Duration? ttl,
-    String? cacheKey,
-  }) async {
+  Future<File> getOrFetch(String url, {Duration? ttl, String? cacheKey}) async {
     final key = cacheKey ?? _keyFromUrl(url);
 
     // Check whether a valid cached file exists.
@@ -70,7 +66,10 @@ final class FileCache {
     }
 
     // Miss or expired: download.
-    PrimekitLogger.debug('File cache miss: downloading "$url"', tag: 'FileCache');
+    PrimekitLogger.debug(
+      'File cache miss: downloading "$url"',
+      tag: 'FileCache',
+    );
     return _download(url, key: key, ttl: ttl);
   }
 
@@ -190,11 +189,13 @@ final class FileCache {
             ? DateTime.tryParse(meta!['accessedAt'] as String)
             : null;
         final size = await entity.length();
-        entries.add(_CacheEntryStat(
-          key: key,
-          accessedAt: accessedAt ?? DateTime.fromMillisecondsSinceEpoch(0),
-          size: size,
-        ));
+        entries.add(
+          _CacheEntryStat(
+            key: key,
+            accessedAt: accessedAt ?? DateTime.fromMillisecondsSinceEpoch(0),
+            size: size,
+          ),
+        );
       }
 
       entries.sort((a, b) => a.accessedAt.compareTo(b.accessedAt));

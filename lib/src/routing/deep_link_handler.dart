@@ -12,10 +12,8 @@ class DeepLinkRoute {
   ///
   /// [handler] receives the full [Uri] and must return the go_router path to
   /// navigate to (e.g. `/products/42`).
-  const DeepLinkRoute({
-    required Object pattern,
-    required this.handler,
-  }) : _pattern = pattern;
+  const DeepLinkRoute({required Object pattern, required this.handler})
+    : _pattern = pattern;
 
   final Object _pattern;
 
@@ -26,9 +24,9 @@ class DeepLinkRoute {
   bool matches(Uri uri) {
     final input = uri.toString();
     if (_pattern is String) {
-      return input.contains(_pattern as String);
+      return input.contains(_pattern);
     } else if (_pattern is RegExp) {
-      return (_pattern as RegExp).hasMatch(input);
+      return _pattern.hasMatch(input);
     }
     return false;
   }

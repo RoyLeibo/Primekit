@@ -29,62 +29,61 @@ sealed class Result<S, F> {
 
   /// Returns the success value, or `null` if this is a failure.
   S? get valueOrNull => switch (this) {
-        Success(:final value) => value,
-        Failure() => null,
-      };
+    Success(:final value) => value,
+    Failure() => null,
+  };
 
   /// Returns the failure value, or `null` if this is a success.
   F? get failureOrNull => switch (this) {
-        Success() => null,
-        Failure(:final failure) => failure,
-      };
+    Success() => null,
+    Failure(:final failure) => failure,
+  };
 
   /// Returns the success value or throws a [StateError].
   S get valueOrThrow => switch (this) {
-        Success(:final value) => value,
-        Failure(:final failure) =>
-          throw StateError('Called valueOrThrow on a Failure: $failure'),
-      };
+    Success(:final value) => value,
+    Failure(:final failure) => throw StateError(
+      'Called valueOrThrow on a Failure: $failure',
+    ),
+  };
 
   /// Executes [success] or [failure] depending on the variant.
   T when<T>({
     required T Function(S value) success,
     required T Function(F failure) failure,
-  }) =>
-      switch (this) {
-        Success(:final value) => success(value),
-        Failure(failure: final f) => failure(f),
-      };
+  }) => switch (this) {
+    Success(:final value) => success(value),
+    Failure(failure: final f) => failure(f),
+  };
 
   /// Maps the success value using [transform], leaving failures unchanged.
   Result<T, F> map<T>(T Function(S value) transform) => switch (this) {
-        Success(:final value) => Result.success(transform(value)),
-        Failure(:final failure) => Result.failure(failure),
-      };
+    Success(:final value) => Result.success(transform(value)),
+    Failure(:final failure) => Result.failure(failure),
+  };
 
   /// Maps the failure value using [transform], leaving successes unchanged.
   Result<S, T> mapFailure<T>(T Function(F failure) transform) => switch (this) {
-        Success(:final value) => Result.success(value),
-        Failure(:final failure) => Result.failure(transform(failure)),
-      };
+    Success(:final value) => Result.success(value),
+    Failure(:final failure) => Result.failure(transform(failure)),
+  };
 
   /// Flat-maps the success value, used for chaining operations.
   Future<Result<T, F>> asyncMap<T>(
     Future<Result<T, F>> Function(S value) transform,
-  ) =>
-      switch (this) {
-        Success(:final value) => transform(value),
-        Failure(:final failure) => Future.value(Result.failure(failure)),
-      };
+  ) => switch (this) {
+    Success(:final value) => transform(value),
+    Failure(:final failure) => Future.value(Result.failure(failure)),
+  };
 
   /// Returns [other] if this is a failure, otherwise returns this.
   Result<S, F> or(Result<S, F> other) => isSuccess ? this : other;
 
   @override
   String toString() => switch (this) {
-        Success(:final value) => 'Result.success($value)',
-        Failure(:final failure) => 'Result.failure($failure)',
-      };
+    Success(:final value) => 'Result.success($value)',
+    Failure(:final failure) => 'Result.failure($failure)',
+  };
 }
 
 /// The success variant of [Result].

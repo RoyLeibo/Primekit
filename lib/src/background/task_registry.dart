@@ -24,10 +24,7 @@ abstract final class TaskRegistry {
   /// Registers a factory for [taskId].
   ///
   /// Overwrites any existing registration for the same [taskId].
-  static void register(
-    String taskId,
-    BackgroundTask Function() factory,
-  ) {
+  static void register(String taskId, BackgroundTask Function() factory) {
     _registry[taskId] = factory;
     PrimekitLogger.debug('Registered task: $taskId', tag: _tag);
   }

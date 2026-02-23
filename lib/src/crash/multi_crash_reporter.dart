@@ -15,7 +15,7 @@ import 'crash_reporter.dart';
 class MultiCrashReporter implements CrashReporter {
   /// Creates a [MultiCrashReporter] that delegates to [reporters].
   MultiCrashReporter(List<CrashReporter> reporters)
-      : _reporters = List.unmodifiable(reporters);
+    : _reporters = List.unmodifiable(reporters);
 
   final List<CrashReporter> _reporters;
 
@@ -34,18 +34,17 @@ class MultiCrashReporter implements CrashReporter {
     String? reason,
     Map<String, dynamic>? context,
     bool fatal = false,
-  }) =>
-      Future.wait(
-        _reporters.map(
-          (r) => r.recordError(
-            error,
-            stackTrace,
-            reason: reason,
-            context: context,
-            fatal: fatal,
-          ),
-        ),
-      );
+  }) => Future.wait(
+    _reporters.map(
+      (r) => r.recordError(
+        error,
+        stackTrace,
+        reason: reason,
+        context: context,
+        fatal: fatal,
+      ),
+    ),
+  );
 
   @override
   void addBreadcrumb(Breadcrumb breadcrumb) {
@@ -76,8 +75,7 @@ class MultiCrashReporter implements CrashReporter {
   }
 
   @override
-  Future<void> flush() =>
-      Future.wait(_reporters.map((r) => r.flush()));
+  Future<void> flush() => Future.wait(_reporters.map((r) => r.flush()));
 
   /// Returns `true` if **all** reporters are enabled.
   @override

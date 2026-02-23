@@ -50,14 +50,14 @@ final class PrimekitNetworkClient {
     Future<String?> Function()? onAuthToken,
     int maxRetries = 3,
     Duration retryInitialDelay = const Duration(seconds: 1),
-  })  : _onAuthToken = onAuthToken,
-        _dio = _buildDio(
-          baseUrl: baseUrl,
-          headers: headers,
-          timeout: timeout,
-          maxRetries: maxRetries,
-          retryInitialDelay: retryInitialDelay,
-        );
+  }) : _onAuthToken = onAuthToken,
+       _dio = _buildDio(
+         baseUrl: baseUrl,
+         headers: headers,
+         timeout: timeout,
+         maxRetries: maxRetries,
+         retryInitialDelay: retryInitialDelay,
+       );
 
   static const String _tag = 'PrimekitNetworkClient';
 
@@ -277,10 +277,7 @@ final class PrimekitNetworkClient {
 
     // Retry interceptor — must be first so it wraps the log interceptor.
     dio.interceptors.add(
-      RetryInterceptor(
-        maxRetries: maxRetries,
-        initialDelay: retryInitialDelay,
-      ),
+      RetryInterceptor(maxRetries: maxRetries, initialDelay: retryInitialDelay),
     );
 
     // Logging interceptor — only active in debug builds.

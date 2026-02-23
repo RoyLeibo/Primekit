@@ -43,8 +43,8 @@ final class FirebaseActivityFeedSource implements ActivityFeedSource {
   FirebaseActivityFeedSource({
     FirebaseFirestore? firestore,
     String collection = 'activity_feed',
-  })  : _firestore = firestore ?? FirebaseFirestore.instance,
-        _collection = collection;
+  }) : _firestore = firestore ?? FirebaseFirestore.instance,
+       _collection = collection;
 
   final FirebaseFirestore _firestore;
   final String _collection;
@@ -63,9 +63,7 @@ final class FirebaseActivityFeedSource implements ActivityFeedSource {
     String? userId,
   }) async {
     try {
-      var query = _ref
-          .orderBy('timestamp', descending: true)
-          .limit(pageSize);
+      var query = _ref.orderBy('timestamp', descending: true).limit(pageSize);
 
       if (userId != null) {
         query = query.where('actorId', isEqualTo: userId);
@@ -109,10 +107,10 @@ final class FirebaseActivityFeedSource implements ActivityFeedSource {
     }
 
     return query.snapshots().expand(
-          (qs) => qs.docChanges
-              .where((c) => c.type == DocumentChangeType.added)
-              .map((c) => {'id': c.doc.id, ...?c.doc.data()}),
-        );
+      (qs) => qs.docChanges
+          .where((c) => c.type == DocumentChangeType.added)
+          .map((c) => {'id': c.doc.id, ...?c.doc.data()}),
+    );
   }
 
   // ---------------------------------------------------------------------------

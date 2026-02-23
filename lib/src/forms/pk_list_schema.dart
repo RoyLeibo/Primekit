@@ -14,14 +14,14 @@ final class PkListSchema<T> extends PkSchema<List<T>> {
     this._itemSchema, {
     required bool required,
     required List<_ListRule<T>> rules,
-  })  : _required = required,
-        _rules = rules;
+  }) : _required = required,
+       _rules = rules;
 
   /// Creates a new list schema where each item is validated by [itemSchema].
   PkListSchema(PkSchema<T> itemSchema)
-      : _itemSchema = itemSchema,
-        _required = true,
-        _rules = const [];
+    : _itemSchema = itemSchema,
+      _required = true,
+      _rules = const [];
 
   final PkSchema<T> _itemSchema;
   final bool _required;
@@ -42,43 +42,43 @@ final class PkListSchema<T> extends PkSchema<List<T>> {
 
   /// Validates that the list has at least [min] elements.
   PkListSchema<T> minItems(int min, {String? message}) => _copyWith(
-        extraRules: [
-          _ListRule(
-            test: (v) => v.length >= min,
-            message: message ?? 'Must have at least $min item(s)',
-          ),
-        ],
-      );
+    extraRules: [
+      _ListRule(
+        test: (v) => v.length >= min,
+        message: message ?? 'Must have at least $min item(s)',
+      ),
+    ],
+  );
 
   /// Validates that the list has at most [max] elements.
   PkListSchema<T> maxItems(int max, {String? message}) => _copyWith(
-        extraRules: [
-          _ListRule(
-            test: (v) => v.length <= max,
-            message: message ?? 'Must have at most $max item(s)',
-          ),
-        ],
-      );
+    extraRules: [
+      _ListRule(
+        test: (v) => v.length <= max,
+        message: message ?? 'Must have at most $max item(s)',
+      ),
+    ],
+  );
 
   /// Validates that the list is not empty.
   PkListSchema<T> notEmpty({String? message}) => _copyWith(
-        extraRules: [
-          _ListRule(
-            test: (v) => v.isNotEmpty,
-            message: message ?? 'List must not be empty',
-          ),
-        ],
-      );
+    extraRules: [
+      _ListRule(
+        test: (v) => v.isNotEmpty,
+        message: message ?? 'List must not be empty',
+      ),
+    ],
+  );
 
   /// Validates that all list elements are unique.
   PkListSchema<T> unique({String? message}) => _copyWith(
-        extraRules: [
-          _ListRule(
-            test: (v) => v.toSet().length == v.length,
-            message: message ?? 'All items must be unique',
-          ),
-        ],
-      );
+    extraRules: [
+      _ListRule(
+        test: (v) => v.toSet().length == v.length,
+        message: message ?? 'All items must be unique',
+      ),
+    ],
+  );
 
   // ---------------------------------------------------------------------------
   // Validation
@@ -131,12 +131,11 @@ final class PkListSchema<T> extends PkSchema<List<T>> {
   PkListSchema<T> _copyWith({
     bool? required,
     List<_ListRule<T>> extraRules = const [],
-  }) =>
-      PkListSchema<T>._(
-        _itemSchema,
-        required: required ?? _required,
-        rules: [..._rules, ...extraRules],
-      );
+  }) => PkListSchema<T>._(
+    _itemSchema,
+    required: required ?? _required,
+    rules: [..._rules, ...extraRules],
+  );
 }
 
 // ---------------------------------------------------------------------------

@@ -68,11 +68,17 @@ void main() {
 
     group('mustBeFalse', () {
       test('false passes', () {
-        expect(PkSchema.boolean().mustBeFalse().validate(false).isValid, isTrue);
+        expect(
+          PkSchema.boolean().mustBeFalse().validate(false).isValid,
+          isTrue,
+        );
       });
 
       test('true fails', () {
-        expect(PkSchema.boolean().mustBeFalse().validate(true).isValid, isFalse);
+        expect(
+          PkSchema.boolean().mustBeFalse().validate(true).isValid,
+          isFalse,
+        );
       });
     });
   });

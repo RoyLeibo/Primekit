@@ -39,23 +39,20 @@ extension PrimekitListExtensions<T> on List<T> {
 
   /// Returns a new list with [element] inserted at [index].
   List<T> insertedAt(int index, T element) => [
-        ...sublist(0, index),
-        element,
-        ...sublist(index),
-      ];
+    ...sublist(0, index),
+    element,
+    ...sublist(index),
+  ];
 
   /// Returns a new list with the element at [index] replaced by [element].
   List<T> replacedAt(int index, T element) => [
-        ...sublist(0, index),
-        element,
-        ...sublist(index + 1),
-      ];
+    ...sublist(0, index),
+    element,
+    ...sublist(index + 1),
+  ];
 
   /// Returns a new list with the element at [index] removed.
-  List<T> removedAt(int index) => [
-        ...sublist(0, index),
-        ...sublist(index + 1),
-      ];
+  List<T> removedAt(int index) => [...sublist(0, index), ...sublist(index + 1)];
 
   /// Flattens one level of nesting if this is a `List<List<T>>`.
   List<T> get flattened =>

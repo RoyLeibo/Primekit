@@ -36,11 +36,7 @@ abstract final class PricingFormatter {
   /// PricingFormatter.format(9.99, 'EUR', locale: 'de'); // '9,99 €'
   /// PricingFormatter.format(9.99, 'GBP', locale: 'en_GB'); // '£9.99'
   /// ```
-  static String format(
-    double amount,
-    String currencyCode, {
-    String? locale,
-  }) {
+  static String format(double amount, String currencyCode, {String? locale}) {
     try {
       final formatter = NumberFormat.currency(
         locale: locale,
@@ -147,10 +143,7 @@ abstract final class PricingFormatter {
   static String _currencySymbol(String currencyCode, String? locale) {
     try {
       // NumberFormat can resolve the symbol for us.
-      final nf = NumberFormat.currency(
-        locale: locale,
-        name: currencyCode,
-      );
+      final nf = NumberFormat.currency(locale: locale, name: currencyCode);
       return nf.currencySymbol;
     } on Exception {
       return currencyCode;

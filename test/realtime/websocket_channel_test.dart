@@ -111,21 +111,25 @@ void main() {
       await sub.cancel();
     });
 
-    test('connect to bad URI -> eventually non-connected status', () async {
-      final statuses = <ChannelStatus>[];
-      final sub = channel.status.listen(statuses.add);
-      unawaited(channel.connect());
-      await Future<void>.delayed(const Duration(milliseconds: 300));
-      expect(
-        statuses,
-        anyOf(
-          contains(ChannelStatus.error),
-          contains(ChannelStatus.reconnecting),
-          contains(ChannelStatus.disconnected),
-        ),
-      );
-      await sub.cancel();
-    }, timeout: const Timeout(Duration(seconds: 5)),);
+    test(
+      'connect to bad URI -> eventually non-connected status',
+      () async {
+        final statuses = <ChannelStatus>[];
+        final sub = channel.status.listen(statuses.add);
+        unawaited(channel.connect());
+        await Future<void>.delayed(const Duration(milliseconds: 300));
+        expect(
+          statuses,
+          anyOf(
+            contains(ChannelStatus.error),
+            contains(ChannelStatus.reconnecting),
+            contains(ChannelStatus.disconnected),
+          ),
+        );
+        await sub.cancel();
+      },
+      timeout: const Timeout(Duration(seconds: 5)),
+    );
 
     test('disconnect without prior connect emits disconnected', () async {
       final statuses = <ChannelStatus>[];
@@ -229,15 +233,21 @@ void main() {
     final fixedTime = DateTime(2024);
 
     test('equality is based on id', () {
-      final msg1 =
-          RealtimeMessage(id: 'abc', payload: const {}, receivedAt: fixedTime);
+      final msg1 = RealtimeMessage(
+        id: 'abc',
+        payload: const {},
+        receivedAt: fixedTime,
+      );
       final msg2 = RealtimeMessage(
         id: 'abc',
         payload: const {'extra': true},
         receivedAt: fixedTime,
       );
-      final msg3 =
-          RealtimeMessage(id: 'def', payload: const {}, receivedAt: fixedTime);
+      final msg3 = RealtimeMessage(
+        id: 'def',
+        payload: const {},
+        receivedAt: fixedTime,
+      );
       expect(msg1, equals(msg2));
       expect(msg1, isNot(equals(msg3)));
     });

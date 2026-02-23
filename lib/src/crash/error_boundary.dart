@@ -110,34 +110,28 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
 
 /// Default fallback UI shown when no custom [ErrorBoundary.fallback] is given.
 class _DefaultErrorWidget extends StatelessWidget {
-  const _DefaultErrorWidget({
-    required this.error,
-    required this.onRetry,
-  });
+  const _DefaultErrorWidget({required this.error, required this.onRetry});
 
   final Object error;
   final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.error_outline, size: 48, color: Colors.red),
-              const SizedBox(height: 16),
-              const Text(
-                'Something went wrong.',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: onRetry,
-                child: const Text('Retry'),
-              ),
-            ],
+    child: Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.error_outline, size: 48, color: Colors.red),
+          const SizedBox(height: 16),
+          const Text(
+            'Something went wrong.',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-        ),
-      );
+          const SizedBox(height: 8),
+          TextButton(onPressed: onRetry, child: const Text('Retry')),
+        ],
+      ),
+    ),
+  );
 }

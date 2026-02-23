@@ -47,9 +47,7 @@ abstract final class ImageCompressor {
       );
 
       if (result == null) {
-        throw Exception(
-          'Compression returned null for path: ${source.path}',
-        );
+        throw Exception('Compression returned null for path: ${source.path}');
       }
 
       final outFile = File(result.path);

@@ -147,10 +147,7 @@ final class FlagService {
   /// or [clearAllOverrides] to remove them.
   void setOverride<T>(FeatureFlag<T> flag, T value) {
     _overrides[flag.key] = value;
-    PrimekitLogger.debug(
-      'Override set for "${flag.key}": $value',
-      tag: _tag,
-    );
+    PrimekitLogger.debug('Override set for "${flag.key}": $value', tag: _tag);
   }
 
   /// Removes the local override for [flag].
@@ -186,8 +183,7 @@ final class FlagService {
     final provider = _provider;
     if (provider == null) {
       throw const ConfigurationException(
-        message:
-            'FlagService.configure() must be called before reading flags.',
+        message: 'FlagService.configure() must be called before reading flags.',
       );
     }
     return provider;
@@ -198,7 +194,8 @@ final class FlagService {
     final bytes = utf8.encode(input);
     final digest = sha256.convert(bytes);
     // Use the first 4 bytes of the hash as a 32-bit unsigned integer.
-    final value = (digest.bytes[0] << 24) |
+    final value =
+        (digest.bytes[0] << 24) |
         (digest.bytes[1] << 16) |
         (digest.bytes[2] << 8) |
         digest.bytes[3];

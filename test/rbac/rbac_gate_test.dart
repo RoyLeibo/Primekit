@@ -54,10 +54,7 @@ void main() {
       // Manually call internal helper by patching through configure + load.
       // Since we can't inject context without provider, let's use a no-op
       // provider pattern.
-      service.configure(
-        provider: _FakeRbacProvider(ctx),
-        policy: policy,
-      );
+      service.configure(provider: _FakeRbacProvider(ctx), policy: policy);
       await service.loadForUser('user_1');
 
       await tester.pumpWidget(
@@ -107,33 +104,32 @@ void main() {
     // Default fallback is SizedBox.shrink
     // -------------------------------------------------------------------------
 
-    testWidgets(
-      'uses SizedBox.shrink as default fallback when not permitted',
-      (tester) async {
-        final ctx = RbacContext(
-          userId: 'user_1',
-          roleIds: const [],
-          policy: policy,
-        );
-        RbacService.instance.configure(
-          provider: _FakeRbacProvider(ctx),
-          policy: policy,
-        );
-        await RbacService.instance.loadForUser('user_1');
+    testWidgets('uses SizedBox.shrink as default fallback when not permitted', (
+      tester,
+    ) async {
+      final ctx = RbacContext(
+        userId: 'user_1',
+        roleIds: const [],
+        policy: policy,
+      );
+      RbacService.instance.configure(
+        provider: _FakeRbacProvider(ctx),
+        policy: policy,
+      );
+      await RbacService.instance.loadForUser('user_1');
 
-        await tester.pumpWidget(
-          _wrap(
-            RbacGate(
-              permission: const Permission.delete('posts'),
-              child: const Text('HIDDEN'),
-            ),
+      await tester.pumpWidget(
+        _wrap(
+          RbacGate(
+            permission: const Permission.delete('posts'),
+            child: const Text('HIDDEN'),
           ),
-        );
+        ),
+      );
 
-        expect(find.text('HIDDEN'), findsNothing);
-        expect(find.byType(SizedBox), findsWidgets);
-      },
-    );
+      expect(find.text('HIDDEN'), findsNothing);
+      expect(find.byType(SizedBox), findsWidgets);
+    });
   });
 }
 
@@ -147,8 +143,7 @@ class _FakeRbacProvider implements RbacProvider {
   final RbacContext _context;
 
   @override
-  Future<RbacContext> loadContext({required String userId}) async =>
-      _context;
+  Future<RbacContext> loadContext({required String userId}) async => _context;
 
   @override
   Future<void> assignRole({

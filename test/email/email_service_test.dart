@@ -12,8 +12,8 @@ class _FakeProvider implements EmailProvider {
   _FakeProvider({
     required String name,
     required EmailResult Function(EmailMessage) handler,
-  })  : _name = name,
-        _handler = handler;
+  }) : _name = name,
+       _handler = handler;
 
   final String _name;
   final EmailResult Function(EmailMessage) _handler;
@@ -94,7 +94,8 @@ void main() {
     test('send passes failure result through without throwing', () async {
       final provider = _FakeProvider(
         name: 'FailProvider',
-        handler: (_) => const EmailFailure(reason: 'quota exceeded', statusCode: 429),
+        handler: (_) =>
+            const EmailFailure(reason: 'quota exceeded', statusCode: 429),
       );
       EmailService.instance.configure(provider: provider);
 
@@ -124,10 +125,7 @@ void main() {
     });
 
     test('instance is a singleton', () {
-      expect(
-        identical(EmailService.instance, EmailService.instance),
-        isTrue,
-      );
+      expect(identical(EmailService.instance, EmailService.instance), isTrue);
     });
 
     test('resetForTesting clears provider', () {

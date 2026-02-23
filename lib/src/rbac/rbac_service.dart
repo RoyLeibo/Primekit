@@ -43,10 +43,7 @@ class RbacService extends ChangeNotifier {
   /// Configures the service with a [provider] and [policy].
   ///
   /// Must be called before [loadForUser].
-  void configure({
-    required RbacProvider provider,
-    required RbacPolicy policy,
-  }) {
+  void configure({required RbacProvider provider, required RbacPolicy policy}) {
     _provider = provider;
     _policy = policy;
   }

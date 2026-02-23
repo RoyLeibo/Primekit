@@ -108,15 +108,14 @@ final class SubscriptionInfo {
     DateTime? startedAt,
     bool? isInTrial,
     bool? willRenew,
-  }) =>
-      SubscriptionInfo(
-        productId: productId ?? this.productId,
-        status: status ?? this.status,
-        expiresAt: expiresAt ?? this.expiresAt,
-        startedAt: startedAt ?? this.startedAt,
-        isInTrial: isInTrial ?? this.isInTrial,
-        willRenew: willRenew ?? this.willRenew,
-      );
+  }) => SubscriptionInfo(
+    productId: productId ?? this.productId,
+    status: status ?? this.status,
+    expiresAt: expiresAt ?? this.expiresAt,
+    startedAt: startedAt ?? this.startedAt,
+    isInTrial: isInTrial ?? this.isInTrial,
+    willRenew: willRenew ?? this.willRenew,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -131,8 +130,14 @@ final class SubscriptionInfo {
           willRenew == other.willRenew;
 
   @override
-  int get hashCode =>
-      Object.hash(productId, status, expiresAt, startedAt, isInTrial, willRenew);
+  int get hashCode => Object.hash(
+    productId,
+    status,
+    expiresAt,
+    startedAt,
+    isInTrial,
+    willRenew,
+  );
 
   @override
   String toString() =>
@@ -178,7 +183,7 @@ abstract interface class SubscriptionDataSource {
 class SubscriptionManager extends ChangeNotifier {
   /// Creates a [SubscriptionManager] backed by [dataSource].
   SubscriptionManager({required SubscriptionDataSource dataSource})
-      : _dataSource = dataSource;
+    : _dataSource = dataSource;
 
   final SubscriptionDataSource _dataSource;
 
@@ -244,7 +249,10 @@ class SubscriptionManager extends ChangeNotifier {
         ..addEntries(infos.map((i) => MapEntry(i.productId, i)));
       _publishUpdate();
       notifyListeners();
-      PrimekitLogger.debug('Subscription cache refreshed (${infos.length} items)', tag: _tag);
+      PrimekitLogger.debug(
+        'Subscription cache refreshed (${infos.length} items)',
+        tag: _tag,
+      );
     } catch (error, stack) {
       PrimekitLogger.error(
         'Subscription refresh failed',

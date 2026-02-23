@@ -37,10 +37,10 @@ typedef MembershipTierResolver = Future<MembershipTier> Function();
 class MembershipService extends ChangeNotifier {
   /// Creates a [MembershipService]. Call [configure] before [refresh].
   MembershipService()
-      : _currentTier = MembershipTier.free,
-        _tierController = BehaviorSubject<MembershipTier>.seeded(
-          MembershipTier.free,
-        );
+    : _currentTier = MembershipTier.free,
+      _tierController = BehaviorSubject<MembershipTier>.seeded(
+        MembershipTier.free,
+      );
 
   MembershipTier _currentTier;
   MembershipTierResolver? _resolver;

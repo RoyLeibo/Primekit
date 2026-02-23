@@ -1,7 +1,6 @@
-import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart' as la;
-import 'package:local_auth/error_codes.dart' as la_error;
-import 'package:local_auth_android/local_auth_android.dart' show AndroidAuthMessages;
+import 'package:local_auth_android/local_auth_android.dart'
+    show AndroidAuthMessages;
 import 'package:local_auth_darwin/local_auth_darwin.dart' show IOSAuthMessages;
 import 'package:local_auth_platform_interface/types/auth_messages.dart';
 
@@ -76,11 +75,8 @@ abstract final class BiometricAuth {
       final canCheck = await _auth.canCheckBiometrics;
       final isDeviceSupported = await _auth.isDeviceSupported();
       return canCheck && isDeviceSupported;
-    } on PlatformException catch (error) {
-      PrimekitLogger.warning(
-        'isAvailable check failed: ${error.message}',
-        tag: _tag,
-      );
+    } on Exception catch (error) {
+      PrimekitLogger.warning('isAvailable check failed: $error', tag: _tag);
       return false;
     }
   }
@@ -92,11 +88,8 @@ abstract final class BiometricAuth {
     try {
       final types = await _auth.getAvailableBiometrics();
       return types.map(_mapBiometricType).toList();
-    } on PlatformException catch (error) {
-      PrimekitLogger.warning(
-        'availableTypes failed: ${error.message}',
-        tag: _tag,
-      );
+    } on Exception catch (error) {
+      PrimekitLogger.warning('availableTypes failed: $error', tag: _tag);
       return const [];
     }
   }
@@ -129,10 +122,8 @@ abstract final class BiometricAuth {
       final authenticated = await _auth.authenticate(
         localizedReason: reason,
         authMessages: authMessages,
-        options: la.AuthenticationOptions(
-          stickyAuth: stickyAuth,
-          biometricOnly: false,
-        ),
+        biometricOnly: false,
+        persistAcrossBackgrounding: stickyAuth,
       );
 
       PrimekitLogger.info(
@@ -141,12 +132,12 @@ abstract final class BiometricAuth {
       );
 
       return authenticated ? BiometricResult.success : BiometricResult.failed;
-    } on PlatformException catch (error) {
+    } on la.LocalAuthException catch (error) {
       PrimekitLogger.warning(
-        'authenticate PlatformException: ${error.code} — ${error.message}',
+        'authenticate LocalAuthException: ${error.code} — ${error.description}',
         tag: _tag,
       );
-      return _mapPlatformException(error);
+      return _mapLocalAuthException(error);
     }
   }
 
@@ -162,17 +153,17 @@ abstract final class BiometricAuth {
         _ => BiometricType.any,
       };
 
-  static BiometricResult _mapPlatformException(PlatformException error) {
-    if (error.message?.toLowerCase().contains('cancel') == true) {
-      return BiometricResult.cancelled;
-    }
-    return switch (error.code) {
-      la_error.notAvailable => BiometricResult.notAvailable,
-      la_error.notEnrolled => BiometricResult.notAvailable,
-      la_error.lockedOut => BiometricResult.lockedOut,
-      la_error.permanentlyLockedOut => BiometricResult.permanentlyLockedOut,
-      la_error.otherOperatingSystem => BiometricResult.notAvailable,
-      _ => BiometricResult.failed,
-    };
-  }
+  static BiometricResult _mapLocalAuthException(la.LocalAuthException error) =>
+      switch (error.code) {
+        la.LocalAuthExceptionCode.userCanceled ||
+        la.LocalAuthExceptionCode.systemCanceled => BiometricResult.cancelled,
+        la.LocalAuthExceptionCode.noBiometricsEnrolled ||
+        la.LocalAuthExceptionCode.noBiometricHardware ||
+        la.LocalAuthExceptionCode.noCredentialsSet =>
+          BiometricResult.notAvailable,
+        la.LocalAuthExceptionCode.temporaryLockout => BiometricResult.lockedOut,
+        la.LocalAuthExceptionCode.biometricLockout =>
+          BiometricResult.permanentlyLockedOut,
+        _ => BiometricResult.failed,
+      };
 }

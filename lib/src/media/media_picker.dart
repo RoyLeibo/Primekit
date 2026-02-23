@@ -72,9 +72,7 @@ abstract final class MediaPicker {
         imageQuality: imageQuality,
         limit: limit,
       );
-      return [
-        for (final xf in xFiles) await _fromXFile(xf),
-      ];
+      return [for (final xf in xFiles) await _fromXFile(xf)];
     } catch (error) {
       throw Exception('MediaPicker.pickMultipleImages failed: $error');
     }
@@ -107,19 +105,13 @@ abstract final class MediaPicker {
   ///
   /// Returns `null` when the user cancels.
   static Future<MediaFile?> takePhoto({int? imageQuality}) =>
-      pickImage(
-        source: ImageSource.camera,
-        imageQuality: imageQuality,
-      );
+      pickImage(source: ImageSource.camera, imageQuality: imageQuality);
 
   /// Opens the camera to record a video.
   ///
   /// Returns `null` when the user cancels.
   static Future<MediaFile?> recordVideo({Duration? maxDuration}) =>
-      pickVideo(
-        source: ImageSource.camera,
-        maxDuration: maxDuration,
-      );
+      pickVideo(source: ImageSource.camera, maxDuration: maxDuration);
 
   // ---------------------------------------------------------------------------
   // Internal helpers

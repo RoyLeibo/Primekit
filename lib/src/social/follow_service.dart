@@ -7,16 +7,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// Abstract backend for follow/unfollow operations.
 abstract interface class FollowDataSource {
   /// Records that [followerId] is following [targetId].
-  Future<void> follow({
-    required String followerId,
-    required String targetId,
-  });
+  Future<void> follow({required String followerId, required String targetId});
 
   /// Removes the follow relationship from [followerId] to [targetId].
-  Future<void> unfollow({
-    required String followerId,
-    required String targetId,
-  });
+  Future<void> unfollow({required String followerId, required String targetId});
 
   /// Returns `true` when [followerId] is following [targetId].
   Future<bool> isFollowing({
@@ -51,25 +45,20 @@ class FollowService {
   final FollowDataSource _source;
 
   /// Records that [followerId] is following [targetId].
-  Future<void> follow({
-    required String followerId,
-    required String targetId,
-  }) =>
+  Future<void> follow({required String followerId, required String targetId}) =>
       _source.follow(followerId: followerId, targetId: targetId);
 
   /// Removes the follow from [followerId] to [targetId].
   Future<void> unfollow({
     required String followerId,
     required String targetId,
-  }) =>
-      _source.unfollow(followerId: followerId, targetId: targetId);
+  }) => _source.unfollow(followerId: followerId, targetId: targetId);
 
   /// Returns `true` when [followerId] is following [targetId].
   Future<bool> isFollowing({
     required String followerId,
     required String targetId,
-  }) =>
-      _source.isFollowing(followerId: followerId, targetId: targetId);
+  }) => _source.isFollowing(followerId: followerId, targetId: targetId);
 
   /// Returns the list of user IDs following [userId].
   Future<List<String>> getFollowers(String userId, {int? limit}) =>
@@ -96,7 +85,7 @@ final class FirebaseFollowSource implements FollowDataSource {
   ///
   /// [firestore] defaults to [FirebaseFirestore.instance].
   FirebaseFollowSource({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance;
+    : _firestore = firestore ?? FirebaseFirestore.instance;
 
   final FirebaseFirestore _firestore;
 
@@ -117,22 +106,19 @@ final class FirebaseFollowSource implements FollowDataSource {
       // users/{followerId}/following/{targetId}
       // Root collection for cross-user queries.
       batch
-        ..set(
-          _followersDoc(targetId, followerId),
-          {'followerId': followerId, 'createdAt': now},
-        )
-        ..set(
-          _followingDoc(followerId, targetId),
-          {'targetId': targetId, 'createdAt': now},
-        )
-        ..set(
-          _followsCollection().doc('${followerId}_$targetId'),
-          {
-            'followerId': followerId,
-            'targetId': targetId,
-            'createdAt': now,
-          },
-        );
+        ..set(_followersDoc(targetId, followerId), {
+          'followerId': followerId,
+          'createdAt': now,
+        })
+        ..set(_followingDoc(followerId, targetId), {
+          'targetId': targetId,
+          'createdAt': now,
+        })
+        ..set(_followsCollection().doc('${followerId}_$targetId'), {
+          'followerId': followerId,
+          'targetId': targetId,
+          'createdAt': now,
+        });
 
       await batch.commit();
     } catch (error) {
@@ -156,9 +142,7 @@ final class FirebaseFollowSource implements FollowDataSource {
       final batch = _firestore.batch()
         ..delete(_followersDoc(targetId, followerId))
         ..delete(_followingDoc(followerId, targetId))
-        ..delete(
-          _followsCollection().doc('${followerId}_$targetId'),
-        );
+        ..delete(_followsCollection().doc('${followerId}_$targetId'));
       await batch.commit();
     } catch (error) {
       throw Exception(
@@ -195,8 +179,9 @@ final class FirebaseFollowSource implements FollowDataSource {
   @override
   Future<List<String>> getFollowers(String userId, {int? limit}) async {
     try {
-      var query = _followersCollection(userId)
-          .orderBy('createdAt', descending: true);
+      var query = _followersCollection(
+        userId,
+      ).orderBy('createdAt', descending: true);
       if (limit != null) query = query.limit(limit);
       final snap = await query.get();
       return snap.docs.map((d) => d.id).toList(growable: false);
@@ -210,8 +195,9 @@ final class FirebaseFollowSource implements FollowDataSource {
   @override
   Future<List<String>> getFollowing(String userId, {int? limit}) async {
     try {
-      var query = _followingCollection(userId)
-          .orderBy('createdAt', descending: true);
+      var query = _followingCollection(
+        userId,
+      ).orderBy('createdAt', descending: true);
       if (limit != null) query = query.limit(limit);
       final snap = await query.get();
       return snap.docs.map((d) => d.id).toList(growable: false);
@@ -231,29 +217,19 @@ final class FirebaseFollowSource implements FollowDataSource {
 
   CollectionReference<Map<String, dynamic>> _followersCollection(
     String userId,
-  ) =>
-      _firestore
-          .collection('users')
-          .doc(userId)
-          .collection('followers');
+  ) => _firestore.collection('users').doc(userId).collection('followers');
 
   CollectionReference<Map<String, dynamic>> _followingCollection(
     String userId,
-  ) =>
-      _firestore
-          .collection('users')
-          .doc(userId)
-          .collection('following');
+  ) => _firestore.collection('users').doc(userId).collection('following');
 
   DocumentReference<Map<String, dynamic>> _followersDoc(
     String userId,
     String followerId,
-  ) =>
-      _followersCollection(userId).doc(followerId);
+  ) => _followersCollection(userId).doc(followerId);
 
   DocumentReference<Map<String, dynamic>> _followingDoc(
     String userId,
     String targetId,
-  ) =>
-      _followingCollection(userId).doc(targetId);
+  ) => _followingCollection(userId).doc(targetId);
 }

@@ -35,9 +35,9 @@ class VerificationMailer {
     required String fromEmail,
     required String appName,
     Duration otpTtl = const Duration(minutes: 10),
-  })  : _fromEmail = fromEmail,
-        _appName = appName,
-        _otpTtl = otpTtl;
+  }) : _fromEmail = fromEmail,
+       _appName = appName,
+       _otpTtl = otpTtl;
 
   // ignore: unused_field — stored for subclass/provider use or future from-address support
   final String _fromEmail;
@@ -58,10 +58,7 @@ class VerificationMailer {
     required String toEmail,
     required String otp,
   }) async {
-    PrimekitLogger.debug(
-      'Sending OTP email to $toEmail',
-      tag: _tag,
-    );
+    PrimekitLogger.debug('Sending OTP email to $toEmail', tag: _tag);
 
     final ttlLabel = _formatTtl(_otpTtl);
 
@@ -110,10 +107,7 @@ class VerificationMailer {
     required String toEmail,
     required String userName,
   }) async {
-    PrimekitLogger.debug(
-      'Sending welcome email to $toEmail',
-      tag: _tag,
-    );
+    PrimekitLogger.debug('Sending welcome email to $toEmail', tag: _tag);
 
     final message = EmailMessage(
       to: toEmail,
@@ -130,7 +124,8 @@ class VerificationMailer {
   // Text templates
   // ---------------------------------------------------------------------------
 
-  String _otpTextBody({required String otp, required String ttlLabel}) => '''
+  String _otpTextBody({required String otp, required String ttlLabel}) =>
+      '''
 Your $_appName verification code
 
 $otp
@@ -142,7 +137,8 @@ If you did not request this code, please ignore this email.
 — The $_appName team
 ''';
 
-  String _linkTextBody({required String verificationUrl}) => '''
+  String _linkTextBody({required String verificationUrl}) =>
+      '''
 Verify your email address
 
 Please click the link below to verify your $_appName account:
@@ -155,7 +151,8 @@ please ignore this email.
 — The $_appName team
 ''';
 
-  String _welcomeTextBody({required String userName}) => '''
+  String _welcomeTextBody({required String userName}) =>
+      '''
 Welcome to $_appName, $userName!
 
 We're thrilled to have you on board. Your account is all set up and ready to go.

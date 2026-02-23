@@ -132,10 +132,7 @@ void main() {
     });
 
     test('unsupported type throws ArgumentError on get', () async {
-      await expectLater(
-        () => prefs.get<List<int>>('bad'),
-        throwsArgumentError,
-      );
+      await expectLater(() => prefs.get<List<int>>('bad'), throwsArgumentError);
     });
   });
 

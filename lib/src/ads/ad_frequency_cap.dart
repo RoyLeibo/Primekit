@@ -21,11 +21,9 @@ class AdFrequencyCap {
   ///
   /// [maxPerSession] is the maximum number of ads shown per app session.
   /// [maxPerDay] is the maximum number of ads shown in a calendar day.
-  AdFrequencyCap({
-    int maxPerSession = 5,
-    int maxPerDay = 20,
-  })  : _maxPerSession = maxPerSession.clamp(1, 1000),
-        _maxPerDay = maxPerDay.clamp(1, 10000);
+  AdFrequencyCap({int maxPerSession = 5, int maxPerDay = 20})
+    : _maxPerSession = maxPerSession.clamp(1, 1000),
+      _maxPerDay = maxPerDay.clamp(1, 10000);
 
   final int _maxPerSession;
   final int _maxPerDay;
@@ -76,10 +74,7 @@ class AdFrequencyCap {
   /// and returns after a significant gap).
   void resetSession() {
     _sessionImpressions = 0;
-    PrimekitLogger.debug(
-      'AdFrequencyCap: session counter reset.',
-      tag: _tag,
-    );
+    PrimekitLogger.debug('AdFrequencyCap: session counter reset.', tag: _tag);
   }
 
   // ---------------------------------------------------------------------------
@@ -93,8 +88,9 @@ class AdFrequencyCap {
     try {
       final prefs = await SharedPreferences.getInstance();
       final dateStr = prefs.getString(_prefsKeyDate);
-      final storedDate =
-          dateStr != null ? DateTime.parse(dateStr) : _startOfToday();
+      final storedDate = dateStr != null
+          ? DateTime.parse(dateStr)
+          : _startOfToday();
 
       if (_isSameDay(storedDate, _startOfToday())) {
         _todayImpressions = prefs.getInt(_prefsKeyToday) ?? 0;
@@ -122,10 +118,7 @@ class AdFrequencyCap {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt(_prefsKeyToday, _todayImpressions);
-      await prefs.setString(
-        _prefsKeyDate,
-        _startOfToday().toIso8601String(),
-      );
+      await prefs.setString(_prefsKeyDate, _startOfToday().toIso8601String());
     } catch (e, stack) {
       PrimekitLogger.error(
         'AdFrequencyCap: failed to persist impression count.',

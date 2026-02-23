@@ -209,10 +209,8 @@ class ActivityFeed {
   /// Creates an [ActivityFeed] backed by [source].
   ///
   /// [pageSize] — number of items returned per [loadPage] call.
-  ActivityFeed({
-    required ActivityFeedSource source,
-    this.pageSize = 20,
-  }) : _source = source;
+  ActivityFeed({required ActivityFeedSource source, this.pageSize = 20})
+    : _source = source;
 
   final ActivityFeedSource _source;
 
@@ -227,10 +225,7 @@ class ActivityFeed {
   ///
   /// [page] — zero-based page index.
   Future<List<FeedItem>> loadPage(int page) async {
-    final rawList = await _source.fetchPage(
-      page: page,
-      pageSize: pageSize,
-    );
+    final rawList = await _source.fetchPage(page: page, pageSize: pageSize);
     return rawList.map(_fromMap).toList(growable: false);
   }
 
@@ -239,16 +234,14 @@ class ActivityFeed {
   // ---------------------------------------------------------------------------
 
   /// Stream of new [FeedItem]s arriving in real time.
-  Stream<FeedItem> get newItems =>
-      _source.watchNewItems().map(_fromMap);
+  Stream<FeedItem> get newItems => _source.watchNewItems().map(_fromMap);
 
   // ---------------------------------------------------------------------------
   // publishItem
   // ---------------------------------------------------------------------------
 
   /// Publishes [item] to the backend.
-  Future<void> publishItem(FeedItem item) =>
-      _source.publish(_toMap(item));
+  Future<void> publishItem(FeedItem item) => _source.publish(_toMap(item));
 
   // ---------------------------------------------------------------------------
   // Private serialisation helpers
@@ -262,8 +255,7 @@ class ActivityFeed {
     final timestamp = map['timestamp'] is String
         ? DateTime.parse(map['timestamp'] as String)
         : DateTime.now();
-    final metadata =
-        (map['metadata'] as Map<String, dynamic>?) ?? {};
+    final metadata = (map['metadata'] as Map<String, dynamic>?) ?? {};
     final type = map['type'] as String? ?? 'custom';
 
     switch (type) {
@@ -327,25 +319,16 @@ class ActivityFeed {
       'timestamp': item.timestamp.toIso8601String(),
       'metadata': item.metadata,
       if (item.actorName != null) 'actorName': item.actorName,
-      if (item.actorAvatarUrl != null)
-        'actorAvatarUrl': item.actorAvatarUrl,
+      if (item.actorAvatarUrl != null) 'actorAvatarUrl': item.actorAvatarUrl,
     };
 
     switch (item) {
       case PostFeedItem():
         return {...base, 'type': 'post'};
       case LikeFeedItem():
-        return {
-          ...base,
-          'type': 'like',
-          'targetId': item.targetId,
-        };
+        return {...base, 'type': 'like', 'targetId': item.targetId};
       case FollowFeedItem():
-        return {
-          ...base,
-          'type': 'follow',
-          'targetUserId': item.targetUserId,
-        };
+        return {...base, 'type': 'follow', 'targetUserId': item.targetUserId};
       case CommentFeedItem():
         return {
           ...base,

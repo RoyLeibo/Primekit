@@ -38,13 +38,13 @@ final class MongoFlagProvider implements FlagProvider {
     String collection = 'feature_flags',
     Duration cacheTtl = const Duration(hours: 1),
     Dio? dio,
-  })  : _baseUrl = baseUrl,
-        _apiKey = apiKey,
-        _dataSource = dataSource,
-        _database = database,
-        _collection = collection,
-        _cacheTtl = cacheTtl,
-        _dio = dio ?? Dio();
+  }) : _baseUrl = baseUrl,
+       _apiKey = apiKey,
+       _dataSource = dataSource,
+       _database = database,
+       _collection = collection,
+       _cacheTtl = cacheTtl,
+       _dio = dio ?? Dio();
 
   final String _baseUrl;
   final String _apiKey;
@@ -161,19 +161,13 @@ final class MongoFlagProvider implements FlagProvider {
 
       final body = response.data;
       if (body == null) {
-        PrimekitLogger.warning(
-          'Atlas API returned null body.',
-          tag: _tag,
-        );
+        PrimekitLogger.warning('Atlas API returned null body.', tag: _tag);
         return;
       }
 
       final docs = body['documents'];
       if (docs is! List<dynamic>) {
-        PrimekitLogger.warning(
-          'Unexpected Atlas response shape.',
-          tag: _tag,
-        );
+        PrimekitLogger.warning('Unexpected Atlas response shape.', tag: _tag);
         return;
       }
 

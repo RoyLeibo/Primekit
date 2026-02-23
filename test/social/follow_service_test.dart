@@ -38,10 +38,7 @@ void main() {
         await service.follow(followerId: 'userA', targetId: 'userB');
 
         verify(
-          () => mockSource.follow(
-            followerId: 'userA',
-            targetId: 'userB',
-          ),
+          () => mockSource.follow(followerId: 'userA', targetId: 'userB'),
         ).called(1);
       });
     });
@@ -62,10 +59,7 @@ void main() {
         await service.unfollow(followerId: 'userA', targetId: 'userB');
 
         verify(
-          () => mockSource.unfollow(
-            followerId: 'userA',
-            targetId: 'userB',
-          ),
+          () => mockSource.unfollow(followerId: 'userA', targetId: 'userB'),
         ).called(1);
       });
     });
@@ -115,33 +109,23 @@ void main() {
     group('getFollowers()', () {
       test('delegates to source.getFollowers', () async {
         when(
-          () => mockSource.getFollowers(
-            any(),
-            limit: any(named: 'limit'),
-          ),
+          () => mockSource.getFollowers(any(), limit: any(named: 'limit')),
         ).thenAnswer((_) async => ['userA', 'userB']);
 
         final followers = await service.getFollowers('userC');
 
         expect(followers, containsAll(['userA', 'userB']));
-        verify(
-          () => mockSource.getFollowers('userC', limit: null),
-        ).called(1);
+        verify(() => mockSource.getFollowers('userC', limit: null)).called(1);
       });
 
       test('passes limit to source', () async {
         when(
-          () => mockSource.getFollowers(
-            any(),
-            limit: any(named: 'limit'),
-          ),
+          () => mockSource.getFollowers(any(), limit: any(named: 'limit')),
         ).thenAnswer((_) async => ['userA']);
 
         await service.getFollowers('userC', limit: 10);
 
-        verify(
-          () => mockSource.getFollowers('userC', limit: 10),
-        ).called(1);
+        verify(() => mockSource.getFollowers('userC', limit: 10)).called(1);
       });
     });
 
@@ -152,18 +136,13 @@ void main() {
     group('getFollowing()', () {
       test('delegates to source.getFollowing', () async {
         when(
-          () => mockSource.getFollowing(
-            any(),
-            limit: any(named: 'limit'),
-          ),
+          () => mockSource.getFollowing(any(), limit: any(named: 'limit')),
         ).thenAnswer((_) async => ['userX', 'userY']);
 
         final following = await service.getFollowing('userA');
 
         expect(following, containsAll(['userX', 'userY']));
-        verify(
-          () => mockSource.getFollowing('userA', limit: null),
-        ).called(1);
+        verify(() => mockSource.getFollowing('userA', limit: null)).called(1);
       });
     });
   });

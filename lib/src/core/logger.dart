@@ -33,14 +33,13 @@ abstract final class PrimekitLogger {
     String? tag,
     Object? error,
     StackTrace? stackTrace,
-  }) =>
-      _log(
-        PrimekitLogLevel.error,
-        message,
-        tag: tag,
-        error: error,
-        stackTrace: stackTrace,
-      );
+  }) => _log(
+    PrimekitLogLevel.error,
+    message,
+    tag: tag,
+    error: error,
+    stackTrace: stackTrace,
+  );
 
   static void _log(
     PrimekitLogLevel level,

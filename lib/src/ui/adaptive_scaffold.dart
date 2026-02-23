@@ -78,18 +78,18 @@ class AdaptiveScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, constraints) {
-          final width = constraints.maxWidth;
+    builder: (context, constraints) {
+      final width = constraints.maxWidth;
 
-          if (width < _mobileBreakpoint) {
-            return _MobileScaffold(scaffold: this);
-          } else if (width < _tabletBreakpoint) {
-            return _TabletScaffold(scaffold: this);
-          } else {
-            return _DesktopScaffold(scaffold: this);
-          }
-        },
-      );
+      if (width < _mobileBreakpoint) {
+        return _MobileScaffold(scaffold: this);
+      } else if (width < _tabletBreakpoint) {
+        return _TabletScaffold(scaffold: this);
+      } else {
+        return _DesktopScaffold(scaffold: this);
+      }
+    },
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -103,23 +103,23 @@ class _MobileScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: scaffold.appBar,
-        floatingActionButton: scaffold.floatingActionButton,
-        body: scaffold.body(scaffold.selectedIndex),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: scaffold.selectedIndex,
-          onDestinationSelected: scaffold.onDestinationSelected,
-          destinations: scaffold.destinations
-              .map(
-                (d) => NavigationDestination(
-                  icon: d.icon,
-                  selectedIcon: d.selectedIcon,
-                  label: d.label,
-                ),
-              )
-              .toList(),
-        ),
-      );
+    appBar: scaffold.appBar,
+    floatingActionButton: scaffold.floatingActionButton,
+    body: scaffold.body(scaffold.selectedIndex),
+    bottomNavigationBar: NavigationBar(
+      selectedIndex: scaffold.selectedIndex,
+      onDestinationSelected: scaffold.onDestinationSelected,
+      destinations: scaffold.destinations
+          .map(
+            (d) => NavigationDestination(
+              icon: d.icon,
+              selectedIcon: d.selectedIcon,
+              label: d.label,
+            ),
+          )
+          .toList(),
+    ),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -133,30 +133,29 @@ class _TabletScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: scaffold.appBar,
-        floatingActionButton: scaffold.floatingActionButton,
-        body: Row(
-          children: [
-            NavigationRail(
-              selectedIndex: scaffold.selectedIndex,
-              onDestinationSelected:
-                  scaffold.onDestinationSelected ?? (_) {},
-              labelType: NavigationRailLabelType.selected,
-              destinations: scaffold.destinations
-                  .map(
-                    (d) => NavigationRailDestination(
-                      icon: d.icon,
-                      selectedIcon: d.selectedIcon,
-                      label: Text(d.label),
-                    ),
-                  )
-                  .toList(),
-            ),
-            const VerticalDivider(thickness: 1, width: 1),
-            Expanded(child: scaffold.body(scaffold.selectedIndex)),
-          ],
+    appBar: scaffold.appBar,
+    floatingActionButton: scaffold.floatingActionButton,
+    body: Row(
+      children: [
+        NavigationRail(
+          selectedIndex: scaffold.selectedIndex,
+          onDestinationSelected: scaffold.onDestinationSelected ?? (_) {},
+          labelType: NavigationRailLabelType.selected,
+          destinations: scaffold.destinations
+              .map(
+                (d) => NavigationRailDestination(
+                  icon: d.icon,
+                  selectedIcon: d.selectedIcon,
+                  label: Text(d.label),
+                ),
+              )
+              .toList(),
         ),
-      );
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(child: scaffold.body(scaffold.selectedIndex)),
+      ],
+    ),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -191,8 +190,7 @@ class _DesktopScaffold extends StatelessWidget {
                     _DrawerItem(
                       destination: scaffold.destinations[i],
                       isSelected: i == scaffold.selectedIndex,
-                      onTap: () =>
-                          scaffold.onDestinationSelected?.call(i),
+                      onTap: () => scaffold.onDestinationSelected?.call(i),
                       textTheme: textTheme,
                       colorScheme: colorScheme,
                     ),
@@ -225,49 +223,40 @@ class _DrawerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-        child: Material(
-          color: isSelected
-              ? colorScheme.secondaryContainer
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(28),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(28),
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+    child: Material(
+      color: isSelected ? colorScheme.secondaryContainer : Colors.transparent,
+      borderRadius: BorderRadius.circular(28),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(28),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            children: [
+              IconTheme(
+                data: IconThemeData(
+                  color: isSelected
+                      ? colorScheme.onSecondaryContainer
+                      : colorScheme.onSurfaceVariant,
+                  size: 24,
+                ),
+                child: isSelected ? destination.selectedIcon : destination.icon,
               ),
-              child: Row(
-                children: [
-                  IconTheme(
-                    data: IconThemeData(
-                      color: isSelected
-                          ? colorScheme.onSecondaryContainer
-                          : colorScheme.onSurfaceVariant,
-                      size: 24,
-                    ),
-                    child: isSelected
-                        ? destination.selectedIcon
-                        : destination.icon,
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    destination.label,
-                    style: textTheme.labelLarge?.copyWith(
-                      color: isSelected
-                          ? colorScheme.onSecondaryContainer
-                          : colorScheme.onSurfaceVariant,
-                      fontWeight: isSelected
-                          ? FontWeight.w600
-                          : FontWeight.w400,
-                    ),
-                  ),
-                ],
+              const SizedBox(width: 12),
+              Text(
+                destination.label,
+                style: textTheme.labelLarge?.copyWith(
+                  color: isSelected
+                      ? colorScheme.onSecondaryContainer
+                      : colorScheme.onSurfaceVariant,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                ),
               ),
-            ),
+            ],
           ),
         ),
-      );
+      ),
+    ),
+  );
 }

@@ -40,13 +40,12 @@ void main() {
     String loginPath = '/login',
     String? loadingPath,
     List<String>? publicPaths,
-  }) =>
-      ProtectedRouteGuard(
-        sessionManager: mockSession,
-        loginPath: loginPath,
-        loadingPath: loadingPath,
-        publicPaths: publicPaths,
-      );
+  }) => ProtectedRouteGuard(
+    sessionManager: mockSession,
+    loginPath: loginPath,
+    loadingPath: loadingPath,
+    publicPaths: publicPaths,
+  );
 
   void setLocation(String path) {
     when(() => mockRouterState.uri).thenReturn(Uri.parse(path));
@@ -68,10 +67,7 @@ void main() {
 
     test('includes additional paths supplied at construction', () {
       final guard = makeGuard(publicPaths: ['/about', '/terms']);
-      expect(
-        guard.publicPaths,
-        containsAll(['/login', '/about', '/terms']),
-      );
+      expect(guard.publicPaths, containsAll(['/login', '/about', '/terms']));
     });
   });
 
@@ -80,8 +76,9 @@ void main() {
   // ---------------------------------------------------------------------------
 
   group('SessionLoading', () {
-    testWidgets('redirects to loadingPath when not already there',
-        (tester) async {
+    testWidgets('redirects to loadingPath when not already there', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         Builder(
           builder: (context) {
@@ -144,8 +141,9 @@ void main() {
       );
     });
 
-    testWidgets('redirects authenticated user away from loginPath to /',
-        (tester) async {
+    testWidgets('redirects authenticated user away from loginPath to /', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         Builder(
           builder: (context) {
@@ -158,15 +156,17 @@ void main() {
       );
     });
 
-    testWidgets('allows access to public paths when authenticated',
-        (tester) async {
+    testWidgets('allows access to public paths when authenticated', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         Builder(
           builder: (context) {
             setSessionState(authenticated);
             setLocation('/about');
-            final result = makeGuard(publicPaths: ['/about'])
-                .redirect(context, mockRouterState);
+            final result = makeGuard(
+              publicPaths: ['/about'],
+            ).redirect(context, mockRouterState);
             expect(result, isNull);
             return const SizedBox.shrink();
           },
@@ -208,15 +208,17 @@ void main() {
       );
     });
 
-    testWidgets('allows access to explicitly listed public paths',
-        (tester) async {
+    testWidgets('allows access to explicitly listed public paths', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         Builder(
           builder: (context) {
             setSessionState(unauthenticated);
             setLocation('/terms');
-            final result = makeGuard(publicPaths: ['/terms'])
-                .redirect(context, mockRouterState);
+            final result = makeGuard(
+              publicPaths: ['/terms'],
+            ).redirect(context, mockRouterState);
             expect(result, isNull);
             return const SizedBox.shrink();
           },
@@ -238,22 +240,20 @@ void main() {
     });
 
     testWidgets(
-        'blocks access to path that only shares a prefix with a public path',
-        (tester) async {
-      await tester.pumpWidget(
-        Builder(
-          builder: (context) {
-            setSessionState(unauthenticated);
-            // /loginextra is not /login and does not start with /login/
-            setLocation('/loginextra');
-            expect(
-              makeGuard().redirect(context, mockRouterState),
-              '/login',
-            );
-            return const SizedBox.shrink();
-          },
-        ),
-      );
-    });
+      'blocks access to path that only shares a prefix with a public path',
+      (tester) async {
+        await tester.pumpWidget(
+          Builder(
+            builder: (context) {
+              setSessionState(unauthenticated);
+              // /loginextra is not /login and does not start with /login/
+              setLocation('/loginextra');
+              expect(makeGuard().redirect(context, mockRouterState), '/login');
+              return const SizedBox.shrink();
+            },
+          ),
+        );
+      },
+    );
   });
 }

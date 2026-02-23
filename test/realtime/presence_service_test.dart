@@ -66,9 +66,7 @@ class _InMemoryPresenceService extends PresenceService {
   Future<List<PresenceRecord>> getOnlineUsers({
     required String channelId,
   }) async =>
-      (_store[channelId]?.values ?? [])
-          .where((r) => r.isOnline)
-          .toList();
+      (_store[channelId]?.values ?? []).where((r) => r.isOnline).toList();
 
   void _notify(String channelId) {
     if (!_controllers.containsKey(channelId)) {

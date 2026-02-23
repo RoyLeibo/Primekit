@@ -31,12 +31,12 @@ final class PaginatedState<T> {
 
   /// Returns the empty initial state, ready for the first page load.
   PaginatedState.initial()
-      : items = <T>[],
-        isLoading = false,
-        isInitialLoad = true,
-        error = null,
-        hasMore = true,
-        page = 0;
+    : items = <T>[],
+      isLoading = false,
+      isInitialLoad = true,
+      error = null,
+      hasMore = true,
+      page = 0;
 
   /// All items accumulated across all loaded pages.
   final List<T> items;
@@ -66,42 +66,42 @@ final class PaginatedState<T> {
   PaginatedState<T> copyWithNextPage(
     List<T> newItems, {
     required bool hasMore,
-  }) =>
-      PaginatedState<T>(
-        items: [...items, ...newItems],
-        isLoading: false,
-        isInitialLoad: false,
-        error: null,
-        hasMore: hasMore,
-        page: page + 1,
-      );
+  }) => PaginatedState<T>(
+    items: [...items, ...newItems],
+    isLoading: false,
+    isInitialLoad: false,
+    error: null,
+    hasMore: hasMore,
+    page: page + 1,
+  );
 
   /// Returns a new state that records [error] while keeping existing [items].
   PaginatedState<T> copyWithError(Object error) => PaginatedState<T>(
-        items: items,
-        isLoading: false,
-        isInitialLoad: isInitialLoad,
-        error: error,
-        hasMore: hasMore,
-        page: page,
-      );
+    items: items,
+    isLoading: false,
+    isInitialLoad: isInitialLoad,
+    error: error,
+    hasMore: hasMore,
+    page: page,
+  );
 
   /// Returns a new state with [isLoading] set to `true`, clearing any error.
   PaginatedState<T> copyWithLoading() => PaginatedState<T>(
-        items: items,
-        isLoading: true,
-        isInitialLoad: isInitialLoad,
-        error: null,
-        hasMore: hasMore,
-        page: page,
-      );
+    items: items,
+    isLoading: true,
+    isInitialLoad: isInitialLoad,
+    error: null,
+    hasMore: hasMore,
+    page: page,
+  );
 
   /// Returns the [PaginatedState.initial] state, clearing all items and
   /// pagination metadata.
   PaginatedState<T> reset() => PaginatedState.initial();
 
   @override
-  String toString() => 'PaginatedState<$T>('
+  String toString() =>
+      'PaginatedState<$T>('
       'items: ${items.length}, '
       'page: $page, '
       'hasMore: $hasMore, '

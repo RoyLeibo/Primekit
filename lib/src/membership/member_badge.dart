@@ -71,11 +71,7 @@ class MemberBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (showIcon) ...[
-            Icon(
-              Icons.star_rounded,
-              color: textColor,
-              size: metrics.iconSize,
-            ),
+            Icon(Icons.star_rounded, color: textColor, size: metrics.iconSize),
             SizedBox(width: metrics.iconSpacing),
           ],
           Text(
@@ -104,33 +100,32 @@ class MemberBadge extends StatelessWidget {
     return luminance > 0.35 ? const Color(0xFF1A1A1A) : Colors.white;
   }
 
-  static _BadgeSizeMetrics _sizeMetrics(MemberBadgeSize size) =>
-      switch (size) {
-        MemberBadgeSize.small => const _BadgeSizeMetrics(
-            horizontalPadding: 6,
-            verticalPadding: 2,
-            borderRadius: 4,
-            fontSize: 9,
-            iconSize: 9,
-            iconSpacing: 2,
-          ),
-        MemberBadgeSize.medium => const _BadgeSizeMetrics(
-            horizontalPadding: 8,
-            verticalPadding: 3,
-            borderRadius: 6,
-            fontSize: 11,
-            iconSize: 11,
-            iconSpacing: 3,
-          ),
-        MemberBadgeSize.large => const _BadgeSizeMetrics(
-            horizontalPadding: 12,
-            verticalPadding: 5,
-            borderRadius: 8,
-            fontSize: 14,
-            iconSize: 14,
-            iconSpacing: 4,
-          ),
-      };
+  static _BadgeSizeMetrics _sizeMetrics(MemberBadgeSize size) => switch (size) {
+    MemberBadgeSize.small => const _BadgeSizeMetrics(
+      horizontalPadding: 6,
+      verticalPadding: 2,
+      borderRadius: 4,
+      fontSize: 9,
+      iconSize: 9,
+      iconSpacing: 2,
+    ),
+    MemberBadgeSize.medium => const _BadgeSizeMetrics(
+      horizontalPadding: 8,
+      verticalPadding: 3,
+      borderRadius: 6,
+      fontSize: 11,
+      iconSize: 11,
+      iconSpacing: 3,
+    ),
+    MemberBadgeSize.large => const _BadgeSizeMetrics(
+      horizontalPadding: 12,
+      verticalPadding: 5,
+      borderRadius: 8,
+      fontSize: 14,
+      iconSize: 14,
+      iconSpacing: 4,
+    ),
+  };
 }
 
 /// Holds the visual dimensions for a given [MemberBadgeSize].

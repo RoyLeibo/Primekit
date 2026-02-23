@@ -78,7 +78,8 @@ final class BackgroundConstraints {
   final bool requiresDeviceIdle;
 
   @override
-  String toString() => 'BackgroundConstraints('
+  String toString() =>
+      'BackgroundConstraints('
       'networkType: $networkType, '
       'requiresCharging: $requiresCharging, '
       'requiresDeviceIdle: $requiresDeviceIdle)';
@@ -115,7 +116,8 @@ final class TaskConfig {
   final int? maxRetries;
 
   @override
-  String toString() => 'TaskConfig(taskId: $taskId, '
+  String toString() =>
+      'TaskConfig(taskId: $taskId, '
       'initialDelay: $initialDelay, '
       'constraints: $constraints)';
 }

@@ -12,16 +12,12 @@ import 'validation_result.dart';
 ///     .required();
 /// ```
 final class PkDateSchema extends PkSchema<DateTime> {
-  PkDateSchema._({
-    required bool required,
-    required List<_DateRule> rules,
-  })  : _required = required,
-        _rules = rules;
+  PkDateSchema._({required bool required, required List<_DateRule> rules})
+    : _required = required,
+      _rules = rules;
 
   /// Creates a new date schema with no constraints.
-  PkDateSchema()
-      : _required = true,
-        _rules = const [];
+  PkDateSchema() : _required = true, _rules = const [];
 
   final bool _required;
   final List<_DateRule> _rules;
@@ -41,63 +37,63 @@ final class PkDateSchema extends PkSchema<DateTime> {
 
   /// Validates that the date is after [date] (exclusive).
   PkDateSchema after(DateTime date, {String? message}) => _copyWith(
-        extraRules: [
-          _DateRule(
-            test: (v) => v.isAfter(date),
-            message: message ?? 'Must be after ${date.toIso8601String()}',
-          ),
-        ],
-      );
+    extraRules: [
+      _DateRule(
+        test: (v) => v.isAfter(date),
+        message: message ?? 'Must be after ${date.toIso8601String()}',
+      ),
+    ],
+  );
 
   /// Validates that the date is before [date] (exclusive).
   PkDateSchema before(DateTime date, {String? message}) => _copyWith(
-        extraRules: [
-          _DateRule(
-            test: (v) => v.isBefore(date),
-            message: message ?? 'Must be before ${date.toIso8601String()}',
-          ),
-        ],
-      );
+    extraRules: [
+      _DateRule(
+        test: (v) => v.isBefore(date),
+        message: message ?? 'Must be before ${date.toIso8601String()}',
+      ),
+    ],
+  );
 
   /// Validates that the date is on or after [date].
   PkDateSchema notBefore(DateTime date, {String? message}) => _copyWith(
-        extraRules: [
-          _DateRule(
-            test: (v) => !v.isBefore(date),
-            message: message ?? 'Must not be before ${date.toIso8601String()}',
-          ),
-        ],
-      );
+    extraRules: [
+      _DateRule(
+        test: (v) => !v.isBefore(date),
+        message: message ?? 'Must not be before ${date.toIso8601String()}',
+      ),
+    ],
+  );
 
   /// Validates that the date is on or before [date].
   PkDateSchema notAfter(DateTime date, {String? message}) => _copyWith(
-        extraRules: [
-          _DateRule(
-            test: (v) => !v.isAfter(date),
-            message: message ?? 'Must not be after ${date.toIso8601String()}',
-          ),
-        ],
-      );
+    extraRules: [
+      _DateRule(
+        test: (v) => !v.isAfter(date),
+        message: message ?? 'Must not be after ${date.toIso8601String()}',
+      ),
+    ],
+  );
 
   /// Validates that the date is in the past (before now).
   PkDateSchema inPast({String? message}) => _copyWith(
-        extraRules: [
-          _DateRule(
-            test: (v) => v.isBefore(DateTime.now()),
-            message: message ?? 'Must be a date in the past',
-          ),
-        ],
-      );
+    extraRules: [
+      _DateRule(
+        test: (v) => v.isBefore(DateTime.now()),
+        message: message ?? 'Must be a date in the past',
+      ),
+    ],
+  );
 
   /// Validates that the date is in the future (after now).
   PkDateSchema inFuture({String? message}) => _copyWith(
-        extraRules: [
-          _DateRule(
-            test: (v) => v.isAfter(DateTime.now()),
-            message: message ?? 'Must be a date in the future',
-          ),
-        ],
-      );
+    extraRules: [
+      _DateRule(
+        test: (v) => v.isAfter(DateTime.now()),
+        message: message ?? 'Must be a date in the future',
+      ),
+    ],
+  );
 
   // ---------------------------------------------------------------------------
   // Validation
@@ -138,11 +134,10 @@ final class PkDateSchema extends PkSchema<DateTime> {
   PkDateSchema _copyWith({
     bool? required,
     List<_DateRule> extraRules = const [],
-  }) =>
-      PkDateSchema._(
-        required: required ?? _required,
-        rules: [..._rules, ...extraRules],
-      );
+  }) => PkDateSchema._(
+    required: required ?? _required,
+    rules: [..._rules, ...extraRules],
+  );
 }
 
 // ---------------------------------------------------------------------------

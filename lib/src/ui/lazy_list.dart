@@ -143,16 +143,12 @@ class _LazyListState<T> extends State<LazyList<T>> {
                   const SizedBox(height: 12),
                   const Text('Failed to load data.'),
                   const SizedBox(height: 12),
-                  FilledButton(
-                    onPressed: _retry,
-                    child: const Text('Retry'),
-                  ),
+                  FilledButton(onPressed: _retry, child: const Text('Retry')),
                 ],
               ),
             );
       }
-      return widget.emptyWidget ??
-          const Center(child: Text('No items found.'));
+      return widget.emptyWidget ?? const Center(child: Text('No items found.'));
     }
 
     // Item count includes a bottom sentinel slot for loading/end indicator.
@@ -182,10 +178,7 @@ class _LazyListState<T> extends State<LazyList<T>> {
                     style: TextStyle(color: colorScheme.error),
                   ),
                   const SizedBox(height: 8),
-                  TextButton(
-                    onPressed: _retry,
-                    child: const Text('Retry'),
-                  ),
+                  TextButton(onPressed: _retry, child: const Text('Retry')),
                 ],
               ),
             ),
@@ -195,7 +188,8 @@ class _LazyListState<T> extends State<LazyList<T>> {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Center(
-            child: widget.loadingWidget ??
+            child:
+                widget.loadingWidget ??
                 SizedBox(
                   width: 24,
                   height: 24,

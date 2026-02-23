@@ -30,10 +30,7 @@ void main() {
     });
 
     test('get throws ConfigurationException when not configured', () {
-      expect(
-        () => service.get<bool>(darkMode),
-        throwsA(isA<Exception>()),
-      );
+      expect(() => service.get<bool>(darkMode), throwsA(isA<Exception>()));
     });
   });
 
@@ -43,12 +40,14 @@ void main() {
 
   group('get', () {
     setUp(() {
-      service.configure(LocalFlagProvider({
-        'dark_mode': true,
-        'max_items': 50,
-        'greeting': 'Hi',
-        'threshold': 0.8,
-      }));
+      service.configure(
+        LocalFlagProvider({
+          'dark_mode': true,
+          'max_items': 50,
+          'greeting': 'Hi',
+          'threshold': 0.8,
+        }),
+      );
     });
 
     test('returns provider value for existing key', () {
@@ -116,10 +115,9 @@ void main() {
     });
 
     test('clearAllOverrides removes all overrides', () {
-      service.configure(LocalFlagProvider({
-        'dark_mode': false,
-        'max_items': 10,
-      }));
+      service.configure(
+        LocalFlagProvider({'dark_mode': false, 'max_items': 10}),
+      );
       service.setOverride(darkMode, true);
       service.setOverride(maxItems, 99);
       service.clearAllOverrides();

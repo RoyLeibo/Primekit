@@ -60,8 +60,7 @@ void main() {
       });
 
       test('returns true for image/jpeg MIME type', () {
-        const file =
-            MediaFile(path: '/tmp/photo.dat', mimeType: 'image/jpeg');
+        const file = MediaFile(path: '/tmp/photo.dat', mimeType: 'image/jpeg');
         expect(file.isImage, isTrue);
       });
 
@@ -71,8 +70,7 @@ void main() {
       });
 
       test('returns false with video MIME type', () {
-        const file =
-            MediaFile(path: '/tmp/video.dat', mimeType: 'video/mp4');
+        const file = MediaFile(path: '/tmp/video.dat', mimeType: 'video/mp4');
         expect(file.isImage, isFalse);
       });
     });
@@ -93,8 +91,7 @@ void main() {
       });
 
       test('returns true for video/mp4 MIME type', () {
-        const file =
-            MediaFile(path: '/tmp/clip.dat', mimeType: 'video/mp4');
+        const file = MediaFile(path: '/tmp/clip.dat', mimeType: 'video/mp4');
         expect(file.isVideo, isTrue);
       });
 

@@ -29,11 +29,11 @@ final class Todo {
   });
 
   factory Todo.fromJson(Map<String, dynamic> json) => Todo(
-        id: json['id'] as String,
-        title: json['title'] as String,
-        done: json['done'] as bool? ?? false,
-        isDeleted: json['isDeleted'] as bool? ?? false,
-      );
+    id: json['id'] as String,
+    title: json['title'] as String,
+    done: json['done'] as bool? ?? false,
+    isDeleted: json['isDeleted'] as bool? ?? false,
+  );
 
   final String id;
   final String title;
@@ -41,11 +41,11 @@ final class Todo {
   final bool isDeleted;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'done': done,
-        'isDeleted': isDeleted,
-      };
+    'id': id,
+    'title': title,
+    'done': done,
+    'isDeleted': isDeleted,
+  };
 
   @override
   String toString() => 'Todo(id: $id, title: $title, done: $done)';
@@ -87,10 +87,12 @@ SyncRepository<Todo> _makeRepo({
     ),
   ).thenAnswer((_) async {});
 
-  when(() => dataSource.watchCollection(
-        collection: any(named: 'collection'),
-        userId: any(named: 'userId'),
-      )).thenAnswer((_) => const Stream.empty());
+  when(
+    () => dataSource.watchCollection(
+      collection: any(named: 'collection'),
+      userId: any(named: 'userId'),
+    ),
+  ).thenAnswer((_) => const Stream.empty());
 
   when(() => dataSource.providerId).thenReturn('mock');
 
@@ -100,7 +102,8 @@ SyncRepository<Todo> _makeRepo({
     fromJson: Todo.fromJson,
     conflictResolver: conflictResolver,
     syncInterval: const Duration(hours: 24), // disable auto-sync in tests
-    pendingChangeStore: pendingChangeStore ??
+    pendingChangeStore:
+        pendingChangeStore ??
         PendingChangeStore(storageKey: 'test_pending_$collection'),
   );
 }
@@ -153,8 +156,9 @@ void main() {
 
       when(() => source.providerId).thenReturn('mock');
 
-      final pendingStore =
-          PendingChangeStore(storageKey: 'test_pending_getAll_offline');
+      final pendingStore = PendingChangeStore(
+        storageKey: 'test_pending_getAll_offline',
+      );
       final repo = SyncRepository<Todo>(
         collection: 'todos',
         remoteSource: source,
@@ -239,8 +243,9 @@ void main() {
 
   group('create()', () {
     test('adds document to local store and pending queue', () async {
-      final pendingStore =
-          PendingChangeStore(storageKey: 'test_pending_create');
+      final pendingStore = PendingChangeStore(
+        storageKey: 'test_pending_create',
+      );
       final repo = _makeRepo(pendingChangeStore: pendingStore);
       addTearDown(repo.dispose);
 
@@ -268,16 +273,20 @@ void main() {
       final repo = _makeRepo();
       addTearDown(repo.dispose);
 
-      final todo = await repo
-          .create({'id': 'explicit-id', 'title': 'Explicit', 'done': false});
+      final todo = await repo.create({
+        'id': 'explicit-id',
+        'title': 'Explicit',
+        'done': false,
+      });
       expect(todo.id, 'explicit-id');
     });
   });
 
   group('update()', () {
     test('merges data into local store and queues change', () async {
-      final pendingStore =
-          PendingChangeStore(storageKey: 'test_pending_update');
+      final pendingStore = PendingChangeStore(
+        storageKey: 'test_pending_update',
+      );
       final repo = _makeRepo(pendingChangeStore: pendingStore);
       addTearDown(repo.dispose);
 
@@ -321,8 +330,9 @@ void main() {
 
   group('delete()', () {
     test('soft-deletes document and queues change', () async {
-      final pendingStore =
-          PendingChangeStore(storageKey: 'test_pending_delete');
+      final pendingStore = PendingChangeStore(
+        storageKey: 'test_pending_delete',
+      );
       final repo = _makeRepo(pendingChangeStore: pendingStore);
       addTearDown(repo.dispose);
 
@@ -355,8 +365,9 @@ void main() {
   group('syncNow()', () {
     test('pushes pending changes to mock remote', () async {
       final source = MockSyncDataSource();
-      final pendingStore =
-          PendingChangeStore(storageKey: 'test_pending_syncNow');
+      final pendingStore = PendingChangeStore(
+        storageKey: 'test_pending_syncNow',
+      );
 
       final capturedBatches = <List<SyncChange>>[];
 
@@ -367,7 +378,8 @@ void main() {
         ),
       ).thenAnswer((invocation) async {
         capturedBatches.add(
-          invocation.namedArguments[const Symbol('changes')] as List<SyncChange>,
+          invocation.namedArguments[const Symbol('changes')]
+              as List<SyncChange>,
         );
       });
 
@@ -396,8 +408,7 @@ void main() {
       await repo.syncNow();
 
       expect(capturedBatches, isNotEmpty);
-      final allIds =
-          capturedBatches.expand((b) => b).map((c) => c.id).toSet();
+      final allIds = capturedBatches.expand((b) => b).map((c) => c.id).toSet();
       expect(allIds, containsAll(['todo-1', 'todo-2']));
 
       // Pending store should be empty after sync
@@ -430,8 +441,9 @@ void main() {
         remoteSource: source,
         fromJson: Todo.fromJson,
         syncInterval: const Duration(hours: 24),
-        pendingChangeStore:
-            PendingChangeStore(storageKey: 'test_pending_idle_success'),
+        pendingChangeStore: PendingChangeStore(
+          storageKey: 'test_pending_idle_success',
+        ),
       );
       addTearDown(repo.dispose);
 
@@ -483,8 +495,9 @@ void main() {
         remoteSource: source,
         fromJson: Todo.fromJson,
         syncInterval: const Duration(hours: 24),
-        pendingChangeStore:
-            PendingChangeStore(storageKey: 'test_pending_error'),
+        pendingChangeStore: PendingChangeStore(
+          storageKey: 'test_pending_error',
+        ),
       );
       addTearDown(repo.dispose);
 
@@ -534,8 +547,9 @@ void main() {
         remoteSource: source,
         fromJson: Todo.fromJson,
         syncInterval: const Duration(hours: 24),
-        pendingChangeStore:
-            PendingChangeStore(storageKey: 'test_pending_concurrent'),
+        pendingChangeStore: PendingChangeStore(
+          storageKey: 'test_pending_concurrent',
+        ),
       );
       addTearDown(repo.dispose);
 
@@ -589,17 +603,14 @@ void main() {
         remoteSource: source,
         fromJson: Todo.fromJson,
         syncInterval: const Duration(hours: 24),
-        pendingChangeStore:
-            PendingChangeStore(storageKey: 'test_pending_fullSync'),
+        pendingChangeStore: PendingChangeStore(
+          storageKey: 'test_pending_fullSync',
+        ),
       );
       addTearDown(repo.dispose);
 
       // Create local document that should be wiped
-      await repo.create({
-        'id': 'local-only',
-        'title': 'Local',
-        'done': false,
-      });
+      await repo.create({'id': 'local-only', 'title': 'Local', 'done': false});
 
       await repo.fullSync();
 
@@ -690,8 +701,9 @@ void main() {
         fromJson: Todo.fromJson,
         conflictResolver: LastWriteWinsResolver<Todo>(),
         syncInterval: const Duration(hours: 24),
-        pendingChangeStore:
-            PendingChangeStore(storageKey: 'test_pending_lww_local'),
+        pendingChangeStore: PendingChangeStore(
+          storageKey: 'test_pending_lww_local',
+        ),
       );
       addTearDown(repo.dispose);
 
@@ -744,8 +756,9 @@ void main() {
         fromJson: Todo.fromJson,
         conflictResolver: ServerWinsResolver<Todo>(),
         syncInterval: const Duration(hours: 24),
-        pendingChangeStore:
-            PendingChangeStore(storageKey: 'test_pending_server_wins'),
+        pendingChangeStore: PendingChangeStore(
+          storageKey: 'test_pending_server_wins',
+        ),
       );
       addTearDown(repo.dispose);
 
@@ -795,8 +808,7 @@ void main() {
     });
 
     test('enqueue adds to FIFO queue', () async {
-      final store =
-          PendingChangeStore(storageKey: 'test_pending_fifo');
+      final store = PendingChangeStore(storageKey: 'test_pending_fifo');
 
       final c1 = SyncChange(
         id: 'doc-1',
@@ -822,8 +834,7 @@ void main() {
     });
 
     test('count returns correct number of pending changes', () async {
-      final store =
-          PendingChangeStore(storageKey: 'test_pending_count');
+      final store = PendingChangeStore(storageKey: 'test_pending_count');
 
       expect(await store.count, 0);
 
@@ -842,8 +853,7 @@ void main() {
     });
 
     test('clear empties the store', () async {
-      final store =
-          PendingChangeStore(storageKey: 'test_pending_clear');
+      final store = PendingChangeStore(storageKey: 'test_pending_clear');
 
       await store.enqueue(
         SyncChange(
@@ -859,8 +869,7 @@ void main() {
     });
 
     test('remove deletes specified changes, leaves others', () async {
-      final store =
-          PendingChangeStore(storageKey: 'test_pending_remove');
+      final store = PendingChangeStore(storageKey: 'test_pending_remove');
 
       final c1 = SyncChange(
         id: 'doc-1',
@@ -908,34 +917,22 @@ void main() {
     });
 
     test('clearError removes error from copyWith', () {
-      const original = SyncState(
-        status: SyncStatus.error,
-        error: 'boom',
+      const original = SyncState(status: SyncStatus.error, error: 'boom');
+      final cleared = original.copyWith(
+        clearError: true,
+        status: SyncStatus.idle,
       );
-      final cleared = original.copyWith(clearError: true, status: SyncStatus.idle);
       expect(cleared.error, isNull);
     });
 
     test('progress assertion: out of range throws', () {
-      expect(
-        () => SyncState(progress: 1.5),
-        throwsAssertionError,
-      );
-      expect(
-        () => SyncState(progress: -0.1),
-        throwsAssertionError,
-      );
+      expect(() => SyncState(progress: 1.5), throwsAssertionError);
+      expect(() => SyncState(progress: -0.1), throwsAssertionError);
     });
 
     test('isSyncing predicate', () {
-      expect(
-        const SyncState(status: SyncStatus.syncing).isSyncing,
-        isTrue,
-      );
-      expect(
-        const SyncState(status: SyncStatus.idle).isSyncing,
-        isFalse,
-      );
+      expect(const SyncState(status: SyncStatus.syncing).isSyncing, isTrue);
+      expect(const SyncState(status: SyncStatus.idle).isSyncing, isFalse);
     });
   });
 
@@ -952,9 +949,7 @@ void main() {
       final sub = manager.stateStream.listen(states.add);
       addTearDown(sub.cancel);
 
-      manager.transition(
-        const SyncState(status: SyncStatus.syncing),
-      );
+      manager.transition(const SyncState(status: SyncStatus.syncing));
 
       await Future<void>.delayed(Duration.zero);
       expect(states, hasLength(1));

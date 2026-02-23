@@ -14,9 +14,7 @@ void main() {
 
   group('providerId', () {
     test('wraps delegate providerId', () {
-      final cache = CachedFlagProvider(
-        delegate: LocalFlagProvider({}),
-      );
+      final cache = CachedFlagProvider(delegate: LocalFlagProvider({}));
       expect(cache.providerId, 'cached(local)');
     });
   });
@@ -52,13 +50,10 @@ void main() {
     });
 
     test('returns defaultValue for keys not in delegate', () {
-      final cache = CachedFlagProvider(
-        delegate: LocalFlagProvider({}),
-      );
-      cache.seedCacheForTesting(
-        {'known': true},
-        cachedAt: DateTime.now().toUtc(),
-      );
+      final cache = CachedFlagProvider(delegate: LocalFlagProvider({}));
+      cache.seedCacheForTesting({
+        'known': true,
+      }, cachedAt: DateTime.now().toUtc());
       expect(cache.getBool('unknown', defaultValue: false), isFalse);
     });
   });
@@ -73,60 +68,42 @@ void main() {
         delegate: LocalFlagProvider({}),
         ttl: const Duration(hours: 1),
       );
-      cache.seedCacheForTesting(
-        {'my_flag': true},
-        cachedAt: DateTime.now().toUtc(),
-      );
+      cache.seedCacheForTesting({
+        'my_flag': true,
+      }, cachedAt: DateTime.now().toUtc());
       expect(cache.getBool('my_flag', defaultValue: false), isTrue);
     });
 
     test('returns seeded string value', () {
-      final cache = CachedFlagProvider(
-        delegate: LocalFlagProvider({}),
-      );
-      cache.seedCacheForTesting(
-        {'msg': 'cached!'},
-        cachedAt: DateTime.now().toUtc(),
-      );
+      final cache = CachedFlagProvider(delegate: LocalFlagProvider({}));
+      cache.seedCacheForTesting({
+        'msg': 'cached!',
+      }, cachedAt: DateTime.now().toUtc());
       expect(cache.getString('msg', defaultValue: ''), 'cached!');
     });
 
     test('returns seeded int value', () {
-      final cache = CachedFlagProvider(
-        delegate: LocalFlagProvider({}),
-      );
-      cache.seedCacheForTesting(
-        {'count': 99},
-        cachedAt: DateTime.now().toUtc(),
-      );
+      final cache = CachedFlagProvider(delegate: LocalFlagProvider({}));
+      cache.seedCacheForTesting({
+        'count': 99,
+      }, cachedAt: DateTime.now().toUtc());
       expect(cache.getInt('count', defaultValue: 0), 99);
     });
 
     test('returns seeded double value', () {
-      final cache = CachedFlagProvider(
-        delegate: LocalFlagProvider({}),
-      );
-      cache.seedCacheForTesting(
-        {'ratio': 0.75},
-        cachedAt: DateTime.now().toUtc(),
-      );
+      final cache = CachedFlagProvider(delegate: LocalFlagProvider({}));
+      cache.seedCacheForTesting({
+        'ratio': 0.75,
+      }, cachedAt: DateTime.now().toUtc());
       expect(cache.getDouble('ratio', defaultValue: 0.0), 0.75);
     });
 
     test('returns seeded JSON value', () {
-      final cache = CachedFlagProvider(
-        delegate: LocalFlagProvider({}),
-      );
-      cache.seedCacheForTesting(
-        {
-          'config': {'a': 1},
-        },
-        cachedAt: DateTime.now().toUtc(),
-      );
-      expect(
-        cache.getJson('config', defaultValue: {}),
-        {'a': 1},
-      );
+      final cache = CachedFlagProvider(delegate: LocalFlagProvider({}));
+      cache.seedCacheForTesting({
+        'config': {'a': 1},
+      }, cachedAt: DateTime.now().toUtc());
+      expect(cache.getJson('config', defaultValue: {}), {'a': 1});
     });
   });
 
@@ -142,17 +119,12 @@ void main() {
       );
       cache.seedCacheForTesting(
         {'flag': true},
-        cachedAt: DateTime.now().toUtc().subtract(
-              const Duration(seconds: 10),
-            ),
+        cachedAt: DateTime.now().toUtc().subtract(const Duration(seconds: 10)),
       );
       // Stale-while-revalidate: still returns the stale value immediately,
       // but triggers a background refresh (fire-and-forget).
       // The important contract is that the call does not throw.
-      expect(
-        () => cache.getBool('flag', defaultValue: false),
-        returnsNormally,
-      );
+      expect(() => cache.getBool('flag', defaultValue: false), returnsNormally);
     });
 
     test('returns stale value immediately when cache has expired', () {
@@ -161,10 +133,9 @@ void main() {
         ttl: const Duration(milliseconds: 1),
       );
       // Seed with stale data.
-      cache.seedCacheForTesting(
-        {'flag': true},
-        cachedAt: DateTime.now().toUtc().subtract(const Duration(seconds: 5)),
-      );
+      cache.seedCacheForTesting({
+        'flag': true,
+      }, cachedAt: DateTime.now().toUtc().subtract(const Duration(seconds: 5)));
       // Stale-while-revalidate: returns stale value.
       expect(cache.getBool('flag', defaultValue: false), isTrue);
     });

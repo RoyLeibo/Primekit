@@ -65,9 +65,7 @@ class ProfileService {
       if (data == null) return null;
       return UserProfile.fromJson(_normaliseId(userId, data));
     } catch (error) {
-      throw Exception(
-        'ProfileService.getProfile failed for "$userId": $error',
-      );
+      throw Exception('ProfileService.getProfile failed for "$userId": $error');
     }
   }
 
@@ -138,8 +136,7 @@ class ProfileService {
   static Map<String, dynamic> _normaliseId(
     String userId,
     Map<String, dynamic> data,
-  ) =>
-      {'id': userId, ...data};
+  ) => {'id': userId, ...data};
 }
 
 // ---------------------------------------------------------------------------
@@ -157,8 +154,8 @@ final class FirebaseProfileSource implements ProfileDataSource {
   FirebaseProfileSource({
     FirebaseFirestore? firestore,
     String collection = 'users',
-  })  : _firestore = firestore ?? FirebaseFirestore.instance,
-        _collection = collection;
+  }) : _firestore = firestore ?? FirebaseFirestore.instance,
+       _collection = collection;
 
   final FirebaseFirestore _firestore;
   final String _collection;

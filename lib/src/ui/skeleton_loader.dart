@@ -26,11 +26,7 @@ class SkeletonLoader extends StatefulWidget {
   ///
   /// When [isLoading] is `true` the shimmer placeholder is shown; otherwise
   /// [child] is rendered normally.
-  const SkeletonLoader({
-    required this.child,
-    this.isLoading = true,
-    super.key,
-  });
+  const SkeletonLoader({required this.child, this.isLoading = true, super.key});
 
   // ---------------------------------------------------------------------------
   // Pre-built factory methods
@@ -56,12 +52,11 @@ class SkeletonLoader extends StatefulWidget {
     Key? key,
     bool hasAvatar = true,
     int textLines = 2,
-  }) =>
-      _SkeletonListItemWidget(
-        key: key,
-        hasAvatar: hasAvatar,
-        textLines: textLines,
-      );
+  }) => _SkeletonListItemWidget(
+    key: key,
+    hasAvatar: hasAvatar,
+    textLines: textLines,
+  );
 
   // ---------------------------------------------------------------------------
   // Fields
@@ -148,11 +143,7 @@ class _SlidingGradientTransform extends GradientTransform {
 
 /// The core shimmer animation used by all pre-built skeletons.
 class _ShimmerBox extends StatefulWidget {
-  const _ShimmerBox({
-    this.width,
-    this.height = 16,
-    this.borderRadius = 8,
-  });
+  const _ShimmerBox({this.width, this.height = 16, this.borderRadius = 8});
 
   final double? width;
   final double height;
@@ -188,27 +179,27 @@ class _ShimmerBoxState extends State<_ShimmerBox>
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
-        animation: _anim,
-        builder: (context, _) => Container(
-          width: widget.width,
-          height: widget.height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.borderRadius),
-            gradient: LinearGradient(
-              begin: Alignment(_anim.value - 1, 0),
-              end: Alignment(_anim.value + 1, 0),
-              colors: const [
-                Color(0xFFE0E0E0),
-                Color(0xFFF5F5F5),
-                Color(0xFFBDBDBD),
-                Color(0xFFF5F5F5),
-                Color(0xFFE0E0E0),
-              ],
-              stops: const [0.0, 0.35, 0.5, 0.65, 1.0],
-            ),
-          ),
+    animation: _anim,
+    builder: (context, _) => Container(
+      width: widget.width,
+      height: widget.height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(widget.borderRadius),
+        gradient: LinearGradient(
+          begin: Alignment(_anim.value - 1, 0),
+          end: Alignment(_anim.value + 1, 0),
+          colors: const [
+            Color(0xFFE0E0E0),
+            Color(0xFFF5F5F5),
+            Color(0xFFBDBDBD),
+            Color(0xFFF5F5F5),
+            Color(0xFFE0E0E0),
+          ],
+          stops: const [0.0, 0.35, 0.5, 0.65, 1.0],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -216,31 +207,27 @@ class _ShimmerBoxState extends State<_ShimmerBox>
 // ---------------------------------------------------------------------------
 
 class _SkeletonTextWidget extends StatelessWidget {
-  const _SkeletonTextWidget({
-    required this.lines,
-    this.fixedWidth,
-    super.key,
-  });
+  const _SkeletonTextWidget({required this.lines, this.fixedWidth, super.key});
 
   final int lines;
   final double? fixedWidth;
 
   @override
   Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(lines, (index) {
-          final isLast = index == lines - 1;
-          return Padding(
-            padding: EdgeInsets.only(bottom: index < lines - 1 ? 8 : 0),
-            child: _ShimmerBox(
-              // Last line intentionally shorter to mimic real text wrapping.
-              width: isLast ? (fixedWidth ?? 160) : fixedWidth,
-              height: 14,
-            ),
-          );
-        }),
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
+    children: List.generate(lines, (index) {
+      final isLast = index == lines - 1;
+      return Padding(
+        padding: EdgeInsets.only(bottom: index < lines - 1 ? 8 : 0),
+        child: _ShimmerBox(
+          // Last line intentionally shorter to mimic real text wrapping.
+          width: isLast ? (fixedWidth ?? 160) : fixedWidth,
+          height: 14,
+        ),
       );
+    }),
+  );
 }
 
 class _SkeletonCardWidget extends StatelessWidget {
@@ -275,26 +262,23 @@ class _SkeletonListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Row(
-        children: [
-          if (hasAvatar) ...[
-            const _ShimmerBox(width: 48, height: 48, borderRadius: 24),
-            const SizedBox(width: 12),
+    children: [
+      if (hasAvatar) ...[
+        const _ShimmerBox(width: 48, height: 48, borderRadius: 24),
+        const SizedBox(width: 12),
+      ],
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (int i = 0; i < textLines; i++) ...[
+              _ShimmerBox(width: i == textLines - 1 ? 120 : null, height: 14),
+              if (i < textLines - 1) const SizedBox(height: 8),
+            ],
           ],
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (int i = 0; i < textLines; i++) ...[
-                  _ShimmerBox(
-                    width: i == textLines - 1 ? 120 : null,
-                    height: 14,
-                  ),
-                  if (i < textLines - 1) const SizedBox(height: 8),
-                ],
-              ],
-            ),
-          ),
-        ],
-      );
+        ),
+      ),
+    ],
+  );
 }

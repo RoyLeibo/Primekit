@@ -43,8 +43,7 @@ final class PermissionFlowResult {
   final Map<Permission, PermissionStatus> statuses;
 
   /// Returns `true` if every permission in [statuses] was granted.
-  bool get allGranted =>
-      statuses.values.every((s) => s.isGranted);
+  bool get allGranted => statuses.values.every((s) => s.isGranted);
 
   /// Returns `true` if every permission that had `required: true` was granted.
   ///
@@ -105,7 +104,10 @@ abstract final class PermissionFlow {
     BuildContext context,
     List<PermissionRequest> permissions,
   ) async {
-    assert(permissions.isNotEmpty, 'PermissionFlow requires at least one permission');
+    assert(
+      permissions.isNotEmpty,
+      'PermissionFlow requires at least one permission',
+    );
 
     final statuses = <Permission, PermissionStatus>{};
 
@@ -175,30 +177,29 @@ abstract final class PermissionFlow {
   static Future<void> _showPermanentlyDeniedDialog(
     BuildContext context,
     PermissionRequest req,
-  ) =>
-      showDialog<void>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text('${req.title} denied'),
-          content: Text(
-            'You have permanently denied ${req.title.toLowerCase()}. '
-            'To enable it, please open your device settings.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Cancel'),
-            ),
-            FilledButton(
-              onPressed: () async {
-                Navigator.of(ctx).pop();
-                await PermissionHelper.openSettings();
-              },
-              child: const Text('Open settings'),
-            ),
-          ],
+  ) => showDialog<void>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: Text('${req.title} denied'),
+      content: Text(
+        'You have permanently denied ${req.title.toLowerCase()}. '
+        'To enable it, please open your device settings.',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(ctx).pop(),
+          child: const Text('Cancel'),
         ),
-      );
+        FilledButton(
+          onPressed: () async {
+            Navigator.of(ctx).pop();
+            await PermissionHelper.openSettings();
+          },
+          child: const Text('Open settings'),
+        ),
+      ],
+    ),
+  );
 }
 
 // ---------------------------------------------------------------------------

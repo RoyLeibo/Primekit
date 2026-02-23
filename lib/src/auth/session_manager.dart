@@ -29,10 +29,7 @@ final class SessionUnauthenticated extends SessionState {
 
 /// The user is authenticated.
 final class SessionAuthenticated extends SessionState {
-  const SessionAuthenticated({
-    required this.userId,
-    this.userData,
-  });
+  const SessionAuthenticated({required this.userId, this.userData});
 
   /// The authenticated user's identifier.
   final String userId;
@@ -85,12 +82,13 @@ abstract class SessionStateProvider {
 /// final session = context.watch<SessionManager>();
 /// if (session.isAuthenticated) { ... }
 /// ```
-final class SessionManager extends ChangeNotifier implements SessionStateProvider {
+final class SessionManager extends ChangeNotifier
+    implements SessionStateProvider {
   SessionManager._internal({
     required TokenStoreBase tokenStore,
     required SecurePrefsBase securePrefs,
-  })  : _tokenStore = tokenStore,
-        _securePrefs = securePrefs;
+  }) : _tokenStore = tokenStore,
+       _securePrefs = securePrefs;
 
   static SessionManager? _instance;
 
@@ -143,10 +141,9 @@ final class SessionManager extends ChangeNotifier implements SessionStateProvide
   bool get isAuthenticated => _state is SessionAuthenticated;
 
   /// The authenticated user's identifier, or `null` when unauthenticated.
-  String? get currentUserId =>
-      _state is SessionAuthenticated
-          ? (_state as SessionAuthenticated).userId
-          : null;
+  String? get currentUserId => _state is SessionAuthenticated
+      ? (_state as SessionAuthenticated).userId
+      : null;
 
   // ---------------------------------------------------------------------------
   // Restore
@@ -182,9 +179,7 @@ final class SessionManager extends ChangeNotifier implements SessionStateProvide
       }
 
       final userDataJson = await _securePrefs.getJson(_keyUserData);
-      _emitState(
-        SessionAuthenticated(userId: userId, userData: userDataJson),
-      );
+      _emitState(SessionAuthenticated(userId: userId, userData: userDataJson));
       PrimekitLogger.info(
         'Session restored for userId: $userId',
         tag: 'SessionManager',
@@ -306,7 +301,8 @@ final class SessionManager extends ChangeNotifier implements SessionStateProvide
       if (parts.length != 3) return null;
       final normalized = base64Url.normalize(parts[1]);
       final payload =
-          jsonDecode(utf8.decode(base64Url.decode(normalized))) as Map<String, dynamic>;
+          jsonDecode(utf8.decode(base64Url.decode(normalized)))
+              as Map<String, dynamic>;
       final sub = payload['sub'];
       return sub is String ? sub : null;
     } on Exception {
@@ -314,8 +310,7 @@ final class SessionManager extends ChangeNotifier implements SessionStateProvide
     }
   }
 
-  String _fallbackUserId() =>
-      'user_${DateTime.now().millisecondsSinceEpoch}';
+  String _fallbackUserId() => 'user_${DateTime.now().millisecondsSinceEpoch}';
 
   // ---------------------------------------------------------------------------
   // Dispose

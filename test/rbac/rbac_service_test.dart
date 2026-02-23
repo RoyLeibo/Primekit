@@ -71,10 +71,7 @@ void main() {
           () => mockProvider.loadContext(userId: userId),
         ).thenAnswer((_) async => expectedCtx);
 
-        RbacService.instance.configure(
-          provider: mockProvider,
-          policy: policy,
-        );
+        RbacService.instance.configure(provider: mockProvider, policy: policy);
         await RbacService.instance.loadForUser(userId);
 
         expect(RbacService.instance.context, isNotNull);
@@ -89,11 +86,11 @@ void main() {
           policy: policy,
         );
 
-        when(() => mockProvider.loadContext(userId: userId))
-            .thenAnswer((_) async => ctx);
+        when(
+          () => mockProvider.loadContext(userId: userId),
+        ).thenAnswer((_) async => ctx);
 
-        RbacService.instance
-            .configure(provider: mockProvider, policy: policy);
+        RbacService.instance.configure(provider: mockProvider, policy: policy);
         await RbacService.instance.loadForUser(userId);
 
         expect(RbacService.instance.isLoaded, isTrue);
@@ -107,11 +104,11 @@ void main() {
           policy: policy,
         );
 
-        when(() => mockProvider.loadContext(userId: userId))
-            .thenAnswer((_) async => ctx);
+        when(
+          () => mockProvider.loadContext(userId: userId),
+        ).thenAnswer((_) async => ctx);
 
-        RbacService.instance
-            .configure(provider: mockProvider, policy: policy);
+        RbacService.instance.configure(provider: mockProvider, policy: policy);
         await RbacService.instance.loadForUser(userId);
 
         expect(
@@ -134,11 +131,11 @@ void main() {
           policy: policy,
         );
 
-        when(() => mockProvider.loadContext(userId: userId))
-            .thenAnswer((_) async => ctx);
+        when(
+          () => mockProvider.loadContext(userId: userId),
+        ).thenAnswer((_) async => ctx);
 
-        RbacService.instance
-            .configure(provider: mockProvider, policy: policy);
+        RbacService.instance.configure(provider: mockProvider, policy: policy);
         await RbacService.instance.loadForUser(userId);
         RbacService.instance.clear();
 
@@ -153,11 +150,11 @@ void main() {
           policy: policy,
         );
 
-        when(() => mockProvider.loadContext(userId: userId))
-            .thenAnswer((_) async => ctx);
+        when(
+          () => mockProvider.loadContext(userId: userId),
+        ).thenAnswer((_) async => ctx);
 
-        RbacService.instance
-            .configure(provider: mockProvider, policy: policy);
+        RbacService.instance.configure(provider: mockProvider, policy: policy);
         await RbacService.instance.loadForUser(userId);
         RbacService.instance.clear();
 
@@ -172,11 +169,11 @@ void main() {
           policy: policy,
         );
 
-        when(() => mockProvider.loadContext(userId: userId))
-            .thenAnswer((_) async => ctx);
+        when(
+          () => mockProvider.loadContext(userId: userId),
+        ).thenAnswer((_) async => ctx);
 
-        RbacService.instance
-            .configure(provider: mockProvider, policy: policy);
+        RbacService.instance.configure(provider: mockProvider, policy: policy);
         await RbacService.instance.loadForUser(userId);
         RbacService.instance.clear();
 
@@ -203,11 +200,11 @@ void main() {
           policy: policy,
         );
 
-        when(() => mockProvider.loadContext(userId: userId))
-            .thenAnswer((_) async => ctx);
+        when(
+          () => mockProvider.loadContext(userId: userId),
+        ).thenAnswer((_) async => ctx);
 
-        RbacService.instance
-            .configure(provider: mockProvider, policy: policy);
+        RbacService.instance.configure(provider: mockProvider, policy: policy);
         await RbacService.instance.loadForUser(userId);
 
         expect(notified, isTrue);

@@ -51,13 +51,13 @@ final class MongoSyncSource implements SyncDataSource {
     Dio? dio,
     this.watchPollInterval = const Duration(seconds: 30),
     this.timestampField = 'updatedAt',
-  })  : _baseUrl = baseUrl.endsWith('/')
-            ? baseUrl.substring(0, baseUrl.length - 1)
-            : baseUrl,
-        _apiKey = apiKey,
-        _dataSource = dataSource,
-        _database = database,
-        _dio = dio ?? Dio();
+  }) : _baseUrl = baseUrl.endsWith('/')
+           ? baseUrl.substring(0, baseUrl.length - 1)
+           : baseUrl,
+       _apiKey = apiKey,
+       _dataSource = dataSource,
+       _database = database,
+       _dio = dio ?? Dio();
 
   final String _baseUrl;
   final String _apiKey;
@@ -171,9 +171,9 @@ final class MongoSyncSource implements SyncDataSource {
               r'$set': {
                 'isDeleted': true,
                 timestampField: {
-                  r'$date': DateTime.now().toUtc().toIso8601String()
+                  r'$date': DateTime.now().toUtc().toIso8601String(),
                 },
-              }
+              },
             },
             'upsert': true,
           });
@@ -246,10 +246,7 @@ final class MongoSyncSource implements SyncDataSource {
       '$_baseUrl$endpoint',
       data: body,
       options: Options(
-        headers: {
-          'Content-Type': 'application/json',
-          'api-key': _apiKey,
-        },
+        headers: {'Content-Type': 'application/json', 'api-key': _apiKey},
       ),
     );
 
@@ -271,10 +268,7 @@ final class MongoSyncSource implements SyncDataSource {
   /// Renames MongoDB's `_id` field to `id` for portability.
   Map<String, dynamic> _normaliseId(Map<String, dynamic> doc) {
     final id = doc['_id']?['\$oid'] as String? ?? doc['id'] as String?;
-    return {
-      ...doc,
-      if (id != null) 'id': id,
-    }..remove('_id');
+    return {...doc, if (id != null) 'id': id}..remove('_id');
   }
 
   /// Converts the app-level `updatedAt` ISO-8601 string to a MongoDB Extended

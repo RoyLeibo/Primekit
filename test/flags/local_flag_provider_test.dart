@@ -89,10 +89,7 @@ void main() {
     });
 
     test('getDouble coerces int to double', () {
-      expect(
-        provider.getDouble('int_as_double', defaultValue: 0.0),
-        7.0,
-      );
+      expect(provider.getDouble('int_as_double', defaultValue: 0.0), 7.0);
     });
 
     test('getDouble returns default for missing key', () {
@@ -104,10 +101,7 @@ void main() {
     // -----------------------------------------------------------------------
 
     test('getJson returns correct map', () {
-      final result = provider.getJson(
-        'json_flag',
-        defaultValue: {},
-      );
+      final result = provider.getJson('json_flag', defaultValue: {});
       expect(result, {'key': 'value'});
     });
 

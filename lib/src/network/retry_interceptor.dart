@@ -113,12 +113,7 @@ final class RetryInterceptor extends Interceptor {
       // Recursively trigger onError so further retries are attempted.
       await onError(retryError, handler);
     } on Exception catch (error) {
-      handler.next(
-        DioException(
-          requestOptions: requestOptions,
-          error: error,
-        ),
-      );
+      handler.next(DioException(requestOptions: requestOptions, error: error));
     }
   }
 

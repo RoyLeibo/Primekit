@@ -75,10 +75,7 @@ final class EventCounter {
 
     await _persist(eventName, updated);
 
-    PrimekitLogger.verbose(
-      'EventCounter: "$eventName" → $updated.',
-      tag: _tag,
-    );
+    PrimekitLogger.verbose('EventCounter: "$eventName" → $updated.', tag: _tag);
   }
 
   /// Resets the count for [eventName] to zero and removes the persisted key.

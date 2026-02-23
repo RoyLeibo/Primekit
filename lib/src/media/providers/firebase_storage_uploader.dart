@@ -25,7 +25,7 @@ final class FirebaseStorageUploader implements MediaUploader {
   ///
   /// [storage] defaults to [fb.FirebaseStorage.instance] when not provided.
   FirebaseStorageUploader({fb.FirebaseStorage? storage})
-      : _storage = storage ?? fb.FirebaseStorage.instance;
+    : _storage = storage ?? fb.FirebaseStorage.instance;
 
   final fb.FirebaseStorage _storage;
   static const _uuid = Uuid();
@@ -74,16 +74,12 @@ final class FirebaseStorageUploader implements MediaUploader {
         final fbTask = ref.putFile(File(file.path), storageMetadata);
         controller.setStatus(UploadStatus.uploading);
 
-        fbTask.snapshotEvents.listen(
-          (snapshot) {
-            final total = snapshot.totalBytes;
-            if (total > 0) {
-              controller
-                  .setProgress(snapshot.bytesTransferred / total);
-            }
-          },
-          onError: controller.fail,
-        );
+        fbTask.snapshotEvents.listen((snapshot) {
+          final total = snapshot.totalBytes;
+          if (total > 0) {
+            controller.setProgress(snapshot.bytesTransferred / total);
+          }
+        }, onError: controller.fail);
 
         final snapshot = await fbTask;
         final url = await snapshot.ref.getDownloadURL();

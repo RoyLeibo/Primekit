@@ -66,6 +66,5 @@ final class RbacContext {
   }
 
   @override
-  String toString() =>
-      'RbacContext(userId: $userId, roles: $roleIds)';
+  String toString() => 'RbacContext(userId: $userId, roles: $roleIds)';
 }

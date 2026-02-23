@@ -36,13 +36,13 @@ final class SyncMeta {
 
   /// Deserialises from a JSON map produced by [toJson].
   factory SyncMeta.fromJson(Map<String, dynamic> json) => SyncMeta(
-        id: json['id'] as String,
-        createdAt: DateTime.parse(json['createdAt'] as String).toUtc(),
-        updatedAt: DateTime.parse(json['updatedAt'] as String).toUtc(),
-        syncedBy: json['syncedBy'] as String?,
-        version: (json['version'] as num?)?.toInt() ?? 1,
-        isDeleted: (json['isDeleted'] as bool?) ?? false,
-      );
+    id: json['id'] as String,
+    createdAt: DateTime.parse(json['createdAt'] as String).toUtc(),
+    updatedAt: DateTime.parse(json['updatedAt'] as String).toUtc(),
+    syncedBy: json['syncedBy'] as String?,
+    version: (json['version'] as num?)?.toInt() ?? 1,
+    isDeleted: (json['isDeleted'] as bool?) ?? false,
+  );
 
   // ---------------------------------------------------------------------------
   // Fields
@@ -86,15 +86,14 @@ final class SyncMeta {
     String? syncedBy,
     int? version,
     bool? isDeleted,
-  }) =>
-      SyncMeta(
-        id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        syncedBy: syncedBy ?? this.syncedBy,
-        version: version ?? this.version,
-        isDeleted: isDeleted ?? this.isDeleted,
-      );
+  }) => SyncMeta(
+    id: id ?? this.id,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    syncedBy: syncedBy ?? this.syncedBy,
+    version: version ?? this.version,
+    isDeleted: isDeleted ?? this.isDeleted,
+  );
 
   // ---------------------------------------------------------------------------
   // Serialisation
@@ -102,13 +101,13 @@ final class SyncMeta {
 
   /// Serialises to a JSON-encodable map.
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'createdAt': createdAt.toIso8601String(),
-        'updatedAt': updatedAt.toIso8601String(),
-        if (syncedBy != null) 'syncedBy': syncedBy,
-        'version': version,
-        'isDeleted': isDeleted,
-      };
+    'id': id,
+    'createdAt': createdAt.toIso8601String(),
+    'updatedAt': updatedAt.toIso8601String(),
+    if (syncedBy != null) 'syncedBy': syncedBy,
+    'version': version,
+    'isDeleted': isDeleted,
+  };
 
   @override
   String toString() =>

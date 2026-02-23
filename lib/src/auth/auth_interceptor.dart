@@ -45,9 +45,9 @@ final class AuthInterceptor extends Interceptor {
     required TokenStoreBase tokenStore,
     required TokenRefreshCallback onRefresh,
     required VoidCallback onSessionExpired,
-  })  : _tokenStore = tokenStore,
-        _onRefresh = onRefresh,
-        _onSessionExpired = onSessionExpired;
+  }) : _tokenStore = tokenStore,
+       _onRefresh = onRefresh,
+       _onSessionExpired = onSessionExpired;
 
   final TokenStoreBase _tokenStore;
   final TokenRefreshCallback _onRefresh;
@@ -151,10 +151,7 @@ final class AuthInterceptor extends Interceptor {
           ...requestOptions.headers,
           'Authorization': 'Bearer $newAccessToken',
         },
-        extra: {
-          ...requestOptions.extra,
-          '_authRetried': true,
-        },
+        extra: {...requestOptions.extra, '_authRetried': true},
         contentType: requestOptions.contentType,
         responseType: requestOptions.responseType,
         validateStatus: requestOptions.validateStatus,
@@ -163,7 +160,8 @@ final class AuthInterceptor extends Interceptor {
       // Build a minimal Dio instance without this interceptor to avoid
       // re-entry; reuse the base URL from the original request URI.
       final uri = requestOptions.uri;
-      final baseUrl = '${uri.scheme}://${uri.host}'
+      final baseUrl =
+          '${uri.scheme}://${uri.host}'
           '${uri.port != 80 && uri.port != 443 ? ':${uri.port}' : ''}';
       final retryDio = Dio(BaseOptions(baseUrl: baseUrl));
 

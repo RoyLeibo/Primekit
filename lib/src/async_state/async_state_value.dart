@@ -28,10 +28,8 @@ sealed class AsyncState<T> {
 
   /// Creates an [AsyncError] state with the given [error] and optional
   /// [stackTrace].
-  const factory AsyncState.error(
-    Object error, {
-    StackTrace? stackTrace,
-  }) = AsyncError<T>;
+  const factory AsyncState.error(Object error, {StackTrace? stackTrace}) =
+      AsyncError<T>;
 
   /// Creates an [AsyncRefreshing] state that retains a [previousValue] while
   /// a new load is in flight.
@@ -133,8 +131,7 @@ final class AsyncLoading<T> implements AsyncState<T> {
     required R Function(T value) data,
     required R Function(Object error, StackTrace? stackTrace) error,
     R Function(T previousValue)? refreshing,
-  }) =>
-      loading();
+  }) => loading();
 
   @override
   R maybeWhen<R>({
@@ -143,8 +140,7 @@ final class AsyncLoading<T> implements AsyncState<T> {
     R Function(T value)? data,
     R Function(Object error, StackTrace? stackTrace)? error,
     R Function(T previousValue)? refreshing,
-  }) =>
-      loading != null ? loading() : orElse();
+  }) => loading != null ? loading() : orElse();
 
   @override
   AsyncState<R> map<R>(R Function(T value) transform) => AsyncLoading<R>();
@@ -194,8 +190,7 @@ final class AsyncData<T> implements AsyncState<T> {
     required R Function(T value) data,
     required R Function(Object error, StackTrace? stackTrace) error,
     R Function(T previousValue)? refreshing,
-  }) =>
-      data(value);
+  }) => data(value);
 
   @override
   R maybeWhen<R>({
@@ -204,8 +199,7 @@ final class AsyncData<T> implements AsyncState<T> {
     R Function(T value)? data,
     R Function(Object error, StackTrace? stackTrace)? error,
     R Function(T previousValue)? refreshing,
-  }) =>
-      data != null ? data(value) : orElse();
+  }) => data != null ? data(value) : orElse();
 
   @override
   AsyncState<R> map<R>(R Function(T value) transform) =>
@@ -260,8 +254,7 @@ final class AsyncError<T> implements AsyncState<T> {
     required R Function(T value) data,
     required R Function(Object error, StackTrace? stackTrace) error,
     R Function(T previousValue)? refreshing,
-  }) =>
-      error(this.error, stackTrace);
+  }) => error(this.error, stackTrace);
 
   @override
   R maybeWhen<R>({
@@ -270,8 +263,7 @@ final class AsyncError<T> implements AsyncState<T> {
     R Function(T value)? data,
     R Function(Object error, StackTrace? stackTrace)? error,
     R Function(T previousValue)? refreshing,
-  }) =>
-      error != null ? error(this.error, stackTrace) : orElse();
+  }) => error != null ? error(this.error, stackTrace) : orElse();
 
   @override
   AsyncState<R> map<R>(R Function(T value) transform) =>
@@ -328,8 +320,7 @@ final class AsyncRefreshing<T> implements AsyncState<T> {
     required R Function(T value) data,
     required R Function(Object error, StackTrace? stackTrace) error,
     R Function(T previousValue)? refreshing,
-  }) =>
-      refreshing != null ? refreshing(previousValue) : loading();
+  }) => refreshing != null ? refreshing(previousValue) : loading();
 
   @override
   R maybeWhen<R>({
@@ -338,8 +329,7 @@ final class AsyncRefreshing<T> implements AsyncState<T> {
     R Function(T value)? data,
     R Function(Object error, StackTrace? stackTrace)? error,
     R Function(T previousValue)? refreshing,
-  }) =>
-      refreshing != null ? refreshing(previousValue) : orElse();
+  }) => refreshing != null ? refreshing(previousValue) : orElse();
 
   @override
   AsyncState<R> map<R>(R Function(T value) transform) =>

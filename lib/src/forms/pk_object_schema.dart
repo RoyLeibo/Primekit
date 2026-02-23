@@ -22,14 +22,14 @@ final class PkObjectSchema extends PkSchema<Map<String, dynamic>> {
   ///
   /// [fields] maps field names to their individual schemas.
   PkObjectSchema(Map<String, PkSchema<dynamic>> fields)
-      : _fields = Map.unmodifiable(fields),
-        _required = true;
+    : _fields = Map.unmodifiable(fields),
+      _required = true;
 
   PkObjectSchema._({
     required Map<String, PkSchema<dynamic>> fields,
     required bool required,
-  })  : _fields = Map.unmodifiable(fields),
-        _required = required;
+  }) : _fields = Map.unmodifiable(fields),
+       _required = required;
 
   final Map<String, PkSchema<dynamic>> _fields;
   final bool _required;
@@ -45,18 +45,14 @@ final class PkObjectSchema extends PkSchema<Map<String, dynamic>> {
   // ---------------------------------------------------------------------------
 
   /// Marks the object as required (the default).
-  PkObjectSchema required() => PkObjectSchema._(
-        fields: _fields,
-        required: true,
-      );
+  PkObjectSchema required() =>
+      PkObjectSchema._(fields: _fields, required: true);
 
   /// Marks the object as optional.
   ///
   /// A null value will produce a valid result with a null value.
-  PkObjectSchema optional() => PkObjectSchema._(
-        fields: _fields,
-        required: false,
-      );
+  PkObjectSchema optional() =>
+      PkObjectSchema._(fields: _fields, required: false);
 
   // ---------------------------------------------------------------------------
   // Validation
@@ -86,9 +82,8 @@ final class PkObjectSchema extends PkSchema<Map<String, dynamic>> {
 
       if (!result.isValid) {
         // Prefer the field-keyed error; fall back to the generic '_' error.
-        final error = result.errorFor('_') ??
-            result.firstError ??
-            'Invalid value';
+        final error =
+            result.errorFor('_') ?? result.firstError ?? 'Invalid value';
         errors[fieldName] = error;
       } else {
         validatedValues[fieldName] = result.value;
@@ -99,6 +94,8 @@ final class PkObjectSchema extends PkSchema<Map<String, dynamic>> {
       return ValidationResult.invalid(errors);
     }
 
-    return ValidationResult.valid(Map<String, dynamic>.unmodifiable(validatedValues));
+    return ValidationResult.valid(
+      Map<String, dynamic>.unmodifiable(validatedValues),
+    );
   }
 }

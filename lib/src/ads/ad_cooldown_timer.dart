@@ -21,9 +21,8 @@ class AdCooldownTimer {
   ///
   /// The default cooldown is 3 minutes — a reasonable value that balances
   /// revenue and user experience for most apps.
-  AdCooldownTimer({
-    Duration cooldown = const Duration(minutes: 3),
-  }) : _cooldown = cooldown;
+  AdCooldownTimer({Duration cooldown = const Duration(minutes: 3)})
+    : _cooldown = cooldown;
 
   final Duration _cooldown;
   DateTime? _lastShownAt;

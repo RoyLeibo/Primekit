@@ -36,13 +36,13 @@ class PkWebSocketChannel implements RealtimeChannel {
     Duration pingInterval = const Duration(seconds: 30),
     Duration connectTimeout = const Duration(seconds: 10),
     MessageBuffer? messageBuffer,
-  })  : _uri = uri,
-        _headers = headers ?? {},
-        _baseReconnectDelay = reconnectDelay,
-        _maxReconnectAttempts = maxReconnectAttempts,
-        _pingInterval = pingInterval,
-        _connectTimeout = connectTimeout,
-        _buffer = messageBuffer ?? MessageBuffer(channelId: channelId);
+  }) : _uri = uri,
+       _headers = headers ?? {},
+       _baseReconnectDelay = reconnectDelay,
+       _maxReconnectAttempts = maxReconnectAttempts,
+       _pingInterval = pingInterval,
+       _connectTimeout = connectTimeout,
+       _buffer = messageBuffer ?? MessageBuffer(channelId: channelId);
 
   @override
   final String channelId;

@@ -80,14 +80,18 @@ void main() {
     group('unique', () {
       test('unique list passes', () {
         expect(
-          PkSchema.list(PkSchema.string()).unique().validate(['a', 'b', 'c']).isValid,
+          PkSchema.list(
+            PkSchema.string(),
+          ).unique().validate(['a', 'b', 'c']).isValid,
           isTrue,
         );
       });
 
       test('duplicate list fails', () {
         expect(
-          PkSchema.list(PkSchema.string()).unique().validate(['a', 'a', 'b']).isValid,
+          PkSchema.list(
+            PkSchema.string(),
+          ).unique().validate(['a', 'a', 'b']).isValid,
           isFalse,
         );
       });

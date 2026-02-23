@@ -15,10 +15,7 @@ sealed class TrialEvent {
 
 /// A trial has just been started for [productId].
 final class TrialEventStarted extends TrialEvent {
-  const TrialEventStarted({
-    required this.productId,
-    required this.trialEnds,
-  });
+  const TrialEventStarted({required this.productId, required this.trialEnds});
 
   /// The Primekit product ID for which the trial started.
   final String productId;
@@ -89,7 +86,7 @@ final class TrialEventEnded extends TrialEvent {
 class TrialManager {
   /// Creates a [TrialManager] backed by [preferences].
   TrialManager({required SharedPreferences preferences})
-      : _preferences = preferences {
+    : _preferences = preferences {
     _startPeriodicCheck();
   }
 

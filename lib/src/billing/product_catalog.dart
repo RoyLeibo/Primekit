@@ -76,25 +76,25 @@ final class PricingInfo {
   /// Returns the raw [amount] for non-subscription or already-monthly products.
   /// Returns `null` for [BillingPeriod.lifetime] (no recurring charge).
   double? get perMonthPrice => switch (period) {
-        null => amount,
-        BillingPeriod.weekly => amount * (52 / 12),
-        BillingPeriod.monthly => amount,
-        BillingPeriod.quarterly => amount / 3,
-        BillingPeriod.yearly => amount / 12,
-        BillingPeriod.lifetime => null,
-      };
+    null => amount,
+    BillingPeriod.weekly => amount * (52 / 12),
+    BillingPeriod.monthly => amount,
+    BillingPeriod.quarterly => amount / 3,
+    BillingPeriod.yearly => amount / 12,
+    BillingPeriod.lifetime => null,
+  };
 
   /// Annual-equivalent price for comparison purposes.
   ///
   /// Returns `null` for [BillingPeriod.lifetime] (no recurring charge).
   double? get perYearPrice => switch (period) {
-        null => amount,
-        BillingPeriod.weekly => amount * 52,
-        BillingPeriod.monthly => amount * 12,
-        BillingPeriod.quarterly => amount * 4,
-        BillingPeriod.yearly => amount,
-        BillingPeriod.lifetime => null,
-      };
+    null => amount,
+    BillingPeriod.weekly => amount * 52,
+    BillingPeriod.monthly => amount * 12,
+    BillingPeriod.quarterly => amount * 4,
+    BillingPeriod.yearly => amount,
+    BillingPeriod.lifetime => null,
+  };
 
   /// Returns a copy with the given fields replaced.
   PricingInfo copyWith({
@@ -102,13 +102,12 @@ final class PricingInfo {
     String? currency,
     BillingPeriod? period,
     Duration? trialPeriod,
-  }) =>
-      PricingInfo(
-        amount: amount ?? this.amount,
-        currency: currency ?? this.currency,
-        period: period ?? this.period,
-        trialPeriod: trialPeriod ?? this.trialPeriod,
-      );
+  }) => PricingInfo(
+    amount: amount ?? this.amount,
+    currency: currency ?? this.currency,
+    period: period ?? this.period,
+    trialPeriod: trialPeriod ?? this.trialPeriod,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -190,23 +189,20 @@ final class Product {
     PricingInfo? pricing,
     List<String>? features,
     String? platformProductId,
-  }) =>
-      Product(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        description: description ?? this.description,
-        type: type ?? this.type,
-        pricing: pricing ?? this.pricing,
-        features: features ?? List.unmodifiable(this.features),
-        platformProductId: platformProductId ?? this.platformProductId,
-      );
+  }) => Product(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    description: description ?? this.description,
+    type: type ?? this.type,
+    pricing: pricing ?? this.pricing,
+    features: features ?? List.unmodifiable(this.features),
+    platformProductId: platformProductId ?? this.platformProductId,
+  );
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Product &&
-          runtimeType == other.runtimeType &&
-          id == other.id;
+      other is Product && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;
@@ -279,7 +275,6 @@ class ProductCatalog {
 
   /// Returns the product whose [Product.platformProductId] matches [sku],
   /// or `null` if none is found.
-  Product? findByPlatformId(String sku) => _products.values.firstWhereOrNull(
-        (p) => p.platformProductId == sku,
-      );
+  Product? findByPlatformId(String sku) =>
+      _products.values.firstWhereOrNull((p) => p.platformProductId == sku);
 }

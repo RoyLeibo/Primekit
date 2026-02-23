@@ -10,11 +10,7 @@
 /// }
 /// ```
 sealed class PrimekitException implements Exception {
-  const PrimekitException({
-    required this.message,
-    this.code,
-    this.cause,
-  });
+  const PrimekitException({required this.message, this.code, this.cause});
 
   /// Developer-facing error message.
   final String message;
@@ -56,16 +52,17 @@ final class NetworkException extends PrimekitException {
 /// Thrown when the device has no network connectivity.
 final class NoConnectivityException extends PrimekitException {
   const NoConnectivityException()
-      : super(message: 'No internet connectivity', code: 'NO_CONNECTIVITY');
+    : super(message: 'No internet connectivity', code: 'NO_CONNECTIVITY');
 
   @override
-  String get userMessage => 'No internet connection. Please check your network.';
+  String get userMessage =>
+      'No internet connection. Please check your network.';
 }
 
 /// Thrown when a request times out.
 final class TimeoutException extends PrimekitException {
   const TimeoutException({required super.message, super.cause})
-      : super(code: 'TIMEOUT');
+    : super(code: 'TIMEOUT');
 
   @override
   String get userMessage => 'Request timed out. Please try again.';
@@ -86,7 +83,7 @@ final class AuthException extends PrimekitException {
 /// Thrown when an auth token has expired.
 final class TokenExpiredException extends AuthException {
   const TokenExpiredException()
-      : super(message: 'Auth token has expired', code: 'TOKEN_EXPIRED');
+    : super(message: 'Auth token has expired', code: 'TOKEN_EXPIRED');
 
   @override
   String get userMessage => 'Your session has expired. Please sign in again.';
@@ -95,7 +92,7 @@ final class TokenExpiredException extends AuthException {
 /// Thrown when the user is not authorized to access a resource.
 final class UnauthorizedException extends AuthException {
   const UnauthorizedException({required super.message})
-      : super(code: 'UNAUTHORIZED');
+    : super(code: 'UNAUTHORIZED');
 
   @override
   String get userMessage => 'You do not have permission to do that.';
@@ -125,7 +122,7 @@ final class BillingException extends PrimekitException {
 /// Thrown when a purchase is cancelled by the user.
 final class PurchaseCancelledException extends BillingException {
   const PurchaseCancelledException()
-      : super(message: 'Purchase was cancelled', code: 'PURCHASE_CANCELLED');
+    : super(message: 'Purchase was cancelled', code: 'PURCHASE_CANCELLED');
 
   @override
   String get userMessage => 'Purchase was cancelled.';
@@ -181,5 +178,5 @@ final class PermissionDeniedException extends PrimekitException {
 /// Thrown when Primekit is misconfigured.
 final class ConfigurationException extends PrimekitException {
   const ConfigurationException({required super.message})
-      : super(code: 'MISCONFIGURED');
+    : super(code: 'MISCONFIGURED');
 }

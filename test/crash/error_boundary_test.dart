@@ -77,15 +77,10 @@ class _GoodWidget extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 void main() {
-
   group('ErrorBoundary', () {
     testWidgets('renders child when no error', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: ErrorBoundary(
-            child: _GoodWidget(),
-          ),
-        ),
+        const MaterialApp(home: ErrorBoundary(child: _GoodWidget())),
       );
 
       expect(find.text('All good'), findsOneWidget);
@@ -108,14 +103,11 @@ void main() {
       expect(find.text('Oops!'), findsOneWidget);
     });
 
-    testWidgets(
-        'renders default error widget when no fallback', (tester) async {
+    testWidgets('renders default error widget when no fallback', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: ErrorBoundary(
-            child: _ThrowingWidget(),
-          ),
-        ),
+        const MaterialApp(home: ErrorBoundary(child: _ThrowingWidget())),
       );
       tester.takeException();
       await tester.pumpAndSettle();
@@ -149,8 +141,9 @@ void main() {
       expect(capturedError.toString(), contains('test error'));
     });
 
-    testWidgets('calls reporter.recordError when reporter provided',
-        (tester) async {
+    testWidgets('calls reporter.recordError when reporter provided', (
+      tester,
+    ) async {
       final spy = _SpyCrashReporter();
 
       await tester.pumpWidget(
@@ -170,11 +163,7 @@ void main() {
 
     testWidgets('good child renders without error', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: ErrorBoundary(
-            child: _GoodWidget(),
-          ),
-        ),
+        const MaterialApp(home: ErrorBoundary(child: _GoodWidget())),
       );
       await tester.pump();
 

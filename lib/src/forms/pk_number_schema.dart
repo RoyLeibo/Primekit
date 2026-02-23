@@ -10,16 +10,12 @@ import 'validation_result.dart';
 /// result.errors  // {'_': 'Must be ≤ 150'}
 /// ```
 final class PkNumberSchema extends PkSchema<num> {
-  PkNumberSchema._({
-    required bool required,
-    required List<_NumberRule> rules,
-  })  : _required = required,
-        _rules = rules;
+  PkNumberSchema._({required bool required, required List<_NumberRule> rules})
+    : _required = required,
+      _rules = rules;
 
   /// Creates a new number schema with no constraints.
-  PkNumberSchema()
-      : _required = true,
-        _rules = const [];
+  PkNumberSchema() : _required = true, _rules = const [];
 
   final bool _required;
   final List<_NumberRule> _rules;
@@ -33,14 +29,14 @@ final class PkNumberSchema extends PkSchema<num> {
 
   /// Marks the field as required (the default).
   PkNumberSchema required({String? message}) => _copyWith(
-        required: true,
-        extraRules: [
-          _NumberRule(
-            test: (_) => true,
-            message: message ?? 'This field is required',
-          ),
-        ],
-      );
+    required: true,
+    extraRules: [
+      _NumberRule(
+        test: (_) => true,
+        message: message ?? 'This field is required',
+      ),
+    ],
+  );
 
   /// Marks the field as optional.
   ///
@@ -49,53 +45,53 @@ final class PkNumberSchema extends PkSchema<num> {
 
   /// Validates that the value is ≥ [minimum].
   PkNumberSchema min(num minimum, {String? message}) => _copyWith(
-        extraRules: [
-          _NumberRule(
-            test: (v) => v >= minimum,
-            message: message ?? 'Must be ≥ $minimum',
-          ),
-        ],
-      );
+    extraRules: [
+      _NumberRule(
+        test: (v) => v >= minimum,
+        message: message ?? 'Must be ≥ $minimum',
+      ),
+    ],
+  );
 
   /// Validates that the value is ≤ [maximum].
   PkNumberSchema max(num maximum, {String? message}) => _copyWith(
-        extraRules: [
-          _NumberRule(
-            test: (v) => v <= maximum,
-            message: message ?? 'Must be ≤ $maximum',
-          ),
-        ],
-      );
+    extraRules: [
+      _NumberRule(
+        test: (v) => v <= maximum,
+        message: message ?? 'Must be ≤ $maximum',
+      ),
+    ],
+  );
 
   /// Validates that the value is strictly greater than zero.
   PkNumberSchema positive({String? message}) => _copyWith(
-        extraRules: [
-          _NumberRule(
-            test: (v) => v > 0,
-            message: message ?? 'Must be a positive number',
-          ),
-        ],
-      );
+    extraRules: [
+      _NumberRule(
+        test: (v) => v > 0,
+        message: message ?? 'Must be a positive number',
+      ),
+    ],
+  );
 
   /// Validates that the value is strictly less than zero.
   PkNumberSchema negative({String? message}) => _copyWith(
-        extraRules: [
-          _NumberRule(
-            test: (v) => v < 0,
-            message: message ?? 'Must be a negative number',
-          ),
-        ],
-      );
+    extraRules: [
+      _NumberRule(
+        test: (v) => v < 0,
+        message: message ?? 'Must be a negative number',
+      ),
+    ],
+  );
 
   /// Validates that the value has no fractional part.
   PkNumberSchema integer({String? message}) => _copyWith(
-        extraRules: [
-          _NumberRule(
-            test: (v) => v % 1 == 0,
-            message: message ?? 'Must be a whole number',
-          ),
-        ],
-      );
+    extraRules: [
+      _NumberRule(
+        test: (v) => v % 1 == 0,
+        message: message ?? 'Must be a whole number',
+      ),
+    ],
+  );
 
   /// Validates that the value is evenly divisible by [factor].
   PkNumberSchema multipleOf(num factor, {String? message}) {
@@ -147,11 +143,10 @@ final class PkNumberSchema extends PkSchema<num> {
   PkNumberSchema _copyWith({
     bool? required,
     List<_NumberRule> extraRules = const [],
-  }) =>
-      PkNumberSchema._(
-        required: required ?? _required,
-        rules: [..._rules, ...extraRules],
-      );
+  }) => PkNumberSchema._(
+    required: required ?? _required,
+    rules: [..._rules, ...extraRules],
+  );
 }
 
 // ---------------------------------------------------------------------------

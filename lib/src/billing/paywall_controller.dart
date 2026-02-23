@@ -61,10 +61,7 @@ final class PaywallImpression extends PaywallEvent {
 
 /// The user completed a purchase from the paywall.
 final class PaywallConversion extends PaywallEvent {
-  const PaywallConversion({
-    required this.featureName,
-    required this.productId,
-  });
+  const PaywallConversion({required this.featureName, required this.productId});
 
   /// The feature that had triggered the paywall.
   final String featureName;
@@ -115,7 +112,7 @@ class PaywallController extends ChangeNotifier {
   /// In tests, you can supply a mock. In production, obtain this via
   /// `SharedPreferences.getInstance()`.
   PaywallController({required SharedPreferences preferences})
-      : _preferences = preferences;
+    : _preferences = preferences;
 
   final SharedPreferences _preferences;
 
@@ -156,10 +153,7 @@ class PaywallController extends ChangeNotifier {
       PaywallShown(featureName: featureName, customMessage: customMessage),
     );
 
-    PrimekitLogger.debug(
-      'Paywall shown for feature "$featureName"',
-      tag: _tag,
-    );
+    PrimekitLogger.debug('Paywall shown for feature "$featureName"', tag: _tag);
 
     notifyListeners();
   }
@@ -176,10 +170,7 @@ class PaywallController extends ChangeNotifier {
 
     _eventsController.add(PaywallDismissed(featureName: feature));
 
-    PrimekitLogger.debug(
-      'Paywall dismissed for feature "$feature"',
-      tag: _tag,
-    );
+    PrimekitLogger.debug('Paywall dismissed for feature "$feature"', tag: _tag);
 
     notifyListeners();
   }

@@ -105,8 +105,7 @@ class ToastService {
         backgroundColor: style.background,
         duration: duration,
         behavior: SnackBarBehavior.floating,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         margin: _marginFor(position),
         action: action != null
             ? SnackBarAction(
@@ -155,12 +154,7 @@ class ToastService {
   static EdgeInsets _marginFor(ToastPosition position) {
     switch (position) {
       case ToastPosition.top:
-        return const EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 60,
-          bottom: 8,
-        );
+        return const EdgeInsets.only(left: 16, right: 16, top: 60, bottom: 8);
       case ToastPosition.bottom:
         return const EdgeInsets.symmetric(horizontal: 16, vertical: 16);
     }

@@ -69,29 +69,47 @@ void main() {
 
     group('url', () {
       test('https URL passes', () {
-        expect(PkSchema.string().url().validate('https://example.com').isValid, isTrue);
+        expect(
+          PkSchema.string().url().validate('https://example.com').isValid,
+          isTrue,
+        );
       });
 
       test('http URL passes', () {
-        expect(PkSchema.string().url().validate('http://example.com').isValid, isTrue);
+        expect(
+          PkSchema.string().url().validate('http://example.com').isValid,
+          isTrue,
+        );
       });
 
       test('ftp URL fails', () {
-        expect(PkSchema.string().url().validate('ftp://files.example.com').isValid, isFalse);
+        expect(
+          PkSchema.string().url().validate('ftp://files.example.com').isValid,
+          isFalse,
+        );
       });
 
       test('plain string fails', () {
-        expect(PkSchema.string().url().validate('example.com').isValid, isFalse);
+        expect(
+          PkSchema.string().url().validate('example.com').isValid,
+          isFalse,
+        );
       });
     });
 
     group('phone', () {
       test('international format passes', () {
-        expect(PkSchema.string().phone().validate('+1 555-555-5555').isValid, isTrue);
+        expect(
+          PkSchema.string().phone().validate('+1 555-555-5555').isValid,
+          isTrue,
+        );
       });
 
       test('local format passes', () {
-        expect(PkSchema.string().phone().validate('0541234567').isValid, isTrue);
+        expect(
+          PkSchema.string().phone().validate('0541234567').isValid,
+          isTrue,
+        );
       });
 
       test('too short fails', () {
@@ -109,11 +127,17 @@ void main() {
       });
 
       test('string within maxLength passes', () {
-        expect(PkSchema.string().maxLength(5).validate('hello').isValid, isTrue);
+        expect(
+          PkSchema.string().maxLength(5).validate('hello').isValid,
+          isTrue,
+        );
       });
 
       test('string exceeding maxLength fails', () {
-        expect(PkSchema.string().maxLength(5).validate('toolong').isValid, isFalse);
+        expect(
+          PkSchema.string().maxLength(5).validate('toolong').isValid,
+          isFalse,
+        );
       });
 
       test('chained min and max both applied', () {
@@ -191,7 +215,10 @@ void main() {
 
       test('valid number with spaces passes', () {
         expect(
-          PkSchema.string().creditCard().validate('4111 1111 1111 1111').isValid,
+          PkSchema.string()
+              .creditCard()
+              .validate('4111 1111 1111 1111')
+              .isValid,
           isTrue,
         );
       });

@@ -40,9 +40,9 @@ final class SyncState {
     this.error,
     this.progress,
   }) : assert(
-          progress == null || (progress >= 0.0 && progress <= 1.0),
-          'progress must be between 0.0 and 1.0',
-        );
+         progress == null || (progress >= 0.0 && progress <= 1.0),
+         'progress must be between 0.0 and 1.0',
+       );
 
   // ---------------------------------------------------------------------------
   // Fields
@@ -95,15 +95,15 @@ final class SyncState {
     bool clearError = false,
     bool clearProgress = false,
     bool clearLastSyncedAt = false,
-  }) =>
-      SyncState(
-        status: status ?? this.status,
-        lastSyncedAt:
-            clearLastSyncedAt ? null : (lastSyncedAt ?? this.lastSyncedAt),
-        pendingChanges: pendingChanges ?? this.pendingChanges,
-        error: clearError ? null : (error ?? this.error),
-        progress: clearProgress ? null : (progress ?? this.progress),
-      );
+  }) => SyncState(
+    status: status ?? this.status,
+    lastSyncedAt: clearLastSyncedAt
+        ? null
+        : (lastSyncedAt ?? this.lastSyncedAt),
+    pendingChanges: pendingChanges ?? this.pendingChanges,
+    error: clearError ? null : (error ?? this.error),
+    progress: clearProgress ? null : (progress ?? this.progress),
+  );
 
   @override
   String toString() =>
@@ -139,7 +139,7 @@ final class SyncState {
 /// read from it, never write.
 final class SyncStateManager extends ChangeNotifier {
   SyncStateManager({SyncState? initialState})
-      : _state = initialState ?? const SyncState();
+    : _state = initialState ?? const SyncState();
 
   // ---------------------------------------------------------------------------
   // Internal stream infrastructure
@@ -178,28 +178,29 @@ final class SyncStateManager extends ChangeNotifier {
   }
 
   /// Convenience: transition only the [SyncStatus].
-  void transitionStatus(SyncStatus status) =>
-      transition(_state.copyWith(status: status, clearError: status != SyncStatus.error));
+  void transitionStatus(SyncStatus status) => transition(
+    _state.copyWith(status: status, clearError: status != SyncStatus.error),
+  );
 
   /// Convenience: record a successful sync completion.
   void markSyncComplete({required int pendingChanges}) => transition(
-        _state.copyWith(
-          status: SyncStatus.idle,
-          lastSyncedAt: DateTime.now().toUtc(),
-          pendingChanges: pendingChanges,
-          clearError: true,
-          clearProgress: true,
-        ),
-      );
+    _state.copyWith(
+      status: SyncStatus.idle,
+      lastSyncedAt: DateTime.now().toUtc(),
+      pendingChanges: pendingChanges,
+      clearError: true,
+      clearProgress: true,
+    ),
+  );
 
   /// Convenience: record a sync failure.
   void markSyncError(Object error) => transition(
-        _state.copyWith(
-          status: SyncStatus.error,
-          error: error,
-          clearProgress: true,
-        ),
-      );
+    _state.copyWith(
+      status: SyncStatus.error,
+      error: error,
+      clearProgress: true,
+    ),
+  );
 
   /// Convenience: update batch progress (0.0 – 1.0).
   void updateProgress(double progress) =>

@@ -30,11 +30,11 @@ final class FirebaseRbacProvider implements RbacProvider {
     FirebaseAuth? auth,
     String usersCollection = 'users',
     String rolesField = 'roles',
-  })  : _policy = policy,
-        _firestore = firestore ?? FirebaseFirestore.instance,
-        _auth = auth ?? FirebaseAuth.instance,
-        _usersCollection = usersCollection,
-        _rolesField = rolesField;
+  }) : _policy = policy,
+       _firestore = firestore ?? FirebaseFirestore.instance,
+       _auth = auth ?? FirebaseAuth.instance,
+       _usersCollection = usersCollection,
+       _rolesField = rolesField;
 
   final RbacPolicy _policy;
   final FirebaseFirestore _firestore;
@@ -78,11 +78,7 @@ final class FirebaseRbacProvider implements RbacProvider {
         }
       }
 
-      return RbacContext(
-        userId: userId,
-        roleIds: roleIds,
-        policy: _policy,
-      );
+      return RbacContext(userId: userId, roleIds: roleIds, policy: _policy);
     } catch (error) {
       throw Exception(
         'FirebaseRbacProvider.loadContext failed for user "$userId": $error',
@@ -100,15 +96,9 @@ final class FirebaseRbacProvider implements RbacProvider {
     required String roleId,
   }) async {
     try {
-      await _firestore
-          .collection(_usersCollection)
-          .doc(userId)
-          .set(
-        {
-          _rolesField: FieldValue.arrayUnion([roleId]),
-        },
-        SetOptions(merge: true),
-      );
+      await _firestore.collection(_usersCollection).doc(userId).set({
+        _rolesField: FieldValue.arrayUnion([roleId]),
+      }, SetOptions(merge: true));
     } catch (error) {
       throw Exception(
         'FirebaseRbacProvider.assignRole failed '
@@ -127,10 +117,7 @@ final class FirebaseRbacProvider implements RbacProvider {
     required String roleId,
   }) async {
     try {
-      await _firestore
-          .collection(_usersCollection)
-          .doc(userId)
-          .update({
+      await _firestore.collection(_usersCollection).doc(userId).update({
         _rolesField: FieldValue.arrayRemove([roleId]),
       });
     } catch (error) {

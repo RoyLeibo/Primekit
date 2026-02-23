@@ -103,14 +103,13 @@ final class AdUnitConfig {
     String? rewardedId,
     String? nativeId,
     String? appOpenId,
-  }) =>
-      AdUnitConfig(
-        bannerId: bannerId ?? this.bannerId,
-        interstitialId: interstitialId ?? this.interstitialId,
-        rewardedId: rewardedId ?? this.rewardedId,
-        nativeId: nativeId ?? this.nativeId,
-        appOpenId: appOpenId ?? this.appOpenId,
-      );
+  }) => AdUnitConfig(
+    bannerId: bannerId ?? this.bannerId,
+    interstitialId: interstitialId ?? this.interstitialId,
+    rewardedId: rewardedId ?? this.rewardedId,
+    nativeId: nativeId ?? this.nativeId,
+    appOpenId: appOpenId ?? this.appOpenId,
+  );
 
   @override
   String toString() =>

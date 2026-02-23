@@ -220,8 +220,10 @@ final class TokenStore implements TokenStoreBase {
         return true;
       }
       const clockSkewSeconds = 30;
-      final expiresAt =
-          DateTime.fromMillisecondsSinceEpoch(exp.toInt() * 1000, isUtc: true);
+      final expiresAt = DateTime.fromMillisecondsSinceEpoch(
+        exp.toInt() * 1000,
+        isUtc: true,
+      );
       final now = DateTime.now().toUtc();
       return now.isAfter(
         expiresAt.subtract(const Duration(seconds: clockSkewSeconds)),

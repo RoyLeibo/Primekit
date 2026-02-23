@@ -83,8 +83,7 @@ void main() {
         expect(policy.hasPermission('superadmin', deletePosts), isTrue);
       });
 
-      test(
-          'superadmin with posts:* does not have unrelated '
+      test('superadmin with posts:* does not have unrelated '
           'comments:read', () {
         expect(policy.hasPermission('superadmin', readComments), isFalse);
       });
@@ -121,10 +120,7 @@ void main() {
       });
 
       test('returns false when no role has permission', () {
-        expect(
-          policy.anyRoleHasPermission(['viewer'], writePosts),
-          isFalse,
-        );
+        expect(policy.anyRoleHasPermission(['viewer'], writePosts), isFalse);
       });
 
       test('returns false for empty role list', () {

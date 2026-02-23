@@ -81,8 +81,14 @@ void main() {
     });
 
     group('nullIfEmpty', () {
-      test('returns null for empty string', () => expect(''.nullIfEmpty, isNull));
-      test('returns string for non-empty', () => expect('hi'.nullIfEmpty, equals('hi')));
+      test(
+        'returns null for empty string',
+        () => expect(''.nullIfEmpty, isNull),
+      );
+      test(
+        'returns string for non-empty',
+        () => expect('hi'.nullIfEmpty, equals('hi')),
+      );
     });
 
     group('masked', () {
@@ -116,10 +122,7 @@ void main() {
     });
 
     test('isToday returns false for yesterday', () {
-      expect(
-        DateTime.now().subtract(const Duration(days: 1)).isToday,
-        isFalse,
-      );
+      expect(DateTime.now().subtract(const Duration(days: 1)).isToday, isFalse);
     });
 
     test('isYesterday returns true for yesterday', () {
@@ -149,8 +152,10 @@ void main() {
 
     group('relative', () {
       test('returns "just now" for recent times', () {
-        expect(DateTime.now().subtract(const Duration(seconds: 30)).relative,
-            equals('just now'));
+        expect(
+          DateTime.now().subtract(const Duration(seconds: 30)).relative,
+          equals('just now'),
+        );
       });
 
       test('returns minutes ago', () {
@@ -205,7 +210,14 @@ void main() {
     });
 
     test('chunked splits into correct sizes', () {
-      expect([1, 2, 3, 4, 5].chunked(2), equals([[1, 2], [3, 4], [5]]));
+      expect(
+        [1, 2, 3, 4, 5].chunked(2),
+        equals([
+          [1, 2],
+          [3, 4],
+          [5],
+        ]),
+      );
     });
 
     test('firstWhereOrNull returns match', () {
@@ -240,17 +252,21 @@ void main() {
     });
 
     test('mapValues transforms values', () {
-      expect({'a': 1, 'b': 2}.mapValues((v) => v * 2), equals({'a': 2, 'b': 4}));
+      expect(
+        {'a': 1, 'b': 2}.mapValues((v) => v * 2),
+        equals({'a': 2, 'b': 4}),
+      );
     });
 
     test('mergedWith gives other precedence', () {
-      expect({'a': 1, 'b': 2}.mergedWith({'b': 99, 'c': 3}),
-          equals({'a': 1, 'b': 99, 'c': 3}));
+      expect(
+        {'a': 1, 'b': 2}.mergedWith({'b': 99, 'c': 3}),
+        equals({'a': 1, 'b': 99, 'c': 3}),
+      );
     });
 
     test('whereEntries filters correctly', () {
-      final result = {'a': 1, 'b': 2, 'c': 3}
-          .whereEntries((e) => e.value > 1);
+      final result = {'a': 1, 'b': 2, 'c': 3}.whereEntries((e) => e.value > 1);
       expect(result, equals({'b': 2, 'c': 3}));
     });
   });

@@ -60,9 +60,9 @@ class UploadTask {
     required Future<void> Function() onPause,
     required Future<void> Function() onResume,
     required Future<void> Function() onCancel,
-  })  : _onPause = onPause,
-        _onResume = onResume,
-        _onCancel = onCancel;
+  }) : _onPause = onPause,
+       _onResume = onResume,
+       _onCancel = onCancel;
 
   /// Unique identifier for this task (e.g. a UUID or remote path hash).
   final String taskId;

@@ -64,10 +64,10 @@ final class MigrationRecord {
   final DateTime appliedAt;
 
   Map<String, dynamic> toJson() => {
-        'version': version,
-        'description': description,
-        'appliedAt': appliedAt.toIso8601String(),
-      };
+    'version': version,
+    'description': description,
+    'appliedAt': appliedAt.toIso8601String(),
+  };
 
   @override
   String toString() =>
@@ -120,7 +120,10 @@ final class SharedPrefsMigrationStore implements MigrationStore {
     final prefs = await SharedPreferences.getInstance();
     final existing = await loadRecords();
     final updated = [...existing, record];
-    await prefs.setString(_key, jsonEncode(updated.map((r) => r.toJson()).toList()));
+    await prefs.setString(
+      _key,
+      jsonEncode(updated.map((r) => r.toJson()).toList()),
+    );
   }
 }
 
@@ -153,11 +156,9 @@ final class SharedPrefsMigrationStore implements MigrationStore {
 /// await runner.run(); // runs pending migrations on app startup
 /// ```
 final class MigrationRunner {
-  MigrationRunner({
-    required List<Migration> migrations,
-    MigrationStore? store,
-  })  : _migrations = List.unmodifiable(migrations),
-        _store = store ?? SharedPrefsMigrationStore();
+  MigrationRunner({required List<Migration> migrations, MigrationStore? store})
+    : _migrations = List.unmodifiable(migrations),
+      _store = store ?? SharedPrefsMigrationStore();
 
   final List<Migration> _migrations;
   final MigrationStore _store;
@@ -173,10 +174,11 @@ final class MigrationRunner {
     final applied = await _store.loadRecords();
     final appliedVersions = applied.map((r) => r.version).toSet();
 
-    final pending = _migrations
-        .where((m) => !appliedVersions.contains(m.version))
-        .toList(growable: false)
-      ..sort((a, b) => a.version.compareTo(b.version));
+    final pending =
+        _migrations
+            .where((m) => !appliedVersions.contains(m.version))
+            .toList(growable: false)
+          ..sort((a, b) => a.version.compareTo(b.version));
 
     if (pending.isEmpty) {
       PrimekitLogger.info('No pending migrations', tag: 'MigrationRunner');
@@ -207,14 +209,11 @@ final class MigrationRunner {
   Future<int> get currentVersion async {
     final records = await _store.loadRecords();
     if (records.isEmpty) return 0;
-    return records
-        .map((r) => r.version)
-        .reduce((a, b) => a > b ? a : b);
+    return records.map((r) => r.version).reduce((a, b) => a > b ? a : b);
   }
 
   /// Returns an immutable list of all applied [MigrationRecord]s.
-  Future<List<MigrationRecord>> get executedMigrations =>
-      _store.loadRecords();
+  Future<List<MigrationRecord>> get executedMigrations => _store.loadRecords();
 
   // ---------------------------------------------------------------------------
   // Internal

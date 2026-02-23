@@ -55,10 +55,7 @@ void main() {
 
   group('AdEventLogger', () {
     test('instance is singleton', () {
-      expect(
-        identical(AdEventLogger.instance, AdEventLogger.instance),
-        isTrue,
-      );
+      expect(identical(AdEventLogger.instance, AdEventLogger.instance), isTrue);
     });
 
     test('impressionsByType starts empty', () {

@@ -18,17 +18,17 @@ final class PkStringSchema extends PkSchema<String> {
     required List<_StringRule> rules,
     required bool shouldTrim,
     PkStringSchema? matchTarget,
-  })  : _required = required,
-        _rules = rules,
-        _shouldTrim = shouldTrim,
-        _matchTarget = matchTarget;
+  }) : _required = required,
+       _rules = rules,
+       _shouldTrim = shouldTrim,
+       _matchTarget = matchTarget;
 
   /// Creates a new string schema with no constraints.
   PkStringSchema()
-      : _required = true,
-        _rules = const [],
-        _shouldTrim = false,
-        _matchTarget = null;
+    : _required = true,
+      _rules = const [],
+      _shouldTrim = false,
+      _matchTarget = null;
 
   final bool _required;
   final List<_StringRule> _rules;
@@ -46,14 +46,14 @@ final class PkStringSchema extends PkSchema<String> {
   ///
   /// Null, absent, or empty-string values will fail with [message].
   PkStringSchema required({String? message}) => _copyWith(
-        required: true,
-        extraRules: [
-          _StringRule(
-            test: (v) => v.isNotEmpty,
-            message: message ?? 'This field is required',
-          ),
-        ],
-      );
+    required: true,
+    extraRules: [
+      _StringRule(
+        test: (v) => v.isNotEmpty,
+        message: message ?? 'This field is required',
+      ),
+    ],
+  );
 
   /// Marks the field as optional.
   ///
@@ -62,101 +62,101 @@ final class PkStringSchema extends PkSchema<String> {
 
   /// Validates that the value is a well-formed email address.
   PkStringSchema email({String? message}) => _copyWith(
-        extraRules: [
-          _StringRule(
-            test: (v) => _emailRegex.hasMatch(v),
-            message: message ?? 'Invalid email format',
-          ),
-        ],
-      );
+    extraRules: [
+      _StringRule(
+        test: (v) => _emailRegex.hasMatch(v),
+        message: message ?? 'Invalid email format',
+      ),
+    ],
+  );
 
   /// Validates that the value is a well-formed HTTP or HTTPS URL.
   PkStringSchema url({String? message}) => _copyWith(
-        extraRules: [
-          _StringRule(
-            test: (v) {
-              final uri = Uri.tryParse(v);
-              return uri != null &&
-                  (uri.isScheme('http') || uri.isScheme('https')) &&
-                  uri.host.isNotEmpty;
-            },
-            message: message ?? 'Invalid URL',
-          ),
-        ],
-      );
+    extraRules: [
+      _StringRule(
+        test: (v) {
+          final uri = Uri.tryParse(v);
+          return uri != null &&
+              (uri.isScheme('http') || uri.isScheme('https')) &&
+              uri.host.isNotEmpty;
+        },
+        message: message ?? 'Invalid URL',
+      ),
+    ],
+  );
 
   /// Validates that the value is a plausible phone number (E.164 or local).
   PkStringSchema phone({String? message}) => _copyWith(
-        extraRules: [
-          _StringRule(
-            test: (v) => _phoneRegex.hasMatch(v),
-            message: message ?? 'Invalid phone number',
-          ),
-        ],
-      );
+    extraRules: [
+      _StringRule(
+        test: (v) => _phoneRegex.hasMatch(v),
+        message: message ?? 'Invalid phone number',
+      ),
+    ],
+  );
 
   /// Validates that the value is at least [min] characters long.
   PkStringSchema minLength(int min, {String? message}) => _copyWith(
-        extraRules: [
-          _StringRule(
-            test: (v) => v.length >= min,
-            message: message ?? 'Must be at least $min characters',
-          ),
-        ],
-      );
+    extraRules: [
+      _StringRule(
+        test: (v) => v.length >= min,
+        message: message ?? 'Must be at least $min characters',
+      ),
+    ],
+  );
 
   /// Validates that the value is at most [max] characters long.
   PkStringSchema maxLength(int max, {String? message}) => _copyWith(
-        extraRules: [
-          _StringRule(
-            test: (v) => v.length <= max,
-            message: message ?? 'Must be at most $max characters',
-          ),
-        ],
-      );
+    extraRules: [
+      _StringRule(
+        test: (v) => v.length <= max,
+        message: message ?? 'Must be at most $max characters',
+      ),
+    ],
+  );
 
   /// Validates that the value matches [regex].
   PkStringSchema pattern(RegExp regex, {String? message}) => _copyWith(
-        extraRules: [
-          _StringRule(
-            test: (v) => regex.hasMatch(v),
-            message: message ?? 'Invalid format',
-          ),
-        ],
-      );
+    extraRules: [
+      _StringRule(
+        test: (v) => regex.hasMatch(v),
+        message: message ?? 'Invalid format',
+      ),
+    ],
+  );
 
   /// Validates that the value is one of the provided [values].
   PkStringSchema oneOf(List<String> values, {String? message}) => _copyWith(
-        extraRules: [
-          _StringRule(
-            test: (v) => values.contains(v),
-            message: message ?? 'Must be one of: ${values.join(', ')}',
-          ),
-        ],
-      );
+    extraRules: [
+      _StringRule(
+        test: (v) => values.contains(v),
+        message: message ?? 'Must be one of: ${values.join(', ')}',
+      ),
+    ],
+  );
 
   /// Validates that the value is not empty after trimming.
   PkStringSchema notEmpty({String? message}) => _copyWith(
-        extraRules: [
-          _StringRule(
-            test: (v) => v.trim().isNotEmpty,
-            message: message ?? 'Must not be empty',
-          ),
-        ],
-      );
+    extraRules: [
+      _StringRule(
+        test: (v) => v.trim().isNotEmpty,
+        message: message ?? 'Must not be empty',
+      ),
+    ],
+  );
 
   /// Trims leading and trailing whitespace before running any other rules.
   PkStringSchema trim() => _copyWith(shouldTrim: true);
 
   /// Validates that the value passes the Luhn algorithm (credit card numbers).
   PkStringSchema creditCard({String? message}) => _copyWith(
-        extraRules: [
-          _StringRule(
-            test: (v) => _isValidCreditCard(v),
-            message: message ?? 'Invalid credit card number',
-          ),
-        ],
-      );
+    extraRules: [
+      _StringRule(
+        test: (v) => _isValidCreditCard(v),
+        message: message ?? 'Invalid credit card number',
+      ),
+    ],
+  );
 
   /// Validates that the value matches the value produced by [other] at
   /// validation time.
@@ -179,12 +179,14 @@ final class PkStringSchema extends PkSchema<String> {
         rules: _rules,
         shouldTrim: _shouldTrim,
         matchTarget: other,
-      )._copyWith(extraRules: [
-        _StringRule(
-          test: (_) => true, // checked separately in validate()
-          message: message ?? 'Values do not match',
-        ),
-      ]);
+      )._copyWith(
+        extraRules: [
+          _StringRule(
+            test: (_) => true, // checked separately in validate()
+            message: message ?? 'Values do not match',
+          ),
+        ],
+      );
 
   // ---------------------------------------------------------------------------
   // Validation
@@ -210,9 +212,8 @@ final class PkStringSchema extends PkSchema<String> {
     }
 
     if (_matchTarget != null) {
-      final targetResult = _matchTarget!.validate(value);
-      if (!targetResult.isValid ||
-          targetResult.value != processed) {
+      final targetResult = _matchTarget.validate(value);
+      if (!targetResult.isValid || targetResult.value != processed) {
         return ValidationResult.invalid({'_': 'Values do not match'});
       }
     }
@@ -228,13 +229,12 @@ final class PkStringSchema extends PkSchema<String> {
     bool? required,
     List<_StringRule> extraRules = const [],
     bool? shouldTrim,
-  }) =>
-      PkStringSchema._(
-        required: required ?? _required,
-        rules: [..._rules, ...extraRules],
-        shouldTrim: shouldTrim ?? _shouldTrim,
-        matchTarget: _matchTarget,
-      );
+  }) => PkStringSchema._(
+    required: required ?? _required,
+    rules: [..._rules, ...extraRules],
+    shouldTrim: shouldTrim ?? _shouldTrim,
+    matchTarget: _matchTarget,
+  );
 
   static bool _isValidCreditCard(String value) {
     final digits = value.replaceAll(RegExp(r'\D'), '');

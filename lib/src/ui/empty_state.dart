@@ -35,15 +35,14 @@ class EmptyState extends StatelessWidget {
   // ---------------------------------------------------------------------------
 
   /// Shows an empty state for empty search or filter results.
-  factory EmptyState.noResults({Key? key, VoidCallback? onClear}) =>
-      EmptyState(
-        key: key,
-        message: 'Try adjusting your search or filters.',
-        icon: Icons.search_off_rounded,
-        title: 'No results found',
-        actionLabel: onClear != null ? 'Clear filters' : null,
-        onAction: onClear,
-      );
+  factory EmptyState.noResults({Key? key, VoidCallback? onClear}) => EmptyState(
+    key: key,
+    message: 'Try adjusting your search or filters.',
+    icon: Icons.search_off_rounded,
+    title: 'No results found',
+    actionLabel: onClear != null ? 'Clear filters' : null,
+    onAction: onClear,
+  );
 
   /// Shows an empty state for when the device is offline.
   factory EmptyState.noConnection({Key? key, VoidCallback? onRetry}) =>
@@ -61,30 +60,28 @@ class EmptyState extends StatelessWidget {
     Key? key,
     VoidCallback? onRetry,
     String? message,
-  }) =>
-      EmptyState(
-        key: key,
-        message: message ?? 'An unexpected error occurred. Please try again.',
-        icon: Icons.error_outline_rounded,
-        title: 'Something went wrong',
-        actionLabel: onRetry != null ? 'Retry' : null,
-        onAction: onRetry,
-      );
+  }) => EmptyState(
+    key: key,
+    message: message ?? 'An unexpected error occurred. Please try again.',
+    icon: Icons.error_outline_rounded,
+    title: 'Something went wrong',
+    actionLabel: onRetry != null ? 'Retry' : null,
+    onAction: onRetry,
+  );
 
   /// Shows an empty state for screens with no data yet.
   factory EmptyState.noData({
     Key? key,
     String? message,
     VoidCallback? onCreate,
-  }) =>
-      EmptyState(
-        key: key,
-        message: message ?? 'Get started by adding your first item.',
-        icon: Icons.inbox_outlined,
-        title: 'Nothing here yet',
-        actionLabel: onCreate != null ? 'Create' : null,
-        onAction: onCreate,
-      );
+  }) => EmptyState(
+    key: key,
+    message: message ?? 'Get started by adding your first item.',
+    icon: Icons.inbox_outlined,
+    title: 'Nothing here yet',
+    actionLabel: onCreate != null ? 'Create' : null,
+    onAction: onCreate,
+  );
 
   // ---------------------------------------------------------------------------
   // Fields

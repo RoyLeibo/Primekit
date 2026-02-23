@@ -116,10 +116,7 @@ final class FieldMergeResolver<T> implements ConflictResolver<T> {
     final localTs = _parseFieldTimestamps(local[_tsKey]);
     final remoteTs = _parseFieldTimestamps(remote[_tsKey]);
 
-    final allKeys = {
-      ...local.keys,
-      ...remote.keys,
-    }.where((k) => k != _tsKey);
+    final allKeys = {...local.keys, ...remote.keys}.where((k) => k != _tsKey);
 
     final mergedFields = <String, dynamic>{};
     final mergedTs = <String, String>{};
@@ -137,20 +134,15 @@ final class FieldMergeResolver<T> implements ConflictResolver<T> {
       }
     }
 
-    return {
-      ...mergedFields,
-      _tsKey: mergedTs,
-    };
+    return {...mergedFields, _tsKey: mergedTs};
   }
 
   Map<String, DateTime> _parseFieldTimestamps(Object? raw) {
     if (raw is! Map) return {};
     return raw.cast<String, String>().map(
-          (k, v) => MapEntry(
-            k,
-            DateTime.tryParse(v)?.toUtc() ?? DateTime.utc(1970),
-          ),
-        );
+      (k, v) =>
+          MapEntry(k, DateTime.tryParse(v)?.toUtc() ?? DateTime.utc(1970)),
+    );
   }
 }
 
@@ -171,8 +163,7 @@ final class ServerWinsResolver<T> implements ConflictResolver<T> {
   Future<Map<String, dynamic>> resolve({
     required Map<String, dynamic> local,
     required Map<String, dynamic> remote,
-  }) async =>
-      remote;
+  }) async => remote;
 }
 
 // ---------------------------------------------------------------------------
@@ -192,8 +183,7 @@ final class ClientWinsResolver<T> implements ConflictResolver<T> {
   Future<Map<String, dynamic>> resolve({
     required Map<String, dynamic> local,
     required Map<String, dynamic> remote,
-  }) async =>
-      local;
+  }) async => local;
 }
 
 // ---------------------------------------------------------------------------
@@ -224,12 +214,12 @@ final class ManualConflictResolver<T> implements ConflictResolver<T> {
   final Future<Map<String, dynamic>> Function(
     Map<String, dynamic> local,
     Map<String, dynamic> remote,
-  ) onConflict;
+  )
+  onConflict;
 
   @override
   Future<Map<String, dynamic>> resolve({
     required Map<String, dynamic> local,
     required Map<String, dynamic> remote,
-  }) =>
-      onConflict(local, remote);
+  }) => onConflict(local, remote);
 }

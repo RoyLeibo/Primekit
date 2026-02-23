@@ -70,37 +70,36 @@ final class QueuedEmail {
     DateTime? lastAttemptAt,
     QueuedEmailStatus? status,
     String? lastError,
-  }) =>
-      QueuedEmail(
-        id: id ?? this.id,
-        message: message ?? this.message,
-        enqueuedAt: enqueuedAt ?? this.enqueuedAt,
-        attempts: attempts ?? this.attempts,
-        lastAttemptAt: lastAttemptAt ?? this.lastAttemptAt,
-        status: status ?? this.status,
-        lastError: lastError ?? this.lastError,
-      );
+  }) => QueuedEmail(
+    id: id ?? this.id,
+    message: message ?? this.message,
+    enqueuedAt: enqueuedAt ?? this.enqueuedAt,
+    attempts: attempts ?? this.attempts,
+    lastAttemptAt: lastAttemptAt ?? this.lastAttemptAt,
+    status: status ?? this.status,
+    lastError: lastError ?? this.lastError,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'enqueuedAt': enqueuedAt.toIso8601String(),
-        'attempts': attempts,
-        'lastAttemptAt': lastAttemptAt?.toIso8601String(),
-        'status': status.name,
-        'lastError': lastError,
-        'message': {
-          'to': message.to,
-          'toName': message.toName,
-          'subject': message.subject,
-          'textBody': message.textBody,
-          'htmlBody': message.htmlBody,
-          'replyTo': message.replyTo,
-          'headers': message.headers,
-          // Attachments are intentionally omitted from persistence
-          // to avoid storing large binary data in SharedPreferences.
-          // Re-attach before enqueueing if persistence is critical.
-        },
-      };
+    'id': id,
+    'enqueuedAt': enqueuedAt.toIso8601String(),
+    'attempts': attempts,
+    'lastAttemptAt': lastAttemptAt?.toIso8601String(),
+    'status': status.name,
+    'lastError': lastError,
+    'message': {
+      'to': message.to,
+      'toName': message.toName,
+      'subject': message.subject,
+      'textBody': message.textBody,
+      'htmlBody': message.htmlBody,
+      'replyTo': message.replyTo,
+      'headers': message.headers,
+      // Attachments are intentionally omitted from persistence
+      // to avoid storing large binary data in SharedPreferences.
+      // Re-attach before enqueueing if persistence is critical.
+    },
+  };
 
   factory QueuedEmail.fromJson(Map<String, dynamic> json) {
     final msgJson = json['message'] as Map<String, dynamic>? ?? {};
@@ -220,9 +219,8 @@ class EmailQueue {
   Stream<EmailQueueEvent> get events => _eventController.stream;
 
   /// Number of emails currently pending in the queue.
-  int get pendingCount => _queue
-      .where((e) => e.status == QueuedEmailStatus.pending)
-      .length;
+  int get pendingCount =>
+      _queue.where((e) => e.status == QueuedEmailStatus.pending).length;
 
   // ---------------------------------------------------------------------------
   // Initialization
@@ -358,10 +356,7 @@ class EmailQueue {
     _isFlushing = false;
 
     _eventController.add(EmailFlushCompleted(sent: sent, failed: failed));
-    PrimekitLogger.info(
-      'Flush complete. sent=$sent failed=$failed',
-      tag: _tag,
-    );
+    PrimekitLogger.info('Flush complete. sent=$sent failed=$failed', tag: _tag);
   }
 
   // ---------------------------------------------------------------------------
@@ -371,9 +366,7 @@ class EmailQueue {
   /// Removes all items with [QueuedEmailStatus.failed] from the queue.
   Future<void> clearFailed() async {
     await initialize();
-    _queue = _queue
-        .where((e) => e.status != QueuedEmailStatus.failed)
-        .toList();
+    _queue = _queue.where((e) => e.status != QueuedEmailStatus.failed).toList();
     await _saveToPrefs();
     PrimekitLogger.info('Cleared failed queue items.', tag: _tag);
   }
@@ -426,15 +419,13 @@ class EmailQueue {
   // ---------------------------------------------------------------------------
 
   void _startConnectivityMonitor() {
-    _connectivitySubscription = Connectivity()
-        .onConnectivityChanged
-        .listen(_onConnectivityChanged);
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
+      _onConnectivityChanged,
+    );
   }
 
   void _onConnectivityChanged(List<ConnectivityResult> results) {
-    final isConnected = results.any(
-      (r) => r != ConnectivityResult.none,
-    );
+    final isConnected = results.any((r) => r != ConnectivityResult.none);
 
     if (isConnected && pendingCount > 0) {
       PrimekitLogger.info(

@@ -49,8 +49,8 @@ void main() {
     test('load restores persisted timestamp', () async {
       // Pre-populate with a recent timestamp (within cooldown).
       final recentTime = DateTime.now().toUtc().subtract(
-            const Duration(minutes: 1),
-          );
+        const Duration(minutes: 1),
+      );
       SharedPreferences.setMockInitialValues({
         'primekit_ad_last_shown': recentTime.toIso8601String(),
       });
@@ -62,9 +62,7 @@ void main() {
     });
 
     test('load: cooldown expired means canShowAd is true', () async {
-      final oldTime = DateTime.now().toUtc().subtract(
-            const Duration(hours: 2),
-          );
+      final oldTime = DateTime.now().toUtc().subtract(const Duration(hours: 2));
       SharedPreferences.setMockInitialValues({
         'primekit_ad_last_shown': oldTime.toIso8601String(),
       });

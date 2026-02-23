@@ -37,10 +37,7 @@ class NavigationLogger extends NavigatorObserver {
   ///
   /// [analyticsProvider] receives `screen_view` events for every route
   /// transition. [logToConsole] mirrors events to [debugPrint] when `true`.
-  NavigationLogger({
-    this.analyticsProvider,
-    this.logToConsole = true,
-  });
+  NavigationLogger({this.analyticsProvider, this.logToConsole = true});
 
   /// Optional analytics backend to forward screen-view events to.
   final NavigationAnalyticsProvider? analyticsProvider;
@@ -55,41 +52,25 @@ class NavigationLogger extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);
-    _logEvent(
-      event: 'push',
-      current: route,
-      previous: previousRoute,
-    );
+    _logEvent(event: 'push', current: route, previous: previousRoute);
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPop(route, previousRoute);
-    _logEvent(
-      event: 'pop',
-      current: previousRoute,
-      previous: route,
-    );
+    _logEvent(event: 'pop', current: previousRoute, previous: route);
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
-    _logEvent(
-      event: 'replace',
-      current: newRoute,
-      previous: oldRoute,
-    );
+    _logEvent(event: 'replace', current: newRoute, previous: oldRoute);
   }
 
   @override
   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didRemove(route, previousRoute);
-    _logEvent(
-      event: 'remove',
-      current: previousRoute,
-      previous: route,
-    );
+    _logEvent(event: 'remove', current: previousRoute, previous: route);
   }
 
   // ---------------------------------------------------------------------------

@@ -28,8 +28,8 @@ class _StubMigration extends Migration {
     required this.description,
     bool shouldFail = false,
     Future<void> Function()? onUp,
-  })  : _shouldFail = shouldFail,
-        _onUp = onUp;
+  }) : _shouldFail = shouldFail,
+       _onUp = onUp;
 
   @override
   final int version;
@@ -105,30 +105,32 @@ void main() {
       expect(m2.upCallCount, 1);
     });
 
-    test('runs migrations in ascending version order regardless of list order',
-        () async {
-      final callOrder = <int>[];
-      final m3 = _StubMigration(
-        version: 3,
-        description: 'Third',
-        onUp: () async => callOrder.add(3),
-      );
-      final m1 = _StubMigration(
-        version: 1,
-        description: 'First',
-        onUp: () async => callOrder.add(1),
-      );
-      final m2 = _StubMigration(
-        version: 2,
-        description: 'Second',
-        onUp: () async => callOrder.add(2),
-      );
+    test(
+      'runs migrations in ascending version order regardless of list order',
+      () async {
+        final callOrder = <int>[];
+        final m3 = _StubMigration(
+          version: 3,
+          description: 'Third',
+          onUp: () async => callOrder.add(3),
+        );
+        final m1 = _StubMigration(
+          version: 1,
+          description: 'First',
+          onUp: () async => callOrder.add(1),
+        );
+        final m2 = _StubMigration(
+          version: 2,
+          description: 'Second',
+          onUp: () async => callOrder.add(2),
+        );
 
-      final runner = makeRunner([m3, m1, m2]);
-      await runner.run();
+        final runner = makeRunner([m3, m1, m2]);
+        await runner.run();
 
-      expect(callOrder, [1, 2, 3]);
-    });
+        expect(callOrder, [1, 2, 3]);
+      },
+    );
 
     test('records applied migrations in the store', () async {
       final m1 = _StubMigration(version: 1, description: 'Alpha');
@@ -170,30 +172,29 @@ void main() {
       );
       final runner = makeRunner([m1, m2]);
 
-      await expectLater(
-        runner.run,
-        throwsA(isA<StorageException>()),
-      );
+      await expectLater(runner.run, throwsA(isA<StorageException>()));
     });
 
-    test('retains records for migrations that succeeded before a failure',
-        () async {
-      final m1 = _StubMigration(version: 1, description: 'Good');
-      final m2 = _StubMigration(
-        version: 2,
-        description: 'Bad',
-        shouldFail: true,
-      );
-      final runner = makeRunner([m1, m2]);
+    test(
+      'retains records for migrations that succeeded before a failure',
+      () async {
+        final m1 = _StubMigration(version: 1, description: 'Good');
+        final m2 = _StubMigration(
+          version: 2,
+          description: 'Bad',
+          shouldFail: true,
+        );
+        final runner = makeRunner([m1, m2]);
 
-      try {
-        await runner.run();
-      } catch (_) {}
+        try {
+          await runner.run();
+        } catch (_) {}
 
-      final records = await store.loadRecords();
-      expect(records.length, 1);
-      expect(records.first.version, 1);
-    });
+        final records = await store.loadRecords();
+        expect(records.length, 1);
+        expect(records.first.version, 1);
+      },
+    );
   });
 
   // ---------------------------------------------------------------------------
@@ -208,13 +209,25 @@ void main() {
 
     test('returns the highest applied version', () async {
       store.appendRecord(
-        MigrationRecord(version: 1, description: 'v1', appliedAt: DateTime.now().toUtc()),
+        MigrationRecord(
+          version: 1,
+          description: 'v1',
+          appliedAt: DateTime.now().toUtc(),
+        ),
       );
       store.appendRecord(
-        MigrationRecord(version: 3, description: 'v3', appliedAt: DateTime.now().toUtc()),
+        MigrationRecord(
+          version: 3,
+          description: 'v3',
+          appliedAt: DateTime.now().toUtc(),
+        ),
       );
       store.appendRecord(
-        MigrationRecord(version: 2, description: 'v2', appliedAt: DateTime.now().toUtc()),
+        MigrationRecord(
+          version: 2,
+          description: 'v2',
+          appliedAt: DateTime.now().toUtc(),
+        ),
       );
 
       final runner = makeRunner([]);

@@ -24,18 +24,14 @@ final class OtpEntry {
   final int attempts;
 
   /// Returns a copy with [attempts] incremented by one.
-  OtpEntry incrementAttempts() => OtpEntry(
-        code: code,
-        expiresAt: expiresAt,
-        attempts: attempts + 1,
-      );
+  OtpEntry incrementAttempts() =>
+      OtpEntry(code: code, expiresAt: expiresAt, attempts: attempts + 1);
 
   /// Whether this entry has passed its [expiresAt] threshold.
   bool get isExpired => DateTime.now().toUtc().isAfter(expiresAt);
 
   @override
-  String toString() =>
-      'OtpEntry(expiresAt: $expiresAt, attempts: $attempts)';
+  String toString() => 'OtpEntry(expiresAt: $expiresAt, attempts: $attempts)';
 }
 
 /// The outcome of an [OtpService.validate] call.
@@ -211,10 +207,7 @@ final class OtpService {
   /// Removes the OTP entry for [key], if any.
   void clear(String key) {
     _store.remove(key);
-    PrimekitLogger.debug(
-      'OTP entry cleared for key "$key"',
-      tag: 'OtpService',
-    );
+    PrimekitLogger.debug('OTP entry cleared for key "$key"', tag: 'OtpService');
   }
 
   /// Removes all stored OTP entries.

@@ -51,14 +51,20 @@ final class MediaFile {
   /// File size in megabytes, derived from [sizeBytes].
   ///
   /// Returns `null` when [sizeBytes] is unknown.
-  double? get sizeMb =>
-      sizeBytes == null ? null : sizeBytes! / (1024 * 1024);
+  double? get sizeMb => sizeBytes == null ? null : sizeBytes! / (1024 * 1024);
 
   /// Whether this file is an image based on [mimeType] or [extension].
   bool get isImage {
     final ext = extension.toLowerCase();
     const imageExts = {
-      'jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'heic', 'heif',
+      'jpg',
+      'jpeg',
+      'png',
+      'gif',
+      'webp',
+      'bmp',
+      'heic',
+      'heif',
     };
     if (imageExts.contains(ext)) return true;
     final mime = mimeType?.toLowerCase() ?? '';
@@ -99,22 +105,17 @@ final class MediaFile {
     Object? width = _sentinel,
     Object? height = _sentinel,
     Object? capturedAt = _sentinel,
-  }) =>
-      MediaFile(
-        path: path ?? this.path,
-        name: name == _sentinel ? this.name : name as String?,
-        sizeBytes: sizeBytes == _sentinel
-            ? this.sizeBytes
-            : sizeBytes as int?,
-        mimeType: mimeType == _sentinel
-            ? this.mimeType
-            : mimeType as String?,
-        width: width == _sentinel ? this.width : width as int?,
-        height: height == _sentinel ? this.height : height as int?,
-        capturedAt: capturedAt == _sentinel
-            ? this.capturedAt
-            : capturedAt as DateTime?,
-      );
+  }) => MediaFile(
+    path: path ?? this.path,
+    name: name == _sentinel ? this.name : name as String?,
+    sizeBytes: sizeBytes == _sentinel ? this.sizeBytes : sizeBytes as int?,
+    mimeType: mimeType == _sentinel ? this.mimeType : mimeType as String?,
+    width: width == _sentinel ? this.width : width as int?,
+    height: height == _sentinel ? this.height : height as int?,
+    capturedAt: capturedAt == _sentinel
+        ? this.capturedAt
+        : capturedAt as DateTime?,
+  );
 
   // ---------------------------------------------------------------------------
   // Equality / hashCode
@@ -134,15 +135,8 @@ final class MediaFile {
           capturedAt == other.capturedAt;
 
   @override
-  int get hashCode => Object.hash(
-        path,
-        name,
-        sizeBytes,
-        mimeType,
-        width,
-        height,
-        capturedAt,
-      );
+  int get hashCode =>
+      Object.hash(path, name, sizeBytes, mimeType, width, height, capturedAt);
 
   @override
   String toString() =>

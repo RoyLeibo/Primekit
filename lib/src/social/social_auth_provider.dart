@@ -49,8 +49,7 @@ final class SocialAuthResult {
   final SocialProvider provider;
 
   @override
-  String toString() =>
-      'SocialAuthResult(userId: $userId, provider: $provider)';
+  String toString() => 'SocialAuthResult(userId: $userId, provider: $provider)';
 }
 
 /// Abstract interface for social OAuth flows.
@@ -80,7 +79,7 @@ final class FirebaseSocialAuth implements SocialAuthService {
   ///
   /// [auth] defaults to [FirebaseAuth.instance].
   FirebaseSocialAuth({FirebaseAuth? auth})
-      : _auth = auth ?? FirebaseAuth.instance;
+    : _auth = auth ?? FirebaseAuth.instance;
 
   final FirebaseAuth _auth;
 
@@ -118,7 +117,7 @@ final class FirebaseSocialAuth implements SocialAuthService {
       await _auth.signOut();
       // Best-effort sign-out from Google (no-op if not used).
       try {
-        await GoogleSignIn().signOut();
+        await GoogleSignIn.instance.signOut();
       } on Exception {
         // Ignore if Google Sign-In not configured.
       }
@@ -133,12 +132,11 @@ final class FirebaseSocialAuth implements SocialAuthService {
 
   Future<SocialAuthResult?> _signInWithGoogle() async {
     try {
-      final googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) return null;
+      await GoogleSignIn.instance.initialize();
+      final googleUser = await GoogleSignIn.instance.authenticate();
 
-      final googleAuth = await googleUser.authentication;
+      final googleAuth = googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
@@ -151,7 +149,7 @@ final class FirebaseSocialAuth implements SocialAuthService {
         email: user.email,
         displayName: user.displayName,
         avatarUrl: user.photoURL,
-        accessToken: googleAuth.accessToken ?? '',
+        accessToken: googleAuth.idToken ?? '',
         provider: SocialProvider.google,
       );
     } catch (error) {

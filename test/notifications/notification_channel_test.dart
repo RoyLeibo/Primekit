@@ -73,10 +73,7 @@ void main() {
 
       test('alerts channel has high importance', () {
         expect(NotificationChannel.alerts.id, equals('alerts'));
-        expect(
-          NotificationChannel.alerts.importance,
-          equals(Importance.high),
-        );
+        expect(NotificationChannel.alerts.importance, equals(Importance.high));
         expect(NotificationChannel.alerts.enableLights, isTrue);
       });
     });
@@ -100,10 +97,7 @@ void main() {
       });
 
       test('default importance maps to default priority', () {
-        const defaultChannel = NotificationChannel(
-          id: 'd',
-          name: 'Default',
-        );
+        const defaultChannel = NotificationChannel(id: 'd', name: 'Default');
         final details = defaultChannel.toAndroidDetails();
         expect(details.priority, equals(Priority.defaultPriority));
       });

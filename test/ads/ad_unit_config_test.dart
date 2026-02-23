@@ -78,20 +78,23 @@ void main() {
         rewardedId: 'and-reward',
       );
 
-      test('returns the platform-appropriate config or throws on non-mobile', () {
-        try {
-          final selected = AdUnitConfig.forPlatform(
-            ios: iosConfig,
-            android: androidConfig,
-          );
-          expect(
-            [iosConfig.bannerId, androidConfig.bannerId],
-            contains(selected.bannerId),
-          );
-        } on UnsupportedError {
-          markTestSkipped('forPlatform() requires iOS or Android.');
-        }
-      });
+      test(
+        'returns the platform-appropriate config or throws on non-mobile',
+        () {
+          try {
+            final selected = AdUnitConfig.forPlatform(
+              ios: iosConfig,
+              android: androidConfig,
+            );
+            expect([
+              iosConfig.bannerId,
+              androidConfig.bannerId,
+            ], contains(selected.bannerId));
+          } on UnsupportedError {
+            markTestSkipped('forPlatform() requires iOS or Android.');
+          }
+        },
+      );
     });
   });
 }

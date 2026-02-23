@@ -16,18 +16,12 @@ void main() {
   final editorRole = Role(
     id: 'editor',
     name: 'Editor',
-    permissions: const [
-      Permission.read('posts'),
-      Permission.write('posts'),
-    ],
+    permissions: const [Permission.read('posts'), Permission.write('posts')],
   );
   final policy = RbacPolicy(roles: [viewerRole, editorRole]);
 
-  RbacContext makeContext(List<String> roleIds) => RbacContext(
-        userId: 'user_1',
-        roleIds: roleIds,
-        policy: policy,
-      );
+  RbacContext makeContext(List<String> roleIds) =>
+      RbacContext(userId: 'user_1', roleIds: roleIds, policy: policy);
 
   group('RbacContext', () {
     // -------------------------------------------------------------------------
@@ -132,8 +126,9 @@ void main() {
       test('deduplicates permissions shared across roles', () {
         // viewer and editor both have posts:read
         final ctx = makeContext(['viewer', 'editor']);
-        final readCount =
-            ctx.allPermissionKeys.where((k) => k == 'posts:read').length;
+        final readCount = ctx.allPermissionKeys
+            .where((k) => k == 'posts:read')
+            .length;
         expect(readCount, 1);
       });
     });

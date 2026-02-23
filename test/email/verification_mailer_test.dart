@@ -96,8 +96,7 @@ void main() {
       });
 
       test('returns provider result', () async {
-        final result =
-            await mailer.sendOtp(toEmail: 'u@u.com', otp: '111');
+        final result = await mailer.sendOtp(toEmail: 'u@u.com', otp: '111');
         expect(result.isSuccess, isTrue);
         expect((result as EmailSuccess).messageId, equals('test-id'));
       });
@@ -108,8 +107,7 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('sendVerificationLink', () {
-      const verificationUrl =
-          'https://myapp.com/verify?token=abc123secret';
+      const verificationUrl = 'https://myapp.com/verify?token=abc123secret';
 
       test('sends to correct address', () async {
         await mailer.sendVerificationLink(
@@ -135,10 +133,7 @@ void main() {
           toEmail: 'u@u.com',
           verificationUrl: verificationUrl,
         );
-        expect(
-          provider.captured.first.textBody,
-          contains(verificationUrl),
-        );
+        expect(provider.captured.first.textBody, contains(verificationUrl));
       });
 
       test('html body contains verification url', () async {
@@ -181,18 +176,12 @@ void main() {
       });
 
       test('subject contains user name', () async {
-        await mailer.sendWelcome(
-          toEmail: 'u@u.com',
-          userName: 'Bob',
-        );
+        await mailer.sendWelcome(toEmail: 'u@u.com', userName: 'Bob');
         expect(provider.captured.first.subject, contains('Bob'));
       });
 
       test('html body contains user name', () async {
-        await mailer.sendWelcome(
-          toEmail: 'u@u.com',
-          userName: 'Charlie',
-        );
+        await mailer.sendWelcome(toEmail: 'u@u.com', userName: 'Charlie');
         expect(provider.captured.first.htmlBody, contains('Charlie'));
       });
 
@@ -202,10 +191,7 @@ void main() {
       });
 
       test('html escapes user name with special characters', () async {
-        await mailer.sendWelcome(
-          toEmail: 'u@u.com',
-          userName: '<b>XSS</b>',
-        );
+        await mailer.sendWelcome(toEmail: 'u@u.com', userName: '<b>XSS</b>');
         final html = provider.captured.first.htmlBody!;
         expect(html, isNot(contains('<b>XSS</b>')));
         expect(html, contains('&lt;b&gt;'));

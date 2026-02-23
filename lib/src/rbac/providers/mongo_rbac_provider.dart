@@ -36,14 +36,14 @@ final class MongoRbacProvider implements RbacProvider {
     required String database,
     String usersCollection = 'users',
     Dio? dio,
-  })  : _policy = policy,
-        _baseUrl = baseUrl,
-        _dataSource = dataSource,
-        _database = database,
-        _usersCollection = usersCollection,
-        _dio = dio ?? Dio()
-          ..options.headers['api-key'] = apiKey
-          ..options.headers['Content-Type'] = 'application/json';
+  }) : _policy = policy,
+       _baseUrl = baseUrl,
+       _dataSource = dataSource,
+       _database = database,
+       _usersCollection = usersCollection,
+       _dio = dio ?? Dio()
+         ..options.headers['api-key'] = apiKey
+         ..options.headers['Content-Type'] = 'application/json';
 
   final RbacPolicy _policy;
   final String _baseUrl;
@@ -76,11 +76,7 @@ final class MongoRbacProvider implements RbacProvider {
           ? raw.whereType<String>().toList()
           : <String>[];
 
-      return RbacContext(
-        userId: userId,
-        roleIds: roleIds,
-        policy: _policy,
-      );
+      return RbacContext(userId: userId, roleIds: roleIds, policy: _policy);
     } catch (error) {
       throw Exception(
         'MongoRbacProvider.loadContext failed for user "$userId": $error',

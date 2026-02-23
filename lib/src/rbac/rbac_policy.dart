@@ -16,7 +16,7 @@ import 'permission.dart';
 class RbacPolicy {
   /// Creates an [RbacPolicy] from [roles].
   RbacPolicy({required List<Role> roles})
-      : _roles = {for (final r in roles) r.id: r};
+    : _roles = {for (final r in roles) r.id: r};
 
   final Map<String, Role> _roles;
 
@@ -43,10 +43,7 @@ class RbacPolicy {
   }
 
   /// Returns `true` when any role in [roleIds] has [permission].
-  bool anyRoleHasPermission(
-    List<String> roleIds,
-    Permission permission,
-  ) =>
+  bool anyRoleHasPermission(List<String> roleIds, Permission permission) =>
       roleIds.any((id) => hasPermission(id, permission));
 
   /// Returns the flattened set of all permissions for [roleId],
@@ -101,10 +98,7 @@ class RbacPolicy {
     return false;
   }
 
-  Set<Permission> _collectPermissions(
-    String roleId,
-    Set<String> visited,
-  ) {
+  Set<Permission> _collectPermissions(String roleId, Set<String> visited) {
     if (visited.contains(roleId)) return {};
     visited.add(roleId);
 

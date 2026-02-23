@@ -177,12 +177,12 @@ class _PkFormFieldState<T> extends State<PkFormField<T>> {
 
   @override
   Widget build(BuildContext context) => TextField(
-        controller: _controller,
-        obscureText: widget.obscureText,
-        keyboardType: widget.keyboardType,
-        textInputAction: widget.textInputAction,
-        maxLines: widget.obscureText ? 1 : widget.maxLines,
-        enabled: widget.enabled,
-        decoration: _buildDecoration(),
-      );
+    controller: _controller,
+    obscureText: widget.obscureText,
+    keyboardType: widget.keyboardType,
+    textInputAction: widget.textInputAction,
+    maxLines: widget.obscureText ? 1 : widget.maxLines,
+    enabled: widget.enabled,
+    decoration: _buildDecoration(),
+  );
 }

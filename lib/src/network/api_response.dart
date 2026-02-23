@@ -25,8 +25,7 @@ final class ApiLoading<T> implements ApiResponse<T> {
     required R Function() loading,
     required R Function(T data) success,
     required R Function(PrimekitException error) failure,
-  }) =>
-      loading();
+  }) => loading();
 
   @override
   ApiResponse<R> map<R>(R Function(T data) transform) => ApiLoading<R>();
@@ -59,8 +58,7 @@ final class ApiSuccess<T> implements ApiResponse<T> {
     required R Function() loading,
     required R Function(T data) success,
     required R Function(PrimekitException error) failure,
-  }) =>
-      success(data);
+  }) => success(data);
 
   @override
   ApiResponse<R> map<R>(R Function(T data) transform) =>
@@ -104,8 +102,7 @@ final class ApiFailure<T> implements ApiResponse<T> {
     required R Function() loading,
     required R Function(T data) success,
     required R Function(PrimekitException error) failure,
-  }) =>
-      failure(error);
+  }) => failure(error);
 
   @override
   ApiResponse<R> map<R>(R Function(T data) transform) => ApiFailure<R>(error);
@@ -149,7 +146,6 @@ final class ApiFailure<T> implements ApiResponse<T> {
 /// );
 /// ```
 sealed class ApiResponse<T> {
-
   /// Creates a loading state.
   const factory ApiResponse.loading() = ApiLoading<T>;
 

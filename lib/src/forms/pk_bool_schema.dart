@@ -12,16 +12,12 @@ import 'validation_result.dart';
 /// result.isValid // false
 /// ```
 final class PkBoolSchema extends PkSchema<bool> {
-  PkBoolSchema._({
-    required bool required,
-    required List<_BoolRule> rules,
-  })  : _required = required,
-        _rules = rules;
+  PkBoolSchema._({required bool required, required List<_BoolRule> rules})
+    : _required = required,
+      _rules = rules;
 
   /// Creates a new bool schema with no constraints.
-  PkBoolSchema()
-      : _required = true,
-        _rules = const [];
+  PkBoolSchema() : _required = true, _rules = const [];
 
   final bool _required;
   final List<_BoolRule> _rules;
@@ -43,23 +39,20 @@ final class PkBoolSchema extends PkSchema<bool> {
   ///
   /// Useful for checkbox acceptance fields.
   PkBoolSchema mustBeTrue({String? message}) => _copyWith(
-        extraRules: [
-          _BoolRule(
-            test: (v) => v == true,
-            message: message ?? 'Must be accepted',
-          ),
-        ],
-      );
+    extraRules: [
+      _BoolRule(test: (v) => v == true, message: message ?? 'Must be accepted'),
+    ],
+  );
 
   /// Validates that the value is `false`.
   PkBoolSchema mustBeFalse({String? message}) => _copyWith(
-        extraRules: [
-          _BoolRule(
-            test: (v) => v == false,
-            message: message ?? 'Must be declined',
-          ),
-        ],
-      );
+    extraRules: [
+      _BoolRule(
+        test: (v) => v == false,
+        message: message ?? 'Must be declined',
+      ),
+    ],
+  );
 
   // ---------------------------------------------------------------------------
   // Validation
@@ -101,11 +94,10 @@ final class PkBoolSchema extends PkSchema<bool> {
   PkBoolSchema _copyWith({
     bool? required,
     List<_BoolRule> extraRules = const [],
-  }) =>
-      PkBoolSchema._(
-        required: required ?? _required,
-        rules: [..._rules, ...extraRules],
-      );
+  }) => PkBoolSchema._(
+    required: required ?? _required,
+    rules: [..._rules, ...extraRules],
+  );
 }
 
 // ---------------------------------------------------------------------------

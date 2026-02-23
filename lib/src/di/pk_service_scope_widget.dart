@@ -44,8 +44,8 @@ class PkServiceScopeWidget extends StatefulWidget {
   ///
   /// Throws a [FlutterError] if no ancestor [PkServiceScopeWidget] is found.
   static ServiceScope scopeOf(BuildContext context) {
-    final inherited =
-        context.dependOnInheritedWidgetOfExactType<_ServiceScopeInherited>();
+    final inherited = context
+        .dependOnInheritedWidgetOfExactType<_ServiceScopeInherited>();
     if (inherited == null) {
       throw FlutterError(
         'PkServiceScopeWidget.scopeOf() called with a context that does not '
@@ -93,10 +93,10 @@ class _PkServiceScopeWidgetState extends State<PkServiceScopeWidget> {
 
   @override
   Widget build(BuildContext context) => _ServiceScopeInherited(
-        scope: _scope,
-        locator: widget.parent,
-        child: widget.child,
-      );
+    scope: _scope,
+    locator: widget.parent,
+    child: widget.child,
+  );
 }
 
 /// Internal [InheritedWidget] that distributes the [ServiceScope] and

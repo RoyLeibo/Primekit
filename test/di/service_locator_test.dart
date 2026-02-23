@@ -183,17 +183,19 @@ void main() {
       await expectLater(locator.disposeAll(), completes);
     });
 
-    test('does not call dispose on lazy singletons that have not been created',
-        () async {
-      var created = false;
-      locator.registerLazySingleton<_Disposable>((_) {
-        created = true;
-        return _Disposable();
-      });
-      // Never called get<>, so the instance was never created.
-      await locator.disposeAll();
-      expect(created, isFalse);
-    });
+    test(
+      'does not call dispose on lazy singletons that have not been created',
+      () async {
+        var created = false;
+        locator.registerLazySingleton<_Disposable>((_) {
+          created = true;
+          return _Disposable();
+        });
+        // Never called get<>, so the instance was never created.
+        await locator.disposeAll();
+        expect(created, isFalse);
+      },
+    );
   });
 
   // ---------------------------------------------------------------------------
@@ -209,9 +211,7 @@ void main() {
     });
 
     test('same instance returned after resolution', () async {
-      locator.registerSingletonAsync<_Counter>(
-        (_) async => _Counter(),
-      );
+      locator.registerSingletonAsync<_Counter>((_) async => _Counter());
       await locator.allReady();
       final a = locator.get<_Counter>();
       final b = locator.get<_Counter>();

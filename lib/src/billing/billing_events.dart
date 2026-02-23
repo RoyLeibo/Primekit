@@ -29,19 +29,17 @@ sealed class BillingEvent {
     required String productId,
     required double amount,
     required String currency,
-  }) =>
-      PurchaseCompleted(
-        productId: productId,
-        amount: amount,
-        currency: currency,
-      );
+  }) => PurchaseCompleted(
+    productId: productId,
+    amount: amount,
+    currency: currency,
+  );
 
   /// A purchase attempt failed with the given [reason].
   factory BillingEvent.purchaseFailed({
     required String productId,
     required String reason,
-  }) =>
-      PurchaseFailed(productId: productId, reason: reason);
+  }) => PurchaseFailed(productId: productId, reason: reason);
 
   /// The user explicitly cancelled the purchase flow for [productId].
   factory BillingEvent.purchaseCancelled(String productId) =>
@@ -51,8 +49,7 @@ sealed class BillingEvent {
   factory BillingEvent.subscriptionRenewed({
     required String productId,
     required DateTime nextRenewal,
-  }) =>
-      SubscriptionRenewed(productId: productId, nextRenewal: nextRenewal);
+  }) => SubscriptionRenewed(productId: productId, nextRenewal: nextRenewal);
 
   /// The user has cancelled an ongoing subscription for [productId].
   factory BillingEvent.subscriptionCancelled(String productId) =>
@@ -62,8 +59,7 @@ sealed class BillingEvent {
   factory BillingEvent.trialStarted({
     required String productId,
     required DateTime trialEnds,
-  }) =>
-      TrialStarted(productId: productId, trialEnds: trialEnds);
+  }) => TrialStarted(productId: productId, trialEnds: trialEnds);
 
   /// One or more purchases were restored via the platform restore flow.
   factory BillingEvent.restored(List<String> restoredProductIds) =>
@@ -147,8 +143,7 @@ final class PurchaseFailed extends BillingEvent {
   int get hashCode => Object.hash(runtimeType, productId, reason);
 
   @override
-  String toString() =>
-      'PurchaseFailed(productId: $productId, reason: $reason)';
+  String toString() => 'PurchaseFailed(productId: $productId, reason: $reason)';
 }
 
 /// The user cancelled the purchase flow.
@@ -245,7 +240,7 @@ final class TrialStarted extends BillingEvent {
 /// One or more purchases were restored via the platform restore flow.
 final class PurchasesRestored extends BillingEvent {
   PurchasesRestored(List<String> restoredProductIds)
-      : restoredProductIds = List.unmodifiable(restoredProductIds);
+    : restoredProductIds = List.unmodifiable(restoredProductIds);
 
   /// The Primekit product IDs that were successfully restored.
   final List<String> restoredProductIds;

@@ -53,10 +53,7 @@ class ConfirmDialog {
   ///
   /// [itemName] is embedded in the dialog message so users know exactly what
   /// they are deleting. Uses destructive button styling.
-  static Future<bool> showDelete(
-    BuildContext context, {
-    String? itemName,
-  }) {
+  static Future<bool> showDelete(BuildContext context, {String? itemName}) {
     final target = itemName != null ? '"$itemName"' : 'this item';
     return show(
       context,
@@ -93,8 +90,9 @@ class _ConfirmDialogWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final confirmColor =
-        isDestructive ? colorScheme.error : colorScheme.primary;
+    final confirmColor = isDestructive
+        ? colorScheme.error
+        : colorScheme.primary;
 
     return AlertDialog(
       icon: icon != null
@@ -134,8 +132,7 @@ class _ConfirmDialogWidget extends StatelessWidget {
           ),
         ),
       ],
-      actionsPadding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     );
   }

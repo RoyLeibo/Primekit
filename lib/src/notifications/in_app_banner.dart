@@ -257,10 +257,7 @@ class _InAppBannerState extends State<InAppBanner>
             child: Material(
               color: Colors.transparent,
               child: Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
                   color: bg,
                   borderRadius: BorderRadius.circular(12),
@@ -298,8 +295,7 @@ class _InAppBannerState extends State<InAppBanner>
                                 height: 1.3,
                               ),
                             ),
-                          if (widget.title != null)
-                            const SizedBox(height: 2),
+                          if (widget.title != null) const SizedBox(height: 2),
                           Text(
                             widget.message,
                             style: TextStyle(
@@ -339,10 +335,7 @@ class _InAppBannerState extends State<InAppBanner>
 // ---------------------------------------------------------------------------
 
 class _InAppBannerOverlay extends StatelessWidget {
-  const _InAppBannerOverlay({
-    required this.config,
-    required this.onDismiss,
-  });
+  const _InAppBannerOverlay({required this.config, required this.onDismiss});
 
   final InAppBannerConfig config;
   final VoidCallback onDismiss;
@@ -353,9 +346,7 @@ class _InAppBannerOverlay extends StatelessWidget {
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
 
     return Positioned(
-      top: config.position == InAppBannerPosition.top
-          ? topPadding + 4
-          : null,
+      top: config.position == InAppBannerPosition.top ? topPadding + 4 : null,
       bottom: config.position == InAppBannerPosition.bottom
           ? bottomPadding + 4
           : null,

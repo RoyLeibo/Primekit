@@ -129,15 +129,14 @@ class MembershipTier {
     List<String>? perks,
     String? badgeLabel,
     Color? badgeColor,
-  }) =>
-      MembershipTier(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        level: level ?? this.level,
-        perks: perks ?? List.unmodifiable(this.perks),
-        badgeLabel: badgeLabel ?? this.badgeLabel,
-        badgeColor: badgeColor ?? this.badgeColor,
-      );
+  }) => MembershipTier(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    level: level ?? this.level,
+    perks: perks ?? List.unmodifiable(this.perks),
+    badgeLabel: badgeLabel ?? this.badgeLabel,
+    badgeColor: badgeColor ?? this.badgeColor,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -151,6 +150,5 @@ class MembershipTier {
   int get hashCode => Object.hash(id, level);
 
   @override
-  String toString() =>
-      'MembershipTier(id: $id, name: $name, level: $level)';
+  String toString() => 'MembershipTier(id: $id, name: $name, level: $level)';
 }

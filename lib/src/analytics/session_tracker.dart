@@ -162,10 +162,7 @@ final class SessionTracker {
       ),
     );
 
-    PrimekitLogger.info(
-      'Session #$_sessionCount started.',
-      tag: _tag,
-    );
+    PrimekitLogger.info('Session #$_sessionCount started.', tag: _tag);
   }
 
   /// Ends the current session.

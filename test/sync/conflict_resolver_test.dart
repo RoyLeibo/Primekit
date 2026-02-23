@@ -9,8 +9,7 @@ Map<String, dynamic> _doc({
   String id = 'doc-1',
   String updatedAt = '2024-01-01T00:00:00.000Z',
   String value = 'value',
-}) =>
-    {'id': id, 'updatedAt': updatedAt, 'value': value};
+}) => {'id': id, 'updatedAt': updatedAt, 'value': value};
 
 void main() {
   // -------------------------------------------------------------------------
@@ -22,7 +21,10 @@ void main() {
 
     test('local is newer → local wins', () async {
       final local = _doc(updatedAt: '2024-06-01T12:00:00.000Z', value: 'local');
-      final remote = _doc(updatedAt: '2024-01-01T00:00:00.000Z', value: 'remote');
+      final remote = _doc(
+        updatedAt: '2024-01-01T00:00:00.000Z',
+        value: 'remote',
+      );
 
       final result = await resolver.resolve(local: local, remote: remote);
       expect(result['value'], 'local');
@@ -30,39 +32,49 @@ void main() {
 
     test('remote is newer → remote wins', () async {
       final local = _doc(updatedAt: '2024-01-01T00:00:00.000Z', value: 'local');
-      final remote =
-          _doc(updatedAt: '2024-06-01T12:00:00.000Z', value: 'remote');
+      final remote = _doc(
+        updatedAt: '2024-06-01T12:00:00.000Z',
+        value: 'remote',
+      );
 
       final result = await resolver.resolve(local: local, remote: remote);
       expect(result['value'], 'remote');
     });
 
-    test('equal timestamps, preferLocal=false → remote wins (default)', () async {
-      final ts = '2024-03-15T09:00:00.000Z';
-      final local = _doc(updatedAt: ts, value: 'local');
-      final remote = _doc(updatedAt: ts, value: 'remote');
+    test(
+      'equal timestamps, preferLocal=false → remote wins (default)',
+      () async {
+        final ts = '2024-03-15T09:00:00.000Z';
+        final local = _doc(updatedAt: ts, value: 'local');
+        final remote = _doc(updatedAt: ts, value: 'remote');
 
-      const defaultResolver = LastWriteWinsResolver<Map<String, dynamic>>();
-      final result =
-          await defaultResolver.resolve(local: local, remote: remote);
-      expect(result['value'], 'remote');
-    });
+        const defaultResolver = LastWriteWinsResolver<Map<String, dynamic>>();
+        final result = await defaultResolver.resolve(
+          local: local,
+          remote: remote,
+        );
+        expect(result['value'], 'remote');
+      },
+    );
 
     test('equal timestamps, preferLocal=true → local wins', () async {
       final ts = '2024-03-15T09:00:00.000Z';
       final local = _doc(updatedAt: ts, value: 'local');
       final remote = _doc(updatedAt: ts, value: 'remote');
 
-      const resolver =
-          LastWriteWinsResolver<Map<String, dynamic>>(preferLocal: true);
+      const resolver = LastWriteWinsResolver<Map<String, dynamic>>(
+        preferLocal: true,
+      );
       final result = await resolver.resolve(local: local, remote: remote);
       expect(result['value'], 'local');
     });
 
     test('missing updatedAt in local → remote wins', () async {
       final local = {'id': 'doc-1', 'value': 'local'};
-      final remote =
-          _doc(updatedAt: '2024-01-01T00:00:00.000Z', value: 'remote');
+      final remote = _doc(
+        updatedAt: '2024-01-01T00:00:00.000Z',
+        value: 'remote',
+      );
 
       final result = await resolver.resolve(local: local, remote: remote);
       expect(result['value'], 'remote');
@@ -104,17 +116,22 @@ void main() {
     const resolver = ServerWinsResolver<Map<String, dynamic>>();
 
     test('always returns remote regardless of timestamps', () async {
-      final local =
-          _doc(updatedAt: '2099-01-01T00:00:00.000Z', value: 'local');
-      final remote =
-          _doc(updatedAt: '2000-01-01T00:00:00.000Z', value: 'remote');
+      final local = _doc(updatedAt: '2099-01-01T00:00:00.000Z', value: 'local');
+      final remote = _doc(
+        updatedAt: '2000-01-01T00:00:00.000Z',
+        value: 'remote',
+      );
 
       final result = await resolver.resolve(local: local, remote: remote);
       expect(result['value'], 'remote');
     });
 
     test('returns full remote document', () async {
-      final local = {'id': 'doc-1', 'updatedAt': '2099-01-01T00:00:00.000Z', 'a': 1};
+      final local = {
+        'id': 'doc-1',
+        'updatedAt': '2099-01-01T00:00:00.000Z',
+        'a': 1,
+      };
       final remote = {
         'id': 'doc-1',
         'updatedAt': '2000-01-01T00:00:00.000Z',
@@ -135,17 +152,22 @@ void main() {
     const resolver = ClientWinsResolver<Map<String, dynamic>>();
 
     test('always returns local regardless of timestamps', () async {
-      final local =
-          _doc(updatedAt: '2000-01-01T00:00:00.000Z', value: 'local');
-      final remote =
-          _doc(updatedAt: '2099-01-01T00:00:00.000Z', value: 'remote');
+      final local = _doc(updatedAt: '2000-01-01T00:00:00.000Z', value: 'local');
+      final remote = _doc(
+        updatedAt: '2099-01-01T00:00:00.000Z',
+        value: 'remote',
+      );
 
       final result = await resolver.resolve(local: local, remote: remote);
       expect(result['value'], 'local');
     });
 
     test('returns full local document', () async {
-      final local = {'id': 'doc-1', 'updatedAt': '2000-01-01T00:00:00.000Z', 'a': 1};
+      final local = {
+        'id': 'doc-1',
+        'updatedAt': '2000-01-01T00:00:00.000Z',
+        'a': 1,
+      };
       final remote = {
         'id': 'doc-1',
         'updatedAt': '2099-01-01T00:00:00.000Z',
@@ -165,7 +187,10 @@ void main() {
   group('ManualConflictResolver', () {
     test('invokes the onConflict callback and returns its result', () async {
       final resolver = ManualConflictResolver<Map<String, dynamic>>(
-        onConflict: (local, remote) async => {'id': 'merged', 'source': 'manual'},
+        onConflict: (local, remote) async => {
+          'id': 'merged',
+          'source': 'manual',
+        },
       );
 
       final result = await resolver.resolve(
@@ -208,16 +233,12 @@ void main() {
       final local = {
         'id': 'doc-1',
         'title': 'Local title',
-        '_fieldTimestamps': {
-          'title': '2024-06-01T00:00:00.000Z',
-        },
+        '_fieldTimestamps': {'title': '2024-06-01T00:00:00.000Z'},
       };
       final remote = {
         'id': 'doc-1',
         'title': 'Remote title',
-        '_fieldTimestamps': {
-          'title': '2024-01-01T00:00:00.000Z',
-        },
+        '_fieldTimestamps': {'title': '2024-01-01T00:00:00.000Z'},
       };
 
       final result = await resolver.resolve(local: local, remote: remote);
@@ -228,16 +249,12 @@ void main() {
       final local = {
         'id': 'doc-1',
         'title': 'Local title',
-        '_fieldTimestamps': {
-          'title': '2024-01-01T00:00:00.000Z',
-        },
+        '_fieldTimestamps': {'title': '2024-01-01T00:00:00.000Z'},
       };
       final remote = {
         'id': 'doc-1',
         'title': 'Remote title',
-        '_fieldTimestamps': {
-          'title': '2024-06-01T00:00:00.000Z',
-        },
+        '_fieldTimestamps': {'title': '2024-06-01T00:00:00.000Z'},
       };
 
       final result = await resolver.resolve(local: local, remote: remote);
@@ -248,16 +265,12 @@ void main() {
       final local = {
         'id': 'doc-1',
         'localField': 'local',
-        '_fieldTimestamps': {
-          'localField': '2024-06-01T00:00:00.000Z',
-        },
+        '_fieldTimestamps': {'localField': '2024-06-01T00:00:00.000Z'},
       };
       final remote = {
         'id': 'doc-1',
         'remoteField': 'remote',
-        '_fieldTimestamps': {
-          'remoteField': '2024-06-01T00:00:00.000Z',
-        },
+        '_fieldTimestamps': {'remoteField': '2024-06-01T00:00:00.000Z'},
       };
 
       final result = await resolver.resolve(local: local, remote: remote);

@@ -50,10 +50,7 @@ void main() {
     });
 
     test('toString contains loading', () {
-      expect(
-        const AsyncState<int>.loading().toString(),
-        contains('loading'),
-      );
+      expect(const AsyncState<int>.loading().toString(), contains('loading'));
     });
   });
 
@@ -470,8 +467,10 @@ void main() {
     });
 
     test('copyWithNextPage appends items and increments page', () {
-      final state = PaginatedState<String>.initial()
-          .copyWithNextPage(['a', 'b'], hasMore: true);
+      final state = PaginatedState<String>.initial().copyWithNextPage([
+        'a',
+        'b',
+      ], hasMore: true);
       expect(state.items, equals(['a', 'b']));
       expect(state.page, equals(1));
       expect(state.hasMore, isTrue);
@@ -480,8 +479,10 @@ void main() {
     });
 
     test('copyWithError keeps existing items', () {
-      final initial = PaginatedState<int>.initial()
-          .copyWithNextPage([1, 2], hasMore: true);
+      final initial = PaginatedState<int>.initial().copyWithNextPage([
+        1,
+        2,
+      ], hasMore: true);
       final err = Exception('fail');
       final errState = initial.copyWithError(err);
       expect(errState.items, equals([1, 2]));
@@ -499,8 +500,11 @@ void main() {
     });
 
     test('reset clears all state', () {
-      final loaded = PaginatedState<int>.initial()
-          .copyWithNextPage([1, 2, 3], hasMore: false);
+      final loaded = PaginatedState<int>.initial().copyWithNextPage([
+        1,
+        2,
+        3,
+      ], hasMore: false);
       final reset = loaded.reset();
       expect(reset.items, isEmpty);
       expect(reset.page, equals(0));
@@ -537,22 +541,22 @@ void main() {
       notifier.dispose();
     });
 
-    test('hasMore is false when loader returns fewer items than pageSize', () async {
-      final notifier = PaginatedNotifier<int>();
-      await notifier.loadFirst(
-        (page, size) async => [1, 2], // fewer than pageSize
-        pageSize: 5,
-      );
-      expect(notifier.state.hasMore, isFalse);
-      notifier.dispose();
-    });
+    test(
+      'hasMore is false when loader returns fewer items than pageSize',
+      () async {
+        final notifier = PaginatedNotifier<int>();
+        await notifier.loadFirst(
+          (page, size) async => [1, 2], // fewer than pageSize
+          pageSize: 5,
+        );
+        expect(notifier.state.hasMore, isFalse);
+        notifier.dispose();
+      },
+    );
 
     test('loadNext does nothing when hasMore is false', () async {
       final notifier = PaginatedNotifier<int>();
-      await notifier.loadFirst(
-        (_, __) async => [1, 2],
-        pageSize: 5,
-      );
+      await notifier.loadFirst((_, __) async => [1, 2], pageSize: 5);
       final pageBeforeLoadNext = notifier.state.page;
       await notifier.loadNext();
       expect(notifier.state.page, equals(pageBeforeLoadNext));
@@ -579,8 +583,9 @@ void main() {
   // AsyncBuilder widget
   // ---------------------------------------------------------------------------
   group('AsyncBuilder', () {
-    testWidgets('renders CircularProgressIndicator for AsyncLoading',
-        (tester) async {
+    testWidgets('renders CircularProgressIndicator for AsyncLoading', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: AsyncBuilder<int>(
@@ -616,19 +621,21 @@ void main() {
       expect(find.textContaining('oops'), findsOneWidget);
     });
 
-    testWidgets('renders Stack with LinearProgressIndicator for AsyncRefreshing',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: AsyncBuilder<int>(
-            state: AsyncState.refreshing(5),
-            data: (v) => Text('val:$v'),
+    testWidgets(
+      'renders Stack with LinearProgressIndicator for AsyncRefreshing',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: AsyncBuilder<int>(
+              state: AsyncState.refreshing(5),
+              data: (v) => Text('val:$v'),
+            ),
           ),
-        ),
-      );
-      expect(find.byType(LinearProgressIndicator), findsOneWidget);
-      expect(find.text('val:5'), findsOneWidget);
-    });
+        );
+        expect(find.byType(LinearProgressIndicator), findsOneWidget);
+        expect(find.text('val:5'), findsOneWidget);
+      },
+    );
 
     testWidgets('uses custom loading builder when provided', (tester) async {
       await tester.pumpWidget(

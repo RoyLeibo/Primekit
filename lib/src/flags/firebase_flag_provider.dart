@@ -22,9 +22,9 @@ final class FirebaseFlagProvider implements FlagProvider {
     FirebaseRemoteConfig? remoteConfig,
     Duration fetchInterval = const Duration(hours: 1),
     Duration minimumFetchInterval = const Duration(minutes: 5),
-  })  : _fetchInterval = fetchInterval,
-        _minimumFetchInterval = minimumFetchInterval,
-        _remoteConfig = remoteConfig ?? FirebaseRemoteConfig.instance;
+  }) : _fetchInterval = fetchInterval,
+       _minimumFetchInterval = minimumFetchInterval,
+       _remoteConfig = remoteConfig ?? FirebaseRemoteConfig.instance;
 
   final FirebaseRemoteConfig _remoteConfig;
   final Duration _fetchInterval;
@@ -104,10 +104,8 @@ final class FirebaseFlagProvider implements FlagProvider {
       return getString(key, defaultValue: defaultValue as String) as T;
     }
     if (T == Map) {
-      return getJson(
-        key,
-        defaultValue: defaultValue as Map<String, dynamic>,
-      ) as T;
+      return getJson(key, defaultValue: defaultValue as Map<String, dynamic>)
+          as T;
     }
     return defaultValue;
   }

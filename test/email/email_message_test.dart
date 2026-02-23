@@ -30,10 +30,7 @@ void main() {
   });
 
   group('EmailMessage', () {
-    const minimal = EmailMessage(
-      to: 'alice@example.com',
-      subject: 'Hello',
-    );
+    const minimal = EmailMessage(to: 'alice@example.com', subject: 'Hello');
 
     test('required fields are set correctly', () {
       expect(minimal.to, equals('alice@example.com'));

@@ -95,34 +95,34 @@ final class NotificationChannel {
 
   /// Converts this definition to an [AndroidNotificationChannel] for
   /// registration via [FlutterLocalNotificationsPlugin].
-  AndroidNotificationChannel toAndroidChannel() =>
-      AndroidNotificationChannel(
-        id,
-        name,
-        description: description,
-        importance: importance,
-        playSound: playSound,
-        enableVibration: enableVibration,
-        enableLights: enableLights,
-      );
+  AndroidNotificationChannel toAndroidChannel() => AndroidNotificationChannel(
+    id,
+    name,
+    description: description,
+    importance: importance,
+    playSound: playSound,
+    enableVibration: enableVibration,
+    enableLights: enableLights,
+  );
 
   /// Returns an [AndroidNotificationDetails] preset for this channel.
   AndroidNotificationDetails toAndroidDetails({
     String? ticker,
     StyleInformation? styleInformation,
-  }) =>
-      AndroidNotificationDetails(
-        id,
-        name,
-        channelDescription: description,
-        importance: importance,
-        priority: importance == Importance.high ? Priority.high : Priority.defaultPriority,
-        playSound: playSound,
-        enableVibration: enableVibration,
-        enableLights: enableLights,
-        ticker: ticker,
-        styleInformation: styleInformation,
-      );
+  }) => AndroidNotificationDetails(
+    id,
+    name,
+    channelDescription: description,
+    importance: importance,
+    priority: importance == Importance.high
+        ? Priority.high
+        : Priority.defaultPriority,
+    playSound: playSound,
+    enableVibration: enableVibration,
+    enableLights: enableLights,
+    ticker: ticker,
+    styleInformation: styleInformation,
+  );
 
   /// Returns a copy with the given fields replaced.
   NotificationChannel copyWith({
@@ -133,16 +133,15 @@ final class NotificationChannel {
     bool? playSound,
     bool? enableVibration,
     bool? enableLights,
-  }) =>
-      NotificationChannel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        description: description ?? this.description,
-        importance: importance ?? this.importance,
-        playSound: playSound ?? this.playSound,
-        enableVibration: enableVibration ?? this.enableVibration,
-        enableLights: enableLights ?? this.enableLights,
-      );
+  }) => NotificationChannel(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    description: description ?? this.description,
+    importance: importance ?? this.importance,
+    playSound: playSound ?? this.playSound,
+    enableVibration: enableVibration ?? this.enableVibration,
+    enableLights: enableLights ?? this.enableLights,
+  );
 
   @override
   String toString() =>

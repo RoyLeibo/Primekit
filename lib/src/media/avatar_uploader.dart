@@ -32,10 +32,10 @@ final class AvatarUploader {
     String pathPrefix = 'avatars',
     int targetSizeKb = 200,
     int outputSize = 512,
-  })  : _uploader = uploader,
-        _pathPrefix = pathPrefix,
-        _targetSizeKb = targetSizeKb,
-        _outputSize = outputSize;
+  }) : _uploader = uploader,
+       _pathPrefix = pathPrefix,
+       _targetSizeKb = targetSizeKb,
+       _outputSize = outputSize;
 
   final MediaUploader _uploader;
   final String _pathPrefix;

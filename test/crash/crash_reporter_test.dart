@@ -124,10 +124,7 @@ void main() {
       reporter
         ..setEnabled(enabled: false)
         ..addBreadcrumb(
-          Breadcrumb(
-            message: 'ignored',
-            type: BreadcrumbType.info,
-          ),
+          Breadcrumb(message: 'ignored', type: BreadcrumbType.info),
         );
 
       expect(reporter.breadcrumbs, isEmpty);

@@ -25,11 +25,7 @@ class PkCurrencyFormatter {
   /// - `format(9.99, 'USD')` → `'$9.99'`
   /// - `format(9.99, 'EUR', locale: 'de_DE')` → `'9,99 €'`
   /// - `format(999, 'JPY')` → `'¥999'`
-  static String format(
-    double amount,
-    String currencyCode, {
-    String? locale,
-  }) {
+  static String format(double amount, String currencyCode, {String? locale}) {
     final formatter = NumberFormat.currency(
       locale: locale,
       name: currencyCode,
@@ -43,11 +39,7 @@ class PkCurrencyFormatter {
   /// - `compact(9900, 'USD')` → `'$9.9K'`
   /// - `compact(1200000, 'USD')` → `'$1.2M'`
   /// - `compact(500, 'USD')` → `'$500'` (falls back to [format])
-  static String compact(
-    double amount,
-    String currencyCode, {
-    String? locale,
-  }) {
+  static String compact(double amount, String currencyCode, {String? locale}) {
     final symbol = _symbolFor(currencyCode, locale);
     final absAmount = amount.abs();
     final sign = amount < 0 ? '-' : '';

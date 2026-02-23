@@ -82,12 +82,7 @@ void main() {
     test('base fields accessible on all variants', () {
       final items = <FeedItem>[
         FeedItem.post(id: 'p', actorId: 'a', timestamp: now),
-        FeedItem.like(
-          id: 'l',
-          actorId: 'a',
-          timestamp: now,
-          targetId: 't',
-        ),
+        FeedItem.like(id: 'l', actorId: 'a', timestamp: now, targetId: 't'),
         FeedItem.follow(
           id: 'f',
           actorId: 'a',
@@ -101,12 +96,7 @@ void main() {
           targetId: 't',
           text: 'Hi',
         ),
-        FeedItem.custom(
-          id: 'cu',
-          actorId: 'a',
-          timestamp: now,
-          type: 'evt',
-        ),
+        FeedItem.custom(id: 'cu', actorId: 'a', timestamp: now, type: 'evt'),
       ];
 
       for (final item in items) {

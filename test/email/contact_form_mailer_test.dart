@@ -22,7 +22,7 @@ class _CaptureProvider implements EmailProvider {
 
 class _FailThenSucceedProvider implements EmailProvider {
   _FailThenSucceedProvider({required int failCount})
-      : _failsRemaining = failCount;
+    : _failsRemaining = failCount;
 
   int _failsRemaining;
   int callCount = 0;
@@ -159,10 +159,7 @@ void main() {
       final provider = _FailThenSucceedProvider(failCount: 1);
       EmailService.instance.configure(provider: provider);
 
-      final mailer = ContactFormMailer(
-        toEmail: 'a@b.com',
-        maxRetries: 3,
-      );
+      final mailer = ContactFormMailer(toEmail: 'a@b.com', maxRetries: 3);
       final result = await mailer.send(
         senderName: 'X',
         senderEmail: 'x@x.com',

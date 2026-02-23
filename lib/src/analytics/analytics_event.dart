@@ -23,8 +23,8 @@ final class AnalyticsEvent {
     required this.name,
     this.parameters = const {},
     DateTime? timestamp,
-  })  : assert(name.isNotEmpty, 'AnalyticsEvent.name must not be empty'),
-        timestamp = timestamp ?? DateTime.now().toUtc();
+  }) : assert(name.isNotEmpty, 'AnalyticsEvent.name must not be empty'),
+       timestamp = timestamp ?? DateTime.now().toUtc();
 
   /// Records a screen-view event.
   ///
@@ -32,14 +32,13 @@ final class AnalyticsEvent {
   factory AnalyticsEvent.screenView({
     required String screenName,
     String? screenClass,
-  }) =>
-      AnalyticsEvent(
-        name: 'screen_view',
-        parameters: {
-          'screen_name': screenName,
-          if (screenClass != null) 'screen_class': screenClass,
-        },
-      );
+  }) => AnalyticsEvent(
+    name: 'screen_view',
+    parameters: {
+      'screen_name': screenName,
+      if (screenClass != null) 'screen_class': screenClass,
+    },
+  );
 
   /// Records a button-tap interaction.
   ///
@@ -47,14 +46,13 @@ final class AnalyticsEvent {
   factory AnalyticsEvent.buttonTap({
     required String buttonName,
     String? screen,
-  }) =>
-      AnalyticsEvent(
-        name: 'button_tap',
-        parameters: {
-          'button_name': buttonName,
-          if (screen != null) 'screen': screen,
-        },
-      );
+  }) => AnalyticsEvent(
+    name: 'button_tap',
+    parameters: {
+      'button_name': buttonName,
+      if (screen != null) 'screen': screen,
+    },
+  );
 
   /// Records a purchase event.
   ///
@@ -64,37 +62,30 @@ final class AnalyticsEvent {
     required double amount,
     required String currency,
     required String productId,
-  }) =>
-      AnalyticsEvent(
-        name: 'purchase',
-        parameters: {
-          'amount': amount,
-          'currency': currency,
-          'product_id': productId,
-        },
-      );
+  }) => AnalyticsEvent(
+    name: 'purchase',
+    parameters: {
+      'amount': amount,
+      'currency': currency,
+      'product_id': productId,
+    },
+  );
 
   /// Records a sign-in event.
   ///
   /// [method] is the authentication method used (e.g. `'google'`, `'email'`).
-  factory AnalyticsEvent.signIn({required String method}) => AnalyticsEvent(
-        name: 'sign_in',
-        parameters: {'method': method},
-      );
+  factory AnalyticsEvent.signIn({required String method}) =>
+      AnalyticsEvent(name: 'sign_in', parameters: {'method': method});
 
   /// Records a sign-up / account-creation event.
   ///
   /// [method] is the registration method used (e.g. `'google'`, `'email'`).
-  factory AnalyticsEvent.signUp({required String method}) => AnalyticsEvent(
-        name: 'sign_up',
-        parameters: {'method': method},
-      );
+  factory AnalyticsEvent.signUp({required String method}) =>
+      AnalyticsEvent(name: 'sign_up', parameters: {'method': method});
 
   /// Records a search query event.
-  factory AnalyticsEvent.search({required String query}) => AnalyticsEvent(
-        name: 'search',
-        parameters: {'search_term': query},
-      );
+  factory AnalyticsEvent.search({required String query}) =>
+      AnalyticsEvent(name: 'search', parameters: {'search_term': query});
 
   /// Records an application error event.
   ///
@@ -103,14 +94,13 @@ final class AnalyticsEvent {
   factory AnalyticsEvent.error({
     required String errorName,
     String? errorMessage,
-  }) =>
-      AnalyticsEvent(
-        name: 'app_error',
-        parameters: {
-          'error_name': errorName,
-          if (errorMessage != null) 'error_message': errorMessage,
-        },
-      );
+  }) => AnalyticsEvent(
+    name: 'app_error',
+    parameters: {
+      'error_name': errorName,
+      if (errorMessage != null) 'error_message': errorMessage,
+    },
+  );
 
   // ---------------------------------------------------------------------------
   // Fields
@@ -136,13 +126,12 @@ final class AnalyticsEvent {
     String? name,
     Map<String, Object?>? parameters,
     DateTime? timestamp,
-  }) =>
-      AnalyticsEvent(
-        name: name ?? this.name,
-        parameters: parameters ??
-            Map<String, Object?>.unmodifiable(this.parameters),
-        timestamp: timestamp ?? this.timestamp,
-      );
+  }) => AnalyticsEvent(
+    name: name ?? this.name,
+    parameters:
+        parameters ?? Map<String, Object?>.unmodifiable(this.parameters),
+    timestamp: timestamp ?? this.timestamp,
+  );
 
   @override
   String toString() =>

@@ -98,10 +98,7 @@ class PkLoadingOverlayWidget extends StatelessWidget {
           color: Colors.black.withValues(alpha: 0.45),
           child: Center(
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 32,
-                vertical: 24,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
               decoration: BoxDecoration(
                 color: colorScheme.surface,
                 borderRadius: BorderRadius.circular(16),

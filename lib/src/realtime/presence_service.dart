@@ -58,7 +58,8 @@ final class PresenceRecord {
   int get hashCode => Object.hash(userId, isOnline);
 
   @override
-  String toString() => 'PresenceRecord('
+  String toString() =>
+      'PresenceRecord('
       'userId: $userId, isOnline: $isOnline, lastSeen: $lastSeen)';
 }
 
@@ -78,10 +79,7 @@ abstract class PresenceService {
   });
 
   /// Marks [userId] as offline in the given channel.
-  Future<void> disconnect({
-    required String userId,
-    required String channelId,
-  });
+  Future<void> disconnect({required String userId, required String channelId});
 
   /// Emits the list of currently online users whenever it changes.
   Stream<List<PresenceRecord>> watchPresence({required String channelId});
@@ -98,7 +96,7 @@ abstract class PresenceService {
 class FirebasePresenceService extends PresenceService {
   /// Creates a [FirebasePresenceService].
   FirebasePresenceService({FirebaseDatabase? database})
-      : _db = database ?? FirebaseDatabase.instance;
+    : _db = database ?? FirebaseDatabase.instance;
 
   final FirebaseDatabase _db;
 
@@ -144,10 +142,7 @@ class FirebasePresenceService extends PresenceService {
     final ref = _presenceRef(channelId, userId);
     // Cancel the onDisconnect hook and write offline state immediately.
     await ref.onDisconnect().cancel();
-    await ref.update({
-      'isOnline': false,
-      'lastSeen': ServerValue.timestamp,
-    });
+    await ref.update({'isOnline': false, 'lastSeen': ServerValue.timestamp});
   }
 
   @override
@@ -158,9 +153,9 @@ class FirebasePresenceService extends PresenceService {
       if (raw is! Map) {
         return <PresenceRecord>[];
       }
-      return _parseRecords(raw as Map<Object?, Object?>)
-          .where((r) => r.isOnline)
-          .toList();
+      return _parseRecords(
+        raw as Map<Object?, Object?>,
+      ).where((r) => r.isOnline).toList();
     });
   }
 
@@ -174,9 +169,9 @@ class FirebasePresenceService extends PresenceService {
     if (raw is! Map) {
       return [];
     }
-    return _parseRecords(raw as Map<Object?, Object?>)
-        .where((r) => r.isOnline)
-        .toList();
+    return _parseRecords(
+      raw as Map<Object?, Object?>,
+    ).where((r) => r.isOnline).toList();
   }
 
   // ---------------------------------------------------------------------------

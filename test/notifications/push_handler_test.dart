@@ -6,10 +6,7 @@ void main() {
 
   group('PushHandler', () {
     test('instance is singleton', () {
-      expect(
-        identical(PushHandler.instance, PushHandler.instance),
-        isTrue,
-      );
+      expect(identical(PushHandler.instance, PushHandler.instance), isTrue);
     });
 
     test('getToken returns null before initialize', () async {
@@ -53,11 +50,7 @@ void main() {
         );
 
         PushHandler.instance.simulateMessage(
-          const PushMessage(
-            title: 'Test',
-            body: 'Hello!',
-            messageId: 'sim-1',
-          ),
+          const PushMessage(title: 'Test', body: 'Hello!', messageId: 'sim-1'),
         );
 
         expect(received, isNotNull);
@@ -76,10 +69,7 @@ void main() {
         );
 
         PushHandler.instance.simulateOpenedApp(
-          const PushMessage(
-            title: 'Tapped',
-            data: {'route': '/home'},
-          ),
+          const PushMessage(title: 'Tapped', data: {'route': '/home'}),
         );
 
         expect(opened, isNotNull);

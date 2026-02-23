@@ -22,11 +22,9 @@ final class FunnelDefinition {
   /// Creates an immutable funnel definition.
   ///
   /// [steps] must be non-empty and contain unique names.
-  const FunnelDefinition({
-    required this.name,
-    required this.steps,
-  })  : assert(name != '', 'FunnelDefinition.name must not be empty'),
-        assert(steps.length > 0, 'FunnelDefinition.steps must not be empty');
+  const FunnelDefinition({required this.name, required this.steps})
+    : assert(name != '', 'FunnelDefinition.name must not be empty'),
+      assert(steps.length > 0, 'FunnelDefinition.steps must not be empty');
 
   /// Unique identifier for this funnel.
   final String name;
@@ -74,17 +72,16 @@ final class FunnelState {
     FunnelStatus? status,
     String? abandonReason,
     DateTime? completedAt,
-  }) =>
-      FunnelState(
-        funnelName: funnelName,
-        userId: userId,
-        completedSteps: completedSteps ??
-            List<String>.unmodifiable(this.completedSteps),
-        startedAt: startedAt,
-        status: status ?? this.status,
-        abandonReason: abandonReason ?? this.abandonReason,
-        completedAt: completedAt ?? this.completedAt,
-      );
+  }) => FunnelState(
+    funnelName: funnelName,
+    userId: userId,
+    completedSteps:
+        completedSteps ?? List<String>.unmodifiable(this.completedSteps),
+    startedAt: startedAt,
+    status: status ?? this.status,
+    abandonReason: abandonReason ?? this.abandonReason,
+    completedAt: completedAt ?? this.completedAt,
+  );
 }
 
 /// The lifecycle status of a funnel session.
@@ -242,9 +239,10 @@ final class FunnelTracker {
     }
 
     final stepIndex = definition.steps.indexOf(stepName);
-    final updatedSteps = List<String>.unmodifiable(
-      [...state.completedSteps, stepName],
-    );
+    final updatedSteps = List<String>.unmodifiable([
+      ...state.completedSteps,
+      stepName,
+    ]);
 
     _emitEvent(
       'funnel_step_completed',

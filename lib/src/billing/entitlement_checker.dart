@@ -100,12 +100,12 @@ class EntitlementChecker {
   EntitlementChecker._({
     required SubscriptionManager subscriptionManager,
     required Map<String, List<String>> featureToProductMap,
-  })  : _subscriptionManager = subscriptionManager,
-        _featureToProductMap = Map.unmodifiable(
-          featureToProductMap.map(
-            (k, v) => MapEntry(k, List<String>.unmodifiable(v)),
-          ),
-        );
+  }) : _subscriptionManager = subscriptionManager,
+       _featureToProductMap = Map.unmodifiable(
+         featureToProductMap.map(
+           (k, v) => MapEntry(k, List<String>.unmodifiable(v)),
+         ),
+       );
 
   static EntitlementChecker? _instance;
 
@@ -115,7 +115,8 @@ class EntitlementChecker {
   static EntitlementChecker get instance {
     if (_instance == null) {
       throw const ConfigurationException(
-        message: 'EntitlementChecker not configured. '
+        message:
+            'EntitlementChecker not configured. '
             'Call EntitlementChecker.configure() before use.',
       );
     }
@@ -186,7 +187,8 @@ class EntitlementChecker {
         tag: 'EntitlementChecker',
       );
       return EntitlementResult.denied(
-        reason: 'Feature "$featureName" is not registered in the entitlement map.',
+        reason:
+            'Feature "$featureName" is not registered in the entitlement map.',
       );
     }
 

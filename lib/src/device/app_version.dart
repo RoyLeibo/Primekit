@@ -30,18 +30,18 @@ final class VersionInfo {
   // Semver comparison
   // ---------------------------------------------------------------------------
 
-  /// Returns `true` if [this] is a higher version than [otherVersion].
+  /// Returns `true` if this version is higher than [otherVersion].
   ///
   /// Comparison is performed using standard three-part semver logic
   /// (`major.minor.patch`). Pre-release suffixes (e.g. `-beta`) are ignored.
   bool isNewerThan(String otherVersion) =>
       _compareSemver(version, otherVersion) > 0;
 
-  /// Returns `true` if [this] is a lower version than [otherVersion].
+  /// Returns `true` if this version is lower than [otherVersion].
   bool isOlderThan(String otherVersion) =>
       _compareSemver(version, otherVersion) < 0;
 
-  /// Returns `true` if [this] is the same version as [otherVersion].
+  /// Returns `true` if this version equals [otherVersion].
   bool isSameAs(String otherVersion) =>
       _compareSemver(version, otherVersion) == 0;
 
@@ -135,7 +135,10 @@ abstract final class AppVersion {
   /// On other platforms logs a warning and does nothing.
   static Future<void> openStoreForUpdate() async {
     if (kIsWeb) {
-      PrimekitLogger.warning('openStoreForUpdate is not supported on web.', tag: _tag);
+      PrimekitLogger.warning(
+        'openStoreForUpdate is not supported on web.',
+        tag: _tag,
+      );
       return;
     }
 

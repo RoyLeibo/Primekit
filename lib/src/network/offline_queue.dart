@@ -28,17 +28,17 @@ final class QueuedRequest {
 
   /// Deserialises from a JSON map.
   factory QueuedRequest.fromJson(Map<String, Object?> json) => QueuedRequest(
-        id: (json['id'] ?? '') as String,
-        method: (json['method'] ?? 'GET') as String,
-        url: (json['url'] ?? '') as String,
-        enqueuedAt: DateTime.parse(
-          (json['enqueuedAt'] ?? DateTime.now().toIso8601String()) as String,
-        ).toUtc(),
-        body: json['body'],
-        headers: (json['headers'] as Map?)?.cast<String, String>() ?? const {},
-        maxRetries: (json['maxRetries'] as num?)?.toInt() ?? 3,
-        retryCount: (json['retryCount'] as num?)?.toInt() ?? 0,
-      );
+    id: (json['id'] ?? '') as String,
+    method: (json['method'] ?? 'GET') as String,
+    url: (json['url'] ?? '') as String,
+    enqueuedAt: DateTime.parse(
+      (json['enqueuedAt'] ?? DateTime.now().toIso8601String()) as String,
+    ).toUtc(),
+    body: json['body'],
+    headers: (json['headers'] as Map?)?.cast<String, String>() ?? const {},
+    maxRetries: (json['maxRetries'] as num?)?.toInt() ?? 3,
+    retryCount: (json['retryCount'] as num?)?.toInt() ?? 0,
+  );
 
   // ---------------------------------------------------------------------------
   // Fields
@@ -74,27 +74,27 @@ final class QueuedRequest {
 
   /// Returns a copy with [retryCount] incremented by one.
   QueuedRequest withIncrementedRetry() => QueuedRequest(
-        id: id,
-        method: method,
-        url: url,
-        enqueuedAt: enqueuedAt,
-        body: body,
-        headers: Map<String, String>.unmodifiable(headers),
-        maxRetries: maxRetries,
-        retryCount: retryCount + 1,
-      );
+    id: id,
+    method: method,
+    url: url,
+    enqueuedAt: enqueuedAt,
+    body: body,
+    headers: Map<String, String>.unmodifiable(headers),
+    maxRetries: maxRetries,
+    retryCount: retryCount + 1,
+  );
 
   /// Serialises to a JSON-encodable map.
   Map<String, Object?> toJson() => {
-        'id': id,
-        'method': method,
-        'url': url,
-        'body': body,
-        'headers': headers,
-        'maxRetries': maxRetries,
-        'enqueuedAt': enqueuedAt.toIso8601String(),
-        'retryCount': retryCount,
-      };
+    'id': id,
+    'method': method,
+    'url': url,
+    'body': body,
+    'headers': headers,
+    'maxRetries': maxRetries,
+    'enqueuedAt': enqueuedAt.toIso8601String(),
+    'retryCount': retryCount,
+  };
 
   @override
   String toString() =>
@@ -223,18 +223,18 @@ final class OfflineQueue {
     _executor = executor;
     await _loadPersistedQueue();
 
-    _connectivitySub = ConnectivityMonitor.instance.isConnected.listen(
-      (connected) {
-        if (connected && _queue.isNotEmpty) {
-          PrimekitLogger.info(
-            'Connectivity restored — flushing ${_queue.length} queued '
-            'request(s).',
-            tag: _tag,
-          );
-          flush();
-        }
-      },
-    );
+    _connectivitySub = ConnectivityMonitor.instance.isConnected.listen((
+      connected,
+    ) {
+      if (connected && _queue.isNotEmpty) {
+        PrimekitLogger.info(
+          'Connectivity restored — flushing ${_queue.length} queued '
+          'request(s).',
+          tag: _tag,
+        );
+        flush();
+      }
+    });
 
     PrimekitLogger.info(
       'OfflineQueue initialised with ${_queue.length} persisted request(s).',
@@ -334,10 +334,7 @@ final class OfflineQueue {
 
           final pkError = error is PrimekitException
               ? error
-              : NetworkException(
-                  message: error.toString(),
-                  cause: error,
-                );
+              : NetworkException(message: error.toString(), cause: error);
           _eventController.add(RequestDroppedEvent(request, pkError));
 
           PrimekitLogger.warning(

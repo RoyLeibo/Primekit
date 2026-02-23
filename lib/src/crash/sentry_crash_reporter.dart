@@ -1,7 +1,8 @@
 // ignore: avoid_relative_lib_imports — cross-package
 import 'package:sentry_flutter/sentry_flutter.dart'
-    hide Breadcrumb // avoid ambiguity with our own Breadcrumb
-    ;
+    hide
+        Breadcrumb // avoid ambiguity with our own Breadcrumb
+        ;
 import 'package:sentry_flutter/sentry_flutter.dart' as sentry show Breadcrumb;
 
 import 'crash_reporter.dart';
@@ -32,13 +33,11 @@ class SentryCrashReporter implements CrashReporter {
       // Assume SentryFlutter.init has already been called by the host app.
       return;
     }
-    await SentryFlutter.init(
-      (options) {
-        options
-          ..dsn = _dsn
-          ..tracesSampleRate = 1.0;
-      },
-    );
+    await SentryFlutter.init((options) {
+      options
+        ..dsn = _dsn
+        ..tracesSampleRate = 1.0;
+    });
   }
 
   @override
@@ -62,9 +61,7 @@ class SentryCrashReporter implements CrashReporter {
         if (fatal) {
           scope.level = SentryLevel.fatal;
         }
-        context?.forEach(
-          (key, value) => scope.setTag(key, value.toString()),
-        );
+        context?.forEach((key, value) => scope.setTag(key, value.toString()));
       },
     );
   }
@@ -122,18 +119,18 @@ class SentryCrashReporter implements CrashReporter {
   // ---------------------------------------------------------------------------
 
   SentryLevel _toSentryLevel(BreadcrumbLevel level) => switch (level) {
-        BreadcrumbLevel.debug => SentryLevel.debug,
-        BreadcrumbLevel.info => SentryLevel.info,
-        BreadcrumbLevel.warning => SentryLevel.warning,
-        BreadcrumbLevel.error => SentryLevel.error,
-        BreadcrumbLevel.fatal => SentryLevel.fatal,
-      };
+    BreadcrumbLevel.debug => SentryLevel.debug,
+    BreadcrumbLevel.info => SentryLevel.info,
+    BreadcrumbLevel.warning => SentryLevel.warning,
+    BreadcrumbLevel.error => SentryLevel.error,
+    BreadcrumbLevel.fatal => SentryLevel.fatal,
+  };
 
   String _toSentryType(BreadcrumbType type) => switch (type) {
-        BreadcrumbType.navigation => 'navigation',
-        BreadcrumbType.userAction => 'user',
-        BreadcrumbType.network => 'http',
-        BreadcrumbType.error => 'error',
-        BreadcrumbType.info => 'info',
-      };
+    BreadcrumbType.navigation => 'navigation',
+    BreadcrumbType.userAction => 'user',
+    BreadcrumbType.network => 'http',
+    BreadcrumbType.error => 'error',
+    BreadcrumbType.info => 'info',
+  };
 }

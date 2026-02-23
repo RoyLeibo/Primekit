@@ -44,19 +44,15 @@ class ServiceScope {
   /// registered.
   T get<T extends Object>() {
     if (_disposed) {
-      throw StateError(
-        'ServiceScope has been disposed. Create a new scope.',
-      );
+      throw StateError('ServiceScope has been disposed. Create a new scope.');
     }
 
     final descriptor = _parent.descriptors[T];
     if (descriptor == null) return _parent.get<T>();
 
     if (descriptor.lifetime == ServiceLifetime.scoped) {
-      return _scopedInstances.putIfAbsent(
-        T,
-        () => descriptor.factory(_parent),
-      ) as T;
+      return _scopedInstances.putIfAbsent(T, () => descriptor.factory(_parent))
+          as T;
     }
 
     return _parent.get<T>();

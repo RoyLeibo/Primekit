@@ -57,31 +57,31 @@ class UpgradePrompt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => switch (style) {
-        UpgradePromptStyle.card => _CardPrompt(
-            tier: targetTier,
-            featureName: featureName,
-            customMessage: customMessage,
-            onUpgradeTap: onUpgradeTap,
-          ),
-        UpgradePromptStyle.banner => _BannerPrompt(
-            tier: targetTier,
-            featureName: featureName,
-            customMessage: customMessage,
-            onUpgradeTap: onUpgradeTap,
-          ),
-        UpgradePromptStyle.dialog => _DialogPrompt(
-            tier: targetTier,
-            featureName: featureName,
-            customMessage: customMessage,
-            onUpgradeTap: onUpgradeTap,
-          ),
-        UpgradePromptStyle.inline => _InlinePrompt(
-            tier: targetTier,
-            featureName: featureName,
-            customMessage: customMessage,
-            onUpgradeTap: onUpgradeTap,
-          ),
-      };
+    UpgradePromptStyle.card => _CardPrompt(
+      tier: targetTier,
+      featureName: featureName,
+      customMessage: customMessage,
+      onUpgradeTap: onUpgradeTap,
+    ),
+    UpgradePromptStyle.banner => _BannerPrompt(
+      tier: targetTier,
+      featureName: featureName,
+      customMessage: customMessage,
+      onUpgradeTap: onUpgradeTap,
+    ),
+    UpgradePromptStyle.dialog => _DialogPrompt(
+      tier: targetTier,
+      featureName: featureName,
+      customMessage: customMessage,
+      onUpgradeTap: onUpgradeTap,
+    ),
+    UpgradePromptStyle.inline => _InlinePrompt(
+      tier: targetTier,
+      featureName: featureName,
+      customMessage: customMessage,
+      onUpgradeTap: onUpgradeTap,
+    ),
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -105,7 +105,8 @@ final class _CardPrompt extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final accent = tier.badgeColor ?? theme.colorScheme.primary;
-    final message = customMessage ??
+    final message =
+        customMessage ??
         (featureName != null
             ? '$featureName requires ${tier.name}.'
             : 'Upgrade to ${tier.name} to unlock more features.');
@@ -153,10 +154,7 @@ final class _CardPrompt extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: Text(
-                          perk,
-                          style: theme.textTheme.bodySmall,
-                        ),
+                        child: Text(perk, style: theme.textTheme.bodySmall),
                       ),
                     ],
                   ),
@@ -196,7 +194,8 @@ final class _BannerPrompt extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final accent = tier.badgeColor ?? theme.colorScheme.primary;
-    final message = customMessage ??
+    final message =
+        customMessage ??
         (featureName != null
             ? 'Unlock $featureName with ${tier.name}'
             : 'Upgrade to ${tier.name} for more');
@@ -247,7 +246,8 @@ final class _DialogPrompt extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final accent = tier.badgeColor ?? theme.colorScheme.primary;
-    final message = customMessage ??
+    final message =
+        customMessage ??
         (featureName != null
             ? '$featureName is available on the ${tier.name} plan.'
             : 'Upgrade to ${tier.name} to unlock premium features.');
@@ -317,18 +317,18 @@ final class _InlinePrompt extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final accent = tier.badgeColor ?? theme.colorScheme.primary;
-    final label = customMessage ??
-        (featureName != null ? '$featureName — ${tier.name} only' : '${tier.name} only');
+    final label =
+        customMessage ??
+        (featureName != null
+            ? '$featureName — ${tier.name} only'
+            : '${tier.name} only');
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(Icons.lock_outline_rounded, size: 14, color: accent),
         const SizedBox(width: 4),
-        Text(
-          label,
-          style: theme.textTheme.labelSmall?.copyWith(color: accent),
-        ),
+        Text(label, style: theme.textTheme.labelSmall?.copyWith(color: accent)),
         const SizedBox(width: 6),
         GestureDetector(
           onTap: onUpgradeTap,

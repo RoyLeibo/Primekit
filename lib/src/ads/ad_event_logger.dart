@@ -34,10 +34,8 @@ sealed class AdEvent {
   factory AdEvent.failed(String adType, {required String error}) = AdFailed;
 
   /// Emitted when a rewarded ad grants the user a reward.
-  factory AdEvent.rewarded({
-    required String rewardType,
-    required int amount,
-  }) = AdRewarded;
+  factory AdEvent.rewarded({required String rewardType, required int amount}) =
+      AdRewarded;
 
   /// The ad type tag (e.g. `'banner'`, `'interstitial'`, `'rewarded'`).
   String get adType;
@@ -65,8 +63,7 @@ final class AdShown extends AdEvent {
   final String? screenName;
 
   @override
-  String toString() =>
-      'AdEvent.shown($adType, screenName: $screenName)';
+  String toString() => 'AdEvent.shown($adType, screenName: $screenName)';
 }
 
 /// User tapped the ad.
@@ -176,8 +173,7 @@ class AdEventLogger {
   ///
   /// Returns `0.0` when no impressions have been recorded.
   double get clickThroughRate {
-    final totalImpressions =
-        _impressions.values.fold(0, (sum, v) => sum + v);
+    final totalImpressions = _impressions.values.fold(0, (sum, v) => sum + v);
     if (totalImpressions == 0) return 0.0;
     final totalClicks = _clicks.values.fold(0, (sum, v) => sum + v);
     return totalClicks / totalImpressions;
@@ -207,32 +203,32 @@ class AdEventLogger {
   void _forwardToAnalytics(AdEvent event) {
     final analyticsEvent = switch (event) {
       AdLoaded(:final adType) => AnalyticsEvent(
-          name: 'ad_loaded',
-          parameters: {'ad_type': adType},
-        ),
+        name: 'ad_loaded',
+        parameters: {'ad_type': adType},
+      ),
       AdShown(:final adType, :final screenName) => AnalyticsEvent(
-          name: 'ad_impression',
-          parameters: {
-            'ad_type': adType,
-            if (screenName != null) 'screen_name': screenName,
-          },
-        ),
+        name: 'ad_impression',
+        parameters: {
+          'ad_type': adType,
+          if (screenName != null) 'screen_name': screenName,
+        },
+      ),
       AdClicked(:final adType) => AnalyticsEvent(
-          name: 'ad_click',
-          parameters: {'ad_type': adType},
-        ),
+        name: 'ad_click',
+        parameters: {'ad_type': adType},
+      ),
       AdClosed(:final adType) => AnalyticsEvent(
-          name: 'ad_closed',
-          parameters: {'ad_type': adType},
-        ),
+        name: 'ad_closed',
+        parameters: {'ad_type': adType},
+      ),
       AdFailed(:final adType, :final error) => AnalyticsEvent(
-          name: 'ad_failed',
-          parameters: {'ad_type': adType, 'error': error},
-        ),
+        name: 'ad_failed',
+        parameters: {'ad_type': adType, 'error': error},
+      ),
       AdRewarded(:final rewardType, :final amount) => AnalyticsEvent(
-          name: 'ad_reward_earned',
-          parameters: {'reward_type': rewardType, 'amount': amount},
-        ),
+        name: 'ad_reward_earned',
+        parameters: {'reward_type': rewardType, 'amount': amount},
+      ),
     };
 
     // Fire-and-forget; EventTracker handles its own error isolation.
