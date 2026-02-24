@@ -1,16 +1,14 @@
 // Primekit permissions module.
 //
 // Uses Primekit-owned [PkPermission] and [PkPermissionStatus] types so that
-// your app never takes a direct compile-time dependency on `permission_handler`
-// or any other platform-specific permission SDK.
+// your app never takes a direct compile-time dependency on the underlying
+// permission SDK.
 //
-// Firebase-backed and platform-specific implementations are selected
-// automatically via conditional exports.
+// Platform-specific implementations are selected automatically via conditional
+// exports: flutter_permission_handler_plus on native, browser Permissions API
+// on Web, and a "always granted" stub on unsupported platforms.
+export 'permission_flow.dart'
+    show PermissionFlow, PermissionFlowResult, PermissionRequest;
+export 'permission_gate.dart' show PermissionGate;
+export 'permission_helper.dart' show PermissionHelper;
 export 'pk_permission.dart';
-
-// permission_helper.dart, permission_gate.dart, permission_flow.dart are NOT
-// exported here — permission_handler 12.x does not declare macOS/Linux platform
-// support. Import the files directly when needed:
-//   import 'package:primekit/src/permissions/permission_helper.dart';
-//   import 'package:primekit/src/permissions/permission_gate.dart';
-//   import 'package:primekit/src/permissions/permission_flow.dart';

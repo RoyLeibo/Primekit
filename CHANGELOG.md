@@ -7,6 +7,48 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.3.0] — 2026-02-24
+
+### Changed — Breaking
+
+**`primekit/media.dart` — `ImageCompressor` (all 6 platforms)**
+- Replaced `flutter_image_compress` with the pure-Dart `image` package (`^4.0.0`), eliminating the native channel dependency and enabling full cross-platform compression.
+- `CompressFormat.webp` now falls back to JPEG (WebP encoding is not supported by the `image` package; decoding still works).
+- `CompressFormat.heic` falls back to JPEG on all platforms (unchanged behaviour).
+- `maxWidth`/`maxHeight` now only downscale — images smaller than the target are left at their original size.
+
+**`primekit/media.dart` — `ImageCropperService` (all 6 platforms)**
+- Replaced `image_cropper` with the pure-Flutter `croppy` package (`^1.4.1`), which has no platform channel dependencies.
+- **API change**: `aspectRatio` parameter type changed from `CropAspectRatio` (image_cropper type) to a Dart record `({int x, int y})?`.
+  Migration: `CropAspectRatio(ratioX: 16, ratioY: 9)` → `(x: 16, y: 9)`.
+- Removed `presets` and `cropStyle` parameters (not supported by croppy's API).
+- `toolbarColor` is now applied via `ThemeData`; `toolbarTitle` is accepted for API compatibility but not rendered (croppy uses its own chrome).
+- `ImageCropperService` is now exported from `primekit/media.dart` (no longer requires a direct import).
+
+**`primekit/permissions.dart` — `PermissionHelper` / `PermissionGate` / `PermissionFlow` (all 6 platforms)**
+- Replaced `permission_handler` with `flutter_permission_handler_plus` (`^0.1.0`), which declares full six-platform support.
+- `PkPermission.bluetooth`, `.phone`, and `.sensors` have no equivalent in the new SDK and are treated as **granted** on all platforms.
+- `PermissionHelper`, `PermissionGate`, and `PermissionFlow` are now exported from `primekit/permissions.dart` (no longer require direct imports).
+
+**`primekit/background.dart` — `TaskScheduler` (all 6 platforms)**
+- The barrel-export router now uses a new `task_scheduler_timer.dart` (Dart `Timer`-based) for the `dart:io` branch instead of `task_scheduler_mobile.dart` (WorkManager).
+- `TaskScheduler`, `ExistingWorkPolicy`, and `callbackDispatcher` are now exported from `primekit/background.dart`.
+- Android/iOS consumers who need true OS-managed background execution should import `task_scheduler_mobile.dart` directly.
+
+**`primekit/device.dart` — `BiometricAuth` (all 6 platforms)**
+- `BiometricAuth` is now exported from `primekit/device.dart` via a new `biometric_auth_barrel.dart` that routes to the stub on all native platforms and to the WebAuthn implementation on Web.
+- Direct import of `biometric_auth.dart` (→ `local_auth`) still works for Android/iOS/macOS/Windows native biometrics.
+
+### Changed — Dependencies
+
+| Removed | Added |
+|---------|-------|
+| `permission_handler: ^12.0.1` | `flutter_permission_handler_plus: ^0.1.0` |
+| `flutter_image_compress: ^2.3.0` | `image: ^4.0.0` |
+| `image_cropper: ^11.0.0` | `croppy: ^1.4.1` |
+
+---
+
 ## [0.2.1] — 2026-02-24
 
 ### Changed
@@ -246,6 +288,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+[0.3.0]: https://github.com/RoyLeibo/Primekit/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/RoyLeibo/Primekit/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/RoyLeibo/Primekit/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/RoyLeibo/Primekit/releases/tag/v0.1.0
