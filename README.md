@@ -49,6 +49,50 @@ start building features.
 
 ---
 
+## Platform Support
+
+Primekit is a multi-module toolkit — platform support varies by module. Most modules target
+**Android and iOS** (the primary mobile platforms), with many supporting all six Flutter targets.
+
+| Module | Android | iOS | Web | macOS | Windows | Linux |
+|--------|:-------:|:---:|:---:|:-----:|:-------:|:-----:|
+| **Async State** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **DI** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Forms** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **RBAC** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Membership** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **i18n** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **UI** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Routing** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Network** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Analytics** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Email** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Storage** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Auth** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **Crash** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **Flags** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **Realtime** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **Sync** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| **Social** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| **Notifications** | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
+| **Device** | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ |
+| **Media** | ✅ | ✅ | ⚠️ | ✅ | ❌ | ❌ |
+| **Billing** | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ |
+| **Permissions** | ✅ | ✅ | ❌ | ⚠️ | ❌ | ❌ |
+| **Background** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Ads** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+
+**Legend:** ✅ Full support · ⚠️ Partial · ❌ Not supported
+
+**Notes:**
+- **Firebase modules** (Auth, Crash, Flags, Realtime, Social, Sync) don't support Windows or Linux — [Firebase SDK limitation](https://firebase.google.com/docs/flutter/setup).
+- **Media** — picking and cropping work on Web; image compression (`flutter_image_compress`) does not.
+- **Permissions** — `permission_handler` has limited macOS coverage (camera, microphone only).
+- **Background** — `workmanager` supports Android and iOS only; no desktop or web background execution.
+- **Ads** — Google Mobile Ads SDK targets Android and iOS only.
+
+---
+
 ## Installation
 
 ```yaml
