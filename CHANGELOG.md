@@ -7,6 +7,28 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.2.1] — 2026-02-24
+
+### Changed
+- **Full cross-platform support** (Android · iOS · macOS · Windows · Linux · Web): removed platform-restricted packages from module barrels so every platform gets a clean import graph.
+  - `primekit/notifications.dart`: `LocalNotifier` removed from barrel (imports directly via `primekit/src/notifications/local_notifier.dart`; `flutter_local_notifications` has Windows/Linux-only transitive sub-packages).
+  - `primekit/permissions.dart`: `PermissionHelper`, `PermissionGate`, `PermissionFlow` removed from barrel (import directly; `permission_handler 12.x` does not declare macOS/Linux platform support).
+  - `primekit/media.dart`: `ImageCompressor`, `ImageCropperService` removed from barrel (import directly; `flutter_image_compress` has no Windows/Linux support, `image_cropper` pulls in `dart:io` which blocks Web).
+  - `primekit/device.dart`: `BiometricAuth` removed from barrel (import directly; `local_auth` has no Linux support).
+  - `primekit/background.dart`: `TaskScheduler` removed from barrel (import directly; `workmanager` is Android/iOS only).
+- **Social module Firebase decoupling**: extracted platform-agnostic abstract interfaces (`ActivityFeedSource`, `FollowDataSource`, `FollowService`) into `*_base.dart` files so the social barrel no longer pulls in `cloud_firestore` on all platforms.
+- **`pubspec.yaml`**: updated `timezone` constraint to `'>=0.10.1 <0.12.0'` so pana sees the latest 0.11.x release as compatible.
+- All dependencies upgraded to latest major versions.
+
+### Fixed
+- Static analysis: removed 3 unnecessary imports (`dart:typed_data`, `pk_permission.dart`) and fixed `curly_braces_in_flow_control_structures` lint in `permission_helper_web.dart`.
+- Applied `dart format` to all files in `lib/`.
+
+### Score
+- pub.dev pana score: **160 / 160** (Follow conventions 30/30, Documentation 20/20, Platform support 20/20, Static analysis 50/50, Dependencies 40/40).
+
+---
+
 ## [0.2.0] — 2026-02-22
 
 ### Added
@@ -224,5 +246,6 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+[0.2.1]: https://github.com/RoyLeibo/Primekit/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/RoyLeibo/Primekit/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/RoyLeibo/Primekit/releases/tag/v0.1.0
