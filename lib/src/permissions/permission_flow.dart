@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../core/logger.dart';
 import 'permission_helper.dart';
@@ -18,7 +17,7 @@ final class PermissionRequest {
   });
 
   /// The permission to request.
-  final Permission permission;
+  final PkPermission permission;
 
   /// Short title shown in the rationale dialog.
   final String title;
@@ -39,22 +38,19 @@ final class PermissionRequest {
 final class PermissionFlowResult {
   const PermissionFlowResult({required this.statuses});
 
-  /// The resolved [PermissionStatus] for every requested permission.
-  final Map<Permission, PermissionStatus> statuses;
+  /// The resolved [PkPermissionStatus] for every requested permission.
+  final Map<PkPermission, PkPermissionStatus> statuses;
 
   /// Returns `true` if every permission in [statuses] was granted.
-  bool get allGranted => statuses.values.every((s) => s.isGranted);
+  bool get allGranted =>
+      statuses.values.every((s) => s == PkPermissionStatus.granted);
 
   /// Returns `true` if every permission that had `required: true` was granted.
-  ///
-  /// Because [PermissionFlowResult] only knows the statuses, callers must
-  /// filter required statuses themselves, or use [requiredGranted] when the
-  /// flow was run with a known [List<PermissionRequest>].
   bool requiredGrantedFor(List<PermissionRequest> requests) {
     for (final req in requests) {
       if (!req.required) continue;
       final s = statuses[req.permission];
-      if (s == null || !s.isGranted) return false;
+      if (s == null || s != PkPermissionStatus.granted) return false;
     }
     return true;
   }
@@ -71,13 +67,13 @@ final class PermissionFlowResult {
 ///   context,
 ///   [
 ///     PermissionRequest(
-///       permission: Permission.camera,
+///       permission: PkPermission.camera,
 ///       title: 'Camera access',
 ///       message: 'Required to scan QR codes.',
 ///       icon: Icons.camera_alt,
 ///     ),
 ///     PermissionRequest(
-///       permission: Permission.microphone,
+///       permission: PkPermission.microphone,
 ///       title: 'Microphone access',
 ///       message: 'Required for voice notes.',
 ///       icon: Icons.mic,
@@ -109,23 +105,23 @@ abstract final class PermissionFlow {
       'PermissionFlow requires at least one permission',
     );
 
-    final statuses = <Permission, PermissionStatus>{};
+    final statuses = <PkPermission, PkPermissionStatus>{};
 
     for (final req in permissions) {
       if (!context.mounted) break;
 
       final current = await PermissionHelper.status(req.permission);
 
-      if (current.isGranted) {
+      if (current == PkPermissionStatus.granted) {
         statuses[req.permission] = current;
         PrimekitLogger.verbose(
-          '${req.permission} already granted, skipping.',
+          '${req.permission.name} already granted, skipping.',
           tag: _tag,
         );
         continue;
       }
 
-      if (current.isPermanentlyDenied) {
+      if (current == PkPermissionStatus.permanentlyDenied) {
         if (context.mounted) {
           await _showPermanentlyDeniedDialog(context, req);
         }
@@ -142,15 +138,18 @@ abstract final class PermissionFlow {
         }
       }
 
-      final result = await req.permission.request();
+      final granted = await PermissionHelper.request(req.permission);
+      final result = granted
+          ? PkPermissionStatus.granted
+          : await PermissionHelper.status(req.permission);
       statuses[req.permission] = result;
 
       PrimekitLogger.info(
-        'PermissionFlow: ${req.permission} → ${result.name}',
+        'PermissionFlow: ${req.permission.name} → ${result.name}',
         tag: _tag,
       );
 
-      if (result.isPermanentlyDenied && context.mounted) {
+      if (result == PkPermissionStatus.permanentlyDenied && context.mounted) {
         await _showPermanentlyDeniedDialog(context, req);
       }
     }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 
 /// Provides system share sheet integration and deep-link construction.
@@ -84,9 +82,6 @@ abstract final class ShareService {
     String? text,
     String? mimeType,
   }) async {
-    if (!File(filePath).existsSync()) {
-      throw ArgumentError('File not found: $filePath');
-    }
     try {
       await _channel.invokeMethod<void>('shareFiles', <String, dynamic>{
         'paths': [filePath],

@@ -1,7 +1,30 @@
-// Requires flutter_local_notifications (already in pubspec.yaml).
-// Android channel configuration is applied during LocalNotifier.initialize().
+// Platform-agnostic notification channel configuration.
+// Android channel registration is performed inside LocalNotifier.initialize()
+// on the IO platform branch (local_notifier_io.dart).
 
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+/// Controls how prominently a notification is displayed.
+///
+/// Maps to Android's [NotificationManager importance levels][1] and
+/// [flutter_local_notifications' Importance enum][2] at runtime.
+///
+/// [1]: https://developer.android.com/develop/ui/views/notifications#importance
+/// [2]: https://pub.dev/documentation/flutter_local_notifications
+enum PkNotificationImportance {
+  /// Silent, no visual interruption.
+  none,
+
+  /// Low priority — shows in the shade but no sound or vibration.
+  low,
+
+  /// Default priority — sound and vibration at default volume.
+  defaultImportance,
+
+  /// High priority — heads-up notification that temporarily overlays the UI.
+  high,
+
+  /// Maximum priority — urgent alerts (use sparingly).
+  max,
+}
 
 /// Describes an Android notification channel.
 ///
@@ -17,7 +40,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 ///   id: 'order_updates',
 ///   name: 'Order Updates',
 ///   description: 'Notifications about your orders.',
-///   importance: Importance.high,
+///   importance: PkNotificationImportance.high,
 /// );
 /// ```
 final class NotificationChannel {
@@ -26,7 +49,7 @@ final class NotificationChannel {
     required this.id,
     required this.name,
     this.description,
-    this.importance = Importance.defaultImportance,
+    this.importance = PkNotificationImportance.defaultImportance,
     this.playSound = true,
     this.enableVibration = true,
     this.enableLights = false,
@@ -42,8 +65,8 @@ final class NotificationChannel {
   final String? description;
 
   /// The channel importance level, controlling how prominently notifications
-  /// are shown. Defaults to [Importance.defaultImportance].
-  final Importance importance;
+  /// are shown. Defaults to [PkNotificationImportance.defaultImportance].
+  final PkNotificationImportance importance;
 
   /// Whether notifications on this channel play a sound.
   final bool playSound;
@@ -63,7 +86,7 @@ final class NotificationChannel {
     id: 'general',
     name: 'General',
     description: 'General app notifications.',
-    importance: Importance.defaultImportance,
+    importance: PkNotificationImportance.defaultImportance,
     playSound: true,
     enableVibration: true,
   );
@@ -73,7 +96,7 @@ final class NotificationChannel {
     id: 'marketing',
     name: 'Promotions',
     description: 'Offers, deals, and promotional content.',
-    importance: Importance.low,
+    importance: PkNotificationImportance.low,
     playSound: false,
     enableVibration: false,
   );
@@ -83,53 +106,22 @@ final class NotificationChannel {
     id: 'alerts',
     name: 'Alerts',
     description: 'Critical alerts that require immediate attention.',
-    importance: Importance.high,
+    importance: PkNotificationImportance.high,
     playSound: true,
     enableVibration: true,
     enableLights: true,
   );
 
   // ---------------------------------------------------------------------------
-  // Conversion
+  // Utilities
   // ---------------------------------------------------------------------------
-
-  /// Converts this definition to an [AndroidNotificationChannel] for
-  /// registration via [FlutterLocalNotificationsPlugin].
-  AndroidNotificationChannel toAndroidChannel() => AndroidNotificationChannel(
-    id,
-    name,
-    description: description,
-    importance: importance,
-    playSound: playSound,
-    enableVibration: enableVibration,
-    enableLights: enableLights,
-  );
-
-  /// Returns an [AndroidNotificationDetails] preset for this channel.
-  AndroidNotificationDetails toAndroidDetails({
-    String? ticker,
-    StyleInformation? styleInformation,
-  }) => AndroidNotificationDetails(
-    id,
-    name,
-    channelDescription: description,
-    importance: importance,
-    priority: importance == Importance.high
-        ? Priority.high
-        : Priority.defaultPriority,
-    playSound: playSound,
-    enableVibration: enableVibration,
-    enableLights: enableLights,
-    ticker: ticker,
-    styleInformation: styleInformation,
-  );
 
   /// Returns a copy with the given fields replaced.
   NotificationChannel copyWith({
     String? id,
     String? name,
     String? description,
-    Importance? importance,
+    PkNotificationImportance? importance,
     bool? playSound,
     bool? enableVibration,
     bool? enableLights,

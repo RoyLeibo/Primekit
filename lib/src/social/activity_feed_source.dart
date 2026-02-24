@@ -1,28 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-/// Abstract backend for fetching and publishing activity feed items.
-///
-/// Implement this interface to connect `ActivityFeed` to any data source.
-abstract interface class ActivityFeedSource {
-  /// Fetches a page of raw feed item maps, ordered by timestamp descending.
-  ///
-  /// [page] — zero-based page index.
-  /// [pageSize] — number of items per page.
-  /// [userId] — when non-null, filters items by actor or target user.
-  Future<List<Map<String, dynamic>>> fetchPage({
-    required int page,
-    required int pageSize,
-    String? userId,
-  });
+import 'activity_feed_source_base.dart';
 
-  /// Returns a stream that emits raw maps for new items as they arrive.
-  ///
-  /// [userId] — when non-null, limits the stream to items for that user.
-  Stream<Map<String, dynamic>> watchNewItems({String? userId});
-
-  /// Publishes a raw feed item map to the backend.
-  Future<void> publish(Map<String, dynamic> item);
-}
+export 'activity_feed_source_base.dart';
 
 // ---------------------------------------------------------------------------
 // Firebase implementation

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../core/logger.dart';
 import 'permission_helper.dart';
@@ -17,7 +16,7 @@ import 'permission_helper.dart';
 ///
 /// ```dart
 /// PermissionGate(
-///   permission: Permission.camera,
+///   permission: PkPermission.camera,
 ///   rationaleTitle: 'Camera access needed',
 ///   rationaleMessage: 'We need your camera to scan QR codes.',
 ///   child: const CameraPreview(),
@@ -38,7 +37,7 @@ class PermissionGate extends StatefulWidget {
   });
 
   /// The permission to check/request.
-  final Permission permission;
+  final PkPermission permission;
 
   /// Widget rendered when the permission is granted.
   final Widget child;
@@ -75,7 +74,7 @@ class PermissionGate extends StatefulWidget {
 
 class _PermissionGateState extends State<PermissionGate>
     with WidgetsBindingObserver {
-  PermissionStatus _status = PermissionStatus.denied;
+  PkPermissionStatus _status = PkPermissionStatus.denied;
   bool _loading = true;
 
   static const String _tag = 'PermissionGate';
@@ -106,13 +105,13 @@ class _PermissionGateState extends State<PermissionGate>
 
     final status = await PermissionHelper.status(widget.permission);
     PrimekitLogger.verbose(
-      'PermissionGate(${widget.permission}): $status',
+      'PermissionGate(${widget.permission.name}): ${status.name}',
       tag: _tag,
     );
 
     if (!mounted) return;
 
-    if (status.isGranted) {
+    if (status == PkPermissionStatus.granted) {
       setState(() {
         _status = status;
         _loading = false;
@@ -120,7 +119,8 @@ class _PermissionGateState extends State<PermissionGate>
       return;
     }
 
-    if (status.isPermanentlyDenied || status.isRestricted) {
+    if (status == PkPermissionStatus.permanentlyDenied ||
+        status == PkPermissionStatus.restricted) {
       setState(() {
         _status = status;
         _loading = false;
@@ -153,10 +153,11 @@ class _PermissionGateState extends State<PermissionGate>
       }
     }
 
-    final result = await widget.permission.request();
+    final granted = await PermissionHelper.request(widget.permission);
     if (mounted) {
+      final current = await PermissionHelper.status(widget.permission);
       setState(() {
-        _status = result;
+        _status = granted ? PkPermissionStatus.granted : current;
         _loading = false;
       });
     }
@@ -194,9 +195,9 @@ class _PermissionGateState extends State<PermissionGate>
           const Center(child: CircularProgressIndicator.adaptive());
     }
 
-    if (_status.isGranted) return widget.child;
+    if (_status == PkPermissionStatus.granted) return widget.child;
 
-    if (_status.isRestricted) {
+    if (_status == PkPermissionStatus.restricted) {
       return widget.restrictedView ??
           _DefaultRestrictedView(permission: widget.permission);
     }
@@ -214,7 +215,7 @@ class _PermissionGateState extends State<PermissionGate>
 class _DefaultDeniedView extends StatelessWidget {
   const _DefaultDeniedView({required this.permission});
 
-  final Permission permission;
+  final PkPermission permission;
 
   @override
   Widget build(BuildContext context) {
@@ -255,7 +256,7 @@ class _DefaultDeniedView extends StatelessWidget {
 class _DefaultRestrictedView extends StatelessWidget {
   const _DefaultRestrictedView({required this.permission});
 
-  final Permission permission;
+  final PkPermission permission;
 
   @override
   Widget build(BuildContext context) {

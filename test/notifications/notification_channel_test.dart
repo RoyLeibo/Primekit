@@ -1,4 +1,3 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:primekit/src/notifications/notification_channel.dart';
 
@@ -8,7 +7,7 @@ void main() {
       id: 'my_channel',
       name: 'My Channel',
       description: 'Test channel',
-      importance: Importance.high,
+      importance: PkNotificationImportance.high,
       playSound: true,
       enableVibration: true,
       enableLights: true,
@@ -18,7 +17,7 @@ void main() {
       expect(channel.id, equals('my_channel'));
       expect(channel.name, equals('My Channel'));
       expect(channel.description, equals('Test channel'));
-      expect(channel.importance, equals(Importance.high));
+      expect(channel.importance, equals(PkNotificationImportance.high));
       expect(channel.playSound, isTrue);
       expect(channel.enableVibration, isTrue);
       expect(channel.enableLights, isTrue);
@@ -26,7 +25,10 @@ void main() {
 
     test('defaults are sensible', () {
       const defaultChannel = NotificationChannel(id: 'x', name: 'X');
-      expect(defaultChannel.importance, equals(Importance.defaultImportance));
+      expect(
+        defaultChannel.importance,
+        equals(PkNotificationImportance.defaultImportance),
+      );
       expect(defaultChannel.playSound, isTrue);
       expect(defaultChannel.enableVibration, isTrue);
       expect(defaultChannel.enableLights, isFalse);
@@ -58,7 +60,7 @@ void main() {
         expect(NotificationChannel.general.id, equals('general'));
         expect(
           NotificationChannel.general.importance,
-          equals(Importance.defaultImportance),
+          equals(PkNotificationImportance.defaultImportance),
         );
       });
 
@@ -66,40 +68,18 @@ void main() {
         expect(NotificationChannel.marketing.id, equals('marketing'));
         expect(
           NotificationChannel.marketing.importance,
-          equals(Importance.low),
+          equals(PkNotificationImportance.low),
         );
         expect(NotificationChannel.marketing.playSound, isFalse);
       });
 
       test('alerts channel has high importance', () {
         expect(NotificationChannel.alerts.id, equals('alerts'));
-        expect(NotificationChannel.alerts.importance, equals(Importance.high));
+        expect(
+          NotificationChannel.alerts.importance,
+          equals(PkNotificationImportance.high),
+        );
         expect(NotificationChannel.alerts.enableLights, isTrue);
-      });
-    });
-
-    group('toAndroidChannel()', () {
-      test('returns AndroidNotificationChannel with matching id', () {
-        final android = channel.toAndroidChannel();
-        expect(android.id, equals('my_channel'));
-        expect(android.name, equals('My Channel'));
-        expect(android.importance, equals(Importance.high));
-      });
-    });
-
-    group('toAndroidDetails()', () {
-      test('returns AndroidNotificationDetails with matching channel id', () {
-        final details = channel.toAndroidDetails();
-        expect(details.channelId, equals('my_channel'));
-        expect(details.channelName, equals('My Channel'));
-        expect(details.importance, equals(Importance.high));
-        expect(details.priority, equals(Priority.high));
-      });
-
-      test('default importance maps to default priority', () {
-        const defaultChannel = NotificationChannel(id: 'd', name: 'Default');
-        final details = defaultChannel.toAndroidDetails();
-        expect(details.priority, equals(Priority.defaultPriority));
       });
     });
   });

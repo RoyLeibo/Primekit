@@ -1,4 +1,4 @@
-import 'activity_feed_source.dart';
+import 'activity_feed_source_base.dart';
 
 // ---------------------------------------------------------------------------
 // FeedItem — sealed hierarchy

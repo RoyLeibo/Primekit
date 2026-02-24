@@ -5,6 +5,21 @@ analyzer:
     - '**/*.g.dart'
     - '**/*.freezed.dart'
     - 'example/**'
+    # Firebase-backed concrete implementations.
+    # These require firebase_* packages which are listed as dev_dependencies
+    # (so the package compiles on all platforms without them).
+    # Consumers who want Firebase integration add the packages themselves.
+    - 'lib/src/crash/firebase_crash_reporter.dart'
+    - 'lib/src/flags/firebase_flag_provider.dart'
+    - 'lib/src/realtime/firebase_rtdb_channel.dart'
+    - 'lib/src/realtime/presence_service.dart'
+    - 'lib/src/rbac/providers/firebase_rbac_provider.dart'
+    - 'lib/src/sync/providers/firestore_sync_source.dart'
+    - 'lib/src/media/providers/firebase_storage_uploader.dart'
+    - 'lib/src/social/social_auth_provider.dart'
+    - 'lib/src/social/follow_service.dart'
+    - 'lib/src/social/profile_service.dart'
+    - 'lib/src/social/activity_feed_source.dart'
   errors:
     missing_required_param: error
     missing_return: error

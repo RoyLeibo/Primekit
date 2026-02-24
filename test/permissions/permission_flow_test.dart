@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:primekit/permissions.dart';
+import 'package:primekit/src/permissions/permission_flow.dart';
 
 // PermissionFlowResult is a pure-Dart value type with no platform coupling.
 // Full PermissionFlow UI flows are covered by integration / widget tests.
@@ -8,7 +9,7 @@ void main() {
   group('PermissionRequest', () {
     test('required defaults to true', () {
       const req = PermissionRequest(
-        permission: Permission.camera,
+        permission: PkPermission.camera,
         title: 'Camera',
         message: 'Need camera access',
       );
@@ -17,7 +18,7 @@ void main() {
 
     test('required can be set to false', () {
       const req = PermissionRequest(
-        permission: Permission.microphone,
+        permission: PkPermission.microphone,
         title: 'Microphone',
         message: 'Optional mic',
         required: false,
@@ -30,8 +31,8 @@ void main() {
     test('allGranted returns true when all statuses are granted', () {
       final result = PermissionFlowResult(
         statuses: {
-          Permission.camera: PermissionStatus.granted,
-          Permission.microphone: PermissionStatus.granted,
+          PkPermission.camera: PkPermissionStatus.granted,
+          PkPermission.microphone: PkPermissionStatus.granted,
         },
       );
       expect(result.allGranted, isTrue);
@@ -40,8 +41,8 @@ void main() {
     test('allGranted returns false when any status is denied', () {
       final result = PermissionFlowResult(
         statuses: {
-          Permission.camera: PermissionStatus.granted,
-          Permission.microphone: PermissionStatus.denied,
+          PkPermission.camera: PkPermissionStatus.granted,
+          PkPermission.microphone: PkPermissionStatus.denied,
         },
       );
       expect(result.allGranted, isFalse);
@@ -50,12 +51,12 @@ void main() {
     test('requiredGrantedFor returns true when all required are granted', () {
       final requests = [
         const PermissionRequest(
-          permission: Permission.camera,
+          permission: PkPermission.camera,
           title: 'Camera',
           message: 'Required',
         ),
         const PermissionRequest(
-          permission: Permission.microphone,
+          permission: PkPermission.microphone,
           title: 'Microphone',
           message: 'Optional',
           required: false,
@@ -64,8 +65,8 @@ void main() {
 
       final result = PermissionFlowResult(
         statuses: {
-          Permission.camera: PermissionStatus.granted,
-          Permission.microphone: PermissionStatus.denied,
+          PkPermission.camera: PkPermissionStatus.granted,
+          PkPermission.microphone: PkPermissionStatus.denied,
         },
       );
 
@@ -78,14 +79,14 @@ void main() {
       () {
         final requests = [
           const PermissionRequest(
-            permission: Permission.camera,
+            permission: PkPermission.camera,
             title: 'Camera',
             message: 'Required',
           ),
         ];
 
         final result = PermissionFlowResult(
-          statuses: {Permission.camera: PermissionStatus.denied},
+          statuses: {PkPermission.camera: PkPermissionStatus.denied},
         );
 
         expect(result.requiredGrantedFor(requests), isFalse);
@@ -95,7 +96,7 @@ void main() {
     test('requiredGrantedFor returns false when required status is absent', () {
       final requests = [
         const PermissionRequest(
-          permission: Permission.camera,
+          permission: PkPermission.camera,
           title: 'Camera',
           message: 'Required',
         ),

@@ -64,9 +64,17 @@ final class AvatarUploader {
     final picked = await MediaPicker.pickImage(source: source);
     if (picked == null) return null;
 
-    // Step 2: Crop to square.
-    final cropped = await ImageCropperService.cropSquare(picked);
-    if (cropped == null) return null;
+    // Step 2: Crop to square (requires context for the crop UI — skip on web
+    // when no context is provided, or when context is not mounted).
+    MediaFile cropped;
+    if (context != null && context.mounted) {
+      final result = await ImageCropperService.cropSquare(context, picked);
+      if (result == null) return null;
+      cropped = result;
+    } else {
+      // Skip crop when no valid context is available.
+      cropped = picked;
+    }
 
     // Step 3: Compress.
     final compressed = await ImageCompressor.compressToSize(

@@ -42,7 +42,9 @@ dependencies:
 
   # Local notifications
   flutter_local_notifications: ^20.1.0
-  timezone: ^0.10.1
+  # timezone: lower-bound matches flutter_local_notifications; upper bound
+  # allows 0.11.x so pana sees the latest version as compatible.
+  timezone: '>=0.10.1 <0.12.0'
 
   # Biometrics
   local_auth: ^3.0.0
@@ -70,15 +72,6 @@ dependencies:
   rxdart: ^0.28.0
   mime: ^2.0.0
 
-  # Firebase — concrete backend implementations (optional usage)
-  firebase_core: ^4.4.0
-  cloud_firestore: ^6.1.2
-  firebase_database: ^12.1.3
-  firebase_auth: ^6.1.4
-  firebase_remote_config: ^6.1.4
-  firebase_crashlytics: ^5.0.7
-  firebase_storage: ^13.0.6
-
   # Crash reporting — Sentry alternative
   sentry_flutter: ^9.14.0
 
@@ -90,7 +83,19 @@ dependencies:
   flutter_image_compress: ^2.3.0
   image_cropper: ^11.0.0
 
-  # Social / Auth
+  # Web support
+  web: ^1.1.0
+
+  # Firebase — concrete backend implementations (optional, opt-in by consumers)
+  # These files live in lib/src/**/firebase_*.dart but are NOT exported
+  # from any module barrel. Consumers who want Firebase import them directly.
+  firebase_core: ^4.4.0
+  cloud_firestore: ^6.1.2
+  firebase_database: ^12.1.3
+  firebase_auth: ^6.1.4
+  firebase_remote_config: ^6.1.4
+  firebase_crashlytics: ^5.0.7
+  firebase_storage: ^13.0.6
   google_sign_in: ^7.2.0
 
 dev_dependencies:

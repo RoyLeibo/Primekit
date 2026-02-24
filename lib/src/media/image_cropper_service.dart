@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 
@@ -12,6 +11,7 @@ import 'media_file.dart';
 ///
 /// ```dart
 /// final cropped = await ImageCropperService.crop(
+///   context,
 ///   source,
 ///   aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
 /// );
@@ -35,6 +35,7 @@ abstract final class ImageCropperService {
   /// [toolbarColor] — colour of the crop toolbar.
   /// [toolbarTitle] — title shown in the crop toolbar.
   static Future<MediaFile?> crop(
+    BuildContext context,
     MediaFile source, {
     CropAspectRatio? aspectRatio,
     List<CropAspectRatioPreset>? presets,
@@ -51,28 +52,36 @@ abstract final class ImageCropperService {
             CropAspectRatioPreset.ratio16x9,
             CropAspectRatioPreset.ratio4x3,
           ];
+
+      final uiSettings = <PlatformUiSettings>[
+        AndroidUiSettings(
+          toolbarTitle: toolbarTitle ?? 'Crop Image',
+          toolbarColor: toolbarColor,
+          cropStyle: cropStyle,
+          lockAspectRatio: aspectRatio != null,
+          aspectRatioPresets: effectivePresets,
+        ),
+        IOSUiSettings(
+          title: toolbarTitle ?? 'Crop Image',
+          aspectRatioLockEnabled: aspectRatio != null,
+          cropStyle: cropStyle,
+          aspectRatioPresets: effectivePresets,
+        ),
+      ];
+
+      // Web requires WebUiSettings — add it conditionally.
+      if (kIsWeb) {
+        uiSettings.add(WebUiSettings(context: context));
+      }
+
       final cropped = await ImageCropper().cropImage(
         sourcePath: source.path,
         aspectRatio: aspectRatio,
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: toolbarTitle ?? 'Crop Image',
-            toolbarColor: toolbarColor,
-            cropStyle: cropStyle,
-            lockAspectRatio: aspectRatio != null,
-            aspectRatioPresets: effectivePresets,
-          ),
-          IOSUiSettings(
-            title: toolbarTitle ?? 'Crop Image',
-            aspectRatioLockEnabled: aspectRatio != null,
-            cropStyle: cropStyle,
-            aspectRatioPresets: effectivePresets,
-          ),
-        ],
+        uiSettings: uiSettings,
       );
 
       if (cropped == null) return null;
-      return _fromCroppedFile(source, cropped);
+      return await _fromCroppedFile(source, cropped);
     } on Exception {
       rethrow;
     } catch (error) {
@@ -88,9 +97,11 @@ abstract final class ImageCropperService {
   ///
   /// Returns `null` when the user cancels.
   static Future<MediaFile?> cropSquare(
+    BuildContext context,
     MediaFile source, {
     Color? toolbarColor,
   }) => crop(
+    context,
     source,
     aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
     presets: const [CropAspectRatioPreset.square],
@@ -107,11 +118,12 @@ abstract final class ImageCropperService {
     MediaFile source,
     CroppedFile cropped,
   ) async {
-    final file = File(cropped.path);
     int? sizeBytes;
     try {
-      sizeBytes = await file.length();
-    } on FileSystemException {
+      // CroppedFile.readAsBytes() is cross-platform (works on web and native).
+      final bytes = await cropped.readAsBytes();
+      sizeBytes = bytes.length;
+    } catch (_) {
       // Size unavailable — leave null.
     }
     return source.copyWith(

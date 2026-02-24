@@ -1,4 +1,4 @@
-import 'presence_service.dart';
+import 'presence_types.dart';
 import 'realtime_channel.dart';
 
 /// Factory function that creates a [RealtimeChannel] for the given [channelId].

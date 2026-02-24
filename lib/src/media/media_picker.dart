@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 
 import 'media_file.dart';
@@ -118,11 +116,11 @@ abstract final class MediaPicker {
   // ---------------------------------------------------------------------------
 
   static Future<MediaFile> _fromXFile(XFile xFile) async {
-    final file = File(xFile.path);
     int? sizeBytes;
     try {
-      sizeBytes = await file.length();
-    } on FileSystemException {
+      // XFile.length() is cross-platform (works on web and native).
+      sizeBytes = await xFile.length();
+    } catch (_) {
       // Size unavailable — leave null.
     }
     return MediaFile(
