@@ -62,7 +62,7 @@ final class PresenceRecord {
 
 /// Tracks which users are currently online in a realtime channel.
 ///
-/// See [FirebasePresenceService] for the Firebase RTDB-backed implementation.
+/// See `FirebasePresenceService` for the Firebase RTDB-backed implementation.
 abstract class PresenceService {
   /// Marks [userId] as online in the given channel.
   Future<void> connect({
