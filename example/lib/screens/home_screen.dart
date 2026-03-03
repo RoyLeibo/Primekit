@@ -452,7 +452,7 @@ class _MembershipDemoState extends State<MembershipDemo> {
             const SizedBox(height: 8),
             TierGate(
               requires: MembershipTier.pro,
-              currentTier: _currentTier,
+              customCheck: () => _currentTier.isAtLeast(MembershipTier.pro),
               fallback: UpgradePrompt(
                 targetTier: MembershipTier.pro,
                 featureName: 'Cloud Export',
