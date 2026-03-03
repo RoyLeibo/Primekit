@@ -14,10 +14,7 @@ void main() {
     });
 
     test('initialize() completes without error', () async {
-      await expectLater(
-        notifier.initialize(),
-        completes,
-      );
+      await expectLater(notifier.initialize(), completes);
     });
 
     test('show() completes without error', () async {

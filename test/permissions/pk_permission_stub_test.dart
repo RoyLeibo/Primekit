@@ -5,8 +5,11 @@ void main() {
   group('PermissionHelper stub', () {
     test('isGranted() returns true for all permissions', () async {
       for (final p in PkPermission.values) {
-        expect(await PermissionHelper.isGranted(p), isTrue,
-            reason: 'isGranted($p) should be true on stub');
+        expect(
+          await PermissionHelper.isGranted(p),
+          isTrue,
+          reason: 'isGranted($p) should be true on stub',
+        );
       }
     });
 
@@ -22,8 +25,11 @@ void main() {
 
     test('request() returns true for all permissions', () async {
       for (final p in PkPermission.values) {
-        expect(await PermissionHelper.request(p), isTrue,
-            reason: 'request($p) should be true on stub');
+        expect(
+          await PermissionHelper.request(p),
+          isTrue,
+          reason: 'request($p) should be true on stub',
+        );
       }
     });
 
@@ -33,15 +39,21 @@ void main() {
 
       expect(result.length, equals(permissions.length));
       for (final entry in result.entries) {
-        expect(entry.value, equals(PkPermissionStatus.granted),
-            reason: '${entry.key} should be granted');
+        expect(
+          entry.value,
+          equals(PkPermissionStatus.granted),
+          reason: '${entry.key} should be granted',
+        );
       }
     });
 
     test('isPermanentlyDenied() returns false for any status', () {
       for (final s in PkPermissionStatus.values) {
-        expect(PermissionHelper.isPermanentlyDenied(s), isFalse,
-            reason: 'isPermanentlyDenied($s) should be false on stub');
+        expect(
+          PermissionHelper.isPermanentlyDenied(s),
+          isFalse,
+          reason: 'isPermanentlyDenied($s) should be false on stub',
+        );
       }
     });
 
@@ -63,10 +75,14 @@ void main() {
     test('has all expected values', () {
       expect(PkPermissionStatus.values, contains(PkPermissionStatus.granted));
       expect(PkPermissionStatus.values, contains(PkPermissionStatus.denied));
-      expect(PkPermissionStatus.values,
-          contains(PkPermissionStatus.permanentlyDenied));
-      expect(PkPermissionStatus.values,
-          contains(PkPermissionStatus.restricted));
+      expect(
+        PkPermissionStatus.values,
+        contains(PkPermissionStatus.permanentlyDenied),
+      );
+      expect(
+        PkPermissionStatus.values,
+        contains(PkPermissionStatus.restricted),
+      );
     });
   });
 }

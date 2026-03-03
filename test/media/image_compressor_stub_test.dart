@@ -17,23 +17,29 @@ void main() {
       expect(result, equals(source));
     });
 
-    test('compress() with maxWidth/maxHeight returns original unchanged', () async {
-      final result = await ImageCompressor.compress(
-        source,
-        quality: 60,
-        maxWidth: 640,
-        maxHeight: 480,
-      );
-      expect(result, equals(source));
-    });
+    test(
+      'compress() with maxWidth/maxHeight returns original unchanged',
+      () async {
+        final result = await ImageCompressor.compress(
+          source,
+          quality: 60,
+          maxWidth: 640,
+          maxHeight: 480,
+        );
+        expect(result, equals(source));
+      },
+    );
 
-    test('compress() with different format returns original unchanged', () async {
-      final result = await ImageCompressor.compress(
-        source,
-        format: CompressFormat.png,
-      );
-      expect(result, equals(source));
-    });
+    test(
+      'compress() with different format returns original unchanged',
+      () async {
+        final result = await ImageCompressor.compress(
+          source,
+          format: CompressFormat.png,
+        );
+        expect(result, equals(source));
+      },
+    );
 
     test('compressToSize() returns original file unchanged', () async {
       final result = await ImageCompressor.compressToSize(

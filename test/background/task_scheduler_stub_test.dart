@@ -4,10 +4,7 @@ import 'package:primekit/src/background/task_scheduler_stub.dart';
 void main() {
   group('TaskScheduler stub', () {
     test('initialize() completes without error', () async {
-      await expectLater(
-        TaskScheduler.initialize(taskRegistry: {}),
-        completes,
-      );
+      await expectLater(TaskScheduler.initialize(taskRegistry: {}), completes);
     });
 
     test('schedulePeriodic() completes without error', () async {
@@ -39,10 +36,7 @@ void main() {
     });
 
     test('cancelAll() completes without error', () async {
-      await expectLater(
-        TaskScheduler.instance.cancelAll(),
-        completes,
-      );
+      await expectLater(TaskScheduler.instance.cancelAll(), completes);
     });
 
     test('isScheduled() always returns false', () async {

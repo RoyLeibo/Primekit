@@ -53,8 +53,10 @@ void main() {
       expect(BiometricResult.values, contains(BiometricResult.cancelled));
       expect(BiometricResult.values, contains(BiometricResult.notAvailable));
       expect(BiometricResult.values, contains(BiometricResult.lockedOut));
-      expect(BiometricResult.values,
-          contains(BiometricResult.permanentlyLockedOut));
+      expect(
+        BiometricResult.values,
+        contains(BiometricResult.permanentlyLockedOut),
+      );
     });
   });
 }
