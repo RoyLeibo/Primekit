@@ -17,16 +17,6 @@ class MockGoRouterState extends Mock implements GoRouterState {}
 // Tests
 // ---------------------------------------------------------------------------
 
-/// A minimal [StatelessWidget] used to obtain a real [BuildContext]
-/// inside [testWidgets].
-class _TestApp extends StatelessWidget {
-  const _TestApp({required this.child});
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) => MaterialApp(home: child);
-}
-
 void main() {
   late MockSessionStateProvider mockSession;
   late MockGoRouterState mockRouterState;

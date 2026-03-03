@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:primekit/permissions.dart';
-import 'package:primekit/src/permissions/permission_flow.dart';
 
 // PermissionFlowResult is a pure-Dart value type with no platform coupling.
 // Full PermissionFlow UI flows are covered by integration / widget tests.

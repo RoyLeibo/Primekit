@@ -71,7 +71,7 @@ void main() {
 
       test('empty list fails', () {
         expect(
-          PkSchema.list(PkSchema.string()).notEmpty().validate([]).isValid,
+          PkSchema.list(PkSchema.string()).notEmpty().validate(<Object>[]).isValid,
           isFalse,
         );
       });

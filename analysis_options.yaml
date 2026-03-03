@@ -148,7 +148,6 @@ linter:
     sort_constructors_first: false
     sort_unnamed_constructors_first: false
     unawaited_futures: false
-    unnecessary_import: false
     unnecessary_lambdas: false
     unnecessary_null_checks: false
     unnecessary_parenthesis: false

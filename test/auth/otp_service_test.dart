@@ -76,7 +76,7 @@ void main() {
     test('expired code returns OtpValidationResult.expired', () {
       service.store(key, code, ttl: const Duration(milliseconds: 1));
       // Allow the entry to expire.
-      Future.delayed(const Duration(milliseconds: 10));
+      Future<void>.delayed(const Duration(milliseconds: 10));
       // Force evaluation after expiry via a direct future wait in sync test.
       // Since we can't use async delays here we use a very short TTL and
       // verify that the OtpEntry.isExpired property works correctly.

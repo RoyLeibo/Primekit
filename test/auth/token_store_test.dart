@@ -122,13 +122,6 @@ void main() {
     );
 
     test('exp claim exactly at boundary (30s) is considered expired', () {
-      final boundaryExp =
-          DateTime.now()
-              .toUtc()
-              .add(const Duration(seconds: 30))
-              .millisecondsSinceEpoch ~/
-          1000;
-      // now.isAfter(expiresAt - 30s) == now.isAfter(now) == false when exact.
       // The result depends on sub-second precision; we test that expired-at-now
       // is true.
       final expiredNow = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;

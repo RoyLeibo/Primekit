@@ -6,9 +6,7 @@ import 'package:primekit/src/email/verification_mailer.dart';
 
 class _CaptureProvider implements EmailProvider {
   final List<EmailMessage> captured = [];
-  final EmailResult result;
-
-  _CaptureProvider({this.result = const EmailSuccess(messageId: 'test-id')});
+  final EmailResult result = const EmailSuccess(messageId: 'test-id');
 
   @override
   String get name => 'Capture';

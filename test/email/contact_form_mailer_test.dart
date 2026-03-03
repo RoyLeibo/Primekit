@@ -171,7 +171,6 @@ void main() {
     });
 
     test('stops retrying on 4xx client error', () async {
-      var calls = 0;
       final provider = _CaptureProvider(
         result: const EmailFailure(reason: 'invalid', statusCode: 400),
       );

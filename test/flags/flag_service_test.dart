@@ -9,7 +9,6 @@ void main() {
   const darkMode = BoolFlag(key: 'dark_mode', defaultValue: false);
   const maxItems = IntFlag(key: 'max_items', defaultValue: 10);
   const greeting = StringFlag(key: 'greeting', defaultValue: 'Hello');
-  const threshold = DoubleFlag(key: 'threshold', defaultValue: 0.5);
 
   setUp(() {
     service = FlagService.instance;

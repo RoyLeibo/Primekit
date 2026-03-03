@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:primekit/src/media/compress_format.dart';
 import 'package:primekit/src/media/image_compressor_stub.dart';
 import 'package:primekit/src/media/media_file.dart';
 
