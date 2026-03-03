@@ -16,8 +16,8 @@ topics:
   - notifications
 
 environment:
-  sdk: '>=3.8.0 <4.0.0'
-  flutter: '>=3.32.0'
+  sdk: '>=3.9.0 <4.0.0'
+  flutter: '>=3.41.3'
 
 dependencies:
   flutter:
@@ -96,7 +96,7 @@ dependencies:
   firebase_remote_config: ^6.1.4
   firebase_crashlytics: ^5.0.7
   firebase_storage: ^13.0.6
-  google_sign_in: ^7.2.0
+  google_sign_in: '>=6.0.0 <8.0.0'
 
 dev_dependencies:
   flutter_test:
