@@ -71,7 +71,8 @@ void main() {
 
       test('empty list fails', () {
         expect(
-          PkSchema.list(PkSchema.string()).notEmpty().validate(<Object>[]).isValid,
+          // ignore: inference_failure_on_collection_literal
+          PkSchema.list(PkSchema.string()).notEmpty().validate([]).isValid,
           isFalse,
         );
       });
