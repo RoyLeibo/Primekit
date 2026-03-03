@@ -1,5 +1,4 @@
-import 'package:flutter_permission_handler_plus/flutter_permission_handler_plus.dart'
-    as fphp;
+import 'package:permission_handler/permission_handler.dart' as ph;
 
 import '../core/logger.dart';
 import 'pk_permission.dart';
@@ -8,8 +7,8 @@ export 'pk_permission.dart';
 
 /// Static utility methods for querying and requesting device permissions.
 ///
-/// This implementation wraps [flutter_permission_handler_plus], which supports
-/// Android, iOS, macOS, Windows, Linux, and Web via a single cross-platform API.
+/// This implementation wraps [permission_handler], which supports Android,
+/// iOS, and macOS via a single cross-platform API.
 abstract final class PermissionHelper {
   static const String _tag = 'PermissionHelper';
 
@@ -29,10 +28,10 @@ abstract final class PermissionHelper {
 
   /// Returns the current [PkPermissionStatus] for [permission].
   static Future<PkPermissionStatus> status(PkPermission permission) async {
-    final type = _toPermissionType(permission);
-    if (type == null) return PkPermissionStatus.granted;
+    final p = _toPermission(permission);
+    if (p == null) return PkPermissionStatus.granted;
     try {
-      final s = await fphp.PermissionHandlerPlus().checkPermissionStatus(type);
+      final s = await p.status;
       return _fromStatus(s);
     } catch (e) {
       PrimekitLogger.warning(
@@ -53,10 +52,10 @@ abstract final class PermissionHelper {
 
   /// Requests [permission] and returns `true` if the user grants it.
   static Future<bool> request(PkPermission permission) async {
-    final type = _toPermissionType(permission);
-    if (type == null) return true;
+    final p = _toPermission(permission);
+    if (p == null) return true;
     try {
-      final s = await fphp.PermissionHandlerPlus().requestPermission(type);
+      final s = await p.request();
       PrimekitLogger.info(
         'request(${permission.name}): granted=${s.isGranted}',
         tag: _tag,
@@ -77,23 +76,23 @@ abstract final class PermissionHelper {
     List<PkPermission> permissions,
   ) async {
     final result = <PkPermission, PkPermissionStatus>{};
-    for (final p in permissions) {
-      final type = _toPermissionType(p);
-      if (type == null) {
-        result[p] = PkPermissionStatus.granted;
+    for (final permission in permissions) {
+      final p = _toPermission(permission);
+      if (p == null) {
+        result[permission] = PkPermissionStatus.granted;
         continue;
       }
       try {
-        final s = await fphp.PermissionHandlerPlus().requestPermission(type);
-        result[p] = _fromStatus(s);
+        final s = await p.request();
+        result[permission] = _fromStatus(s);
         PrimekitLogger.info(
-          'requestMultiple ${p.name}: granted=${s.isGranted}',
+          'requestMultiple ${permission.name}: granted=${s.isGranted}',
           tag: _tag,
         );
       } catch (e) {
-        result[p] = PkPermissionStatus.denied;
+        result[permission] = PkPermissionStatus.denied;
         PrimekitLogger.warning(
-          'requestMultiple failed for ${p.name}: $e',
+          'requestMultiple failed for ${permission.name}: $e',
           tag: _tag,
         );
       }
@@ -109,7 +108,7 @@ abstract final class PermissionHelper {
   /// permissions that have been permanently denied.
   static Future<void> openSettings() async {
     try {
-      await fphp.PermissionHandlerPlus().openAppSettings();
+      await ph.openAppSettings();
       PrimekitLogger.info('openSettings: opened', tag: _tag);
     } catch (e) {
       PrimekitLogger.warning('openSettings failed: $e', tag: _tag);
@@ -120,28 +119,27 @@ abstract final class PermissionHelper {
   // Conversion helpers
   // ---------------------------------------------------------------------------
 
-  static fphp.PermissionType? _toPermissionType(PkPermission p) => switch (p) {
-    PkPermission.camera => fphp.PermissionType.camera,
-    PkPermission.microphone => fphp.PermissionType.microphone,
-    PkPermission.location => fphp.PermissionType.locationWhenInUse,
-    PkPermission.locationAlways => fphp.PermissionType.locationAlways,
-    PkPermission.notifications => fphp.PermissionType.notification,
-    PkPermission.storage => fphp.PermissionType.storage,
-    PkPermission.contacts => fphp.PermissionType.contacts,
-    PkPermission.calendar => fphp.PermissionType.calendar,
-    PkPermission.photos => fphp.PermissionType.photos,
-    // No equivalent in flutter_permission_handler_plus — treated as granted.
-    PkPermission.bluetooth => null,
-    PkPermission.phone => null,
-    PkPermission.sensors => null,
+  static ph.Permission? _toPermission(PkPermission p) => switch (p) {
+    PkPermission.camera => ph.Permission.camera,
+    PkPermission.microphone => ph.Permission.microphone,
+    PkPermission.location => ph.Permission.locationWhenInUse,
+    PkPermission.locationAlways => ph.Permission.locationAlways,
+    PkPermission.notifications => ph.Permission.notification,
+    PkPermission.storage => ph.Permission.storage,
+    PkPermission.contacts => ph.Permission.contacts,
+    PkPermission.calendar => ph.Permission.calendarWriteOnly,
+    PkPermission.photos => ph.Permission.photos,
+    PkPermission.bluetooth => ph.Permission.bluetooth,
+    PkPermission.phone => ph.Permission.phone,
+    PkPermission.sensors => ph.Permission.sensors,
   };
 
-  static PkPermissionStatus _fromStatus(fphp.PermissionStatus s) {
+  static PkPermissionStatus _fromStatus(ph.PermissionStatus s) {
     if (s.isGranted) return PkPermissionStatus.granted;
     if (s.isPermanentlyDenied) return PkPermissionStatus.permanentlyDenied;
     if (s.isRestricted) return PkPermissionStatus.restricted;
-    if (s.isNotApplicable) return PkPermissionStatus.granted;
+    if (s.isLimited) return PkPermissionStatus.granted;
     if (s.isDenied) return PkPermissionStatus.denied;
-    return PkPermissionStatus.notDetermined; // undetermined
+    return PkPermissionStatus.notDetermined;
   }
 }
