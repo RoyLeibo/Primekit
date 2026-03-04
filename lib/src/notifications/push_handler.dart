@@ -1,17 +1,12 @@
-// DEPENDENCY NOTE: PushHandler requires `firebase_messaging`.
-//
-// Add to pubspec.yaml:
-//   firebase_messaging: ^15.0.0
-//   firebase_core: ^3.0.0
-//
 // Platform setup:
-//   iOS: Add push notifications capability + APNs key in Firebase console
+//   iOS:  Add push notifications capability + APNs key in Firebase console
 //   Android: Download google-services.json and add to android/app/
 //
 // See: https://firebase.google.com/docs/cloud-messaging/flutter/client
 
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 
 import '../core/logger.dart';
@@ -57,16 +52,16 @@ final class PushMessage {
 
 /// Handles FCM / APNs push messages using `firebase_messaging`.
 ///
-/// **Required dependency:** `firebase_messaging` — see the comment at the top
-/// of this file for setup instructions.
-///
 /// ## Quick-start
 ///
 /// ```dart
 /// // 1. Initialize Firebase in main():
 /// await Firebase.initializeApp();
 ///
-/// // 2. Set up the handler:
+/// // 2. Register background handler BEFORE runApp():
+/// PushHandler.handleBackground();
+///
+/// // 3. Set up the handler:
 /// await PushHandler.instance.initialize(
 ///   onMessage: (msg) {
 ///     // Foreground message — show an in-app banner
@@ -83,7 +78,7 @@ final class PushMessage {
 ///   },
 /// );
 ///
-/// // 3. Get the current FCM token:
+/// // 4. Get the current FCM token:
 /// final token = await PushHandler.instance.getToken();
 /// ```
 class PushHandler {
@@ -98,17 +93,19 @@ class PushHandler {
 
   bool _initialized = false;
 
-  // Callbacks stored for re-use after re-initialization.
+  // Callbacks stored for test simulation support.
   void Function(PushMessage message)? _onMessage;
   void Function(PushMessage message)? _onMessageOpenedApp;
-  // ignore: unused_field — used when firebase_messaging is integrated (see initialize())
-  void Function(String? token)? _onTokenRefresh;
 
   // ---------------------------------------------------------------------------
   // Initialization
   // ---------------------------------------------------------------------------
 
   /// Initializes FCM message handling.
+  ///
+  /// Requests permission on iOS/web, subscribes to foreground and
+  /// background-opened-app streams, and handles messages that launched the
+  /// app from a terminated state.
   ///
   /// [onMessage] is called when a push arrives while the app is in the
   /// foreground.
@@ -118,9 +115,6 @@ class PushHandler {
   ///
   /// [onTokenRefresh] is called when the FCM token is created or rotated.
   /// Use this to send the updated token to your backend.
-  ///
-  /// When `firebase_messaging` is installed, replace the body of this method
-  /// with the real SDK integration shown in the inline comment.
   Future<void> initialize({
     required void Function(PushMessage message) onMessage,
     required void Function(PushMessage message) onMessageOpenedApp,
@@ -136,37 +130,34 @@ class PushHandler {
 
     _onMessage = onMessage;
     _onMessageOpenedApp = onMessageOpenedApp;
-    _onTokenRefresh = onTokenRefresh;
 
-    // When firebase_messaging is installed, replace this comment block with:
-    //
-    // // Request permission (iOS / web):
-    // await FirebaseMessaging.instance.requestPermission(
-    //   alert: true,
-    //   badge: true,
-    //   sound: true,
-    // );
-    //
-    // // Foreground messages:
-    // FirebaseMessaging.onMessage.listen((RemoteMessage msg) {
-    //   onMessage(_fromRemote(msg));
-    // });
-    //
-    // // Background → foreground tap:
-    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage msg) {
-    //   onMessageOpenedApp(_fromRemote(msg));
-    // });
-    //
-    // // Token refresh:
-    // FirebaseMessaging.instance.onTokenRefresh.listen((token) {
-    //   onTokenRefresh?.call(token);
-    // });
-    //
-    // // Check for notification that launched the app from terminated state:
-    // final initial = await FirebaseMessaging.instance.getInitialMessage();
-    // if (initial != null) {
-    //   onMessageOpenedApp(_fromRemote(initial));
-    // }
+    // Request permission (iOS / web).
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    // Foreground messages.
+    FirebaseMessaging.onMessage.listen((RemoteMessage msg) {
+      onMessage(_fromRemote(msg));
+    });
+
+    // Background → foreground tap.
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage msg) {
+      onMessageOpenedApp(_fromRemote(msg));
+    });
+
+    // Token refresh.
+    FirebaseMessaging.instance.onTokenRefresh.listen((token) {
+      onTokenRefresh?.call(token);
+    });
+
+    // Check for notification that launched the app from terminated state.
+    final initial = await FirebaseMessaging.instance.getInitialMessage();
+    if (initial != null) {
+      onMessageOpenedApp(_fromRemote(initial));
+    }
 
     _initialized = true;
     PrimekitLogger.info('PushHandler initialized.', tag: _tag);
@@ -176,15 +167,7 @@ class PushHandler {
   // Token
   // ---------------------------------------------------------------------------
 
-  /// Returns the current FCM registration token.
-  ///
-  /// Returns `null` when `firebase_messaging` is not installed or the device
-  /// has no token yet.
-  ///
-  /// When `firebase_messaging` is installed, replace this with:
-  /// ```dart
-  /// return FirebaseMessaging.instance.getToken();
-  /// ```
+  /// Returns the current FCM registration token, or `null` if unavailable.
   Future<String?> getToken() async {
     if (!_initialized) {
       PrimekitLogger.warning(
@@ -193,12 +176,7 @@ class PushHandler {
       );
       return null;
     }
-    // Replace with: return FirebaseMessaging.instance.getToken();
-    PrimekitLogger.debug(
-      'PushHandler.getToken(): firebase_messaging not installed.',
-      tag: _tag,
-    );
-    return null;
+    return FirebaseMessaging.instance.getToken();
   }
 
   // ---------------------------------------------------------------------------
@@ -210,13 +188,7 @@ class PushHandler {
   /// Returns `true` if permission was granted.
   ///
   /// On Android 13+ (API 33), the plugin handles the runtime permission
-  /// automatically; this method is a no-op on older Android.
-  ///
-  /// When `firebase_messaging` is installed, replace this with:
-  /// ```dart
-  /// final settings = await FirebaseMessaging.instance.requestPermission();
-  /// return settings.authorizationStatus == AuthorizationStatus.authorized;
-  /// ```
+  /// automatically; this method returns the current authorization status.
   Future<bool> requestPermission() async {
     if (!_initialized) {
       PrimekitLogger.warning(
@@ -225,47 +197,42 @@ class PushHandler {
       );
       return false;
     }
-    // Replace with real permission request.
-    return false;
+    final settings = await FirebaseMessaging.instance.requestPermission();
+    return settings.authorizationStatus == AuthorizationStatus.authorized;
   }
 
   // ---------------------------------------------------------------------------
   // Background handler registration
   // ---------------------------------------------------------------------------
 
-  /// Registers a top-level function as the background message handler.
+  /// Registers the top-level background message handler.
   ///
-  /// Call this from `main()` BEFORE `runApp()`:
+  /// Call this from `main()` BEFORE `runApp()` and BEFORE
+  /// `Firebase.initializeApp()`.
   ///
   /// ```dart
-  /// PushHandler.handleBackground(); // registers _firebaseBackgroundHandler
-  /// ```
-  ///
-  /// When `firebase_messaging` is installed, replace this with:
-  /// ```dart
-  /// FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
+  /// void main() async {
+  ///   WidgetsFlutterBinding.ensureInitialized();
+  ///   PushHandler.handleBackground();
+  ///   await Firebase.initializeApp();
+  ///   runApp(const MyApp());
+  /// }
   /// ```
   static void handleBackground() {
-    // Replace with: FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
-    PrimekitLogger.debug(
-      'PushHandler.handleBackground(): firebase_messaging not installed.',
-      tag: _tag,
-    );
+    FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
   }
 
   // ---------------------------------------------------------------------------
   // Internals
   // ---------------------------------------------------------------------------
 
-  // When firebase_messaging is installed, add this helper:
-  //
-  // static PushMessage _fromRemote(RemoteMessage msg) => PushMessage(
-  //   title: msg.notification?.title,
-  //   body: msg.notification?.body,
-  //   data: msg.data,
-  //   collapseKey: msg.collapseKey,
-  //   messageId: msg.messageId,
-  // );
+  static PushMessage _fromRemote(RemoteMessage msg) => PushMessage(
+    title: msg.notification?.title,
+    body: msg.notification?.body,
+    data: msg.data,
+    collapseKey: msg.collapseKey,
+    messageId: msg.messageId,
+  );
 
   // ---------------------------------------------------------------------------
   // Testing support
@@ -279,7 +246,6 @@ class PushHandler {
     _initialized = false;
     _onMessage = null;
     _onMessageOpenedApp = null;
-    _onTokenRefresh = null;
   }
 
   /// Simulates an incoming foreground push message.
@@ -299,11 +265,10 @@ class PushHandler {
 }
 
 // Top-level background message handler — must be a top-level function.
-// When firebase_messaging is installed, uncomment and complete this:
-//
-// @pragma('vm:entry-point')
-// Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp();
-//   // Process the background message here.
-//   // Keep work minimal — the OS may kill this isolate at any time.
-// }
+// Runs in a separate isolate; keep work minimal.
+@pragma('vm:entry-point')
+Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
+  // Firebase is already initialized in background isolates by the plugin.
+  // Process the background message here.
+  // Keep work minimal — the OS may kill this isolate at any time.
+}

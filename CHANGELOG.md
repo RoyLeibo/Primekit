@@ -7,6 +7,30 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.4.0] — 2026-03-04
+
+### Added
+
+**`primekit/notifications.dart` — `LocalNotifier` (runtime permission API)**
+- Added `bool get hasPermission` — reflects the last known permission state.
+- Added `Future<bool> checkPermission()` — queries the OS for current permission status and updates `hasPermission`.
+- Added `Future<bool> requestPermission()` — requests permission from the user; on iOS/macOS shows the system prompt, on Android 13+ requests `POST_NOTIFICATIONS`, on other platforms returns current state.
+- Implemented across all three platform branches: `local_notifier_io.dart` (iOS via `IOSFlutterLocalNotificationsPlugin`, macOS via `MacOSFlutterLocalNotificationsPlugin`, Android via `AndroidFlutterLocalNotificationsPlugin`), `local_notifier_web.dart` (browser Notification API), and `local_notifier_stub.dart` (returns `false`).
+
+**`primekit/notifications.dart` — `LocalNotifier` now exported**
+- `LocalNotifier` is now exported from `package:primekit/notifications.dart`.
+- Previously callers had to import `package:primekit/src/notifications/local_notifier.dart`, which triggered the `implementation_imports` lint.
+- Fixed by re-exporting `local_notifier.dart` which already uses conditional exports (`dart.library.html` / `dart.library.io` / stub), making the re-export safe on all platforms.
+
+**`primekit/notifications.dart` — `PushHandler` fully implemented**
+- Wired `PushHandler` with the `firebase_messaging` SDK (`^15.0.0`), which is now a declared dependency.
+- `initialize()` requests permission, subscribes to `FirebaseMessaging.onMessage` and `FirebaseMessaging.onMessageOpenedApp`, listens for token refreshes, and handles the initial message when the app launches from a terminated state.
+- `getToken()` returns `FirebaseMessaging.instance.getToken()`.
+- `requestPermission()` calls `FirebaseMessaging.instance.requestPermission()` and returns `true` when `authorizationStatus == authorized`.
+- `handleBackground()` registers `_firebaseBackgroundHandler` via `FirebaseMessaging.onBackgroundMessage()`.
+
+---
+
 ## [0.3.0] — 2026-02-24
 
 ### Changed — Breaking

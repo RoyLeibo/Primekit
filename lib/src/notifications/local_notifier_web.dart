@@ -99,6 +99,25 @@ class LocalNotifier {
   }
 
   // ---------------------------------------------------------------------------
+  // Permission
+  // ---------------------------------------------------------------------------
+
+  /// Whether the user has granted browser notification permission.
+  /// Reads the live browser value — always current.
+  bool get hasPermission => _isPermissionGranted;
+
+  /// Returns the current browser notification permission status.
+  Future<bool> checkPermission() async => _isPermissionGranted;
+
+  /// Requests notification permission from the browser.
+  /// Shows the system prompt if the status is 'default'.
+  /// Updates and returns [hasPermission].
+  Future<bool> requestPermission() async {
+    await _requestPermission();
+    return _isPermissionGranted;
+  }
+
+  // ---------------------------------------------------------------------------
   // Show
   // ---------------------------------------------------------------------------
 

@@ -63,6 +63,7 @@ class LocalNotifier {
       FlutterLocalNotificationsPlugin();
 
   bool _initialized = false;
+  bool _hasPermission = false;
   final StreamController<NotificationTap> _tapController =
       StreamController<NotificationTap>.broadcast();
 
@@ -266,6 +267,70 @@ class LocalNotifier {
   }
 
   // ---------------------------------------------------------------------------
+  // Permission
+  // ---------------------------------------------------------------------------
+
+  /// Whether the user has granted local notification permission.
+  /// Reflects the last known state; call [checkPermission] to refresh.
+  bool get hasPermission => _hasPermission;
+
+  /// Queries the OS for current notification permission status.
+  /// Updates and returns [hasPermission].
+  Future<bool> checkPermission() async {
+    if (Platform.isAndroid) {
+      final plugin = _plugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+      _hasPermission = await plugin?.areNotificationsEnabled() ?? false;
+    } else if (Platform.isIOS) {
+      final plugin = _plugin.resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>();
+      final result = await plugin?.checkPermissions();
+      _hasPermission = result?.isEnabled ?? false;
+    } else if (Platform.isMacOS) {
+      final plugin = _plugin.resolvePlatformSpecificImplementation<
+          MacOSFlutterLocalNotificationsPlugin>();
+      final result = await plugin?.checkPermissions();
+      _hasPermission = result?.isEnabled ?? false;
+    }
+    return _hasPermission;
+  }
+
+  /// Requests notification permission from the user.
+  ///
+  /// On iOS/macOS: shows the system prompt if not yet determined.
+  /// On Android 13+: requests POST_NOTIFICATIONS runtime permission.
+  /// On Android <13: returns current [hasPermission].
+  /// Updates and returns [hasPermission].
+  Future<bool> requestPermission() async {
+    if (Platform.isAndroid) {
+      final plugin = _plugin.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+      _hasPermission = await plugin?.requestNotificationsPermission() ?? false;
+    } else if (Platform.isIOS) {
+      final plugin = _plugin.resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin>();
+      _hasPermission =
+          await plugin?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          ) ??
+          false;
+    } else if (Platform.isMacOS) {
+      final plugin = _plugin.resolvePlatformSpecificImplementation<
+          MacOSFlutterLocalNotificationsPlugin>();
+      _hasPermission =
+          await plugin?.requestPermissions(
+            alert: true,
+            badge: true,
+            sound: true,
+          ) ??
+          false;
+    }
+    return _hasPermission;
+  }
+
+  // ---------------------------------------------------------------------------
   // Tap stream
   // ---------------------------------------------------------------------------
 
@@ -329,6 +394,7 @@ class LocalNotifier {
   @visibleForTesting
   void resetForTesting() {
     _initialized = false;
+    _hasPermission = false;
   }
 }
 

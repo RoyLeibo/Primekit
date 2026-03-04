@@ -40,6 +40,19 @@ class LocalNotifier {
   }
 
   // ---------------------------------------------------------------------------
+  // Permission
+  // ---------------------------------------------------------------------------
+
+  /// Always `false` on this platform.
+  bool get hasPermission => false;
+
+  /// Always returns `false` on this platform.
+  Future<bool> checkPermission() async => false;
+
+  /// Always returns `false` on this platform.
+  Future<bool> requestPermission() async => false;
+
+  // ---------------------------------------------------------------------------
   // Show / Schedule
   // ---------------------------------------------------------------------------
 
