@@ -248,6 +248,20 @@ class PushHandler {
     _onMessageOpenedApp = null;
   }
 
+  /// Sets up message callbacks directly, bypassing Firebase SDK calls.
+  ///
+  /// Use this in unit tests to exercise callback behaviour without requiring
+  /// a real Firebase project or native platform bridges.
+  @visibleForTesting
+  void setCallbacksForTesting({
+    required void Function(PushMessage) onMessage,
+    required void Function(PushMessage) onMessageOpenedApp,
+  }) {
+    _onMessage = onMessage;
+    _onMessageOpenedApp = onMessageOpenedApp;
+    _initialized = true;
+  }
+
   /// Simulates an incoming foreground push message.
   ///
   /// Useful in tests and during development to verify message handling without

@@ -43,21 +43,27 @@ void main() {
         // After setup, getToken should attempt to call Firebase (returns null
         // in test environment) rather than returning null due to uninitialised.
         // We just verify no exception is thrown.
-        expect(() => PushHandler.instance.simulateMessage(const PushMessage()), returnsNormally);
+        expect(
+          () => PushHandler.instance.simulateMessage(const PushMessage()),
+          returnsNormally,
+        );
       });
 
-      test('calling initialize after setCallbacksForTesting does not throw', () async {
-        PushHandler.instance.setCallbacksForTesting(
-          onMessage: (_) {},
-          onMessageOpenedApp: (_) {},
-        );
-        // Second initialize() call is a no-op (already initialised).
-        // Should log a warning and return — no exception.
-        await PushHandler.instance.initialize(
-          onMessage: (_) {},
-          onMessageOpenedApp: (_) {},
-        );
-      });
+      test(
+        'calling initialize after setCallbacksForTesting does not throw',
+        () async {
+          PushHandler.instance.setCallbacksForTesting(
+            onMessage: (_) {},
+            onMessageOpenedApp: (_) {},
+          );
+          // Second initialize() call is a no-op (already initialised).
+          // Should log a warning and return — no exception.
+          await PushHandler.instance.initialize(
+            onMessage: (_) {},
+            onMessageOpenedApp: (_) {},
+          );
+        },
+      );
     });
 
     group('simulateMessage()', () {
@@ -81,7 +87,9 @@ void main() {
       test('does nothing before callbacks are set', () {
         // Should not throw even without initialization.
         expect(
-          () => PushHandler.instance.simulateMessage(const PushMessage(title: 'Ignored')),
+          () => PushHandler.instance.simulateMessage(
+            const PushMessage(title: 'Ignored'),
+          ),
           returnsNormally,
         );
       });
