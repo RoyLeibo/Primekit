@@ -1,7 +1,92 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:primekit/src/notifications/push_handler.dart';
 
+// ---------------------------------------------------------------------------
+// Firebase method-channel mocks
+// ---------------------------------------------------------------------------
+
+void _mockFirebaseCore() {
+  const channel = MethodChannel('plugins.flutter.io/firebase_core');
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(channel, (call) async {
+        const opts = {
+          'apiKey': 'test-api-key',
+          'appId': 'test:app:id',
+          'messagingSenderId': '000000000000',
+          'projectId': 'test-project',
+        };
+        switch (call.method) {
+          case 'Firebase#initializeCore':
+            return [
+              {
+                'name': '[DEFAULT]',
+                'options': opts,
+                'pluginConstants': {'firebase_messaging': {}},
+              },
+            ];
+          case 'Firebase#initializeApp':
+            return {
+              'name': (call.arguments as Map?)?['appName'] ?? '[DEFAULT]',
+              'options': opts,
+              'pluginConstants': {'firebase_messaging': {}},
+            };
+          default:
+            return null;
+        }
+      });
+}
+
+void _mockFirebaseMessaging() {
+  const channel = MethodChannel('plugins.flutter.io/firebase_messaging');
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(channel, (call) async {
+        switch (call.method) {
+          case 'Messaging#requestPermission':
+            return {
+              'authorizationStatus': 1, // authorized
+              'alert': 1,
+              'announcement': 0,
+              'badge': 1,
+              'carPlay': 0,
+              'criticalAlert': 0,
+              'provisional': 0,
+              'sound': 1,
+            };
+          case 'Messaging#getToken':
+            return {'token': null};
+          case 'Messaging#getInitialMessage':
+            return null;
+          case 'Messaging#getNotificationSettings':
+            return {
+              'authorizationStatus': 1,
+              'alert': 1,
+              'announcement': 0,
+              'badge': 1,
+              'carPlay': 0,
+              'criticalAlert': 0,
+              'provisional': 0,
+              'sound': 1,
+            };
+          default:
+            return null;
+        }
+      });
+}
+
+// ---------------------------------------------------------------------------
+// Tests
+// ---------------------------------------------------------------------------
+
 void main() {
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    _mockFirebaseCore();
+    _mockFirebaseMessaging();
+    await Firebase.initializeApp();
+  });
+
   setUp(() => PushHandler.instance.resetForTesting());
 
   group('PushHandler', () {

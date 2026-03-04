@@ -278,17 +278,23 @@ class LocalNotifier {
   /// Updates and returns [hasPermission].
   Future<bool> checkPermission() async {
     if (Platform.isAndroid) {
-      final plugin = _plugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+      final plugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
       _hasPermission = await plugin?.areNotificationsEnabled() ?? false;
     } else if (Platform.isIOS) {
-      final plugin = _plugin.resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>();
+      final plugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >();
       final result = await plugin?.checkPermissions();
       _hasPermission = result?.isEnabled ?? false;
     } else if (Platform.isMacOS) {
-      final plugin = _plugin.resolvePlatformSpecificImplementation<
-          MacOSFlutterLocalNotificationsPlugin>();
+      final plugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            MacOSFlutterLocalNotificationsPlugin
+          >();
       final result = await plugin?.checkPermissions();
       _hasPermission = result?.isEnabled ?? false;
     }
@@ -303,12 +309,16 @@ class LocalNotifier {
   /// Updates and returns [hasPermission].
   Future<bool> requestPermission() async {
     if (Platform.isAndroid) {
-      final plugin = _plugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+      final plugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
       _hasPermission = await plugin?.requestNotificationsPermission() ?? false;
     } else if (Platform.isIOS) {
-      final plugin = _plugin.resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>();
+      final plugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >();
       _hasPermission =
           await plugin?.requestPermissions(
             alert: true,
@@ -317,8 +327,10 @@ class LocalNotifier {
           ) ??
           false;
     } else if (Platform.isMacOS) {
-      final plugin = _plugin.resolvePlatformSpecificImplementation<
-          MacOSFlutterLocalNotificationsPlugin>();
+      final plugin = _plugin
+          .resolvePlatformSpecificImplementation<
+            MacOSFlutterLocalNotificationsPlugin
+          >();
       _hasPermission =
           await plugin?.requestPermissions(
             alert: true,
