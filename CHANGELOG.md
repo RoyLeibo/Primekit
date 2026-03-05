@@ -7,6 +7,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.4.1] — 2026-03-05
+
+### Fixed
+
+- Bump `permission_handler` to `^12.0.0` (was `^11.0.0`) — fixes pub.dev lower-bound analysis failure due to `Permission.calendarWriteOnly` not existing in 11.0.0, and unlocks latest stable (12.0.1).
+- Bump `google_sign_in` to `^7.0.0` (was `'>=6.0.0 <8.0.0'`) — fixes pub.dev lower-bound analysis failure due to `GoogleSignIn.instance` not existing in 6.x.
+
+---
+
 ## [0.4.0] — 2026-03-04
 
 ### Added

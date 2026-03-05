@@ -2,7 +2,7 @@ name: primekit
 description: >-
   Modular Flutter toolkit: 25 production-grade utility modules covering auth,
   analytics, billing, storage, forms, notifications, network, routing, and more.
-version: 0.4.0
+version: 0.4.1
 homepage: https://github.com/RoyLeibo/Primekit
 repository: https://github.com/RoyLeibo/Primekit
 issue_tracker: https://github.com/RoyLeibo/Primekit/issues
@@ -34,7 +34,7 @@ dependencies:
   hive_flutter: ^1.1.0
 
   # Permissions
-  permission_handler: ^11.0.0
+  permission_handler: ^12.0.0
 
   # Device info
   device_info_plus: ^12.3.0
@@ -97,7 +97,7 @@ dependencies:
   firebase_crashlytics: ^5.0.7
   firebase_storage: ^13.0.6
   firebase_messaging: ^16.1.2
-  google_sign_in: '>=6.0.0 <8.0.0'
+  google_sign_in: ^7.0.0
 
 dev_dependencies:
   flutter_test:
