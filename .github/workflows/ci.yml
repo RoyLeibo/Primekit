@@ -11,9 +11,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # ─── Analysis & Formatting ──────────────────────────────────────────────────
-  analyze:
-    name: Analyze & Format
+  # ─── Bootstrap ──────────────────────────────────────────────────────────────
+  bootstrap:
+    name: Melos Bootstrap
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,23 +24,54 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Activate Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap workspace
+        run: melos bootstrap
+
+  # ─── Analysis & Formatting ──────────────────────────────────────────────────
+  analyze:
+    name: Analyze & Format (${{ matrix.package }})
+    runs-on: ubuntu-latest
+    needs: bootstrap
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [primekit_core, primekit, primekit_firebase, primekit_riverpod]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.3'
+          channel: stable
+          cache: true
+
+      - name: Activate Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap workspace
+        run: melos bootstrap
 
       - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed lib test
+        run: cd packages/${{ matrix.package }} && dart format --output=none --set-exit-if-changed lib test
 
       - name: Analyze
-        run: flutter analyze --fatal-warnings
+        run: cd packages/${{ matrix.package }} && flutter analyze --fatal-warnings
 
   # ─── Tests ──────────────────────────────────────────────────────────────────
   test:
-    name: Test (Flutter ${{ matrix.flutter-version }})
+    name: Test ${{ matrix.package }} (Flutter ${{ matrix.flutter-version }})
     runs-on: ubuntu-latest
+    needs: bootstrap
     strategy:
       fail-fast: false
       matrix:
         flutter-version: ['3.41.3', '3.x']
+        package: [primekit_core, primekit, primekit_riverpod]
+        # primekit_firebase excluded — requires Firebase emulator
 
     steps:
       - uses: actions/checkout@v4
@@ -51,21 +82,24 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Activate Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap workspace
+        run: melos bootstrap
 
       - name: Run tests with coverage
-        run: flutter test --coverage --reporter=expanded
+        run: cd packages/${{ matrix.package }} && flutter test --coverage --reporter=expanded
 
       - name: Check coverage threshold
         run: |
           dart pub global activate coverage
+          cd packages/${{ matrix.package }}
           dart pub global run coverage:format_coverage \
             --lcov --in=coverage --out=coverage/lcov.info \
             --report-on=lib
-          # Fail if coverage < 80%
           COVERAGE=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | grep -o '[0-9.]*%' | head -1 | tr -d '%')
-          echo "Coverage: ${COVERAGE}%"
+          echo "Coverage (${{ matrix.package }}): ${COVERAGE}%"
           if (( $(echo "$COVERAGE < 80" | bc -l) )); then
             echo "❌ Coverage ${COVERAGE}% is below 80% threshold"
             exit 1
@@ -77,41 +111,19 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage/lcov.info
+          files: packages/${{ matrix.package }}/coverage/lcov.info
+          flags: ${{ matrix.package }}
           fail_ci_if_error: false
-
-  # ─── Example App Build ──────────────────────────────────────────────────────
-  build-example:
-    name: Build Example App
-    runs-on: ubuntu-latest
-    needs: [analyze, test]
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: temurin
-
-      - name: Install dependencies
-        run: |
-          flutter pub get
-          cd example && flutter pub get
-
-      - name: Build Android APK (debug)
-        run: cd example && flutter build apk --debug
 
   # ─── Publish dry run ────────────────────────────────────────────────────────
   publish-dry-run:
-    name: Pub Publish Dry Run
+    name: Publish Dry Run (${{ matrix.package }})
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [analyze, test]
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [primekit_core, primekit, primekit_firebase, primekit_riverpod]
 
     steps:
       - uses: actions/checkout@v4
@@ -121,8 +133,11 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Activate Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap workspace
+        run: melos bootstrap
 
       - name: Publish dry run
-        run: dart pub publish --dry-run
+        run: cd packages/${{ matrix.package }} && dart pub publish --dry-run

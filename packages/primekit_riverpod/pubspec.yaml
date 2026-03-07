@@ -1,0 +1,41 @@
+name: primekit_riverpod
+description: >-
+  Riverpod integration for PrimeKit. Provides async notifier mixins,
+  pagination helpers, and ready-to-use providers for connectivity,
+  authentication, preferences, secure storage, and app version.
+version: 1.0.0
+homepage: https://github.com/RoyLeibo/Primekit
+repository: https://github.com/RoyLeibo/Primekit
+issue_tracker: https://github.com/RoyLeibo/Primekit/issues
+
+topics:
+  - flutter
+  - riverpod
+  - state-management
+  - utilities
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+  flutter: '>=3.16.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  primekit_core: ^1.0.0
+  primekit: ^1.0.0
+
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
+  riverpod_generator: ^2.4.0
+  build_runner: ^2.4.12
+  test: ^1.25.2
+
+flutter:
+  uses-material-design: false

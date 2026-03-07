@@ -7,6 +7,37 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## 1.0.0
+
+### Breaking Changes
+- `ToastService`, `LoadingOverlay`, `SkeletonLoader` now respect `PkUiTheme` ThemeExtension.
+  Add `PkUiTheme()` to your `ThemeData.extensions` to customise colors.
+  Default colors are unchanged — no visual breaking change unless customised.
+
+### New Modules
+- **Design System** (`primekit/design_system.dart`): `PkSpacing`, `PkRadius`, `PkAvatar`, `PkBadge`
+- **Riverpod** (`primekit/riverpod.dart`): `PkAsyncNotifierMixin`, `PkStreamNotifierMixin`,
+  `PkPaginationNotifierMixin`, ready-to-use providers
+- **Calendar** (`primekit/calendar.dart`): `CalendarService`, `CalendarProvider`, `CalendarEvent`
+
+### Enhancements
+- **Auth**: Added `FirebaseAuthInterceptor` — zero-config Firebase ID token injection
+- **Notifications**: Added `NotificationPreferences` — per-user preference management
+- **i18n**: Added `CurrencyRateProvider`, `ExchangeRateApiProvider`, `CachedRateProvider`
+- **Sync**: Added `PkSyncStatus` enum with `isOnline` / `hasError` extensions
+- **UI**: Added `PkUiTheme` ThemeExtension — fully customisable component colors
+- **Forms**: Added `PkStringSchema.url()`, `.matches()`, `.noWhitespace()`, `.alphanumeric()`
+- **Forms**: Added `PkNumberSchema.integer()`, `.positive()`, `.negative()`, `.multipleOf()`
+- **Forms**: Added `PkObjectSchema.refine()` for cross-field validation
+- **Forms**: Added `ValidationResult.firstError` getter
+- **AsyncState**: Fixed race condition in `AsyncStateNotifier.execute()`
+
+### Bug Fixes
+- `ToastService`: Removed hardcoded success/error colors (now via `PkUiTheme`)
+- `AsyncStateNotifier`: Added operation ID to prevent stale state updates
+
+---
+
 ## [0.4.1] — 2026-03-05
 
 ### Fixed

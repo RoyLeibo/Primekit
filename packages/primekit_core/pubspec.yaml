@@ -1,0 +1,44 @@
+name: primekit_core
+description: >-
+  Core building blocks for Flutter apps: validation schemas, async state
+  management, dependency injection, result types, and common extensions.
+  Zero heavy dependencies — ships as a pure Flutter package.
+version: 1.0.0
+homepage: https://github.com/RoyLeibo/Primekit
+repository: https://github.com/RoyLeibo/Primekit
+issue_tracker: https://github.com/RoyLeibo/Primekit/issues
+
+topics:
+  - flutter
+  - utilities
+  - forms
+  - validation
+  - dependency-injection
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+  flutter: '>=3.16.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Logging
+  logger: ^2.4.0
+
+  # Utilities
+  collection: ^1.18.0
+  intl: ^0.20.2
+  crypto: ^3.0.3
+  uuid: ^4.5.3
+  convert: ^3.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
+  test: ^1.25.2
+
+flutter:
+  uses-material-design: false

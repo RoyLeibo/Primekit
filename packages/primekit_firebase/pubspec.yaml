@@ -1,0 +1,51 @@
+name: primekit_firebase
+description: >-
+  Firebase adapter layer for PrimeKit. Provides drop-in implementations of
+  PrimeKit abstractions backed by Firebase Auth, Firestore, Storage,
+  Crashlytics, Cloud Messaging, Remote Config, and Realtime Database.
+version: 1.0.0
+homepage: https://github.com/RoyLeibo/Primekit
+repository: https://github.com/RoyLeibo/Primekit
+issue_tracker: https://github.com/RoyLeibo/Primekit/issues
+
+topics:
+  - flutter
+  - firebase
+  - authentication
+  - firestore
+  - crashlytics
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+  flutter: '>=3.16.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  primekit_core: ^1.0.0
+  primekit: ^1.0.0
+
+  # Firebase
+  firebase_core: ^4.4.0
+  firebase_auth: ^6.1.4
+  cloud_firestore: ^6.1.2
+  firebase_crashlytics: ^5.0.7
+  firebase_storage: ^13.0.6
+  firebase_messaging: ^16.1.2
+  firebase_remote_config: ^6.1.4
+  firebase_database: ^12.1.3
+
+  # Google Sign-In
+  google_sign_in: ^7.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
+  fake_cloud_firestore: ^2.5.1
+  test: ^1.25.2
+
+flutter:
+  uses-material-design: false

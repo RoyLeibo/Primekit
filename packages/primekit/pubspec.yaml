@@ -1,0 +1,95 @@
+name: primekit
+description: >-
+  Modular Flutter toolkit: UI components, networking, storage, auth, crash
+  reporting, notifications, media, permissions, routing, and more.
+  No Firebase dependency — works with any backend.
+version: 1.0.0
+homepage: https://github.com/RoyLeibo/Primekit
+repository: https://github.com/RoyLeibo/Primekit
+issue_tracker: https://github.com/RoyLeibo/Primekit/issues
+
+topics:
+  - flutter
+  - utilities
+  - authentication
+  - notifications
+  - networking
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+  flutter: '>=3.16.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  primekit_core: ^1.0.0
+
+  # Networking
+  dio: ^5.7.0
+  connectivity_plus: ^7.0.0
+  web_socket_channel: ^3.0.1
+
+  # Storage
+  shared_preferences: ^2.3.0
+  flutter_secure_storage: ^10.0.0
+  hive_flutter: ^1.1.0
+
+  # Permissions
+  permission_handler: ^12.0.0
+
+  # Device info
+  device_info_plus: ^12.3.0
+  package_info_plus: ^9.0.0
+
+  # Local notifications
+  flutter_local_notifications: ^20.1.0
+  timezone: '>=0.10.1 <0.12.0'
+
+  # Biometrics
+  local_auth: ^3.0.0
+  local_auth_android: ^2.0.4
+  local_auth_darwin: ^2.0.2
+  local_auth_platform_interface: ^1.1.0
+
+  # Crash reporting (Sentry — Firebase crash adapter is in primekit_firebase)
+  sentry_flutter: ^9.14.0
+
+  # Background tasks
+  workmanager: ^0.9.0
+
+  # Media
+  image_picker: ^1.1.2
+  croppy: ^1.4.1
+  image: ^4.0.0
+
+  # Routing
+  go_router: ^17.1.0
+
+  # Utilities
+  logger: ^2.4.0
+  collection: ^1.18.0
+  intl: ^0.20.2
+  crypto: ^3.0.3
+  uuid: ^4.5.3
+  rxdart: ^0.28.0
+  mime: ^2.0.0
+  convert: ^3.1.1
+  path_provider: ^2.1.4
+  http: ^1.2.0
+
+  # Web support
+  web: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
+  fake_async: ^1.3.1
+  build_runner: ^2.4.12
+  test: ^1.25.2
+  coverage: ^1.9.0
+
+flutter:
+  uses-material-design: true

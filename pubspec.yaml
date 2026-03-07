@@ -1,12 +1,9 @@
-name: primekit
-description: >-
-  Modular Flutter toolkit: 25 production-grade utility modules covering auth,
-  analytics, billing, storage, forms, notifications, network, routing, and more.
-version: 0.4.1
+name: primekit_workspace
+description: Melos monorepo workspace for the PrimeKit package family.
+publish_to: none
+version: 1.0.0
 homepage: https://github.com/RoyLeibo/Primekit
 repository: https://github.com/RoyLeibo/Primekit
-issue_tracker: https://github.com/RoyLeibo/Primekit/issues
-documentation: https://github.com/RoyLeibo/Primekit/tree/main/doc
 
 topics:
   - flutter
@@ -61,6 +58,10 @@ dependencies:
 
   # File system
   path_provider: ^2.1.4
+
+  # Riverpod
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
 
   # Routing
   go_router: ^17.1.0
