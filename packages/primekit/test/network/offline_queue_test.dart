@@ -235,9 +235,10 @@ void main() {
         await OfflineQueue.instance.initialize(
           executor: (_) async => throw Exception('always fails'),
         );
-        OfflineQueue.instance.events.whereType<RequestDroppedEvent>().listen(
-          droppedEvents.add,
-        );
+        OfflineQueue.instance.events
+            .where((e) => e is RequestDroppedEvent)
+            .cast<RequestDroppedEvent>()
+            .listen(droppedEvents.add);
 
         // retryCount already at maxRetries so next failure drops it.
         final req = _makeRequest(maxRetries: 0, retryCount: 0);
@@ -256,19 +257,18 @@ void main() {
       'FlushCompletedEvent reports correct succeeded/dropped counts',
       () async {
         FlushCompletedEvent? completedEvent;
-        int callCount = 0;
 
         ConnectivityMonitor.instance.injectStatusForTesting(false);
         await OfflineQueue.instance.initialize(
           executor: (req) async {
-            callCount++;
             if (req.id == 'fail') throw Exception('nope');
           },
         );
 
-        OfflineQueue.instance.events.whereType<FlushCompletedEvent>().listen(
-          (e) => completedEvent = e,
-        );
+        OfflineQueue.instance.events
+            .where((e) => e is FlushCompletedEvent)
+            .cast<FlushCompletedEvent>()
+            .listen((e) => completedEvent = e);
 
         await OfflineQueue.instance.enqueue(
           _makeRequest(id: 'ok', maxRetries: 0),

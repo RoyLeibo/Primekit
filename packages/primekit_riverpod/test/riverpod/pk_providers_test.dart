@@ -8,6 +8,8 @@ import 'package:primekit_riverpod/primekit_riverpod.dart';
 // ---------------------------------------------------------------------------
 
 void main() {
+  setUpAll(TestWidgetsFlutterBinding.ensureInitialized);
+
   group('pkConnectivityProvider', () {
     // -----------------------------------------------------------------------
     // Stream emissions

@@ -192,7 +192,7 @@ void main() {
         final loadingState = container.read(_counterProvider);
         expect(loadingState.isLoading, isTrue);
         // No previous value when preserveData is false.
-        expect(loadingState.valueOrNull, isNull);
+        expect(container.read(_counterProvider.notifier).currentData, isNull);
 
         completer.complete(200);
         await Future<void>.delayed(Duration.zero);

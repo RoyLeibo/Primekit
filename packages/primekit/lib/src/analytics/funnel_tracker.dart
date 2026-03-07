@@ -23,8 +23,7 @@ final class FunnelDefinition {
   ///
   /// [steps] must be non-empty and contain unique names.
   const FunnelDefinition({required this.name, required this.steps})
-    : assert(name != '', 'FunnelDefinition.name must not be empty'),
-      assert(steps.length > 0, 'FunnelDefinition.steps must not be empty');
+    : assert(name != '', 'FunnelDefinition.name must not be empty');
 
   /// Unique identifier for this funnel.
   final String name;

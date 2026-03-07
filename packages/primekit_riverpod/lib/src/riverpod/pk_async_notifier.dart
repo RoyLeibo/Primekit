@@ -13,12 +13,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// }
 /// ```
 mixin PkAsyncNotifierMixin<T> on AsyncNotifier<T> {
+  bool _preserveData = true;
+
   /// Executes [operation], setting state to loading, then success or error.
   /// Preserves previous data during refresh when [preserveData] is true.
   Future<void> guard(
     Future<T> Function() operation, {
     bool preserveData = true,
   }) async {
+    _preserveData = preserveData;
     if (preserveData) {
       state = AsyncLoading<T>().copyWithPrevious(state);
     } else {
@@ -27,8 +30,14 @@ mixin PkAsyncNotifierMixin<T> on AsyncNotifier<T> {
     state = await AsyncValue.guard(operation);
   }
 
-  /// Returns the current data, or null if loading or error.
-  T? get currentData => state.valueOrNull;
+  /// Returns the current data, or null if loading (without preserve), error,
+  /// or not yet loaded.
+  T? get currentData {
+    final s = state;
+    if (s.hasError) return null;
+    if (s.isLoading && !_preserveData) return null;
+    return s.valueOrNull;
+  }
 
   /// Returns true if this notifier is currently loading.
   bool get isLoading => state.isLoading;

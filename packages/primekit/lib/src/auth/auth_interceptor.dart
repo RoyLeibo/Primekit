@@ -39,7 +39,7 @@ typedef TokenRefreshCallback = Future<String?> Function(String refreshToken);
 ///   ),
 /// );
 /// ```
-final class AuthInterceptor extends Interceptor {
+class AuthInterceptor extends Interceptor {
   AuthInterceptor({
     required TokenStoreBase tokenStore,
     required TokenRefreshCallback onRefresh,

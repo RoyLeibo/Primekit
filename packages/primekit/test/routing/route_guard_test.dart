@@ -33,7 +33,6 @@ class RedirectGuard extends RouteGuard {
 
 void main() {
   late GoRouterState fakeState;
-  late BuildContext fakeContext;
 
   setUpAll(() {
     registerFallbackValue(FakeGoRouterState());
@@ -41,11 +40,6 @@ void main() {
 
   setUp(() {
     fakeState = FakeGoRouterState();
-  });
-
-  // We use a simple WidgetTester to obtain a real BuildContext.
-  testWidgets('setup context', (tester) async {
-    fakeContext = tester.element(find.byType(Container));
   });
 
   // Since we need a BuildContext, wrap all tests that call redirect in

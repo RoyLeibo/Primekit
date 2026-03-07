@@ -184,7 +184,6 @@ void main() {
     });
 
     test('attempt key starts at 0 for a fresh request', () {
-      const interceptor = RetryInterceptor();
       final options = _options();
       // No _attemptKey in extra → _attemptCount returns 0.
       expect(options.extra['_primekit_retry_attempt'], isNull);

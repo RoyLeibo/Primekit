@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'pk_spacing.dart';
 
 /// A deterministic avatar widget that assigns consistent colors from a
 /// palette based on the provided [userId] or [displayName].
