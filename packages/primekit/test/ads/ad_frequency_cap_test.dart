@@ -80,11 +80,12 @@ void main() {
     test('load restores todayImpressions from SharedPreferences', () async {
       SharedPreferences.setMockInitialValues({
         'primekit_ad_freq_today': 7,
-        'primekit_ad_freq_date': DateTime(
-          DateTime.now().year,
-          DateTime.now().month,
-          DateTime.now().day,
-        ).toIso8601String(),
+        'primekit_ad_freq_date':
+            DateTime(
+              DateTime.now().year,
+              DateTime.now().month,
+              DateTime.now().day,
+            ).toIso8601String(),
       });
 
       final cap = AdFrequencyCap(maxPerSession: 100, maxPerDay: 100);

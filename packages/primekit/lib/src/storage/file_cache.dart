@@ -184,9 +184,10 @@ final class FileCache {
         if (entity is! File) continue;
         final key = entity.uri.pathSegments.last;
         final meta = await _loadMeta(key);
-        final accessedAt = meta?['accessedAt'] != null
-            ? DateTime.tryParse(meta!['accessedAt'] as String)
-            : null;
+        final accessedAt =
+            meta?['accessedAt'] != null
+                ? DateTime.tryParse(meta!['accessedAt'] as String)
+                : null;
         final size = await entity.length();
         entries.add(
           _CacheEntryStat(

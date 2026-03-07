@@ -6,7 +6,8 @@ import 'package:primekit/billing.dart';
 // Mocks
 // ---------------------------------------------------------------------------
 
-class MockSubscriptionDataSource extends Mock implements SubscriptionDataSource {}
+class MockSubscriptionDataSource extends Mock
+    implements SubscriptionDataSource {}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -16,7 +17,11 @@ SubscriptionInfo _info(
   String productId, {
   SubscriptionStatus status = SubscriptionStatus.active,
   DateTime? expiresAt,
-}) => SubscriptionInfo(productId: productId, status: status, expiresAt: expiresAt);
+}) => SubscriptionInfo(
+  productId: productId,
+  status: status,
+  expiresAt: expiresAt,
+);
 
 // ---------------------------------------------------------------------------
 // Tests
@@ -28,10 +33,12 @@ void main() {
 
   setUp(() {
     mockDataSource = MockSubscriptionDataSource();
-    when(() => mockDataSource.fetchSubscription(any()))
-        .thenAnswer((_) async => null);
-    when(() => mockDataSource.fetchAllSubscriptions())
-        .thenAnswer((_) async => []);
+    when(
+      () => mockDataSource.fetchSubscription(any()),
+    ).thenAnswer((_) async => null);
+    when(
+      () => mockDataSource.fetchAllSubscriptions(),
+    ).thenAnswer((_) async => []);
     when(() => mockDataSource.refresh()).thenAnswer((_) async {});
     when(() => mockDataSource.restore()).thenAnswer((_) async => []);
 
@@ -54,33 +61,35 @@ void main() {
 
     test('returns SubscriptionInfo from data source', () async {
       final info = _info('pro_monthly');
-      when(() => mockDataSource.fetchSubscription('pro_monthly'))
-          .thenAnswer((_) async => info);
+      when(
+        () => mockDataSource.fetchSubscription('pro_monthly'),
+      ).thenAnswer((_) async => info);
 
       final result = await manager.getSubscription('pro_monthly');
       expect(result, equals(info));
     });
 
-    test('returns cached value on second call without hitting data source again',
-        () async {
-      final info = _info('pro_monthly');
-      when(() => mockDataSource.fetchSubscription('pro_monthly'))
-          .thenAnswer((_) async => info);
+    test(
+      'returns cached value on second call without hitting data source again',
+      () async {
+        final info = _info('pro_monthly');
+        when(
+          () => mockDataSource.fetchSubscription('pro_monthly'),
+        ).thenAnswer((_) async => info);
 
-      await manager.getSubscription('pro_monthly');
-      await manager.getSubscription('pro_monthly');
+        await manager.getSubscription('pro_monthly');
+        await manager.getSubscription('pro_monthly');
 
-      verify(() => mockDataSource.fetchSubscription('pro_monthly')).called(1);
-    });
+        verify(() => mockDataSource.fetchSubscription('pro_monthly')).called(1);
+      },
+    );
 
     test('rethrows data source exceptions', () async {
-      when(() => mockDataSource.fetchSubscription(any()))
-          .thenThrow(Exception('network error'));
+      when(
+        () => mockDataSource.fetchSubscription(any()),
+      ).thenThrow(Exception('network error'));
 
-      expect(
-        () => manager.getSubscription('pro_monthly'),
-        throwsException,
-      );
+      expect(() => manager.getSubscription('pro_monthly'), throwsException);
     });
   });
 
@@ -93,8 +102,9 @@ void main() {
       final active = _info('pro_monthly', status: SubscriptionStatus.active);
       final expired = _info('pro_yearly', status: SubscriptionStatus.expired);
 
-      when(() => mockDataSource.fetchAllSubscriptions())
-          .thenAnswer((_) async => [active, expired]);
+      when(
+        () => mockDataSource.fetchAllSubscriptions(),
+      ).thenAnswer((_) async => [active, expired]);
 
       final results = await manager.getActiveSubscriptions();
 
@@ -108,9 +118,13 @@ void main() {
     });
 
     test('includes trialing subscriptions as active', () async {
-      final trialing = _info('pro_monthly', status: SubscriptionStatus.trialing);
-      when(() => mockDataSource.fetchAllSubscriptions())
-          .thenAnswer((_) async => [trialing]);
+      final trialing = _info(
+        'pro_monthly',
+        status: SubscriptionStatus.trialing,
+      );
+      when(
+        () => mockDataSource.fetchAllSubscriptions(),
+      ).thenAnswer((_) async => [trialing]);
 
       final results = await manager.getActiveSubscriptions();
       expect(results, contains(trialing));
@@ -123,8 +137,9 @@ void main() {
         status: SubscriptionStatus.cancelled,
         expiresAt: future,
       );
-      when(() => mockDataSource.fetchAllSubscriptions())
-          .thenAnswer((_) async => [cancelled]);
+      when(
+        () => mockDataSource.fetchAllSubscriptions(),
+      ).thenAnswer((_) async => [cancelled]);
 
       final results = await manager.getActiveSubscriptions();
       expect(results, contains(cancelled));
@@ -145,8 +160,9 @@ void main() {
 
     test('updates cache with latest subscriptions', () async {
       final info = _info('pro_monthly');
-      when(() => mockDataSource.fetchAllSubscriptions())
-          .thenAnswer((_) async => [info]);
+      when(
+        () => mockDataSource.fetchAllSubscriptions(),
+      ).thenAnswer((_) async => [info]);
 
       await manager.refresh();
 
@@ -158,8 +174,9 @@ void main() {
       var notified = false;
       manager.addListener(() => notified = true);
 
-      when(() => mockDataSource.fetchAllSubscriptions())
-          .thenAnswer((_) async => [_info('pro_monthly')]);
+      when(
+        () => mockDataSource.fetchAllSubscriptions(),
+      ).thenAnswer((_) async => [_info('pro_monthly')]);
 
       await manager.refresh();
       expect(notified, isTrue);
@@ -184,8 +201,7 @@ void main() {
 
     test('updates cache with restored subscriptions', () async {
       final restored = _info('pro_yearly');
-      when(() => mockDataSource.restore())
-          .thenAnswer((_) async => [restored]);
+      when(() => mockDataSource.restore()).thenAnswer((_) async => [restored]);
 
       await manager.restore();
 
@@ -196,16 +212,18 @@ void main() {
     test('notifies listeners after restore', () async {
       var notified = false;
       manager.addListener(() => notified = true);
-      when(() => mockDataSource.restore())
-          .thenAnswer((_) async => [_info('pro_monthly')]);
+      when(
+        () => mockDataSource.restore(),
+      ).thenAnswer((_) async => [_info('pro_monthly')]);
 
       await manager.restore();
       expect(notified, isTrue);
     });
 
     test('rethrows exceptions', () async {
-      when(() => mockDataSource.restore())
-          .thenThrow(Exception('restore failed'));
+      when(
+        () => mockDataSource.restore(),
+      ).thenThrow(Exception('restore failed'));
       expect(() => manager.restore(), throwsException);
     });
   });
@@ -220,18 +238,18 @@ void main() {
     });
 
     test('returns true after refresh with active subscription', () async {
-      when(() => mockDataSource.fetchAllSubscriptions())
-          .thenAnswer((_) async => [_info('pro_monthly')]);
+      when(
+        () => mockDataSource.fetchAllSubscriptions(),
+      ).thenAnswer((_) async => [_info('pro_monthly')]);
 
       await manager.refresh();
       expect(manager.hasPremium, isTrue);
     });
 
     test('returns false when all subscriptions are expired', () async {
-      when(() => mockDataSource.fetchAllSubscriptions())
-          .thenAnswer((_) async => [
-                _info('pro_monthly', status: SubscriptionStatus.expired),
-              ]);
+      when(() => mockDataSource.fetchAllSubscriptions()).thenAnswer(
+        (_) async => [_info('pro_monthly', status: SubscriptionStatus.expired)],
+      );
 
       await manager.refresh();
       expect(manager.hasPremium, isFalse);
@@ -245,12 +263,14 @@ void main() {
   group('subscriptionUpdates stream', () {
     test('emits list after refresh', () async {
       final info = _info('pro_monthly');
-      when(() => mockDataSource.fetchAllSubscriptions())
-          .thenAnswer((_) async => [info]);
+      when(
+        () => mockDataSource.fetchAllSubscriptions(),
+      ).thenAnswer((_) async => [info]);
 
-      final streamFuture = manager.subscriptionUpdates
-          .skip(1) // skip seed value
-          .first;
+      final streamFuture =
+          manager.subscriptionUpdates
+              .skip(1) // skip seed value
+              .first;
 
       await manager.refresh();
       final emitted = await streamFuture;

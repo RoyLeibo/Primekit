@@ -95,7 +95,9 @@ void main() {
       expect(result, isNull);
     });
 
-    testWidgets('returns first redirect when first guard blocks', (tester) async {
+    testWidgets('returns first redirect when first guard blocks', (
+      tester,
+    ) async {
       await tester.pumpWidget(const MaterialApp(home: SizedBox()));
       final ctx = tester.element(find.byType(SizedBox));
 
@@ -107,8 +109,9 @@ void main() {
       expect(result, '/login');
     });
 
-    testWidgets('returns second redirect when first allows but second blocks',
-        (tester) async {
+    testWidgets('returns second redirect when first allows but second blocks', (
+      tester,
+    ) async {
       await tester.pumpWidget(const MaterialApp(home: SizedBox()));
       final ctx = tester.element(find.byType(SizedBox));
 
@@ -146,8 +149,9 @@ void main() {
       expect(order, ['first', 'second', 'third']);
     });
 
-    testWidgets('stops at first redirect without evaluating remaining guards',
-        (tester) async {
+    testWidgets('stops at first redirect without evaluating remaining guards', (
+      tester,
+    ) async {
       await tester.pumpWidget(const MaterialApp(home: SizedBox()));
       final ctx = tester.element(find.byType(SizedBox));
 
@@ -198,15 +202,14 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: SizedBox()));
       final ctx = tester.element(find.byType(SizedBox));
 
-      final composite = RouteGuard.any([
-        AllowGuard(),
-        RedirectGuard('/login'),
-      ]);
+      final composite = RouteGuard.any([AllowGuard(), RedirectGuard('/login')]);
       final result = await composite.redirect(ctx, fakeState);
       expect(result, isNull);
     });
 
-    testWidgets('returns null for empty guard list (no redirects)', (tester) async {
+    testWidgets('returns null for empty guard list (no redirects)', (
+      tester,
+    ) async {
       await tester.pumpWidget(const MaterialApp(home: SizedBox()));
       final ctx = tester.element(find.byType(SizedBox));
 
@@ -225,10 +228,9 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: SizedBox()));
       final ctx = tester.element(find.byType(SizedBox));
 
-      final composite = CompositeRouteGuard(guards: [
-        AllowGuard(),
-        RedirectGuard('/settings'),
-      ]);
+      final composite = CompositeRouteGuard(
+        guards: [AllowGuard(), RedirectGuard('/settings')],
+      );
       final result = await composite.redirect(ctx, fakeState);
       expect(result, '/settings');
     });

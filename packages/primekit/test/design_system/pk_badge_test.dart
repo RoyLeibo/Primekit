@@ -42,17 +42,19 @@ void main() {
       testWidgets('uses default red color', (tester) async {
         await tester.pumpWidget(_wrap(PkBadge.count(3)));
 
-        final container = tester.widget<Container>(find.byType(Container).first);
+        final container = tester.widget<Container>(
+          find.byType(Container).first,
+        );
         final decoration = container.decoration as BoxDecoration;
         expect(decoration.color, equals(const Color(0xFFE53935)));
       });
 
       testWidgets('accepts custom color', (tester) async {
-        await tester.pumpWidget(_wrap(
-          PkBadge.count(3, color: Colors.green),
-        ));
+        await tester.pumpWidget(_wrap(PkBadge.count(3, color: Colors.green)));
 
-        final container = tester.widget<Container>(find.byType(Container).first);
+        final container = tester.widget<Container>(
+          find.byType(Container).first,
+        );
         final decoration = container.decoration as BoxDecoration;
         expect(decoration.color, equals(Colors.green));
       });
@@ -69,7 +71,9 @@ void main() {
         // No text inside a dot badge
         expect(find.byType(Text), findsNothing);
 
-        final container = tester.widget<Container>(find.byType(Container).first);
+        final container = tester.widget<Container>(
+          find.byType(Container).first,
+        );
         final decoration = container.decoration as BoxDecoration;
         expect(decoration.shape, equals(BoxShape.circle));
       });
@@ -77,7 +81,9 @@ void main() {
       testWidgets('default dot size is 8', (tester) async {
         await tester.pumpWidget(_wrap(PkBadge.dot()));
 
-        final container = tester.widget<Container>(find.byType(Container).first);
+        final container = tester.widget<Container>(
+          find.byType(Container).first,
+        );
         expect(container.constraints?.maxWidth, equals(8));
         expect(container.constraints?.maxHeight, equals(8));
       });
@@ -85,7 +91,9 @@ void main() {
       testWidgets('accepts custom size', (tester) async {
         await tester.pumpWidget(_wrap(PkBadge.dot(size: 12)));
 
-        final container = tester.widget<Container>(find.byType(Container).first);
+        final container = tester.widget<Container>(
+          find.byType(Container).first,
+        );
         expect(container.constraints?.maxWidth, equals(12));
         expect(container.constraints?.maxHeight, equals(12));
       });
@@ -93,7 +101,9 @@ void main() {
       testWidgets('uses default red color', (tester) async {
         await tester.pumpWidget(_wrap(PkBadge.dot()));
 
-        final container = tester.widget<Container>(find.byType(Container).first);
+        final container = tester.widget<Container>(
+          find.byType(Container).first,
+        );
         final decoration = container.decoration as BoxDecoration;
         expect(decoration.color, equals(const Color(0xFFE53935)));
       });
@@ -101,7 +111,9 @@ void main() {
       testWidgets('accepts custom color', (tester) async {
         await tester.pumpWidget(_wrap(PkBadge.dot(color: Colors.orange)));
 
-        final container = tester.widget<Container>(find.byType(Container).first);
+        final container = tester.widget<Container>(
+          find.byType(Container).first,
+        );
         final decoration = container.decoration as BoxDecoration;
         expect(decoration.color, equals(Colors.orange));
       });
@@ -120,17 +132,21 @@ void main() {
       testWidgets('uses default blue color', (tester) async {
         await tester.pumpWidget(_wrap(PkBadge.label('SALE')));
 
-        final container = tester.widget<Container>(find.byType(Container).first);
+        final container = tester.widget<Container>(
+          find.byType(Container).first,
+        );
         final decoration = container.decoration as BoxDecoration;
         expect(decoration.color, equals(const Color(0xFF1565C0)));
       });
 
       testWidgets('accepts custom color', (tester) async {
-        await tester.pumpWidget(_wrap(
-          PkBadge.label('HOT', color: Colors.deepOrange),
-        ));
+        await tester.pumpWidget(
+          _wrap(PkBadge.label('HOT', color: Colors.deepOrange)),
+        );
 
-        final container = tester.widget<Container>(find.byType(Container).first);
+        final container = tester.widget<Container>(
+          find.byType(Container).first,
+        );
         final decoration = container.decoration as BoxDecoration;
         expect(decoration.color, equals(Colors.deepOrange));
       });
@@ -138,7 +154,9 @@ void main() {
       testWidgets('has rounded decoration (not circle shape)', (tester) async {
         await tester.pumpWidget(_wrap(PkBadge.label('TAG')));
 
-        final container = tester.widget<Container>(find.byType(Container).first);
+        final container = tester.widget<Container>(
+          find.byType(Container).first,
+        );
         final decoration = container.decoration as BoxDecoration;
         // label variant uses borderRadius, not BoxShape.circle
         expect(decoration.borderRadius, isNotNull);

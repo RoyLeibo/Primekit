@@ -22,8 +22,10 @@ void main() {
     });
 
     test('uses locale separators for de locale', () {
-      final result =
-          PkDateFormatter.shortDate(date, locale: const Locale('de'));
+      final result = PkDateFormatter.shortDate(
+        date,
+        locale: const Locale('de'),
+      );
       // German uses dots: 25.12.2024
       expect(result, contains('25'));
       expect(result, contains('12'));
@@ -57,15 +59,17 @@ void main() {
     });
 
     test('formats as 24-hour clock when use24h=true', () {
-      final result =
-          PkDateFormatter.time(date, locale: enLocale, use24h: true);
+      final result = PkDateFormatter.time(date, locale: enLocale, use24h: true);
       expect(result, contains('15:45'));
     });
 
     test('formats midnight correctly in 24h mode', () {
       final midnight = DateTime(2024, 1, 1, 0, 0);
-      final result =
-          PkDateFormatter.time(midnight, locale: enLocale, use24h: true);
+      final result = PkDateFormatter.time(
+        midnight,
+        locale: enLocale,
+        use24h: true,
+      );
       expect(result, contains('0:00'));
     });
   });

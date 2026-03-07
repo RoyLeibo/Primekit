@@ -252,9 +252,10 @@ class ActivityFeed {
     final actorId = map['actorId'] as String? ?? '';
     final actorName = map['actorName'] as String?;
     final actorAvatarUrl = map['actorAvatarUrl'] as String?;
-    final timestamp = map['timestamp'] is String
-        ? DateTime.parse(map['timestamp'] as String)
-        : DateTime.now();
+    final timestamp =
+        map['timestamp'] is String
+            ? DateTime.parse(map['timestamp'] as String)
+            : DateTime.now();
     final metadata = (map['metadata'] as Map<String, dynamic>?) ?? {};
     final type = map['type'] as String? ?? 'custom';
 

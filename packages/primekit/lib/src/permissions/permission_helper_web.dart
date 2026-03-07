@@ -41,12 +41,12 @@ abstract final class PermissionHelper {
       if (permissionsApi == null) return PkPermissionStatus.notDetermined;
 
       final descriptor = {'name': name}.jsify()! as JSObject;
-      final status = await permissionsApi
-          .callMethod<JSPromise>('query'.toJS, descriptor)
-          .toDart;
-      final state = (status as JSObject)
-          .getProperty<JSString>('state'.toJS)
-          .toDart;
+      final status =
+          await permissionsApi
+              .callMethod<JSPromise>('query'.toJS, descriptor)
+              .toDart;
+      final state =
+          (status as JSObject).getProperty<JSString>('state'.toJS).toDart;
       return _fromBrowserState(state);
     } catch (e) {
       PrimekitLogger.warning(
@@ -127,9 +127,10 @@ abstract final class PermissionHelper {
         video: video.toJS,
         audio: audio.toJS,
       );
-      final stream = await web.window.navigator.mediaDevices
-          .getUserMedia(constraints)
-          .toDart;
+      final stream =
+          await web.window.navigator.mediaDevices
+              .getUserMedia(constraints)
+              .toDart;
       // Stop all tracks immediately — we only needed the permission dialog.
       final tracks = stream.getTracks().toDart;
       for (final track in tracks) {

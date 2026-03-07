@@ -173,8 +173,9 @@ void main() {
 
     test('failure maps to failure of new type preserving error', () {
       const err = NoConnectivityException();
-      final mapped =
-          const ApiResponse<int>.failure(err).map((n) => n.toString());
+      final mapped = const ApiResponse<int>.failure(
+        err,
+      ).map((n) => n.toString());
       expect(mapped.isFailure, isTrue);
       final result = mapped.when(
         loading: () => null,

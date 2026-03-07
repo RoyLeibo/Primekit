@@ -22,8 +22,11 @@ void main() {
     });
 
     test('formats large amount with thousands separator', () {
-      final result =
-          PkCurrencyFormatter.format(1234567.89, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.format(
+        1234567.89,
+        'USD',
+        locale: 'en_US',
+      );
       expect(result, contains('1,234,567'));
     });
 
@@ -36,8 +39,7 @@ void main() {
 
     test('unknown currency code falls back to code as symbol', () {
       // Should not throw; uses code as symbol fallback.
-      final result =
-          PkCurrencyFormatter.format(10.0, 'XYZ', locale: 'en_US');
+      final result = PkCurrencyFormatter.format(10.0, 'XYZ', locale: 'en_US');
       expect(result, isNotEmpty);
     });
   });
@@ -67,39 +69,53 @@ void main() {
     });
 
     test('formats millions as M', () {
-      final result =
-          PkCurrencyFormatter.compact(1200000, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.compact(
+        1200000,
+        'USD',
+        locale: 'en_US',
+      );
       expect(result, contains('1.2M'));
     });
 
     test('formats exact 1 million as 1M', () {
-      final result =
-          PkCurrencyFormatter.compact(1000000, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.compact(
+        1000000,
+        'USD',
+        locale: 'en_US',
+      );
       expect(result, contains('1M'));
     });
 
     test('formats billions as B', () {
-      final result =
-          PkCurrencyFormatter.compact(2500000000, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.compact(
+        2500000000,
+        'USD',
+        locale: 'en_US',
+      );
       expect(result, contains('2.5B'));
     });
 
     test('formats exact 1 billion as 1B', () {
-      final result =
-          PkCurrencyFormatter.compact(1000000000, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.compact(
+        1000000000,
+        'USD',
+        locale: 'en_US',
+      );
       expect(result, contains('1B'));
     });
 
     test('handles negative thousands', () {
-      final result =
-          PkCurrencyFormatter.compact(-5000, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.compact(-5000, 'USD', locale: 'en_US');
       expect(result, contains('-'));
       expect(result, contains('K'));
     });
 
     test('handles negative millions', () {
-      final result =
-          PkCurrencyFormatter.compact(-2000000, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.compact(
+        -2000000,
+        'USD',
+        locale: 'en_US',
+      );
       expect(result, contains('-'));
       expect(result, contains('M'));
     });
@@ -112,28 +128,44 @@ void main() {
 
   group('PkCurrencyFormatter.formatRange', () {
     test('formats a range with en-dash separator', () {
-      final result =
-          PkCurrencyFormatter.formatRange(5, 20, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.formatRange(
+        5,
+        20,
+        'USD',
+        locale: 'en_US',
+      );
       // Contains en-dash (U+2013).
       expect(result, contains('\u2013'));
     });
 
     test('range contains both formatted values', () {
-      final result =
-          PkCurrencyFormatter.formatRange(5, 20, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.formatRange(
+        5,
+        20,
+        'USD',
+        locale: 'en_US',
+      );
       expect(result, contains('5'));
       expect(result, contains('20'));
     });
 
     test('formats range with equal min and max', () {
-      final result =
-          PkCurrencyFormatter.formatRange(10, 10, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.formatRange(
+        10,
+        10,
+        'USD',
+        locale: 'en_US',
+      );
       expect(result, contains('10'));
     });
 
     test('formats range with zero min', () {
-      final result =
-          PkCurrencyFormatter.formatRange(0, 100, 'USD', locale: 'en_US');
+      final result = PkCurrencyFormatter.formatRange(
+        0,
+        100,
+        'USD',
+        locale: 'en_US',
+      );
       expect(result, contains('0'));
       expect(result, contains('100'));
     });

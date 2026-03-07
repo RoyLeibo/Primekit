@@ -55,7 +55,12 @@ void main() {
   group('FunnelDefinition', () {
     test('stores name and steps', () {
       expect(_checkoutDef.name, 'checkout');
-      expect(_checkoutDef.steps, ['cart', 'shipping', 'payment', 'confirmation']);
+      expect(_checkoutDef.steps, [
+        'cart',
+        'shipping',
+        'payment',
+        'confirmation',
+      ]);
     });
   });
 
@@ -117,9 +122,8 @@ void main() {
       tracker.startFunnel('checkout');
       await Future<void>.delayed(Duration.zero);
 
-      final captured = verify(
-        () => mockProvider.logEvent(captureAny()),
-      ).captured;
+      final captured =
+          verify(() => mockProvider.logEvent(captureAny())).captured;
       final events = captured.cast<AnalyticsEvent>();
       expect(events.any((e) => e.name == 'funnel_started'), isTrue);
     });
@@ -179,9 +183,8 @@ void main() {
       tracker.completeStep('checkout', 'cart');
       await Future<void>.delayed(Duration.zero);
 
-      final captured = verify(
-        () => mockProvider.logEvent(captureAny()),
-      ).captured;
+      final captured =
+          verify(() => mockProvider.logEvent(captureAny())).captured;
       final events = captured.cast<AnalyticsEvent>();
       expect(events.any((e) => e.name == 'funnel_step_completed'), isTrue);
     });
@@ -192,9 +195,8 @@ void main() {
       }
       await Future<void>.delayed(Duration.zero);
 
-      final captured = verify(
-        () => mockProvider.logEvent(captureAny()),
-      ).captured;
+      final captured =
+          verify(() => mockProvider.logEvent(captureAny())).captured;
       final events = captured.cast<AnalyticsEvent>();
       expect(events.any((e) => e.name == 'funnel_completed'), isTrue);
     });
@@ -259,9 +261,8 @@ void main() {
       tracker.abandonFunnel('checkout', reason: 'cancelled');
       await Future<void>.delayed(Duration.zero);
 
-      final captured = verify(
-        () => mockProvider.logEvent(captureAny()),
-      ).captured;
+      final captured =
+          verify(() => mockProvider.logEvent(captureAny())).captured;
       final events = captured.cast<AnalyticsEvent>();
       expect(events.any((e) => e.name == 'funnel_abandoned'), isTrue);
     });
@@ -318,10 +319,7 @@ void main() {
       tracker.completeStep('checkout', 'cart');
       tracker.completeStep('onboarding', 'welcome');
 
-      expect(
-        tracker.getState('checkout')?.completedSteps,
-        contains('cart'),
-      );
+      expect(tracker.getState('checkout')?.completedSteps, contains('cart'));
       expect(
         tracker.getState('onboarding')?.completedSteps,
         contains('welcome'),

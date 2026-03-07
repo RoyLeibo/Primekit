@@ -226,10 +226,7 @@ void main() {
     });
 
     test('transitions to unauthenticated', () async {
-      await session.login(
-        accessToken: makeJwt(sub: 'u1'),
-        refreshToken: 'rt',
-      );
+      await session.login(accessToken: makeJwt(sub: 'u1'), refreshToken: 'rt');
       await session.logout();
 
       expect(session.state, isA<SessionUnauthenticated>());
@@ -238,20 +235,14 @@ void main() {
     });
 
     test('clears tokens on logout', () async {
-      await session.login(
-        accessToken: makeJwt(sub: 'u1'),
-        refreshToken: 'rt',
-      );
+      await session.login(accessToken: makeJwt(sub: 'u1'), refreshToken: 'rt');
       await session.logout();
 
       verify(() => mockTokenStore.clearAll()).called(1);
     });
 
     test('removes persisted userId and userData on logout', () async {
-      await session.login(
-        accessToken: makeJwt(sub: 'u1'),
-        refreshToken: 'rt',
-      );
+      await session.login(accessToken: makeJwt(sub: 'u1'), refreshToken: 'rt');
       await session.logout();
 
       verify(() => mockSecurePrefs.remove('pk_session_user_id')).called(1);
@@ -262,10 +253,7 @@ void main() {
       when(() => mockTokenStore.clearAll()).thenThrow(Exception('disk full'));
       when(() => mockSecurePrefs.remove(any())).thenAnswer((_) async {});
 
-      await session.login(
-        accessToken: makeJwt(sub: 'u1'),
-        refreshToken: 'rt',
-      );
+      await session.login(accessToken: makeJwt(sub: 'u1'), refreshToken: 'rt');
       await session.logout();
 
       expect(session.state, isA<SessionUnauthenticated>());
@@ -295,10 +283,7 @@ void main() {
       final sub = session.stateStream.listen((s) => emitted.add(s.runtimeType));
 
       await session.restore();
-      await session.login(
-        accessToken: makeJwt(sub: 'u2'),
-        refreshToken: 'rt',
-      );
+      await session.login(accessToken: makeJwt(sub: 'u2'), refreshToken: 'rt');
       await session.logout();
       // Allow all microtasks and async work to complete.
       await Future<void>.value();

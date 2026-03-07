@@ -105,7 +105,7 @@ class FirebaseRtdbChannel implements RealtimeChannel {
     final ref = _db.ref(_path);
     final envelope = <String, dynamic>{
       'id': _uuid.v4(),
-      'type': ?type,
+      if (type != null) 'type': type,
       'payload': payload,
       'sentAt': DateTime.now().toIso8601String(),
     };
@@ -126,9 +126,12 @@ class FirebaseRtdbChannel implements RealtimeChannel {
     final message = RealtimeMessage(
       id: data['id'] as String? ?? event.snapshot.key ?? _uuid.v4(),
       type: data['type'] as String?,
-      payload: data['payload'] is Map
-          ? Map<String, dynamic>.from(data['payload'] as Map<Object?, Object?>)
-          : data,
+      payload:
+          data['payload'] is Map
+              ? Map<String, dynamic>.from(
+                data['payload'] as Map<Object?, Object?>,
+              )
+              : data,
       receivedAt: DateTime.now(),
       senderId: data['senderId'] as String?,
     );

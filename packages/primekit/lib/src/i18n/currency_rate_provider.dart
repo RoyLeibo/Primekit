@@ -23,9 +23,10 @@ class ExchangeRateApiProvider implements CurrencyRateProvider {
 
   final String? apiKey;
 
-  String get _baseUrl => apiKey != null
-      ? 'https://v6.exchangerate-api.com/v6/$apiKey/latest'
-      : 'https://open.er-api.com/v6/latest';
+  String get _baseUrl =>
+      apiKey != null
+          ? 'https://v6.exchangerate-api.com/v6/$apiKey/latest'
+          : 'https://open.er-api.com/v6/latest';
 
   @override
   Future<double> getRate(String from, String to) async {

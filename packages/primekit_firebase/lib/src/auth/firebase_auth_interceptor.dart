@@ -16,23 +16,23 @@ class FirebaseAuthInterceptor extends AuthInterceptor {
     TokenStore? tokenStore,
     void Function()? onSessionExpired,
   }) : super(
-          tokenStore: tokenStore ?? TokenStore.instance,
-          onRefresh: (_) async {
-            final user = FirebaseAuth.instance.currentUser;
-            if (user == null) return null;
-            return user.getIdToken(true);
-          },
-          onSessionExpired:
-              onSessionExpired ?? SessionManager.instance.logout,
-        );
+         tokenStore: tokenStore ?? TokenStore.instance,
+         onRefresh: (_) async {
+           final user = FirebaseAuth.instance.currentUser;
+           if (user == null) return null;
+           return user.getIdToken(true);
+         },
+         onSessionExpired: onSessionExpired ?? SessionManager.instance.logout,
+       );
 
   /// Creates a [FirebaseAuthInterceptor] that populates the token store
   /// from the current Firebase user on initialisation.
   static Future<FirebaseAuthInterceptor> initialised({
     void Function()? onSessionExpired,
   }) async {
-    final interceptor =
-        FirebaseAuthInterceptor(onSessionExpired: onSessionExpired);
+    final interceptor = FirebaseAuthInterceptor(
+      onSessionExpired: onSessionExpired,
+    );
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final token = await user.getIdToken();

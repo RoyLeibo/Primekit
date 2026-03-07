@@ -491,10 +491,11 @@ void main() {
     });
 
     test('copyWithLoading sets isLoading true and clears error', () {
-      final state = PaginatedState<int>.initial()
-          .copyWithNextPage([1], hasMore: true)
-          .copyWithError(Exception('x'))
-          .copyWithLoading();
+      final state =
+          PaginatedState<int>.initial()
+              .copyWithNextPage([1], hasMore: true)
+              .copyWithError(Exception('x'))
+              .copyWithLoading();
       expect(state.isLoading, isTrue);
       expect(state.error, isNull);
     });

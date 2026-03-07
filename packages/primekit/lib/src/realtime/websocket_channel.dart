@@ -213,7 +213,7 @@ class PkWebSocketChannel implements RealtimeChannel {
   void _sendRaw(Map<String, dynamic> payload, {String? type}) {
     final envelope = <String, dynamic>{
       'id': _uuid.v4(),
-      'type': ?type,
+      if (type != null) 'type': type,
       'payload': payload,
       'sentAt': DateTime.now().toIso8601String(),
     };

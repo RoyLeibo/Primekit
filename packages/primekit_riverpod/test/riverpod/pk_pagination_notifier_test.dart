@@ -25,8 +25,8 @@ class _StringPaginationNotifier extends Notifier<PkPaginationState<String>>
 
 final _paginationProvider =
     NotifierProvider<_StringPaginationNotifier, PkPaginationState<String>>(
-  _StringPaginationNotifier.new,
-);
+      _StringPaginationNotifier.new,
+    );
 
 // ---------------------------------------------------------------------------
 // Helper
@@ -168,41 +168,48 @@ void main() {
         expect(container.read(_paginationProvider).page, equals(0));
       });
 
-      test('hasMore is false when page returns fewer than pageSize items', () async {
-        final container = _makeContainer();
-        addTearDown(container.dispose);
+      test(
+        'hasMore is false when page returns fewer than pageSize items',
+        () async {
+          final container = _makeContainer();
+          addTearDown(container.dispose);
 
-        // Return only 3 items — less than defaultPageSize (20).
-        container.read(_paginationProvider.notifier).pages = [
-          ['a', 'b', 'c'],
-        ];
+          // Return only 3 items — less than defaultPageSize (20).
+          container.read(_paginationProvider.notifier).pages = [
+            ['a', 'b', 'c'],
+          ];
 
-        await container.read(_paginationProvider.notifier).loadFirst();
+          await container.read(_paginationProvider.notifier).loadFirst();
 
-        expect(container.read(_paginationProvider).hasMore, isFalse);
-      });
+          expect(container.read(_paginationProvider).hasMore, isFalse);
+        },
+      );
 
-      test('hasMore is true when page returns exactly pageSize items', () async {
-        final container = _makeContainer();
-        addTearDown(container.dispose);
+      test(
+        'hasMore is true when page returns exactly pageSize items',
+        () async {
+          final container = _makeContainer();
+          addTearDown(container.dispose);
 
-        final fullPage = List.generate(
-          PkPaginationNotifierMixin.defaultPageSize,
-          (i) => 'item-$i',
-        );
-        container.read(_paginationProvider.notifier).pages = [fullPage];
+          final fullPage = List.generate(
+            PkPaginationNotifierMixin.defaultPageSize,
+            (i) => 'item-$i',
+          );
+          container.read(_paginationProvider.notifier).pages = [fullPage];
 
-        await container.read(_paginationProvider.notifier).loadFirst();
+          await container.read(_paginationProvider.notifier).loadFirst();
 
-        expect(container.read(_paginationProvider).hasMore, isTrue);
-      });
+          expect(container.read(_paginationProvider).hasMore, isTrue);
+        },
+      );
 
       test('sets error when provider throws', () async {
         final container = _makeContainer();
         addTearDown(container.dispose);
 
-        container.read(_paginationProvider.notifier).errorToThrow =
-            Exception('fetch failed');
+        container.read(_paginationProvider.notifier).errorToThrow = Exception(
+          'fetch failed',
+        );
 
         await container.read(_paginationProvider.notifier).loadFirst();
 
@@ -261,7 +268,9 @@ void main() {
         addTearDown(container.dispose);
 
         // Load a partial page so hasMore becomes false.
-        container.read(_paginationProvider.notifier).pages = [['only']];
+        container.read(_paginationProvider.notifier).pages = [
+          ['only'],
+        ];
         await container.read(_paginationProvider.notifier).loadFirst();
 
         final stateBeforeLoadMore = container.read(_paginationProvider);
@@ -286,8 +295,9 @@ void main() {
         await container.read(_paginationProvider.notifier).loadFirst();
 
         // Now make the next page throw.
-        container.read(_paginationProvider.notifier).errorToThrow =
-            Exception('page 1 failed');
+        container.read(_paginationProvider.notifier).errorToThrow = Exception(
+          'page 1 failed',
+        );
         await container.read(_paginationProvider.notifier).loadMore();
 
         final state = container.read(_paginationProvider);

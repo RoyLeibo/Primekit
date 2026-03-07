@@ -75,10 +75,7 @@ void main() {
 
   group('PricingFormatter.formatPeriod()', () {
     test('monthly pricing includes /month suffix', () {
-      final result = PricingFormatter.formatPeriod(
-        _monthly(),
-        locale: 'en_US',
-      );
+      final result = PricingFormatter.formatPeriod(_monthly(), locale: 'en_US');
       expect(result, contains('/month'));
     });
 
@@ -200,10 +197,7 @@ void main() {
         currency: 'USD',
         period: BillingPeriod.lifetime,
       );
-      expect(
-        PricingFormatter.formatSavings(_monthly(), lifetimePlan),
-        isNull,
-      );
+      expect(PricingFormatter.formatSavings(_monthly(), lifetimePlan), isNull);
     });
 
     test('returns null when annual is more expensive than monthly', () {
@@ -212,7 +206,10 @@ void main() {
         currency: 'USD',
         period: BillingPeriod.yearly,
       );
-      final result = PricingFormatter.formatSavings(_monthly(), expensiveYearly);
+      final result = PricingFormatter.formatSavings(
+        _monthly(),
+        expensiveYearly,
+      );
       expect(result, isNull);
     });
 
@@ -251,7 +248,10 @@ void main() {
         currency: 'USD',
         period: BillingPeriod.yearly,
       );
-      expect(PricingFormatter.savingsRatio(_monthly(), expensiveYearly), isNull);
+      expect(
+        PricingFormatter.savingsRatio(_monthly(), expensiveYearly),
+        isNull,
+      );
     });
   });
 

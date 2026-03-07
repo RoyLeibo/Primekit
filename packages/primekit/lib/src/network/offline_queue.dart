@@ -30,9 +30,10 @@ final class QueuedRequest {
     id: (json['id'] ?? '') as String,
     method: (json['method'] ?? 'GET') as String,
     url: (json['url'] ?? '') as String,
-    enqueuedAt: DateTime.parse(
-      (json['enqueuedAt'] ?? DateTime.now().toIso8601String()) as String,
-    ).toUtc(),
+    enqueuedAt:
+        DateTime.parse(
+          (json['enqueuedAt'] ?? DateTime.now().toIso8601String()) as String,
+        ).toUtc(),
     body: json['body'],
     headers: (json['headers'] as Map?)?.cast<String, String>() ?? const {},
     maxRetries: (json['maxRetries'] as num?)?.toInt() ?? 3,
@@ -331,9 +332,10 @@ final class OfflineQueue {
           _queue.remove(request);
           dropped++;
 
-          final pkError = error is PrimekitException
-              ? error
-              : NetworkException(message: error.toString(), cause: error);
+          final pkError =
+              error is PrimekitException
+                  ? error
+                  : NetworkException(message: error.toString(), cause: error);
           _eventController.add(RequestDroppedEvent(request, pkError));
 
           PrimekitLogger.warning(
@@ -398,10 +400,13 @@ final class OfflineQueue {
       if (raw == null || raw.isEmpty) return;
 
       final list = jsonDecode(raw) as List<dynamic>;
-      final loaded = list
-          .cast<Map<String, dynamic>>()
-          .map((json) => QueuedRequest.fromJson(json.cast<String, Object?>()))
-          .toList();
+      final loaded =
+          list
+              .cast<Map<String, dynamic>>()
+              .map(
+                (json) => QueuedRequest.fromJson(json.cast<String, Object?>()),
+              )
+              .toList();
 
       _queue
         ..clear()

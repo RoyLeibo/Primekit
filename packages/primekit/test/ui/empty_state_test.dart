@@ -7,9 +7,7 @@ import 'package:primekit/src/ui/empty_state.dart';
 // Helpers
 // ---------------------------------------------------------------------------
 
-Widget _wrap(Widget child) => MaterialApp(
-  home: Scaffold(body: child),
-);
+Widget _wrap(Widget child) => MaterialApp(home: Scaffold(body: child));
 
 // ---------------------------------------------------------------------------
 // Tests
@@ -26,36 +24,29 @@ void main() {
 
     testWidgets('renders title when provided', (tester) async {
       await tester.pumpWidget(
-        _wrap(
-          const EmptyState(message: 'msg', title: 'My Title'),
-        ),
+        _wrap(const EmptyState(message: 'msg', title: 'My Title')),
       );
       expect(find.text('My Title'), findsOneWidget);
     });
 
     testWidgets('does not render title when omitted', (tester) async {
-      await tester.pumpWidget(
-        _wrap(const EmptyState(message: 'msg only')),
-      );
+      await tester.pumpWidget(_wrap(const EmptyState(message: 'msg only')));
       // Only one text widget — the message.
       expect(find.byType(Text), findsOneWidget);
     });
 
-    testWidgets('renders icon in a circular container when provided',
-        (tester) async {
+    testWidgets('renders icon in a circular container when provided', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        _wrap(
-          const EmptyState(
-            message: 'msg',
-            icon: Icons.inbox_outlined,
-          ),
-        ),
+        _wrap(const EmptyState(message: 'msg', icon: Icons.inbox_outlined)),
       );
       expect(find.byIcon(Icons.inbox_outlined), findsOneWidget);
     });
 
-    testWidgets('renders custom illustration instead of icon when both given',
-        (tester) async {
+    testWidgets('renders custom illustration instead of icon when both given', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _wrap(
           const EmptyState(
@@ -69,39 +60,36 @@ void main() {
       expect(find.byIcon(Icons.inbox_outlined), findsNothing);
     });
 
-    testWidgets('renders action button when actionLabel and onAction provided',
-        (tester) async {
-      await tester.pumpWidget(
-        _wrap(
-          EmptyState(
-            message: 'msg',
-            actionLabel: 'Retry',
-            onAction: () {},
+    testWidgets(
+      'renders action button when actionLabel and onAction provided',
+      (tester) async {
+        await tester.pumpWidget(
+          _wrap(
+            EmptyState(message: 'msg', actionLabel: 'Retry', onAction: () {}),
           ),
-        ),
-      );
-      expect(find.text('Retry'), findsOneWidget);
-      expect(find.byType(FilledButton), findsWidgets);
-    });
+        );
+        expect(find.text('Retry'), findsOneWidget);
+        expect(find.byType(FilledButton), findsWidgets);
+      },
+    );
 
-    testWidgets('does not render button when actionLabel is null',
-        (tester) async {
-      await tester.pumpWidget(
-        _wrap(const EmptyState(message: 'msg')),
-      );
+    testWidgets('does not render button when actionLabel is null', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_wrap(const EmptyState(message: 'msg')));
       expect(find.byType(FilledButton), findsNothing);
     });
 
-    testWidgets('does not render button when onAction is null',
-        (tester) async {
+    testWidgets('does not render button when onAction is null', (tester) async {
       await tester.pumpWidget(
         _wrap(const EmptyState(message: 'msg', actionLabel: 'Action')),
       );
       expect(find.byType(FilledButton), findsNothing);
     });
 
-    testWidgets('onAction callback is invoked when button tapped',
-        (tester) async {
+    testWidgets('onAction callback is invoked when button tapped', (
+      tester,
+    ) async {
       var tapped = false;
 
       await tester.pumpWidget(
@@ -126,11 +114,10 @@ void main() {
       expect(find.textContaining('search'), findsOneWidget);
     });
 
-    testWidgets('renders Clear filters button when onClear provided',
-        (tester) async {
-      await tester.pumpWidget(
-        _wrap(EmptyState.noResults(onClear: () {})),
-      );
+    testWidgets('renders Clear filters button when onClear provided', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_wrap(EmptyState.noResults(onClear: () {})));
       expect(find.text('Clear filters'), findsOneWidget);
     });
 
@@ -157,9 +144,7 @@ void main() {
     });
 
     testWidgets('renders Retry button when onRetry provided', (tester) async {
-      await tester.pumpWidget(
-        _wrap(EmptyState.noConnection(onRetry: () {})),
-      );
+      await tester.pumpWidget(_wrap(EmptyState.noConnection(onRetry: () {})));
       expect(find.text('Retry'), findsOneWidget);
     });
 
@@ -188,9 +173,7 @@ void main() {
     });
 
     testWidgets('renders Retry button when onRetry provided', (tester) async {
-      await tester.pumpWidget(
-        _wrap(EmptyState.error(onRetry: () {})),
-      );
+      await tester.pumpWidget(_wrap(EmptyState.error(onRetry: () {})));
       expect(find.text('Retry'), findsOneWidget);
     });
   });
@@ -203,9 +186,7 @@ void main() {
     });
 
     testWidgets('renders Create button when onCreate provided', (tester) async {
-      await tester.pumpWidget(
-        _wrap(EmptyState.noData(onCreate: () {})),
-      );
+      await tester.pumpWidget(_wrap(EmptyState.noData(onCreate: () {})));
       expect(find.text('Create'), findsOneWidget);
     });
 

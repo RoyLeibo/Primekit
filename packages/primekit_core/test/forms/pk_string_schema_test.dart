@@ -314,12 +314,15 @@ void main() {
         );
       });
 
-      test('value with internal spaces passes (only boundary whitespace checked)', () {
-        expect(
-          PkSchema.string().noWhitespace().validate('hello world').isValid,
-          isTrue,
-        );
-      });
+      test(
+        'value with internal spaces passes (only boundary whitespace checked)',
+        () {
+          expect(
+            PkSchema.string().noWhitespace().validate('hello world').isValid,
+            isTrue,
+          );
+        },
+      );
 
       test('default error message is descriptive', () {
         final result = PkSchema.string().noWhitespace().validate(' bad');
@@ -380,13 +383,16 @@ void main() {
         );
       });
 
-      test('default error message is "Must contain only letters and digits"', () {
-        final result = PkSchema.string().alphanumeric().validate('bad!');
-        expect(
-          result.firstError,
-          equals('Must contain only letters and digits'),
-        );
-      });
+      test(
+        'default error message is "Must contain only letters and digits"',
+        () {
+          final result = PkSchema.string().alphanumeric().validate('bad!');
+          expect(
+            result.firstError,
+            equals('Must contain only letters and digits'),
+          );
+        },
+      );
 
       test('custom error message is used', () {
         final result = PkSchema.string()

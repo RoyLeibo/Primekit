@@ -26,14 +26,22 @@ void main() {
     });
 
     test('includeCount=false returns word only', () {
-      final result =
-          PluralHelper.plural(3, 'item', 'items', includeCount: false);
+      final result = PluralHelper.plural(
+        3,
+        'item',
+        'items',
+        includeCount: false,
+      );
       expect(result, 'items');
     });
 
     test('includeCount=false with singular returns singular word', () {
-      final result =
-          PluralHelper.plural(1, 'item', 'items', includeCount: false);
+      final result = PluralHelper.plural(
+        1,
+        'item',
+        'items',
+        includeCount: false,
+      );
       expect(result, 'item');
     });
 
@@ -99,11 +107,10 @@ void main() {
     });
 
     test('includeCount=false omits count prefix', () {
-      final result = PluralHelper.pluralWith(
-        5,
-        {'one': 'item', 'other': 'items'},
-        includeCount: false,
-      );
+      final result = PluralHelper.pluralWith(5, {
+        'one': 'item',
+        'other': 'items',
+      }, includeCount: false);
       expect(result, 'items');
     });
 

@@ -38,31 +38,36 @@ void main() {
     test('TrialEventStarted contains correct productId', () async {
       final eventFuture = manager.events.first;
 
-      await manager.startTrial('pro_monthly', duration: const Duration(days: 7));
+      await manager.startTrial(
+        'pro_monthly',
+        duration: const Duration(days: 7),
+      );
 
       final event = await eventFuture as TrialEventStarted;
       expect(event.productId, 'pro_monthly');
     });
 
-    test('TrialEventStarted trialEnds is approximately 7 days from now',
-        () async {
-      final before = DateTime.now().toUtc();
-      final eventFuture = manager.events.first;
+    test(
+      'TrialEventStarted trialEnds is approximately 7 days from now',
+      () async {
+        final before = DateTime.now().toUtc();
+        final eventFuture = manager.events.first;
 
-      await manager.startTrial('pro', duration: const Duration(days: 7));
+        await manager.startTrial('pro', duration: const Duration(days: 7));
 
-      final event = await eventFuture as TrialEventStarted;
-      final after = DateTime.now().toUtc();
+        final event = await eventFuture as TrialEventStarted;
+        final after = DateTime.now().toUtc();
 
-      expect(
-        event.trialEnds.isAfter(before.add(const Duration(days: 6))),
-        isTrue,
-      );
-      expect(
-        event.trialEnds.isBefore(after.add(const Duration(days: 8))),
-        isTrue,
-      );
-    });
+        expect(
+          event.trialEnds.isAfter(before.add(const Duration(days: 6))),
+          isTrue,
+        );
+        expect(
+          event.trialEnds.isBefore(after.add(const Duration(days: 8))),
+          isTrue,
+        );
+      },
+    );
 
     test('persists trial end date to SharedPreferences', () async {
       await manager.startTrial('pro', duration: const Duration(days: 7));
@@ -102,7 +107,10 @@ void main() {
       // Set an end date in the past directly via prefs.
       await prefs.setString(
         'pk_trial_end_pro',
-        DateTime.now().toUtc().subtract(const Duration(hours: 1)).toIso8601String(),
+        DateTime.now()
+            .toUtc()
+            .subtract(const Duration(hours: 1))
+            .toIso8601String(),
       );
       expect(await manager.isInTrial('pro'), isFalse);
     });
@@ -127,7 +135,10 @@ void main() {
     test('returns null for an expired trial', () async {
       await prefs.setString(
         'pk_trial_end_pro',
-        DateTime.now().toUtc().subtract(const Duration(hours: 1)).toIso8601String(),
+        DateTime.now()
+            .toUtc()
+            .subtract(const Duration(hours: 1))
+            .toIso8601String(),
       );
       expect(await manager.getRemainingTime('pro'), isNull);
     });
@@ -246,34 +257,37 @@ void main() {
     });
 
     test(
-        'emits TrialEventEndingSoon when remaining time is within 24 hours',
-        () {
-      fakeAsync((async) {
-        final events = <TrialEvent>[];
-        manager.events.listen(events.add);
+      'emits TrialEventEndingSoon when remaining time is within 24 hours',
+      () {
+        fakeAsync((async) {
+          final events = <TrialEvent>[];
+          manager.events.listen(events.add);
 
-        // Set a trial ending in ~12 hours (within ending-soon threshold).
-        prefs.setString(
-          'pk_trial_end_pro',
-          DateTime.now()
-              .toUtc()
-              .add(const Duration(hours: 12))
-              .toIso8601String(),
-        );
-        prefs.setString(
-          'pk_trial_started_pro',
-          DateTime.now().toUtc().toIso8601String(),
-        );
+          // Set a trial ending in ~12 hours (within ending-soon threshold).
+          prefs.setString(
+            'pk_trial_end_pro',
+            DateTime.now()
+                .toUtc()
+                .add(const Duration(hours: 12))
+                .toIso8601String(),
+          );
+          prefs.setString(
+            'pk_trial_started_pro',
+            DateTime.now().toUtc().toIso8601String(),
+          );
 
-        // Trigger the hourly check.
-        async.elapse(const Duration(hours: 1));
+          // Trigger the hourly check.
+          async.elapse(const Duration(hours: 1));
 
-        expect(
-          events.any((e) => e is TrialEventEndingSoon && e.productId == 'pro'),
-          isTrue,
-        );
-      });
-    });
+          expect(
+            events.any(
+              (e) => e is TrialEventEndingSoon && e.productId == 'pro',
+            ),
+            isTrue,
+          );
+        });
+      },
+    );
 
     test('ending-soon is only emitted once per session', () {
       fakeAsync((async) {

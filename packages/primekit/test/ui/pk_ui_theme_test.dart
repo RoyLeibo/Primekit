@@ -8,9 +8,7 @@ import 'package:primekit/src/ui/pk_ui_theme.dart';
 // ---------------------------------------------------------------------------
 
 Widget _app({PkUiTheme? extension, required Widget child}) => MaterialApp(
-  theme: ThemeData(
-    extensions: [if (extension != null) extension],
-  ),
+  theme: ThemeData(extensions: [if (extension != null) extension]),
   home: Scaffold(body: child),
 );
 
@@ -141,8 +139,9 @@ void main() {
   });
 
   group('PkUiTheme.of', () {
-    testWidgets('returns null when no PkUiTheme extension registered',
-        (tester) async {
+    testWidgets('returns null when no PkUiTheme extension registered', (
+      tester,
+    ) async {
       PkUiTheme? captured;
 
       await tester.pumpWidget(
@@ -159,8 +158,9 @@ void main() {
       expect(captured, isNull);
     });
 
-    testWidgets('returns PkUiTheme when registered as extension',
-        (tester) async {
+    testWidgets('returns PkUiTheme when registered as extension', (
+      tester,
+    ) async {
       PkUiTheme? captured;
       const ext = PkUiTheme(successColor: Color(0xFFAABBCC));
 

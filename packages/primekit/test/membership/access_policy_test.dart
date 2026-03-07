@@ -48,7 +48,10 @@ void main() {
       });
 
       expect(policy.length, 3);
-      expect(policy.allDefinedFeatures, containsAll(['export_pdf', 'sso', 'dark_theme']));
+      expect(
+        policy.allDefinedFeatures,
+        containsAll(['export_pdf', 'sso', 'dark_theme']),
+      );
     });
 
     test('merges with existing definitions', () {
@@ -115,10 +118,7 @@ void main() {
     });
 
     test('enterprise user can access pro feature', () {
-      expect(
-        policy.canAccess('export_pdf', MembershipTier.enterprise),
-        isTrue,
-      );
+      expect(policy.canAccess('export_pdf', MembershipTier.enterprise), isTrue);
     });
 
     test('pro user cannot access enterprise feature', () {
@@ -181,11 +181,10 @@ void main() {
 
     test('enterprise user can access all features', () {
       final features = policy.featuresAvailableTo(MembershipTier.enterprise);
-      expect(features, containsAll([
-        'basic_feature',
-        'pro_feature',
-        'enterprise_feature',
-      ]));
+      expect(
+        features,
+        containsAll(['basic_feature', 'pro_feature', 'enterprise_feature']),
+      );
     });
 
     test('returns empty list when no features are defined', () {

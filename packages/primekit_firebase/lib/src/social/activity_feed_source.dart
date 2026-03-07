@@ -51,10 +51,11 @@ final class FirebaseActivityFeedSource implements ActivityFeedSource {
 
       // Simple offset pagination: skip `page * pageSize` docs.
       if (page > 0) {
-        final previousSnapshot = await _ref
-            .orderBy('timestamp', descending: true)
-            .limit(page * pageSize)
-            .get();
+        final previousSnapshot =
+            await _ref
+                .orderBy('timestamp', descending: true)
+                .limit(page * pageSize)
+                .get();
         if (previousSnapshot.docs.isNotEmpty) {
           query = query.startAfterDocument(previousSnapshot.docs.last);
         }

@@ -88,9 +88,8 @@ class AdFrequencyCap {
     try {
       final prefs = await SharedPreferences.getInstance();
       final dateStr = prefs.getString(_prefsKeyDate);
-      final storedDate = dateStr != null
-          ? DateTime.parse(dateStr)
-          : _startOfToday();
+      final storedDate =
+          dateStr != null ? DateTime.parse(dateStr) : _startOfToday();
 
       if (_isSameDay(storedDate, _startOfToday())) {
         _todayImpressions = prefs.getInt(_prefsKeyToday) ?? 0;

@@ -14,7 +14,7 @@ import 'package:primekit/device.dart';
 
 /// Stream of connectivity status. True = online, false = offline.
 final pkConnectivityProvider = StreamProvider<bool>((ref) {
-  return ConnectivityMonitor.instance.isOnline;
+  return ConnectivityMonitor.instance.isConnected;
 });
 
 /// Whether the current user is authenticated.
@@ -34,6 +34,6 @@ final pkSecurePrefsProvider = Provider<SecurePrefs>((ref) {
 
 /// Current app version string (e.g. "1.2.3").
 final pkAppVersionProvider = FutureProvider<String>((ref) async {
-  final info = await AppVersion.getPackageInfo();
+  final info = await AppVersion.info;
   return info.version;
 });

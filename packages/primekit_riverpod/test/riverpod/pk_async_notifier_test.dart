@@ -16,12 +16,12 @@ class _CounterNotifier extends AsyncNotifier<int>
   Future<void> fetch(
     Future<int> Function() fetcher, {
     bool preserveData = true,
-  }) =>
-      guard(fetcher, preserveData: preserveData);
+  }) => guard(fetcher, preserveData: preserveData);
 }
 
-final _counterProvider =
-    AsyncNotifierProvider<_CounterNotifier, int>(_CounterNotifier.new);
+final _counterProvider = AsyncNotifierProvider<_CounterNotifier, int>(
+  _CounterNotifier.new,
+);
 
 // ---------------------------------------------------------------------------
 // Tests
@@ -78,10 +78,7 @@ void main() {
         await container.read(_counterProvider.future);
         await container.read(_counterProvider.notifier).fetch(() async => 7);
 
-        expect(
-          container.read(_counterProvider.notifier).isLoading,
-          isFalse,
-        );
+        expect(container.read(_counterProvider.notifier).isLoading, isFalse);
       });
 
       test('currentError is null after successful fetch', () async {
@@ -91,10 +88,7 @@ void main() {
         await container.read(_counterProvider.future);
         await container.read(_counterProvider.notifier).fetch(() async => 1);
 
-        expect(
-          container.read(_counterProvider.notifier).currentError,
-          isNull,
-        );
+        expect(container.read(_counterProvider.notifier).currentError, isNull);
       });
     });
 
@@ -144,10 +138,7 @@ void main() {
           throw Exception('oops');
         });
 
-        expect(
-          container.read(_counterProvider.notifier).currentData,
-          isNull,
-        );
+        expect(container.read(_counterProvider.notifier).currentData, isNull);
       });
     });
 
@@ -156,30 +147,33 @@ void main() {
     // -----------------------------------------------------------------------
 
     group('guard — preserveData', () {
-      test('preserveData:true keeps previous value visible during loading', () async {
-        final container = ProviderContainer();
-        addTearDown(container.dispose);
+      test(
+        'preserveData:true keeps previous value visible during loading',
+        () async {
+          final container = ProviderContainer();
+          addTearDown(container.dispose);
 
-        await container.read(_counterProvider.future);
-        // Establish a known data value.
-        await container.read(_counterProvider.notifier).fetch(() async => 99);
+          await container.read(_counterProvider.future);
+          // Establish a known data value.
+          await container.read(_counterProvider.notifier).fetch(() async => 99);
 
-        // Start a long operation that won't complete yet.
-        final completer = Completer<int>();
-        unawaited(
-          container
-              .read(_counterProvider.notifier)
-              .fetch(() => completer.future),
-        );
+          // Start a long operation that won't complete yet.
+          final completer = Completer<int>();
+          unawaited(
+            container
+                .read(_counterProvider.notifier)
+                .fetch(() => completer.future),
+          );
 
-        final loadingState = container.read(_counterProvider);
-        expect(loadingState.isLoading, isTrue);
-        // Previous value should still be accessible.
-        expect(loadingState.valueOrNull, equals(99));
+          final loadingState = container.read(_counterProvider);
+          expect(loadingState.isLoading, isTrue);
+          // Previous value should still be accessible.
+          expect(loadingState.valueOrNull, equals(99));
 
-        completer.complete(100);
-        await Future<void>.delayed(Duration.zero);
-      });
+          completer.complete(100);
+          await Future<void>.delayed(Duration.zero);
+        },
+      );
 
       test('preserveData:false clears previous value during loading', () async {
         final container = ProviderContainer();

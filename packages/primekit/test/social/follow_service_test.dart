@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:primekit/src/social/follow_service.dart';
+import 'package:primekit/src/social/follow_service_base.dart';
 
 // ---------------------------------------------------------------------------
 // Mocks

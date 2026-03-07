@@ -107,9 +107,10 @@ final class QueuedEmail {
       id: json['id'] as String,
       enqueuedAt: DateTime.parse(json['enqueuedAt'] as String),
       attempts: json['attempts'] as int? ?? 0,
-      lastAttemptAt: json['lastAttemptAt'] != null
-          ? DateTime.parse(json['lastAttemptAt'] as String)
-          : null,
+      lastAttemptAt:
+          json['lastAttemptAt'] != null
+              ? DateTime.parse(json['lastAttemptAt'] as String)
+              : null,
       status: QueuedEmailStatus.values.firstWhere(
         (s) => s.name == json['status'],
         orElse: () => QueuedEmailStatus.pending,
@@ -286,9 +287,8 @@ class EmailQueue {
       return;
     }
 
-    final pending = _queue
-        .where((e) => e.status == QueuedEmailStatus.pending)
-        .toList();
+    final pending =
+        _queue.where((e) => e.status == QueuedEmailStatus.pending).toList();
 
     if (pending.isEmpty) {
       PrimekitLogger.debug('Queue is empty; nothing to flush.', tag: _tag);
@@ -329,9 +329,10 @@ class EmailQueue {
       } else {
         final failure = result as EmailFailure;
         final tooManyAttempts = updatedItem.attempts >= _maxAttempts;
-        final finalStatus = tooManyAttempts
-            ? QueuedEmailStatus.failed
-            : QueuedEmailStatus.pending;
+        final finalStatus =
+            tooManyAttempts
+                ? QueuedEmailStatus.failed
+                : QueuedEmailStatus.pending;
 
         final failedItem = updatedItem.copyWith(
           status: finalStatus,

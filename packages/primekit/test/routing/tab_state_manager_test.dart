@@ -65,10 +65,7 @@ void main() {
     });
 
     test('returns valid controller for last valid index', () {
-      expect(
-        () => manager.getScrollController(2),
-        returnsNormally,
-      );
+      expect(() => manager.getScrollController(2), returnsNormally);
     });
   });
 

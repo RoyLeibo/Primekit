@@ -109,13 +109,14 @@ class ToastService {
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         margin: _marginFor(position),
-        action: action != null
-            ? SnackBarAction(
-                label: action.label,
-                textColor: style.foreground,
-                onPressed: action.onPressed,
-              )
-            : null,
+        action:
+            action != null
+                ? SnackBarAction(
+                  label: action.label,
+                  textColor: style.foreground,
+                  onPressed: action.onPressed,
+                )
+                : null,
       ),
     );
   }

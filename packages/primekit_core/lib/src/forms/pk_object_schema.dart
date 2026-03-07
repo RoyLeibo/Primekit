@@ -48,14 +48,20 @@ final class PkObjectSchema extends PkSchema<Map<String, dynamic>> {
   // ---------------------------------------------------------------------------
 
   /// Marks the object as required (the default).
-  PkObjectSchema required() =>
-      PkObjectSchema._(fields: _fields, required: true, refinements: _refinements);
+  PkObjectSchema required() => PkObjectSchema._(
+    fields: _fields,
+    required: true,
+    refinements: _refinements,
+  );
 
   /// Marks the object as optional.
   ///
   /// A null value will produce a valid result with a null value.
-  PkObjectSchema optional() =>
-      PkObjectSchema._(fields: _fields, required: false, refinements: _refinements);
+  PkObjectSchema optional() => PkObjectSchema._(
+    fields: _fields,
+    required: false,
+    refinements: _refinements,
+  );
 
   /// Adds a cross-field validation rule.
   ///
@@ -76,12 +82,11 @@ final class PkObjectSchema extends PkSchema<Map<String, dynamic>> {
   PkObjectSchema refine(
     bool Function(Map<String, dynamic>) fn, {
     required String message,
-  }) =>
-      PkObjectSchema._(
-        fields: _fields,
-        required: _required,
-        refinements: [..._refinements, _Refinement(fn: fn, message: message)],
-      );
+  }) => PkObjectSchema._(
+    fields: _fields,
+    required: _required,
+    refinements: [..._refinements, _Refinement(fn: fn, message: message)],
+  );
 
   // ---------------------------------------------------------------------------
   // Validation

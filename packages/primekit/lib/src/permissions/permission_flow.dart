@@ -139,9 +139,10 @@ abstract final class PermissionFlow {
       }
 
       final granted = await PermissionHelper.request(req.permission);
-      final result = granted
-          ? PkPermissionStatus.granted
-          : await PermissionHelper.status(req.permission);
+      final result =
+          granted
+              ? PkPermissionStatus.granted
+              : await PermissionHelper.status(req.permission);
       statuses[req.permission] = result;
 
       PrimekitLogger.info(
@@ -178,26 +179,27 @@ abstract final class PermissionFlow {
     PermissionRequest req,
   ) => showDialog<void>(
     context: context,
-    builder: (ctx) => AlertDialog(
-      title: Text('${req.title} denied'),
-      content: Text(
-        'You have permanently denied ${req.title.toLowerCase()}. '
-        'To enable it, please open your device settings.',
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(ctx).pop(),
-          child: const Text('Cancel'),
+    builder:
+        (ctx) => AlertDialog(
+          title: Text('${req.title} denied'),
+          content: Text(
+            'You have permanently denied ${req.title.toLowerCase()}. '
+            'To enable it, please open your device settings.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () async {
+                Navigator.of(ctx).pop();
+                await PermissionHelper.openSettings();
+              },
+              child: const Text('Open settings'),
+            ),
+          ],
         ),
-        FilledButton(
-          onPressed: () async {
-            Navigator.of(ctx).pop();
-            await PermissionHelper.openSettings();
-          },
-          child: const Text('Open settings'),
-        ),
-      ],
-    ),
   );
 }
 

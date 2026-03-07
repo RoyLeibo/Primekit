@@ -53,18 +53,23 @@ class AsyncBuilder<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => state.when(
-    loading: () => loading != null
-        ? loading!()
-        : const Center(child: CircularProgressIndicator()),
+    loading:
+        () =>
+            loading != null
+                ? loading!()
+                : const Center(child: CircularProgressIndicator()),
     data: data,
-    error: (e, st) =>
-        error != null ? error!(e, st) : Center(child: Text('Error: $e')),
-    refreshing: (prev) => refreshing != null
-        ? refreshing!(prev)
-        : Stack(
-            alignment: Alignment.topCenter,
-            children: [data(prev), const LinearProgressIndicator()],
-          ),
+    error:
+        (e, st) =>
+            error != null ? error!(e, st) : Center(child: Text('Error: $e')),
+    refreshing:
+        (prev) =>
+            refreshing != null
+                ? refreshing!(prev)
+                : Stack(
+                  alignment: Alignment.topCenter,
+                  children: [data(prev), const LinearProgressIndicator()],
+                ),
   );
 }
 
@@ -108,12 +113,13 @@ class AsyncStateBuilder<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: notifier,
-    builder: (_, _) => AsyncBuilder<T>(
-      state: notifier.state,
-      data: data,
-      loading: loading,
-      error: error,
-      refreshing: refreshing,
-    ),
+    builder:
+        (_, _) => AsyncBuilder<T>(
+          state: notifier.state,
+          data: data,
+          loading: loading,
+          error: error,
+          refreshing: refreshing,
+        ),
   );
 }

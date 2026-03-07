@@ -67,7 +67,9 @@ class PkAvatar extends StatelessWidget {
       final seed = userId ?? displayName ?? '?';
       final color = _colorFor(seed);
       final initials =
-          displayName != null ? _initialsFor(displayName!) : seed[0].toUpperCase();
+          displayName != null
+              ? _initialsFor(displayName!)
+              : seed[0].toUpperCase();
 
       child = CircleAvatar(
         radius: size / 2,

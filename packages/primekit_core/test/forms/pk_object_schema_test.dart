@@ -86,9 +86,8 @@ void main() {
     });
 
     test('optional schema accepts null', () {
-      final optionalSchema = PkSchema.object({
-        'x': PkSchema.string(),
-      }).optional();
+      final optionalSchema =
+          PkSchema.object({'x': PkSchema.string()}).optional();
       expect(optionalSchema.validate(null).isValid, isTrue);
     });
 
@@ -153,9 +152,9 @@ void main() {
 
       test('multiple refinements are all evaluated in order', () {
         final s = PkSchema.object({
-          'start': PkSchema.number().required(),
-          'end': PkSchema.number().required(),
-        })
+              'start': PkSchema.number().required(),
+              'end': PkSchema.number().required(),
+            })
             .refine(
               (data) => (data['end'] as num) > (data['start'] as num),
               message: 'end must be after start',
@@ -166,10 +165,7 @@ void main() {
             );
 
         // Both pass
-        expect(
-          s.validate({'start': 0, 'end': 50}).isValid,
-          isTrue,
-        );
+        expect(s.validate({'start': 0, 'end': 50}).isValid, isTrue);
 
         // First refinement fails
         final result1 = s.validate({'start': 10, 'end': 5});
@@ -202,21 +198,22 @@ void main() {
         );
       });
 
-      test('optional schema with failing refine on non-null input still fails', () {
-        final s = PkSchema.object({
-          'x': PkSchema.number().required(),
-        })
-            .optional()
-            .refine(
-              (data) => (data['x'] as num) > 0,
-              message: 'x must be positive',
-            );
+      test(
+        'optional schema with failing refine on non-null input still fails',
+        () {
+          final s = PkSchema.object({
+            'x': PkSchema.number().required(),
+          }).optional().refine(
+            (data) => (data['x'] as num) > 0,
+            message: 'x must be positive',
+          );
 
-        expect(s.validate(null).isValid, isTrue); // null is fine — optional
-        final result = s.validate({'x': -1});
-        expect(result.isValid, isFalse);
-        expect(result.errorFor('_'), equals('x must be positive'));
-      });
+          expect(s.validate(null).isValid, isTrue); // null is fine — optional
+          final result = s.validate({'x': -1});
+          expect(result.isValid, isFalse);
+          expect(result.errorFor('_'), equals('x must be positive'));
+        },
+      );
     });
   });
 }

@@ -19,18 +19,17 @@ void main() {
     bool isAllDay = false,
     String? recurrenceRule,
     String? calendarId,
-  }) =>
-      CalendarEvent(
-        id: id,
-        title: title,
-        startTime: startTime ?? start,
-        endTime: endTime ?? end,
-        description: description,
-        location: location,
-        isAllDay: isAllDay,
-        recurrenceRule: recurrenceRule,
-        calendarId: calendarId,
-      );
+  }) => CalendarEvent(
+    id: id,
+    title: title,
+    startTime: startTime ?? start,
+    endTime: endTime ?? end,
+    description: description,
+    location: location,
+    isAllDay: isAllDay,
+    recurrenceRule: recurrenceRule,
+    calendarId: calendarId,
+  );
 
   // -------------------------------------------------------------------------
   // Tests

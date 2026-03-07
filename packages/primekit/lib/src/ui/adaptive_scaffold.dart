@@ -109,15 +109,16 @@ class _MobileScaffold extends StatelessWidget {
     bottomNavigationBar: NavigationBar(
       selectedIndex: scaffold.selectedIndex,
       onDestinationSelected: scaffold.onDestinationSelected,
-      destinations: scaffold.destinations
-          .map(
-            (d) => NavigationDestination(
-              icon: d.icon,
-              selectedIcon: d.selectedIcon,
-              label: d.label,
-            ),
-          )
-          .toList(),
+      destinations:
+          scaffold.destinations
+              .map(
+                (d) => NavigationDestination(
+                  icon: d.icon,
+                  selectedIcon: d.selectedIcon,
+                  label: d.label,
+                ),
+              )
+              .toList(),
     ),
   );
 }
@@ -141,15 +142,16 @@ class _TabletScaffold extends StatelessWidget {
           selectedIndex: scaffold.selectedIndex,
           onDestinationSelected: scaffold.onDestinationSelected ?? (_) {},
           labelType: NavigationRailLabelType.selected,
-          destinations: scaffold.destinations
-              .map(
-                (d) => NavigationRailDestination(
-                  icon: d.icon,
-                  selectedIcon: d.selectedIcon,
-                  label: Text(d.label),
-                ),
-              )
-              .toList(),
+          destinations:
+              scaffold.destinations
+                  .map(
+                    (d) => NavigationRailDestination(
+                      icon: d.icon,
+                      selectedIcon: d.selectedIcon,
+                      label: Text(d.label),
+                    ),
+                  )
+                  .toList(),
         ),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(child: scaffold.body(scaffold.selectedIndex)),
@@ -236,9 +238,10 @@ class _DrawerItem extends StatelessWidget {
             children: [
               IconTheme(
                 data: IconThemeData(
-                  color: isSelected
-                      ? colorScheme.onSecondaryContainer
-                      : colorScheme.onSurfaceVariant,
+                  color:
+                      isSelected
+                          ? colorScheme.onSecondaryContainer
+                          : colorScheme.onSurfaceVariant,
                   size: 24,
                 ),
                 child: isSelected ? destination.selectedIcon : destination.icon,
@@ -247,9 +250,10 @@ class _DrawerItem extends StatelessWidget {
               Text(
                 destination.label,
                 style: textTheme.labelLarge?.copyWith(
-                  color: isSelected
-                      ? colorScheme.onSecondaryContainer
-                      : colorScheme.onSurfaceVariant,
+                  color:
+                      isSelected
+                          ? colorScheme.onSecondaryContainer
+                          : colorScheme.onSurfaceVariant,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 ),
               ),

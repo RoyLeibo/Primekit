@@ -9,9 +9,7 @@ import 'package:primekit/src/ui/pk_ui_theme.dart';
 // ---------------------------------------------------------------------------
 
 Widget _wrap(Widget child, {PkUiTheme? extension}) => MaterialApp(
-  theme: ThemeData(
-    extensions: [if (extension != null) extension],
-  ),
+  theme: ThemeData(extensions: [if (extension != null) extension]),
   home: Scaffold(body: child),
 );
 
@@ -21,8 +19,9 @@ Widget _wrap(Widget child, {PkUiTheme? extension}) => MaterialApp(
 
 void main() {
   group('SkeletonLoader — isLoading=true', () {
-    testWidgets('renders shimmer overlay (child is still in tree)',
-        (tester) async {
+    testWidgets('renders shimmer overlay (child is still in tree)', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _wrap(
           SkeletonLoader(
@@ -134,7 +133,9 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('renders list item with custom textLines count', (tester) async {
+    testWidgets('renders list item with custom textLines count', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         _wrap(SkeletonLoader.listItem(hasAvatar: true, textLines: 4)),
       );

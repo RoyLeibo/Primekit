@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:primekit_core/primekit_core.dart';
 
 /// A base class for Riverpod [AsyncNotifier]s with built-in
 /// loading/error/success lifecycle and PrimeKit's [Result] pattern.

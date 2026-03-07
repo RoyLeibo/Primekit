@@ -112,9 +112,8 @@ final class MediaFile {
     mimeType: mimeType == _sentinel ? this.mimeType : mimeType as String?,
     width: width == _sentinel ? this.width : width as int?,
     height: height == _sentinel ? this.height : height as int?,
-    capturedAt: capturedAt == _sentinel
-        ? this.capturedAt
-        : capturedAt as DateTime?,
+    capturedAt:
+        capturedAt == _sentinel ? this.capturedAt : capturedAt as DateTime?,
   );
 
   // ---------------------------------------------------------------------------

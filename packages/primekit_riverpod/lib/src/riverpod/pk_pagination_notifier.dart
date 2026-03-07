@@ -27,15 +27,14 @@ class PkPaginationState<T> {
     bool? hasMore,
     Object? error,
     int? page,
-  }) =>
-      PkPaginationState<T>(
-        items: items ?? this.items,
-        isLoading: isLoading ?? this.isLoading,
-        isLoadingMore: isLoadingMore ?? this.isLoadingMore,
-        hasMore: hasMore ?? this.hasMore,
-        error: error ?? this.error,
-        page: page ?? this.page,
-      );
+  }) => PkPaginationState<T>(
+    items: items ?? this.items,
+    isLoading: isLoading ?? this.isLoading,
+    isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+    hasMore: hasMore ?? this.hasMore,
+    error: error ?? this.error,
+    page: page ?? this.page,
+  );
 }
 
 /// Base class for Riverpod notifiers that manage paginated lists.
@@ -52,8 +51,7 @@ class PkPaginationState<T> {
 ///       api.getProducts(page: page, pageSize: pageSize);
 /// }
 /// ```
-mixin PkPaginationNotifierMixin<T>
-    on Notifier<PkPaginationState<T>> {
+mixin PkPaginationNotifierMixin<T> on Notifier<PkPaginationState<T>> {
   static const int defaultPageSize = 20;
 
   Future<List<T>> fetchPage(int page, int pageSize);

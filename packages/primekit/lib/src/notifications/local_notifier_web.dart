@@ -145,11 +145,12 @@ class LocalNotifier {
       // Use the onclick setter — capture id and payload via closure.
       final capturedId = id;
       final capturedPayload = payload;
-      notification.onclick = (web.Event _) {
-        _tapController.add(
-          NotificationTap(id: capturedId, payload: capturedPayload),
-        );
-      }.toJS;
+      notification.onclick =
+          (web.Event _) {
+            _tapController.add(
+              NotificationTap(id: capturedId, payload: capturedPayload),
+            );
+          }.toJS;
     } catch (e) {
       debugPrint('[Primekit] LocalNotifier (web): show() failed: $e');
     }
@@ -174,9 +175,8 @@ class LocalNotifier {
     _cancelTimer(id);
 
     final now = DateTime.now();
-    final delay = scheduledAt.isAfter(now)
-        ? scheduledAt.difference(now)
-        : Duration.zero;
+    final delay =
+        scheduledAt.isAfter(now) ? scheduledAt.difference(now) : Duration.zero;
 
     _pending.add(
       PendingNotification(

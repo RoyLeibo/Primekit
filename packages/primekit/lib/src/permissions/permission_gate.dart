@@ -166,20 +166,21 @@ class _PermissionGateState extends State<PermissionGate>
   Future<bool> _showRationaleDialog() async {
     final result = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(widget.rationaleTitle ?? 'Permission required'),
-        content: Text(widget.rationaleMessage!),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Not now'),
+      builder:
+          (ctx) => AlertDialog(
+            title: Text(widget.rationaleTitle ?? 'Permission required'),
+            content: Text(widget.rationaleMessage!),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(false),
+                child: const Text('Not now'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(true),
+                child: const Text('Continue'),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Continue'),
-          ),
-        ],
-      ),
     );
     return result ?? false;
   }

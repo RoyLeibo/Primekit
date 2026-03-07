@@ -80,14 +80,16 @@ class EmailService {
     final result = await provider.send(message);
 
     result.when(
-      success: (r) => PrimekitLogger.info(
-        'Email delivered. messageId=${r.messageId}',
-        tag: _tag,
-      ),
-      failure: (r) => PrimekitLogger.warning(
-        'Email delivery failed: ${r.reason} (status=${r.statusCode})',
-        tag: _tag,
-      ),
+      success:
+          (r) => PrimekitLogger.info(
+            'Email delivered. messageId=${r.messageId}',
+            tag: _tag,
+          ),
+      failure:
+          (r) => PrimekitLogger.warning(
+            'Email delivery failed: ${r.reason} (status=${r.statusCode})',
+            tag: _tag,
+          ),
     );
 
     return result;

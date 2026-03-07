@@ -13,11 +13,11 @@ class MockCalendarProvider extends Mock implements CalendarProvider {}
 // ---------------------------------------------------------------------------
 
 CalendarEvent _makeEvent({String title = 'Test Event'}) => CalendarEvent(
-      id: 'evt-1',
-      title: title,
-      startTime: DateTime(2025, 6, 1, 9, 0),
-      endTime: DateTime(2025, 6, 1, 10, 0),
-    );
+  id: 'evt-1',
+  title: title,
+  startTime: DateTime(2025, 6, 1, 9, 0),
+  endTime: DateTime(2025, 6, 1, 10, 0),
+);
 
 // ---------------------------------------------------------------------------
 // Tests
@@ -51,10 +51,7 @@ void main() {
         // something then reassigning; we test via a fresh configure below.
         // Instead we directly test the guard by configuring null-equivalent:
         // since we can't clear, test that the current setup doesn't throw.
-        expect(
-          () => CalendarService.instance,
-          returnsNormally,
-        );
+        expect(() => CalendarService.instance, returnsNormally);
       });
     });
 
@@ -87,8 +84,9 @@ void main() {
 
     group('requestPermission', () {
       test('delegates to provider and returns granted value', () async {
-        when(() => mockProvider.requestPermission())
-            .thenAnswer((_) async => true);
+        when(
+          () => mockProvider.requestPermission(),
+        ).thenAnswer((_) async => true);
 
         final result = await CalendarService.instance.requestPermission();
 
@@ -104,8 +102,9 @@ void main() {
     group('createEvent', () {
       test('delegates to provider and returns event id', () async {
         final event = _makeEvent();
-        when(() => mockProvider.createEvent(any()))
-            .thenAnswer((_) async => 'evt-1');
+        when(
+          () => mockProvider.createEvent(any()),
+        ).thenAnswer((_) async => 'evt-1');
 
         final id = await CalendarService.instance.createEvent(event);
 
@@ -230,8 +229,9 @@ void main() {
 
     group('getCalendarIds', () {
       test('returns calendar ids from provider', () async {
-        when(() => mockProvider.getCalendarIds())
-            .thenAnswer((_) async => ['cal-1', 'cal-2']);
+        when(
+          () => mockProvider.getCalendarIds(),
+        ).thenAnswer((_) async => ['cal-1', 'cal-2']);
 
         final ids = await CalendarService.instance.getCalendarIds();
 
@@ -239,8 +239,7 @@ void main() {
       });
 
       test('returns empty list when no calendars', () async {
-        when(() => mockProvider.getCalendarIds())
-            .thenAnswer((_) async => []);
+        when(() => mockProvider.getCalendarIds()).thenAnswer((_) async => []);
 
         final ids = await CalendarService.instance.getCalendarIds();
 

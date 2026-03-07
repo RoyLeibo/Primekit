@@ -140,9 +140,10 @@ final class SessionManager extends ChangeNotifier
   bool get isAuthenticated => _state is SessionAuthenticated;
 
   /// The authenticated user's identifier, or `null` when unauthenticated.
-  String? get currentUserId => _state is SessionAuthenticated
-      ? (_state as SessionAuthenticated).userId
-      : null;
+  String? get currentUserId =>
+      _state is SessionAuthenticated
+          ? (_state as SessionAuthenticated).userId
+          : null;
 
   // ---------------------------------------------------------------------------
   // Restore

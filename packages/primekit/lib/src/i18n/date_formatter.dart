@@ -37,9 +37,8 @@ class PkDateFormatter {
   /// otherwise a 12-hour clock is used (`3:45 PM`).
   static String time(DateTime date, {Locale? locale, bool use24h = false}) {
     final localeStr = _localeString(locale);
-    final pattern = use24h
-        ? DateFormat.Hm(localeStr)
-        : DateFormat.jm(localeStr);
+    final pattern =
+        use24h ? DateFormat.Hm(localeStr) : DateFormat.jm(localeStr);
     return pattern.format(date);
   }
 

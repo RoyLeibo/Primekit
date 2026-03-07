@@ -60,8 +60,7 @@ class CalendarService {
     required DateTime from,
     required DateTime to,
     String? calendarId,
-  }) =>
-      _p.getEvents(from: from, to: to, calendarId: calendarId);
+  }) => _p.getEvents(from: from, to: to, calendarId: calendarId);
 
   Future<List<String>> getCalendarIds() => _p.getCalendarIds();
 }

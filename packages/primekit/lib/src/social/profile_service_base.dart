@@ -108,9 +108,10 @@ class ProfileService {
     return _source!
         .watchProfile(userId)
         .map(
-          (data) => data == null
-              ? null
-              : UserProfile.fromJson(_normaliseId(userId, data)),
+          (data) =>
+              data == null
+                  ? null
+                  : UserProfile.fromJson(_normaliseId(userId, data)),
         );
   }
 

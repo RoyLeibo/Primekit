@@ -493,10 +493,11 @@ class SyncRepository<T> extends ChangeNotifier {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  List<T> _activeDocuments() => _localCache.values
-      .where((doc) => doc['isDeleted'] != true)
-      .map(_fromJson)
-      .toList();
+  List<T> _activeDocuments() =>
+      _localCache.values
+          .where((doc) => doc['isDeleted'] != true)
+          .map(_fromJson)
+          .toList();
 
   void _emitWatchEvent() {
     if (!_watchController.isClosed) {

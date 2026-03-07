@@ -79,7 +79,10 @@ void main() {
 
     test('currentSessionDuration is positive after starting', () async {
       await tracker.startSession();
-      expect(tracker.currentSessionDuration, greaterThanOrEqualTo(Duration.zero));
+      expect(
+        tracker.currentSessionDuration,
+        greaterThanOrEqualTo(Duration.zero),
+      );
     });
 
     test('calling startSession twice keeps original session', () async {
@@ -93,9 +96,8 @@ void main() {
       await tracker.startSession();
       await Future<void>.delayed(Duration.zero);
 
-      final captured = verify(
-        () => mockProvider.logEvent(captureAny()),
-      ).captured;
+      final captured =
+          verify(() => mockProvider.logEvent(captureAny())).captured;
       final events = captured.cast<AnalyticsEvent>();
       expect(events.any((e) => e.name == 'session_start'), isTrue);
     });
@@ -150,9 +152,8 @@ void main() {
       await tracker.endSession();
       await Future<void>.delayed(Duration.zero);
 
-      final captured = verify(
-        () => mockProvider.logEvent(captureAny()),
-      ).captured;
+      final captured =
+          verify(() => mockProvider.logEvent(captureAny())).captured;
       final events = captured.cast<AnalyticsEvent>();
       expect(events.any((e) => e.name == 'session_end'), isTrue);
     });

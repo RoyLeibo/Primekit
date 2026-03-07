@@ -49,9 +49,10 @@ final class JsonCache {
   }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final expiresAt = ttl != null
-          ? DateTime.now().toUtc().add(ttl).toIso8601String()
-          : null;
+      final expiresAt =
+          ttl != null
+              ? DateTime.now().toUtc().add(ttl).toIso8601String()
+              : null;
 
       final envelope = jsonEncode({
         _fieldData: data,

@@ -14,53 +14,59 @@ void main() {
     // -----------------------------------------------------------------------
 
     group('stream emissions', () {
-      test('emits true (online) when ConnectivityMonitor reports connected', () async {
-        // Use the testing API on ConnectivityMonitor to inject status.
-        ConnectivityMonitor.instance.injectStatusForTesting(true);
+      test(
+        'emits true (online) when ConnectivityMonitor reports connected',
+        () async {
+          // Use the testing API on ConnectivityMonitor to inject status.
+          ConnectivityMonitor.instance.injectStatusForTesting(true);
 
-        final container = ProviderContainer();
-        addTearDown(container.dispose);
+          final container = ProviderContainer();
+          addTearDown(container.dispose);
 
-        // Read the provider and collect the first emission.
-        final events = <bool>[];
-        final subscription = container.listen<AsyncValue<bool>>(
-          pkConnectivityProvider,
-          (_, next) {
-            next.whenData(events.add);
-          },
-        );
+          // Read the provider and collect the first emission.
+          final events = <bool>[];
+          final subscription = container.listen<AsyncValue<bool>>(
+            pkConnectivityProvider,
+            (_, next) {
+              next.whenData(events.add);
+            },
+          );
 
-        // Trigger an online event.
-        ConnectivityMonitor.instance.injectStatusForTesting(true);
+          // Trigger an online event.
+          ConnectivityMonitor.instance.injectStatusForTesting(true);
 
-        // Allow async propagation.
-        await Future<void>.delayed(const Duration(milliseconds: 600));
+          // Allow async propagation.
+          await Future<void>.delayed(const Duration(milliseconds: 600));
 
-        subscription.close();
+          subscription.close();
 
-        expect(events, contains(true));
-      });
+          expect(events, contains(true));
+        },
+      );
 
-      test('emits false (offline) when ConnectivityMonitor reports disconnected', () async {
-        final container = ProviderContainer();
-        addTearDown(container.dispose);
+      test(
+        'emits false (offline) when ConnectivityMonitor reports disconnected',
+        () async {
+          final container = ProviderContainer();
+          addTearDown(container.dispose);
 
-        final events = <bool>[];
-        final subscription = container.listen<AsyncValue<bool>>(
-          pkConnectivityProvider,
-          (_, next) {
-            next.whenData(events.add);
-          },
-        );
+          final events = <bool>[];
+          final subscription = container.listen<AsyncValue<bool>>(
+            pkConnectivityProvider,
+            (_, next) {
+              next.whenData(events.add);
+            },
+          );
 
-        ConnectivityMonitor.instance.injectStatusForTesting(false);
+          ConnectivityMonitor.instance.injectStatusForTesting(false);
 
-        await Future<void>.delayed(const Duration(milliseconds: 600));
+          await Future<void>.delayed(const Duration(milliseconds: 600));
 
-        subscription.close();
+          subscription.close();
 
-        expect(events, contains(false));
-      });
+          expect(events, contains(false));
+        },
+      );
     });
 
     // -----------------------------------------------------------------------

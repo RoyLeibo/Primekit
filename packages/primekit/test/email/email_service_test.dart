@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:primekit/src/core/exceptions.dart';
+import 'package:primekit_core/primekit_core.dart';
 import 'package:primekit/src/email/email_message.dart';
 import 'package:primekit/src/email/email_provider.dart';
 import 'package:primekit/src/email/email_service.dart';
@@ -94,8 +94,9 @@ void main() {
     test('send passes failure result through without throwing', () async {
       final provider = _FakeProvider(
         name: 'FailProvider',
-        handler: (_) =>
-            const EmailFailure(reason: 'quota exceeded', statusCode: 429),
+        handler:
+            (_) =>
+                const EmailFailure(reason: 'quota exceeded', statusCode: 429),
       );
       EmailService.instance.configure(provider: provider);
 

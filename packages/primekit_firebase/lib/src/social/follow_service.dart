@@ -74,10 +74,11 @@ final class FirebaseFollowSource implements FollowDataSource {
     required String targetId,
   }) async {
     try {
-      final batch = _firestore.batch()
-        ..delete(_followersDoc(targetId, followerId))
-        ..delete(_followingDoc(followerId, targetId))
-        ..delete(_followsCollection().doc('${followerId}_$targetId'));
+      final batch =
+          _firestore.batch()
+            ..delete(_followersDoc(targetId, followerId))
+            ..delete(_followingDoc(followerId, targetId))
+            ..delete(_followsCollection().doc('${followerId}_$targetId'));
       await batch.commit();
     } catch (error) {
       throw Exception(

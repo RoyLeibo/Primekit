@@ -37,42 +37,44 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('initials variant', () {
-      testWidgets('renders single initial for single-word name', (tester) async {
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(displayName: 'Alice'),
-        ));
+      testWidgets('renders single initial for single-word name', (
+        tester,
+      ) async {
+        await tester.pumpWidget(_wrap(const PkAvatar(displayName: 'Alice')));
 
         expect(find.text('A'), findsOneWidget);
       });
 
-      testWidgets('renders first+last initials for two-word name', (tester) async {
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(displayName: 'Jane Doe'),
-        ));
+      testWidgets('renders first+last initials for two-word name', (
+        tester,
+      ) async {
+        await tester.pumpWidget(_wrap(const PkAvatar(displayName: 'Jane Doe')));
 
         expect(find.text('JD'), findsOneWidget);
       });
 
-      testWidgets('renders first+last initials for multi-word name', (tester) async {
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(displayName: 'Mary Anne Smith'),
-        ));
+      testWidgets('renders first+last initials for multi-word name', (
+        tester,
+      ) async {
+        await tester.pumpWidget(
+          _wrap(const PkAvatar(displayName: 'Mary Anne Smith')),
+        );
 
         expect(find.text('MS'), findsOneWidget);
       });
 
       testWidgets('initials are upper-cased', (tester) async {
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(displayName: 'alice bob'),
-        ));
+        await tester.pumpWidget(
+          _wrap(const PkAvatar(displayName: 'alice bob')),
+        );
 
         expect(find.text('AB'), findsOneWidget);
       });
 
-      testWidgets('falls back to first char of userId when no displayName', (tester) async {
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(userId: 'user-123'),
-        ));
+      testWidgets('falls back to first char of userId when no displayName', (
+        tester,
+      ) async {
+        await tester.pumpWidget(_wrap(const PkAvatar(userId: 'user-123')));
 
         expect(find.text('U'), findsOneWidget);
       });
@@ -83,19 +85,22 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('deterministic color', () {
-      testWidgets('same userId always produces same CircleAvatar background color', (tester) async {
-        const userId = 'user-abc';
-        final expectedBg = _expectedColor(userId);
+      testWidgets(
+        'same userId always produces same CircleAvatar background color',
+        (tester) async {
+          const userId = 'user-abc';
+          final expectedBg = _expectedColor(userId);
 
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(userId: userId),
-        ));
+          await tester.pumpWidget(_wrap(const PkAvatar(userId: userId)));
 
-        final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
-        expect(avatar.backgroundColor, equals(expectedBg));
-      });
+          final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
+          expect(avatar.backgroundColor, equals(expectedBg));
+        },
+      );
 
-      testWidgets('different userIds can produce different colors', (tester) async {
+      testWidgets('different userIds can produce different colors', (
+        tester,
+      ) async {
         final color1 = _expectedColor('user-001');
         final color2 = _expectedColor('user-999');
         // Not strictly guaranteed to differ, but these specific IDs do differ.
@@ -108,24 +113,31 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('image variant', () {
-      testWidgets('shows CircleAvatar with NetworkImage when imageUrl provided', (tester) async {
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(imageUrl: 'https://example.com/photo.jpg'),
-        ));
+      testWidgets(
+        'shows CircleAvatar with NetworkImage when imageUrl provided',
+        (tester) async {
+          await tester.pumpWidget(
+            _wrap(const PkAvatar(imageUrl: 'https://example.com/photo.jpg')),
+          );
 
-        final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
-        expect(avatar.backgroundImage, isA<NetworkImage>());
-        final image = avatar.backgroundImage as NetworkImage;
-        expect(image.url, equals('https://example.com/photo.jpg'));
-      });
+          final avatar = tester.widget<CircleAvatar>(find.byType(CircleAvatar));
+          expect(avatar.backgroundImage, isA<NetworkImage>());
+          final image = avatar.backgroundImage as NetworkImage;
+          expect(image.url, equals('https://example.com/photo.jpg'));
+        },
+      );
 
-      testWidgets('does not render initials Text when imageUrl provided', (tester) async {
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(
-            imageUrl: 'https://example.com/photo.jpg',
-            displayName: 'Jane Doe',
+      testWidgets('does not render initials Text when imageUrl provided', (
+        tester,
+      ) async {
+        await tester.pumpWidget(
+          _wrap(
+            const PkAvatar(
+              imageUrl: 'https://example.com/photo.jpg',
+              displayName: 'Jane Doe',
+            ),
           ),
-        ));
+        );
 
         expect(find.byType(Text), findsNothing);
       });
@@ -137,9 +149,9 @@ void main() {
 
     group('size', () {
       testWidgets('SizedBox has correct dimensions', (tester) async {
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(displayName: 'Test User', size: 60),
-        ));
+        await tester.pumpWidget(
+          _wrap(const PkAvatar(displayName: 'Test User', size: 60)),
+        );
 
         final box = tester.widget<SizedBox>(find.byType(SizedBox).first);
         expect(box.width, equals(60));
@@ -152,31 +164,33 @@ void main() {
     // -------------------------------------------------------------------------
 
     group('border', () {
-      testWidgets('wraps in Container with border when borderWidth > 0 and borderColor set', (tester) async {
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(
-            displayName: 'Roy',
-            borderWidth: 2.0,
-            borderColor: Colors.blue,
-          ),
-        ));
+      testWidgets(
+        'wraps in Container with border when borderWidth > 0 and borderColor set',
+        (tester) async {
+          await tester.pumpWidget(
+            _wrap(
+              const PkAvatar(
+                displayName: 'Roy',
+                borderWidth: 2.0,
+                borderColor: Colors.blue,
+              ),
+            ),
+          );
 
-        final containers = tester.widgetList<Container>(find.byType(Container));
-        final bordered = containers.firstWhere(
-          (c) {
+          final containers = tester.widgetList<Container>(
+            find.byType(Container),
+          );
+          final bordered = containers.firstWhere((c) {
             final decoration = c.decoration as BoxDecoration?;
             return decoration?.border != null;
-          },
-          orElse: () => throw TestFailure('No bordered Container found'),
-        );
-        final decoration = bordered.decoration as BoxDecoration;
-        expect(decoration.shape, equals(BoxShape.circle));
-      });
+          }, orElse: () => throw TestFailure('No bordered Container found'));
+          final decoration = bordered.decoration as BoxDecoration;
+          expect(decoration.shape, equals(BoxShape.circle));
+        },
+      );
 
       testWidgets('no extra Container when borderWidth is 0', (tester) async {
-        await tester.pumpWidget(_wrap(
-          const PkAvatar(displayName: 'Roy'),
-        ));
+        await tester.pumpWidget(_wrap(const PkAvatar(displayName: 'Roy')));
 
         final containers = tester.widgetList<Container>(find.byType(Container));
         final hasBordered = containers.any((c) {

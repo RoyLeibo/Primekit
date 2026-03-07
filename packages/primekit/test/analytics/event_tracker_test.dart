@@ -25,12 +25,11 @@ void main() {
     when(() => mockProvider.initialize()).thenAnswer((_) async {});
     when(() => mockProvider.logEvent(any())).thenAnswer((_) async {});
     when(() => mockProvider.setUserId(any())).thenAnswer((_) async {});
-    when(() => mockProvider.setUserProperty(any(), any()))
-        .thenAnswer((_) async {});
+    when(
+      () => mockProvider.setUserProperty(any(), any()),
+    ).thenAnswer((_) async {});
     when(() => mockProvider.reset()).thenAnswer((_) async {});
-    registerFallbackValue(
-      AnalyticsEvent(name: 'fallback'),
-    );
+    registerFallbackValue(AnalyticsEvent(name: 'fallback'));
   });
 
   tearDown(() {
@@ -59,12 +58,15 @@ void main() {
       verify(() => second.initialize()).called(1);
     });
 
-    test('throws ConfigurationException when providers list is empty', () async {
-      await expectLater(
-        tracker.configure([]),
-        throwsA(isA<ConfigurationException>()),
-      );
-    });
+    test(
+      'throws ConfigurationException when providers list is empty',
+      () async {
+        await expectLater(
+          tracker.configure([]),
+          throwsA(isA<ConfigurationException>()),
+        );
+      },
+    );
 
     test('reconfiguring replaces the previous provider list', () async {
       final second = MockAnalyticsProvider();
@@ -82,13 +84,16 @@ void main() {
       verify(() => second.logEvent(event)).called(1);
     });
 
-    test('provider initialisation failure is caught and does not rethrow',
-        () async {
-      when(() => mockProvider.initialize())
-          .thenThrow(Exception('SDK init failed'));
+    test(
+      'provider initialisation failure is caught and does not rethrow',
+      () async {
+        when(
+          () => mockProvider.initialize(),
+        ).thenThrow(Exception('SDK init failed'));
 
-      await expectLater(tracker.configure([mockProvider]), completes);
-    });
+        await expectLater(tracker.configure([mockProvider]), completes);
+      },
+    );
   });
 
   // -------------------------------------------------------------------------
@@ -144,8 +149,9 @@ void main() {
     });
 
     test('swallows provider-level errors without rethrowing', () async {
-      when(() => mockProvider.logEvent(any()))
-          .thenThrow(Exception('backend down'));
+      when(
+        () => mockProvider.logEvent(any()),
+      ).thenThrow(Exception('backend down'));
 
       await expectLater(
         tracker.logEvent(AnalyticsEvent(name: 'risky')),

@@ -206,10 +206,7 @@ void main() {
 
     test('flush before initialize logs warning and returns early', () async {
       // No initialize call — flush should not throw.
-      await expectLater(
-        OfflineQueue.instance.flush(),
-        completes,
-      );
+      await expectLater(OfflineQueue.instance.flush(), completes);
     });
 
     test('emits FlushStartedEvent and FlushCompletedEvent', () async {
@@ -230,56 +227,64 @@ void main() {
       expect(types, contains(FlushCompletedEvent));
     });
 
-    test('request exceeding maxRetries is dropped and emits RequestDroppedEvent',
-        () async {
-      final droppedEvents = <RequestDroppedEvent>[];
+    test(
+      'request exceeding maxRetries is dropped and emits RequestDroppedEvent',
+      () async {
+        final droppedEvents = <RequestDroppedEvent>[];
 
-      await OfflineQueue.instance.initialize(
-        executor: (_) async => throw Exception('always fails'),
-      );
-      OfflineQueue.instance.events.whereType<RequestDroppedEvent>().listen(
-        droppedEvents.add,
-      );
+        await OfflineQueue.instance.initialize(
+          executor: (_) async => throw Exception('always fails'),
+        );
+        OfflineQueue.instance.events.whereType<RequestDroppedEvent>().listen(
+          droppedEvents.add,
+        );
 
-      // retryCount already at maxRetries so next failure drops it.
-      final req = _makeRequest(maxRetries: 0, retryCount: 0);
-      ConnectivityMonitor.instance.injectStatusForTesting(false);
-      await OfflineQueue.instance.enqueue(req);
+        // retryCount already at maxRetries so next failure drops it.
+        final req = _makeRequest(maxRetries: 0, retryCount: 0);
+        ConnectivityMonitor.instance.injectStatusForTesting(false);
+        await OfflineQueue.instance.enqueue(req);
 
-      ConnectivityMonitor.instance.injectStatusForTesting(true);
-      await OfflineQueue.instance.flush();
+        ConnectivityMonitor.instance.injectStatusForTesting(true);
+        await OfflineQueue.instance.flush();
 
-      expect(droppedEvents, isNotEmpty);
-      expect(OfflineQueue.instance.pendingCount, 0);
-    });
+        expect(droppedEvents, isNotEmpty);
+        expect(OfflineQueue.instance.pendingCount, 0);
+      },
+    );
 
-    test('FlushCompletedEvent reports correct succeeded/dropped counts',
-        () async {
-      FlushCompletedEvent? completedEvent;
-      int callCount = 0;
+    test(
+      'FlushCompletedEvent reports correct succeeded/dropped counts',
+      () async {
+        FlushCompletedEvent? completedEvent;
+        int callCount = 0;
 
-      ConnectivityMonitor.instance.injectStatusForTesting(false);
-      await OfflineQueue.instance.initialize(executor: (req) async {
-        callCount++;
-        if (req.id == 'fail') throw Exception('nope');
-      });
+        ConnectivityMonitor.instance.injectStatusForTesting(false);
+        await OfflineQueue.instance.initialize(
+          executor: (req) async {
+            callCount++;
+            if (req.id == 'fail') throw Exception('nope');
+          },
+        );
 
-      OfflineQueue.instance.events.whereType<FlushCompletedEvent>().listen(
-        (e) => completedEvent = e,
-      );
+        OfflineQueue.instance.events.whereType<FlushCompletedEvent>().listen(
+          (e) => completedEvent = e,
+        );
 
-      await OfflineQueue.instance
-          .enqueue(_makeRequest(id: 'ok', maxRetries: 0));
-      await OfflineQueue.instance
-          .enqueue(_makeRequest(id: 'fail', maxRetries: 0));
+        await OfflineQueue.instance.enqueue(
+          _makeRequest(id: 'ok', maxRetries: 0),
+        );
+        await OfflineQueue.instance.enqueue(
+          _makeRequest(id: 'fail', maxRetries: 0),
+        );
 
-      ConnectivityMonitor.instance.injectStatusForTesting(true);
-      await OfflineQueue.instance.flush();
+        ConnectivityMonitor.instance.injectStatusForTesting(true);
+        await OfflineQueue.instance.flush();
 
-      expect(completedEvent, isNotNull);
-      expect(completedEvent!.succeeded, 1);
-      expect(completedEvent!.dropped, 1);
-    });
+        expect(completedEvent, isNotNull);
+        expect(completedEvent!.succeeded, 1);
+        expect(completedEvent!.dropped, 1);
+      },
+    );
   });
 
   // ---------------------------------------------------------------------------

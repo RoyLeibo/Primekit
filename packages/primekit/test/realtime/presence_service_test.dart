@@ -72,9 +72,8 @@ class _InMemoryPresenceService extends PresenceService {
     if (!_controllers.containsKey(channelId)) {
       return;
     }
-    final online = (_store[channelId]?.values ?? [])
-        .where((r) => r.isOnline)
-        .toList();
+    final online =
+        (_store[channelId]?.values ?? []).where((r) => r.isOnline).toList();
     _controllers[channelId]!.add(online);
   }
 

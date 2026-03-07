@@ -155,15 +155,16 @@ class SendGridProvider implements EmailProvider {
     }
 
     if (message.attachments.isNotEmpty) {
-      payload['attachments'] = message.attachments
-          .map(
-            (a) => {
-              'filename': a.filename,
-              'content': a.base64Content,
-              'type': a.contentType,
-            },
-          )
-          .toList();
+      payload['attachments'] =
+          message.attachments
+              .map(
+                (a) => {
+                  'filename': a.filename,
+                  'content': a.base64Content,
+                  'type': a.contentType,
+                },
+              )
+              .toList();
     }
 
     if (message.headers.isNotEmpty) {
@@ -276,9 +277,8 @@ class ResendProvider implements EmailProvider {
   }
 
   Map<String, dynamic> _buildPayload(EmailMessage message) {
-    final from = message.toName != null
-        ? '${message.toName} <$_fromEmail>'
-        : _fromEmail;
+    final from =
+        message.toName != null ? '${message.toName} <$_fromEmail>' : _fromEmail;
 
     final payload = <String, dynamic>{
       'from': from,
@@ -295,9 +295,10 @@ class ResendProvider implements EmailProvider {
     }
 
     if (message.attachments.isNotEmpty) {
-      payload['attachments'] = message.attachments
-          .map((a) => {'filename': a.filename, 'content': a.base64Content})
-          .toList();
+      payload['attachments'] =
+          message.attachments
+              .map((a) => {'filename': a.filename, 'content': a.base64Content})
+              .toList();
     }
 
     return payload;
@@ -400,15 +401,16 @@ class SmtpProvider implements EmailProvider {
         if (message.replyTo != null) 'replyTo': message.replyTo,
         if (message.headers.isNotEmpty) 'headers': message.headers,
         if (message.attachments.isNotEmpty)
-          'attachments': message.attachments
-              .map(
-                (a) => {
-                  'filename': a.filename,
-                  'content': a.base64Content,
-                  'contentType': a.contentType,
-                },
-              )
-              .toList(),
+          'attachments':
+              message.attachments
+                  .map(
+                    (a) => {
+                      'filename': a.filename,
+                      'content': a.base64Content,
+                      'contentType': a.contentType,
+                    },
+                  )
+                  .toList(),
       };
 
       final response = await dio.post<Map<String, dynamic>>(

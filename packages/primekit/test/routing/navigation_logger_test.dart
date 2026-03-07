@@ -22,9 +22,7 @@ Route<dynamic> _namedRoute(String name) {
 }
 
 Route<dynamic> _unnamedRoute() {
-  return MaterialPageRoute<void>(
-    builder: (_) => const SizedBox(),
-  );
+  return MaterialPageRoute<void>(builder: (_) => const SizedBox());
 }
 
 // ---------------------------------------------------------------------------
@@ -49,12 +47,14 @@ void main() {
   // -------------------------------------------------------------------------
 
   group('NavigationLogger construction', () {
-    test('creates instance with analyticsProvider and logToConsole defaults',
-        () {
-      final logger = NavigationLogger();
-      expect(logger.analyticsProvider, isNull);
-      expect(logger.logToConsole, isTrue);
-    });
+    test(
+      'creates instance with analyticsProvider and logToConsole defaults',
+      () {
+        final logger = NavigationLogger();
+        expect(logger.analyticsProvider, isNull);
+        expect(logger.logToConsole, isTrue);
+      },
+    );
 
     test('accepts analyticsProvider and logToConsole override', () {
       final logger = NavigationLogger(
@@ -124,10 +124,7 @@ void main() {
 
     test('does not throw when analyticsProvider is null', () {
       final logger = NavigationLogger(logToConsole: false);
-      expect(
-        () => logger.didPush(_namedRoute('/home'), null),
-        returnsNormally,
-      );
+      expect(() => logger.didPush(_namedRoute('/home'), null), returnsNormally);
     });
 
     test('passes push event type in parameters', () {
@@ -138,12 +135,13 @@ void main() {
 
       logger.didPush(_namedRoute('/profile'), null);
 
-      final captured = verify(
-        () => mockProvider.logScreenView(
-          any(),
-          parameters: captureAny(named: 'parameters'),
-        ),
-      ).captured;
+      final captured =
+          verify(
+            () => mockProvider.logScreenView(
+              any(),
+              parameters: captureAny(named: 'parameters'),
+            ),
+          ).captured;
 
       final params = captured.first as Map<String, Object?>?;
       expect(params?['event'], 'push');
@@ -262,8 +260,9 @@ void main() {
   // -------------------------------------------------------------------------
 
   group('logToConsole', () {
-    testWidgets('does not call debugPrint when logToConsole is false',
-        (tester) async {
+    testWidgets('does not call debugPrint when logToConsole is false', (
+      tester,
+    ) async {
       // Indirectly verify by ensuring it still calls the analytics provider
       // without error when logToConsole is false.
       final logger = NavigationLogger(
@@ -302,12 +301,13 @@ void main() {
       logger.didPush(route, null);
 
       // Should use the runtimeType string instead of empty name.
-      final captured = verify(
-        () => mockProvider.logScreenView(
-          captureAny(),
-          parameters: any(named: 'parameters'),
-        ),
-      ).captured;
+      final captured =
+          verify(
+            () => mockProvider.logScreenView(
+              captureAny(),
+              parameters: any(named: 'parameters'),
+            ),
+          ).captured;
 
       final screenName = captured.first as String;
       expect(screenName, isNotEmpty);

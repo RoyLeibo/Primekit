@@ -48,10 +48,8 @@ final class FirebaseRbacProvider implements RbacProvider {
   Future<RbacContext> loadContext({required String userId}) async {
     try {
       // Try Firestore first.
-      final doc = await _firestore
-          .collection(_usersCollection)
-          .doc(userId)
-          .get();
+      final doc =
+          await _firestore.collection(_usersCollection).doc(userId).get();
 
       var roleIds = <String>[];
 
@@ -133,10 +131,11 @@ final class FirebaseRbacProvider implements RbacProvider {
   @override
   Future<List<String>> usersWithRole(String roleId) async {
     try {
-      final query = await _firestore
-          .collection(_usersCollection)
-          .where(_rolesField, arrayContains: roleId)
-          .get();
+      final query =
+          await _firestore
+              .collection(_usersCollection)
+              .where(_rolesField, arrayContains: roleId)
+              .get();
 
       return query.docs.map((d) => d.id).toList(growable: false);
     } catch (error) {

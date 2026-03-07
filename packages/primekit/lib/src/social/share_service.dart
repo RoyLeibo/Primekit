@@ -39,7 +39,7 @@ abstract final class ShareService {
     try {
       await _channel.invokeMethod<void>('share', <String, dynamic>{
         'text': text,
-        'subject': ?subject,
+        if (subject != null) 'subject': subject,
         if (sharePositionOrigin != null) 'originX': sharePositionOrigin.left,
         if (sharePositionOrigin != null) 'originY': sharePositionOrigin.top,
         if (sharePositionOrigin != null)
@@ -85,7 +85,7 @@ abstract final class ShareService {
     try {
       await _channel.invokeMethod<void>('shareFiles', <String, dynamic>{
         'paths': [filePath],
-        'text': ?text,
+        if (text != null) 'text': text,
         if (mimeType != null) 'mimeTypes': [mimeType],
       });
     } on PlatformException catch (e) {
@@ -117,8 +117,7 @@ abstract final class ShareService {
     scheme: scheme,
     host: host,
     path: path,
-    queryParameters: queryParameters?.isNotEmpty ?? false
-        ? queryParameters
-        : null,
+    queryParameters:
+        queryParameters?.isNotEmpty ?? false ? queryParameters : null,
   );
 }

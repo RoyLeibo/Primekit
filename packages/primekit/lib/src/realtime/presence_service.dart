@@ -33,18 +33,18 @@ class FirebasePresenceService extends PresenceService {
 
     final onlineRecord = <String, dynamic>{
       'userId': userId,
-      'displayName': ?displayName,
+      if (displayName != null) 'displayName': displayName,
       'isOnline': true,
       'lastSeen': ServerValue.timestamp,
-      'metadata': ?metadata,
+      if (metadata != null) 'metadata': metadata,
     };
 
     final offlineRecord = <String, dynamic>{
       'userId': userId,
-      'displayName': ?displayName,
+      if (displayName != null) 'displayName': displayName,
       'isOnline': false,
       'lastSeen': ServerValue.timestamp,
-      'metadata': ?metadata,
+      if (metadata != null) 'metadata': metadata,
     };
 
     await ref.onDisconnect().set(offlineRecord);
@@ -97,18 +97,19 @@ class FirebasePresenceService extends PresenceService {
   DatabaseReference _presenceRef(String channelId, String userId) =>
       _db.ref('presence/$channelId/$userId');
 
-  List<PresenceRecord> _parseRecords(Map<Object?, Object?> raw) => raw.entries
-      .map((e) {
-        final userId = e.key as String?;
-        final value = e.value;
-        if (userId == null || value is! Map) {
-          return null;
-        }
-        return PresenceRecord.fromJson(
-          userId,
-          Map<String, dynamic>.from(value as Map<Object?, Object?>),
-        );
-      })
-      .whereType<PresenceRecord>()
-      .toList();
+  List<PresenceRecord> _parseRecords(Map<Object?, Object?> raw) =>
+      raw.entries
+          .map((e) {
+            final userId = e.key as String?;
+            final value = e.value;
+            if (userId == null || value is! Map) {
+              return null;
+            }
+            return PresenceRecord.fromJson(
+              userId,
+              Map<String, dynamic>.from(value as Map<Object?, Object?>),
+            );
+          })
+          .whereType<PresenceRecord>()
+          .toList();
 }

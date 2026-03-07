@@ -44,9 +44,10 @@ final class NetworkException extends PrimekitException {
   final int? statusCode;
 
   @override
-  String get userMessage => statusCode == null
-      ? 'Network error. Check your connection and try again.'
-      : 'Server error ($statusCode). Please try again later.';
+  String get userMessage =>
+      statusCode == null
+          ? 'Network error. Check your connection and try again.'
+          : 'Server error ($statusCode). Please try again later.';
 }
 
 /// Thrown when the device has no network connectivity.

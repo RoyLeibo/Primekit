@@ -14,6 +14,7 @@ enum PkSyncStatus {
 }
 
 extension PkSyncStatusX on PkSyncStatus {
-  bool get isOnline => this == PkSyncStatus.synced || this == PkSyncStatus.syncing;
+  bool get isOnline =>
+      this == PkSyncStatus.synced || this == PkSyncStatus.syncing;
   bool get hasError => this == PkSyncStatus.error;
 }

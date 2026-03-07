@@ -37,13 +37,8 @@ DioException _dioError({
   message: message,
 );
 
-Response<dynamic> _response(
-  RequestOptions options,
-  int statusCode,
-) => Response<dynamic>(
-  requestOptions: options,
-  statusCode: statusCode,
-);
+Response<dynamic> _response(RequestOptions options, int statusCode) =>
+    Response<dynamic>(requestOptions: options, statusCode: statusCode);
 
 // ---------------------------------------------------------------------------
 // Tests
@@ -86,20 +81,23 @@ void main() {
       );
     });
 
-    test('4xx error is NOT retried — handler.next called immediately', () async {
-      when(() => handler.next(any())).thenReturn(null);
+    test(
+      '4xx error is NOT retried — handler.next called immediately',
+      () async {
+        when(() => handler.next(any())).thenReturn(null);
 
-      final options = _options();
-      final error = _dioError(
-        options: options,
-        response: _response(options, 404),
-      );
+        final options = _options();
+        final error = _dioError(
+          options: options,
+          response: _response(options, 404),
+        );
 
-      await interceptor.onError(error, handler);
+        await interceptor.onError(error, handler);
 
-      verify(() => handler.next(any())).called(1);
-      verifyNever(() => handler.resolve(any()));
-    });
+        verify(() => handler.next(any())).called(1);
+        verifyNever(() => handler.resolve(any()));
+      },
+    );
 
     test('network error (no response) triggers retry path', () async {
       // With maxRetries=0, budget exhausted → handler.next called.

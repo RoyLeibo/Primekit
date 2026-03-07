@@ -65,9 +65,10 @@ final class FirebaseStorageUploader implements MediaUploader {
     Future<void>(() async {
       try {
         final ref = _storage.ref(remotePath);
-        final storageMetadata = metadata != null
-            ? fb.SettableMetadata(customMetadata: metadata)
-            : null;
+        final storageMetadata =
+            metadata != null
+                ? fb.SettableMetadata(customMetadata: metadata)
+                : null;
 
         final fbTask = ref.putFile(File(file.path), storageMetadata);
         controller.setStatus(UploadStatus.uploading);

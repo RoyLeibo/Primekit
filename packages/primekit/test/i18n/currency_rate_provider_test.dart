@@ -29,9 +29,9 @@ void main() {
 
     test('getAllRates returns a map', () async {
       final mock = _MockCurrencyRateProvider();
-      when(() => mock.getAllRates('USD')).thenAnswer(
-        (_) async => {'EUR': 0.92, 'GBP': 0.78, 'JPY': 150.0},
-      );
+      when(
+        () => mock.getAllRates('USD'),
+      ).thenAnswer((_) async => {'EUR': 0.92, 'GBP': 0.78, 'JPY': 150.0});
 
       final rates = await mock.getAllRates('USD');
       expect(rates['EUR'], 0.92);
@@ -54,9 +54,9 @@ void main() {
     });
 
     test('delegates getAllRates to inner provider on first call', () async {
-      when(() => inner.getAllRates('USD')).thenAnswer(
-        (_) async => {'EUR': 0.92},
-      );
+      when(
+        () => inner.getAllRates('USD'),
+      ).thenAnswer((_) async => {'EUR': 0.92});
 
       final rates = await cached.getAllRates('USD');
       expect(rates['EUR'], 0.92);
@@ -64,9 +64,9 @@ void main() {
     });
 
     test('serves from cache on second call within TTL', () async {
-      when(() => inner.getAllRates('USD')).thenAnswer(
-        (_) async => {'EUR': 0.92},
-      );
+      when(
+        () => inner.getAllRates('USD'),
+      ).thenAnswer((_) async => {'EUR': 0.92});
 
       await cached.getAllRates('USD');
       await cached.getAllRates('USD');
@@ -76,18 +76,18 @@ void main() {
     });
 
     test('getRate uses cached getAllRates', () async {
-      when(() => inner.getAllRates('USD')).thenAnswer(
-        (_) async => {'EUR': 0.92, 'GBP': 0.78},
-      );
+      when(
+        () => inner.getAllRates('USD'),
+      ).thenAnswer((_) async => {'EUR': 0.92, 'GBP': 0.78});
 
       final rate = await cached.getRate('USD', 'EUR');
       expect(rate, 0.92);
     });
 
     test('getRate for unknown currency throws', () async {
-      when(() => inner.getAllRates('USD')).thenAnswer(
-        (_) async => {'EUR': 0.92},
-      );
+      when(
+        () => inner.getAllRates('USD'),
+      ).thenAnswer((_) async => {'EUR': 0.92});
 
       await expectLater(
         cached.getRate('USD', 'XYZ'),
@@ -96,9 +96,9 @@ void main() {
     });
 
     test('clearCache forces re-fetch on next call', () async {
-      when(() => inner.getAllRates('USD')).thenAnswer(
-        (_) async => {'EUR': 0.92},
-      );
+      when(
+        () => inner.getAllRates('USD'),
+      ).thenAnswer((_) async => {'EUR': 0.92});
 
       await cached.getAllRates('USD');
       cached.clearCache();
@@ -109,12 +109,12 @@ void main() {
     });
 
     test('different base currencies cached separately', () async {
-      when(() => inner.getAllRates('USD')).thenAnswer(
-        (_) async => {'EUR': 0.92},
-      );
-      when(() => inner.getAllRates('GBP')).thenAnswer(
-        (_) async => {'USD': 1.28},
-      );
+      when(
+        () => inner.getAllRates('USD'),
+      ).thenAnswer((_) async => {'EUR': 0.92});
+      when(
+        () => inner.getAllRates('GBP'),
+      ).thenAnswer((_) async => {'USD': 1.28});
 
       await cached.getAllRates('USD');
       await cached.getAllRates('GBP');
@@ -125,27 +125,27 @@ void main() {
       verify(() => inner.getAllRates('GBP')).called(1);
     });
 
-    test('base currency key is case-insensitive (normalised to upper)', () async {
-      when(() => inner.getAllRates('USD')).thenAnswer(
-        (_) async => {'EUR': 0.92},
-      );
+    test(
+      'base currency key is case-insensitive (normalised to upper)',
+      () async {
+        when(
+          () => inner.getAllRates('USD'),
+        ).thenAnswer((_) async => {'EUR': 0.92});
 
-      await cached.getAllRates('usd'); // lowercase
-      await cached.getAllRates('USD'); // uppercase — should hit cache
+        await cached.getAllRates('usd'); // lowercase
+        await cached.getAllRates('USD'); // uppercase — should hit cache
 
-      verify(() => inner.getAllRates(any())).called(1);
-    });
+        verify(() => inner.getAllRates(any())).called(1);
+      },
+    );
 
     test('expired cache re-fetches from inner', () async {
       // TTL of 0 — always expired.
-      final shortTtl = CachedRateProvider(
-        inner,
-        ttl: Duration.zero,
-      );
+      final shortTtl = CachedRateProvider(inner, ttl: Duration.zero);
 
-      when(() => inner.getAllRates('USD')).thenAnswer(
-        (_) async => {'EUR': 0.92},
-      );
+      when(
+        () => inner.getAllRates('USD'),
+      ).thenAnswer((_) async => {'EUR': 0.92});
 
       await shortTtl.getAllRates('USD');
       await shortTtl.getAllRates('USD');
