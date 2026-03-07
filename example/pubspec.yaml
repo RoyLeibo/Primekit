@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   primekit:
-    path: ../
+    path: ../packages/primekit
 
 dev_dependencies:
   flutter_test:
