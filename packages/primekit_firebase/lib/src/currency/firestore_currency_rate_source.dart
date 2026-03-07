@@ -12,8 +12,8 @@ class FirestoreCurrencyRateSource implements CurrencyRateSource {
   FirestoreCurrencyRateSource({
     FirebaseFirestore? firestore,
     CurrencyRateSource? fallback,
-  })  : _firestore = firestore ?? FirebaseFirestore.instance,
-        _fallback = fallback ?? HttpCurrencyRateSource();
+  }) : _firestore = firestore ?? FirebaseFirestore.instance,
+       _fallback = fallback ?? HttpCurrencyRateSource();
 
   final FirebaseFirestore _firestore;
   final CurrencyRateSource _fallback;
@@ -21,8 +21,7 @@ class FirestoreCurrencyRateSource implements CurrencyRateSource {
   @override
   Future<Map<String, double>> fetchRates(String base) async {
     try {
-      final doc =
-          await _firestore.collection('exchange_rates').doc(base).get();
+      final doc = await _firestore.collection('exchange_rates').doc(base).get();
 
       if (!doc.exists || doc.data() == null) {
         return _fallback.fetchRates(base);
