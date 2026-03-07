@@ -13,3 +13,4 @@ workspace:
   - packages/primekit
   - packages/primekit_firebase
   - packages/primekit_riverpod
+  - example
