@@ -1,8 +1,7 @@
 name: primekit_firebase
 description: >-
-  Firebase adapter layer for PrimeKit. Provides drop-in implementations of
-  PrimeKit abstractions backed by Firebase Auth, Firestore, Storage,
-  Crashlytics, Cloud Messaging, Remote Config, and Realtime Database.
+  Firebase adapters for PrimeKit. Drop-in implementations for Auth, Firestore,
+  Storage, Crashlytics, Cloud Messaging, and Remote Config.
 version: 1.0.0
 resolution: workspace
 homepage: https://github.com/RoyLeibo/Primekit

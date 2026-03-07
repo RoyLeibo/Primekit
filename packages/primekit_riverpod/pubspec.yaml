@@ -1,8 +1,7 @@
 name: primekit_riverpod
 description: >-
-  Riverpod integration for PrimeKit. Provides async notifier mixins,
-  pagination helpers, and ready-to-use providers for connectivity,
-  authentication, preferences, secure storage, and app version.
+  Riverpod integration for PrimeKit: async notifier mixins, pagination helpers,
+  and providers for auth, connectivity, preferences, and secure storage.
 version: 1.0.0
 resolution: workspace
 homepage: https://github.com/RoyLeibo/Primekit

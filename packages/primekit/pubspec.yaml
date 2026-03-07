@@ -1,8 +1,7 @@
 name: primekit
 description: >-
-  Modular Flutter toolkit: UI components, networking, storage, auth, crash
-  reporting, notifications, media, permissions, routing, and more.
-  No Firebase dependency — works with any backend.
+  Modular Flutter toolkit: crash reporting, networking, auth, notifications,
+  storage, and media. No Firebase dependency — works with any backend.
 version: 1.0.0
 resolution: workspace
 homepage: https://github.com/RoyLeibo/Primekit
