@@ -35,6 +35,9 @@ dependencies:
   flutter_secure_storage: ^10.0.0
   hive_flutter: ^1.1.0
 
+  # Contacts
+  flutter_contacts: ^1.1.9+2
+
   # Permissions
   permission_handler: ^12.0.0
 

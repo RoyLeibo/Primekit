@@ -13,3 +13,4 @@ export 'src/social/activity_feed_source.dart';
 export 'src/social/follow_service.dart';
 export 'src/social/profile_service.dart';
 export 'src/social/social_auth_provider.dart';
+export 'src/currency/firestore_currency_rate_source.dart';

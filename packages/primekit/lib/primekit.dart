@@ -22,3 +22,5 @@ export 'social.dart';
 export 'storage.dart';
 export 'sync.dart';
 export 'ui.dart';
+export 'currency.dart';
+export 'contacts.dart';

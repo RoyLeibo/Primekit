@@ -7,3 +7,4 @@ export 'sync_data_source.dart';
 export 'sync_document.dart';
 export 'sync_repository.dart';
 export 'sync_state.dart';
+export 'stores/hive_pending_change_store.dart';
