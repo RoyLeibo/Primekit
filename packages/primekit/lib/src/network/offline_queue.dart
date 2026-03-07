@@ -199,7 +199,7 @@ final class OfflineQueue {
   static const String _prefKey = 'primekit_offline_queue';
 
   final StreamController<OfflineQueueEvent> _eventController =
-      StreamController<OfflineQueueEvent>.broadcast();
+      StreamController<OfflineQueueEvent>.broadcast(sync: true);
 
   /// Mutable queue — all modifications go through the private helpers to keep
   /// a consistent snapshot pattern (copy-on-write semantics).

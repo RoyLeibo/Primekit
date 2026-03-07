@@ -171,7 +171,7 @@ void main() {
 
     group('border', () {
       testWidgets(
-        'wraps in Container with border when borderWidth > 0 and borderColor set',
+        'wraps in DecoratedBox with border when borderWidth > 0 and borderColor set',
         (tester) async {
           await tester.pumpWidget(
             _wrap(
@@ -183,13 +183,13 @@ void main() {
             ),
           );
 
-          final containers = tester.widgetList<Container>(
-            find.byType(Container),
+          final boxes = tester.widgetList<DecoratedBox>(
+            find.byType(DecoratedBox),
           );
-          final bordered = containers.firstWhere((c) {
-            final decoration = c.decoration as BoxDecoration?;
+          final bordered = boxes.firstWhere((b) {
+            final decoration = b.decoration as BoxDecoration?;
             return decoration?.border != null;
-          }, orElse: () => throw TestFailure('No bordered Container found'));
+          }, orElse: () => throw TestFailure('No bordered DecoratedBox found'));
           final decoration = bordered.decoration as BoxDecoration;
           expect(decoration.shape, equals(BoxShape.circle));
         },

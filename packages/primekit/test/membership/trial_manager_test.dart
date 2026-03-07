@@ -234,13 +234,14 @@ void main() {
         final events = <TrialEvent>[];
         localManager.events.listen(events.add);
 
-        // Set a trial ending in 30 minutes (less than 1-hour check interval,
-        // but the check fires at T+1h which is past the trial).
+        // Set a trial that ended 30 minutes ago. DateTime.now() is real time
+        // even inside fakeAsync, so subtract to put the end date in the past.
+        // The periodic check (at fake T+1h) detects the expired trial.
         prefs.setString(
           'pk_trial_end_pro',
           DateTime.now()
               .toUtc()
-              .add(const Duration(minutes: 30))
+              .subtract(const Duration(minutes: 30))
               .toIso8601String(),
         );
         prefs.setString(

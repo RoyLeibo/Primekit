@@ -73,7 +73,7 @@ final class ConnectivityMonitor {
       final connected = _isConnected(results);
       _update(connected);
       return connected;
-    } on Exception catch (error, stack) {
+    } on Object catch (error, stack) {
       PrimekitLogger.error(
         'Failed to check connectivity.',
         tag: _tag,
