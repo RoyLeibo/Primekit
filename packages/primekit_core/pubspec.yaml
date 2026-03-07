@@ -2,7 +2,7 @@ name: primekit_core
 description: >-
   Core building blocks for Flutter: validation schemas, result types, async
   state, and extensions. Zero heavy dependencies — pure Flutter package.
-version: 1.0.0
+version: 1.1.0
 resolution: workspace
 homepage: https://github.com/RoyLeibo/Primekit
 repository: https://github.com/RoyLeibo/Primekit
