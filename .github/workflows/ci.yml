@@ -25,7 +25,7 @@ jobs:
           cache: true
 
       - name: Activate Melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 5.3.4
 
       - name: Bootstrap workspace
         run: melos bootstrap
@@ -50,7 +50,7 @@ jobs:
           cache: true
 
       - name: Activate Melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 5.3.4
 
       - name: Bootstrap workspace
         run: melos bootstrap
@@ -83,7 +83,7 @@ jobs:
           cache: true
 
       - name: Activate Melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 5.3.4
 
       - name: Bootstrap workspace
         run: melos bootstrap
@@ -134,7 +134,7 @@ jobs:
           cache: true
 
       - name: Activate Melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 5.3.4
 
       - name: Bootstrap workspace
         run: melos bootstrap
