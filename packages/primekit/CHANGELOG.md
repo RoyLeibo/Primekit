@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.0] — 2026-03-07
+
+### New modules
+- **ai**: `AiProvider` interface, `OpenAiProvider` (OpenAI Chat Completions), `AnthropicProvider` (Anthropic Messages API), `AiService` singleton with `configure()`
+- **device/location**: `LocationService` singleton — GPS + Nominatim reverse-geocoding; `PkLocationResult` value class
+
+### Dependency upgrades
+- `geolocator`: ^13.0.0 → ^14.0.0
+- `flutter_local_notifications`: ^20.1.0 → ^21.0.0
+
 ## [1.0.0] — 2026-03-07
 
 Breaking change: Firebase adapters moved to `primekit_firebase`. Riverpod integration moved to `primekit_riverpod`.
