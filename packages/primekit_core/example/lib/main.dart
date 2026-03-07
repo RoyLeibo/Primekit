@@ -3,9 +3,9 @@ import 'package:primekit_core/primekit_core.dart';
 
 void main() {
   // Example: validate user input with PkSchema
-  final schema = PkSchema({
-    'email': PkField.string().email(),
-    'age': PkField.number().min(0).max(150),
+  final schema = PkSchema.object({
+    'email': PkSchema.string().email(),
+    'age': PkSchema.number().min(0).max(150),
   });
 
   final result = schema.validate({'email': 'user@example.com', 'age': 30});
