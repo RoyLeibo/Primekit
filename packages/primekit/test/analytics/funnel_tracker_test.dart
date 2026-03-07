@@ -30,12 +30,15 @@ void main() {
   late FunnelTracker tracker;
   late MockAnalyticsProvider mockProvider;
 
+  setUpAll(() {
+    registerFallbackValue(AnalyticsEvent(name: 'fallback'));
+  });
+
   setUp(() async {
     mockProvider = MockAnalyticsProvider();
     when(() => mockProvider.name).thenReturn('mock');
     when(() => mockProvider.initialize()).thenAnswer((_) async {});
     when(() => mockProvider.logEvent(any())).thenAnswer((_) async {});
-    registerFallbackValue(AnalyticsEvent(name: 'fallback'));
 
     await EventTracker.instance.configure([mockProvider]);
 

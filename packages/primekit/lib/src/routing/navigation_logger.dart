@@ -103,8 +103,7 @@ class NavigationLogger extends NavigatorObserver {
   String? _routeName(Route<dynamic>? route) {
     if (route == null) return null;
     final name = route.settings.name;
-    return (name != null && name.isNotEmpty)
-        ? name
-        : route.runtimeType.toString();
+    if (name == null) return null;
+    return name.isNotEmpty ? name : route.runtimeType.toString();
   }
 }

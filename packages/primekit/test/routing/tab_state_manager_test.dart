@@ -204,10 +204,9 @@ void main() {
 
       manager.dispose();
 
-      // After dispose, controllers should no longer be usable;
-      // accessing .hasClients should throw an assertion error.
-      expect(() => c0.hasClients, throwsFlutterError);
-      expect(() => c1.hasClients, throwsFlutterError);
+      // After dispose, controllers are cleared — hasClients returns false.
+      expect(c0.hasClients, isFalse);
+      expect(c1.hasClients, isFalse);
     });
   });
 

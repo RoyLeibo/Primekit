@@ -165,10 +165,10 @@ void main() {
 
   group('endTrial()', () {
     test('emits TrialEventEnded event', () async {
+      // Subscribe BEFORE starting the trial so we don't miss events.
+      final startedFuture = manager.events.first;
       await manager.startTrial('pro', duration: const Duration(days: 7));
-
-      // Consume the started event.
-      await manager.events.first;
+      await startedFuture; // consume the started event
 
       final endedFuture = manager.events.first;
       await manager.endTrial('pro');
@@ -229,8 +229,10 @@ void main() {
   group('periodic expiry check', () {
     test('emits TrialEventEnded when trial expires during periodic check', () {
       fakeAsync((async) {
+        // Create manager INSIDE fakeAsync so its Timer.periodic is fake-controlled.
+        final localManager = TrialManager(preferences: prefs);
         final events = <TrialEvent>[];
-        manager.events.listen(events.add);
+        localManager.events.listen(events.add);
 
         // Set a trial ending in 30 minutes (less than 1-hour check interval,
         // but the check fires at T+1h which is past the trial).
@@ -253,6 +255,8 @@ void main() {
           events.any((e) => e is TrialEventEnded && e.productId == 'pro'),
           isTrue,
         );
+
+        localManager.dispose();
       });
     });
 
@@ -260,8 +264,10 @@ void main() {
       'emits TrialEventEndingSoon when remaining time is within 24 hours',
       () {
         fakeAsync((async) {
+          // Create manager INSIDE fakeAsync so its Timer.periodic is fake-controlled.
+          final localManager = TrialManager(preferences: prefs);
           final events = <TrialEvent>[];
-          manager.events.listen(events.add);
+          localManager.events.listen(events.add);
 
           // Set a trial ending in ~12 hours (within ending-soon threshold).
           prefs.setString(
@@ -285,14 +291,18 @@ void main() {
             ),
             isTrue,
           );
+
+          localManager.dispose();
         });
       },
     );
 
     test('ending-soon is only emitted once per session', () {
       fakeAsync((async) {
+        // Create manager INSIDE fakeAsync so its Timer.periodic is fake-controlled.
+        final localManager = TrialManager(preferences: prefs);
         final endingSoonEvents = <TrialEventEndingSoon>[];
-        manager.events.listen((e) {
+        localManager.events.listen((e) {
           if (e is TrialEventEndingSoon) endingSoonEvents.add(e);
         });
 
@@ -313,6 +323,8 @@ void main() {
         async.elapse(const Duration(hours: 1));
 
         expect(endingSoonEvents.length, 1);
+
+        localManager.dispose();
       });
     });
   });

@@ -17,6 +17,10 @@ void main() {
   late EventTracker tracker;
   late MockAnalyticsProvider mockProvider;
 
+  setUpAll(() {
+    registerFallbackValue(AnalyticsEvent(name: 'fallback'));
+  });
+
   setUp(() {
     tracker = EventTracker.instance;
     tracker.resetForTesting();
@@ -29,7 +33,6 @@ void main() {
       () => mockProvider.setUserProperty(any(), any()),
     ).thenAnswer((_) async {});
     when(() => mockProvider.reset()).thenAnswer((_) async {});
-    registerFallbackValue(AnalyticsEvent(name: 'fallback'));
   });
 
   tearDown(() {

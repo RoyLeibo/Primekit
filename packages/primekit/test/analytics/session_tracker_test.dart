@@ -18,6 +18,10 @@ void main() {
   late SessionTracker tracker;
   late MockAnalyticsProvider mockProvider;
 
+  setUpAll(() {
+    registerFallbackValue(AnalyticsEvent(name: 'fallback'));
+  });
+
   setUp(() async {
     // Provide an in-memory SharedPreferences for persistence calls.
     SharedPreferences.setMockInitialValues({});
@@ -26,7 +30,6 @@ void main() {
     when(() => mockProvider.name).thenReturn('mock');
     when(() => mockProvider.initialize()).thenAnswer((_) async {});
     when(() => mockProvider.logEvent(any())).thenAnswer((_) async {});
-    registerFallbackValue(AnalyticsEvent(name: 'fallback'));
 
     await EventTracker.instance.configure([mockProvider]);
 

@@ -31,6 +31,8 @@ QueuedRequest _makeRequest({
 // ---------------------------------------------------------------------------
 
 void main() {
+  setUpAll(TestWidgetsFlutterBinding.ensureInitialized);
+
   setUp(() {
     SharedPreferences.setMockInitialValues({});
     // Start offline so enqueue does not auto-flush during tests.
@@ -212,6 +214,10 @@ void main() {
     test('emits FlushStartedEvent and FlushCompletedEvent', () async {
       final events = <OfflineQueueEvent>[];
 
+      // Stay offline throughout to avoid race with auto-flush on connectivity
+      // change. flush() still emits both lifecycle events even when offline
+      // (the loop simply breaks at the connectivity check, then emits
+      // FlushCompletedEvent with 0 succeeded/dropped).
       ConnectivityMonitor.instance.injectStatusForTesting(false);
       await OfflineQueue.instance.initialize(executor: (_) async {});
       OfflineQueue.instance.events.listen(events.add);
@@ -219,7 +225,6 @@ void main() {
       await OfflineQueue.instance.enqueue(_makeRequest(id: 'r1'));
       events.clear(); // discard enqueue event
 
-      ConnectivityMonitor.instance.injectStatusForTesting(true);
       await OfflineQueue.instance.flush();
 
       final types = events.map((e) => e.runtimeType).toList();

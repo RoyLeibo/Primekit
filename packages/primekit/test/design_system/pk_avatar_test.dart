@@ -124,6 +124,9 @@ void main() {
           expect(avatar.backgroundImage, isA<NetworkImage>());
           final image = avatar.backgroundImage as NetworkImage;
           expect(image.url, equals('https://example.com/photo.jpg'));
+
+          // Discard the HttpClient 400 error from TestWidgetsFlutterBinding.
+          tester.takeException();
         },
       );
 
@@ -140,6 +143,9 @@ void main() {
         );
 
         expect(find.byType(Text), findsNothing);
+
+        // Discard the HttpClient 400 error from TestWidgetsFlutterBinding.
+        tester.takeException();
       });
     });
 

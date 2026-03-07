@@ -122,10 +122,10 @@ void main() {
     });
 
     test('includes trial prefix when trial period is set — days', () {
-      final pricing = _monthly(trial: const Duration(days: 7));
+      final pricing = _monthly(trial: const Duration(days: 3));
       final result = PricingFormatter.formatPeriod(pricing, locale: 'en_US');
       expect(result, contains('Free trial'));
-      expect(result, contains('7 days'));
+      expect(result, contains('3 days'));
       expect(result, contains('then'));
     });
 

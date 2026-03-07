@@ -1,9 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:primekit/src/i18n/date_formatter.dart';
 
 void main() {
+  setUpAll(() async {
+    await initializeDateFormatting('de');
+  });
+
   // Reference date: 25 December 2024, 15:45
   final date = DateTime(2024, 12, 25, 15, 45, 0);
   const enLocale = Locale('en', 'US');

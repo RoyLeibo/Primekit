@@ -48,6 +48,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(_MockErrorInterceptorHandler());
     registerFallbackValue(DioException(requestOptions: RequestOptions()));
+    registerFallbackValue(Response<dynamic>(requestOptions: RequestOptions()));
   });
 
   group('RetryInterceptor — constructor defaults', () {

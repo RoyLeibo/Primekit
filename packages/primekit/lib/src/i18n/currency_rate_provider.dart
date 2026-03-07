@@ -77,7 +77,7 @@ class CachedRateProvider implements CurrencyRateProvider {
     final key = base.toUpperCase();
     final entry = _cache[key];
     if (entry != null && !entry.isExpired(ttl)) return entry.value;
-    final fresh = await _inner.getAllRates(base);
+    final fresh = await _inner.getAllRates(key);
     _cache[key] = _CacheEntry(fresh);
     return fresh;
   }
