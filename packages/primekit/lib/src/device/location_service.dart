@@ -15,12 +15,11 @@ import 'location_result.dart';
 /// ```
 final class LocationService {
   LocationService._({http.Client? httpClient})
-      : _httpClient = httpClient ?? http.Client();
+    : _httpClient = httpClient ?? http.Client();
 
   static final LocationService instance = LocationService._();
 
-  static const String _nominatimBaseUrl =
-      'https://nominatim.openstreetmap.org';
+  static const String _nominatimBaseUrl = 'https://nominatim.openstreetmap.org';
 
   final http.Client _httpClient;
 
@@ -75,9 +74,8 @@ final class LocationService {
       );
 
       final response = await _httpClient
-          .get(url, headers: {'User-Agent': 'PrimeKit/1.0'}).timeout(
-        const Duration(seconds: 10),
-      );
+          .get(url, headers: {'User-Agent': 'PrimeKit/1.0'})
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode != 200) return null;
 
@@ -86,13 +84,15 @@ final class LocationService {
 
       if (addr != null) {
         final parts = <String>[];
-        final placeName = (addr['amenity'] as String?) ??
+        final placeName =
+            (addr['amenity'] as String?) ??
             (addr['shop'] as String?) ??
             (addr['building'] as String?);
         final road = addr['road'] as String?;
-        final suburb = (addr['suburb'] as String?) ??
-            (addr['neighbourhood'] as String?);
-        final city = (addr['city'] as String?) ??
+        final suburb =
+            (addr['suburb'] as String?) ?? (addr['neighbourhood'] as String?);
+        final city =
+            (addr['city'] as String?) ??
             (addr['town'] as String?) ??
             (addr['village'] as String?);
 

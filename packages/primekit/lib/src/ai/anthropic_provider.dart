@@ -60,7 +60,8 @@ final class AnthropicProvider implements AiProvider {
 
       if (response.statusCode != 200) {
         debugPrint(
-            '[AnthropicProvider] API error ${response.statusCode}: ${response.body}');
+          '[AnthropicProvider] API error ${response.statusCode}: ${response.body}',
+        );
         return null;
       }
 

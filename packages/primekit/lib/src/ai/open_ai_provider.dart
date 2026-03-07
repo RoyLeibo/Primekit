@@ -25,8 +25,7 @@ final class OpenAiProvider implements AiProvider {
   final String defaultModel;
   final http.Client _httpClient;
 
-  static const String _baseUrl =
-      'https://api.openai.com/v1/chat/completions';
+  static const String _baseUrl = 'https://api.openai.com/v1/chat/completions';
 
   @override
   Future<String?> complete(
@@ -61,7 +60,8 @@ final class OpenAiProvider implements AiProvider {
 
       if (response.statusCode != 200) {
         debugPrint(
-            '[OpenAiProvider] API error ${response.statusCode}: ${response.body}');
+          '[OpenAiProvider] API error ${response.statusCode}: ${response.body}',
+        );
         return null;
       }
 
