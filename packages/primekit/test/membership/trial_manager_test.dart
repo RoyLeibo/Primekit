@@ -260,42 +260,37 @@ void main() {
       });
     });
 
-    test(
-      'emits TrialEventEndingSoon when remaining time is within 24 hours',
-      () {
-        fakeAsync((async) {
-          // Create manager INSIDE fakeAsync so its Timer.periodic is fake-controlled.
-          final localManager = TrialManager(preferences: prefs);
-          final events = <TrialEvent>[];
-          localManager.events.listen(events.add);
+    test('emits TrialEventEndingSoon when remaining time is within 24 hours', () {
+      fakeAsync((async) {
+        // Create manager INSIDE fakeAsync so its Timer.periodic is fake-controlled.
+        final localManager = TrialManager(preferences: prefs);
+        final events = <TrialEvent>[];
+        localManager.events.listen(events.add);
 
-          // Set a trial ending in ~12 hours (within ending-soon threshold).
-          prefs.setString(
-            'pk_trial_end_pro',
-            DateTime.now()
-                .toUtc()
-                .add(const Duration(hours: 12))
-                .toIso8601String(),
-          );
-          prefs.setString(
-            'pk_trial_started_pro',
-            DateTime.now().toUtc().toIso8601String(),
-          );
+        // Set a trial ending in ~12 hours (within ending-soon threshold).
+        prefs.setString(
+          'pk_trial_end_pro',
+          DateTime.now()
+              .toUtc()
+              .add(const Duration(hours: 12))
+              .toIso8601String(),
+        );
+        prefs.setString(
+          'pk_trial_started_pro',
+          DateTime.now().toUtc().toIso8601String(),
+        );
 
-          // Trigger the hourly check.
-          async.elapse(const Duration(hours: 1));
+        // Trigger the hourly check.
+        async.elapse(const Duration(hours: 1));
 
-          expect(
-            events.any(
-              (e) => e is TrialEventEndingSoon && e.productId == 'pro',
-            ),
-            isTrue,
-          );
+        expect(
+          events.any((e) => e is TrialEventEndingSoon && e.productId == 'pro'),
+          isTrue,
+        );
 
-          localManager.dispose();
-        });
-      },
-    );
+        localManager.dispose();
+      });
+    });
 
     test('ending-soon is only emitted once per session', () {
       fakeAsync((async) {

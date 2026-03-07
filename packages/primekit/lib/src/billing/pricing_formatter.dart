@@ -38,7 +38,7 @@ abstract final class PricingFormatter {
   /// ```
   static String format(double amount, String currencyCode, {String? locale}) {
     try {
-      final formatter = NumberFormat.currency(
+      final formatter = NumberFormat.simpleCurrency(
         locale: locale,
         name: currencyCode,
         decimalDigits: _decimalDigits(currencyCode),
