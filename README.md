@@ -97,7 +97,7 @@ Primekit is a multi-module toolkit — platform support varies by module. Most m
 
 ```yaml
 dependencies:
-  primekit: ^0.2.0
+  primekit: ^1.0.0
 ```
 
 ```bash
@@ -659,14 +659,24 @@ MIT — see [LICENSE](LICENSE).
 
 ---
 
+## Companion Packages
+
+| Package | Description | pub.dev |
+|---------|-------------|---------|
+| [`primekit_core`](packages/primekit_core) | Core primitives: Result types, AsyncState, Forms, DI, Logger | [![pub](https://img.shields.io/pub/v/primekit_core.svg)](https://pub.dev/packages/primekit_core) |
+| [`primekit_riverpod`](packages/primekit_riverpod) | Riverpod integration: notifier mixins, pagination, ready-to-use providers | [![pub](https://img.shields.io/pub/v/primekit_riverpod.svg)](https://pub.dev/packages/primekit_riverpod) |
+| [`primekit_firebase`](packages/primekit_firebase) | Firebase adapters: Auth, Crashlytics, RemoteConfig, Firestore, RTDB, FCM | [![pub](https://img.shields.io/pub/v/primekit_firebase.svg)](https://pub.dev/packages/primekit_firebase) |
+
+---
+
 ## Roadmap
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.
 
-**Planned for v0.3.0:**
+**Planned for v1.1.0:**
 - `RevenueCatBillingProvider` — full RevenueCat integration
 - `FirebaseAnalyticsProvider` — bundled Firebase Analytics provider
 - `MixpanelProvider` — bundled Mixpanel provider
+- `AmplitudeProvider` — Amplitude analytics provider
 - `primekit_cli` — code generation CLI for scaffolding modules
-- Riverpod integration helpers (`pkRef`, `pkProvider`)
 - BLoC integration helpers

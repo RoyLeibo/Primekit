@@ -1,7 +1,7 @@
 export 'crash_config.dart';
 export 'crash_reporter.dart';
 export 'error_boundary.dart';
-// firebase_crash_reporter.dart is NOT exported here — it requires Firebase.
-// Import it directly: import 'package:primekit/src/crash/firebase_crash_reporter.dart';
+// FirebaseCrashReporter is in the primekit_firebase package, not here.
+// Import it with: import 'package:primekit_firebase/primekit_firebase.dart';
 export 'multi_crash_reporter.dart';
 export 'sentry_crash_reporter.dart';
