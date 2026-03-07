@@ -4,6 +4,7 @@ description: >-
   pagination helpers, and ready-to-use providers for connectivity,
   authentication, preferences, secure storage, and app version.
 version: 1.0.0
+resolution: workspace
 homepage: https://github.com/RoyLeibo/Primekit
 repository: https://github.com/RoyLeibo/Primekit
 issue_tracker: https://github.com/RoyLeibo/Primekit/issues

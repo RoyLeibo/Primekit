@@ -19,11 +19,8 @@ jobs:
           flutter-version: '3.41.3'
           channel: stable
 
-      - name: Activate Melos
-        run: dart pub global activate melos 5.3.4
-
-      - name: Bootstrap workspace
-        run: melos bootstrap
+      - name: Resolve workspace
+        run: dart pub get
 
       - name: Run tests (primekit_core)
         run: cd packages/primekit_core && flutter test

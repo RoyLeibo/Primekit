@@ -4,6 +4,7 @@ description: >-
   reporting, notifications, media, permissions, routing, and more.
   No Firebase dependency — works with any backend.
 version: 1.0.0
+resolution: workspace
 homepage: https://github.com/RoyLeibo/Primekit
 repository: https://github.com/RoyLeibo/Primekit
 issue_tracker: https://github.com/RoyLeibo/Primekit/issues

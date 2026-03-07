@@ -11,30 +11,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # ─── Bootstrap ──────────────────────────────────────────────────────────────
-  bootstrap:
-    name: Melos Bootstrap
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.41.3'
-          channel: stable
-          cache: true
-
-      - name: Activate Melos
-        run: dart pub global activate melos 5.3.4
-
-      - name: Bootstrap workspace
-        run: melos bootstrap
-
   # ─── Analysis & Formatting ──────────────────────────────────────────────────
   analyze:
     name: Analyze & Format (${{ matrix.package }})
     runs-on: ubuntu-latest
-    needs: bootstrap
     strategy:
       fail-fast: false
       matrix:
@@ -49,11 +29,8 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Activate Melos
-        run: dart pub global activate melos 5.3.4
-
-      - name: Bootstrap workspace
-        run: melos bootstrap
+      - name: Resolve workspace
+        run: dart pub get
 
       - name: Verify formatting
         run: cd packages/${{ matrix.package }} && dart format --output=none --set-exit-if-changed lib test
@@ -65,7 +42,6 @@ jobs:
   test:
     name: Test ${{ matrix.package }} (Flutter ${{ matrix.flutter-version }})
     runs-on: ubuntu-latest
-    needs: bootstrap
     strategy:
       fail-fast: false
       matrix:
@@ -82,11 +58,8 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Activate Melos
-        run: dart pub global activate melos 5.3.4
-
-      - name: Bootstrap workspace
-        run: melos bootstrap
+      - name: Resolve workspace
+        run: dart pub get
 
       - name: Run tests with coverage
         run: cd packages/${{ matrix.package }} && flutter test --coverage --reporter=expanded
@@ -101,10 +74,10 @@ jobs:
           COVERAGE=$(lcov --summary coverage/lcov.info 2>&1 | grep "lines" | grep -o '[0-9.]*%' | head -1 | tr -d '%')
           echo "Coverage (${{ matrix.package }}): ${COVERAGE}%"
           if (( $(echo "$COVERAGE < 80" | bc -l) )); then
-            echo "❌ Coverage ${COVERAGE}% is below 80% threshold"
+            echo "Coverage ${COVERAGE}% is below 80% threshold"
             exit 1
           fi
-          echo "✅ Coverage ${COVERAGE}% meets threshold"
+          echo "Coverage ${COVERAGE}% meets threshold"
 
       - name: Upload coverage to Codecov
         if: matrix.flutter-version == '3.x'
@@ -133,11 +106,8 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Activate Melos
-        run: dart pub global activate melos 5.3.4
-
-      - name: Bootstrap workspace
-        run: melos bootstrap
+      - name: Resolve workspace
+        run: dart pub get
 
       - name: Publish dry run
         run: cd packages/${{ matrix.package }} && dart pub publish --dry-run

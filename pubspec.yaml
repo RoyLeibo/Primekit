@@ -1,115 +1,15 @@
 name: primekit_workspace
-description: Melos monorepo workspace for the PrimeKit package family.
+description: Dart workspace root for the PrimeKit package family.
 publish_to: none
-version: 1.0.0
-homepage: https://github.com/RoyLeibo/Primekit
-repository: https://github.com/RoyLeibo/Primekit
-
-topics:
-  - flutter
-  - utilities
-  - authentication
-  - analytics
-  - notifications
 
 environment:
-  sdk: '>=3.9.0 <4.0.0'
-  flutter: '>=3.32.0'
+  sdk: '>=3.6.0 <4.0.0'
 
-dependencies:
-  flutter:
-    sdk: flutter
-
-  # Networking
-  dio: ^5.7.0
-  connectivity_plus: ^7.0.0
-  web_socket_channel: ^3.0.1
-
-  # Storage
-  shared_preferences: ^2.3.0
-  flutter_secure_storage: ^10.0.0
-  hive_flutter: ^1.1.0
-
-  # Permissions
-  permission_handler: ^12.0.0
-
-  # Device info
-  device_info_plus: ^12.3.0
-  package_info_plus: ^9.0.0
-
-  # Local notifications
-  flutter_local_notifications: ^20.1.0
-  # timezone: lower-bound matches flutter_local_notifications; upper bound
-  # allows 0.11.x so pana sees the latest version as compatible.
-  timezone: '>=0.10.1 <0.12.0'
-
-  # Biometrics
-  local_auth: ^3.0.0
-  local_auth_android: ^2.0.4
-  local_auth_darwin: ^2.0.2
-  local_auth_platform_interface: ^1.1.0
-
-  # Logging
-  logger: ^2.4.0
-
-  # Crypto / encoding
-  crypto: ^3.0.3
-  convert: ^3.1.1
-
-  # File system
-  path_provider: ^2.1.4
-
-  # Riverpod
-  flutter_riverpod: ^2.5.1
-  riverpod_annotation: ^2.3.5
-
-  # Routing
-  go_router: ^17.1.0
-
-  # Utils
-  collection: ^1.18.0
-  intl: ^0.20.2
-  uuid: ^4.5.3
-  rxdart: ^0.28.0
-  mime: ^2.0.0
-
-  # Crash reporting — Sentry alternative
-  sentry_flutter: ^9.14.0
-
-  # Background tasks
-  workmanager: ^0.9.0
-
-  # Media
-  image_picker: ^1.1.2
-  croppy: ^1.4.1
-  image: ^4.0.0
-
-  # Web support
-  web: ^1.1.0
-
-  # Firebase — concrete backend implementations (optional, opt-in by consumers)
-  # These files live in lib/src/**/firebase_*.dart but are NOT exported
-  # from any module barrel. Consumers who want Firebase import them directly.
-  firebase_core: ^4.4.0
-  cloud_firestore: ^6.1.2
-  firebase_database: ^12.1.3
-  firebase_auth: ^6.1.4
-  firebase_remote_config: ^6.1.4
-  firebase_crashlytics: ^5.0.7
-  firebase_storage: ^13.0.6
-  firebase_messaging: ^16.1.2
-  google_sign_in: ^7.0.0
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^6.0.0
-  mocktail: ^1.0.4
-  fake_async: ^1.3.1
-  build_runner: ^2.4.12
-  test: ^1.25.2
-  coverage: ^1.9.0
-
-# Make all modules importable as separate libraries for tree-shaking
-flutter:
-  uses-material-design: true
+# Dart native workspace — resolves cross-package deps locally.
+# Each package still declares real pub.dev version constraints
+# so they publish and resolve independently.
+workspace:
+  - packages/primekit_core
+  - packages/primekit
+  - packages/primekit_firebase
+  - packages/primekit_riverpod

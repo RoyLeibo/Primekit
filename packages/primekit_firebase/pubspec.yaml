@@ -4,6 +4,7 @@ description: >-
   PrimeKit abstractions backed by Firebase Auth, Firestore, Storage,
   Crashlytics, Cloud Messaging, Remote Config, and Realtime Database.
 version: 1.0.0
+resolution: workspace
 homepage: https://github.com/RoyLeibo/Primekit
 repository: https://github.com/RoyLeibo/Primekit
 issue_tracker: https://github.com/RoyLeibo/Primekit/issues
