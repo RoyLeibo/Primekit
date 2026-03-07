@@ -45,6 +45,9 @@ dependencies:
   device_info_plus: ^12.3.0
   package_info_plus: ^9.0.0
 
+  # Location
+  geolocator: ^13.0.0
+
   # Local notifications
   flutter_local_notifications: ^20.1.0
   timezone: '>=0.10.1 <0.12.0'
