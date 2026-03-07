@@ -40,6 +40,9 @@ dependencies:
   # Google Sign-In
   google_sign_in: ^7.0.0
 
+  # Utilities
+  uuid: ^4.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

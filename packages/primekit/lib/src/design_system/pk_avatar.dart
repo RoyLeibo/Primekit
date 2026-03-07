@@ -85,7 +85,7 @@ class PkAvatar extends StatelessWidget {
     }
 
     if (borderWidth > 0 && borderColor != null) {
-      child = Container(
+      child = DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(color: borderColor!, width: borderWidth),
