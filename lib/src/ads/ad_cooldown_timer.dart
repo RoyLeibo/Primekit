@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 
 /// Enforces a minimum delay between consecutive interstitial ad displays.
 ///

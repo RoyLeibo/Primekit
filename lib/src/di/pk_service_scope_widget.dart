@@ -41,8 +41,8 @@ class PkServiceScopeWidget extends StatefulWidget {
   ///
   /// Throws a [FlutterError] if no ancestor [PkServiceScopeWidget] is found.
   static ServiceScope scopeOf(BuildContext context) {
-    final inherited = context
-        .dependOnInheritedWidgetOfExactType<_ServiceScopeInherited>();
+    final inherited =
+        context.dependOnInheritedWidgetOfExactType<_ServiceScopeInherited>();
     if (inherited == null) {
       throw FlutterError(
         'PkServiceScopeWidget.scopeOf() called with a context that does not '

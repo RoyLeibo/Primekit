@@ -32,16 +32,15 @@ class CalendarEvent {
     bool? isAllDay,
     String? recurrenceRule,
     String? calendarId,
-  }) =>
-      CalendarEvent(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        startTime: startTime ?? this.startTime,
-        endTime: endTime ?? this.endTime,
-        description: description ?? this.description,
-        location: location ?? this.location,
-        isAllDay: isAllDay ?? this.isAllDay,
-        recurrenceRule: recurrenceRule ?? this.recurrenceRule,
-        calendarId: calendarId ?? this.calendarId,
-      );
+  }) => CalendarEvent(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    startTime: startTime ?? this.startTime,
+    endTime: endTime ?? this.endTime,
+    description: description ?? this.description,
+    location: location ?? this.location,
+    isAllDay: isAllDay ?? this.isAllDay,
+    recurrenceRule: recurrenceRule ?? this.recurrenceRule,
+    calendarId: calendarId ?? this.calendarId,
+  );
 }

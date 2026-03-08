@@ -126,9 +126,8 @@ void main() {
       test('deduplicates permissions shared across roles', () {
         // viewer and editor both have posts:read
         final ctx = makeContext(['viewer', 'editor']);
-        final readCount = ctx.allPermissionKeys
-            .where((k) => k == 'posts:read')
-            .length;
+        final readCount =
+            ctx.allPermissionKeys.where((k) => k == 'posts:read').length;
         expect(readCount, 1);
       });
     });

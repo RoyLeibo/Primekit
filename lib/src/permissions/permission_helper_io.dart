@@ -1,6 +1,6 @@
 import 'package:permission_handler/permission_handler.dart' as ph;
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'pk_permission.dart';
 
 export 'pk_permission.dart';

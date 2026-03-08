@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 
 /// A typed [SharedPreferences] wrapper for common application settings.
 ///
@@ -94,10 +93,11 @@ final class AppPreferences {
       final int v => _setInt(prefKey, v),
       final double v => _setDouble(prefKey, v),
       final Map<String, dynamic> v => _setJson(prefKey, v),
-      _ => throw ArgumentError(
-        'AppPreferences.set: unsupported type ${T.toString()}. '
-        'Use String, bool, int, double, or Map<String, dynamic>.',
-      ),
+      _ =>
+        throw ArgumentError(
+          'AppPreferences.set: unsupported type ${T.toString()}. '
+          'Use String, bool, int, double, or Map<String, dynamic>.',
+        ),
     };
   }
 

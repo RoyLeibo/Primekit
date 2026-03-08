@@ -13,8 +13,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'ad_cooldown_timer.dart';
 import 'ad_event_logger.dart';
 import 'ad_frequency_cap.dart';

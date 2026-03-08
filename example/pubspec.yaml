@@ -2,7 +2,6 @@ name: primekit_example
 description: Example app demonstrating Primekit modules.
 publish_to: none
 version: 1.0.0+1
-resolution: workspace
 
 environment:
   sdk: '>=3.7.0 <4.0.0'
@@ -12,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   primekit:
-    path: ../packages/primekit
+    path: ../
 
 dev_dependencies:
   flutter_test:

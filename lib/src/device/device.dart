@@ -3,3 +3,5 @@ export 'biometric_auth_barrel.dart' show BiometricAuth;
 export 'biometric_types.dart';
 export 'clipboard_helper.dart';
 export 'device_info.dart';
+export 'location_result.dart';
+export 'location_service.dart';

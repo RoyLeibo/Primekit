@@ -4,8 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'connectivity_monitor.dart';
 
 // ---------------------------------------------------------------------------
@@ -31,9 +30,10 @@ final class QueuedRequest {
     id: (json['id'] ?? '') as String,
     method: (json['method'] ?? 'GET') as String,
     url: (json['url'] ?? '') as String,
-    enqueuedAt: DateTime.parse(
-      (json['enqueuedAt'] ?? DateTime.now().toIso8601String()) as String,
-    ).toUtc(),
+    enqueuedAt:
+        DateTime.parse(
+          (json['enqueuedAt'] ?? DateTime.now().toIso8601String()) as String,
+        ).toUtc(),
     body: json['body'],
     headers: (json['headers'] as Map?)?.cast<String, String>() ?? const {},
     maxRetries: (json['maxRetries'] as num?)?.toInt() ?? 3,
@@ -199,7 +199,7 @@ final class OfflineQueue {
   static const String _prefKey = 'primekit_offline_queue';
 
   final StreamController<OfflineQueueEvent> _eventController =
-      StreamController<OfflineQueueEvent>.broadcast();
+      StreamController<OfflineQueueEvent>.broadcast(sync: true);
 
   /// Mutable queue — all modifications go through the private helpers to keep
   /// a consistent snapshot pattern (copy-on-write semantics).
@@ -332,9 +332,10 @@ final class OfflineQueue {
           _queue.remove(request);
           dropped++;
 
-          final pkError = error is PrimekitException
-              ? error
-              : NetworkException(message: error.toString(), cause: error);
+          final pkError =
+              error is PrimekitException
+                  ? error
+                  : NetworkException(message: error.toString(), cause: error);
           _eventController.add(RequestDroppedEvent(request, pkError));
 
           PrimekitLogger.warning(
@@ -399,10 +400,13 @@ final class OfflineQueue {
       if (raw == null || raw.isEmpty) return;
 
       final list = jsonDecode(raw) as List<dynamic>;
-      final loaded = list
-          .cast<Map<String, dynamic>>()
-          .map((json) => QueuedRequest.fromJson(json.cast<String, Object?>()))
-          .toList();
+      final loaded =
+          list
+              .cast<Map<String, dynamic>>()
+              .map(
+                (json) => QueuedRequest.fromJson(json.cast<String, Object?>()),
+              )
+              .toList();
 
       _queue
         ..clear()

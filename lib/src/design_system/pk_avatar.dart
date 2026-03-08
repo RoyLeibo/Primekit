@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'pk_spacing.dart';
 
 /// A deterministic avatar widget that assigns consistent colors from a
 /// palette based on the provided [userId] or [displayName].
@@ -67,7 +66,9 @@ class PkAvatar extends StatelessWidget {
       final seed = userId ?? displayName ?? '?';
       final color = _colorFor(seed);
       final initials =
-          displayName != null ? _initialsFor(displayName!) : seed[0].toUpperCase();
+          displayName != null
+              ? _initialsFor(displayName!)
+              : seed[0].toUpperCase();
 
       child = CircleAvatar(
         radius: size / 2,
@@ -84,7 +85,7 @@ class PkAvatar extends StatelessWidget {
     }
 
     if (borderWidth > 0 && borderColor != null) {
-      child = Container(
+      child = DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(color: borderColor!, width: borderWidth),

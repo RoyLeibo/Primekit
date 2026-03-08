@@ -38,13 +38,13 @@ abstract final class PricingFormatter {
   /// ```
   static String format(double amount, String currencyCode, {String? locale}) {
     try {
-      final formatter = NumberFormat.currency(
+      final formatter = NumberFormat.simpleCurrency(
         locale: locale,
-        symbol: _currencySymbol(currencyCode, locale),
+        name: currencyCode,
         decimalDigits: _decimalDigits(currencyCode),
       );
       return formatter.format(amount);
-    } on Exception {
+    } on Object {
       // Fallback: plain concatenation when the locale is unrecognised.
       return '$currencyCode ${amount.toStringAsFixed(2)}';
     }
@@ -138,17 +138,6 @@ abstract final class PricingFormatter {
   // ---------------------------------------------------------------------------
   // Private helpers
   // ---------------------------------------------------------------------------
-
-  /// Returns the currency symbol for [currencyCode], with locale awareness.
-  static String _currencySymbol(String currencyCode, String? locale) {
-    try {
-      // NumberFormat can resolve the symbol for us.
-      final nf = NumberFormat.currency(locale: locale, name: currencyCode);
-      return nf.currencySymbol;
-    } on Exception {
-      return currencyCode;
-    }
-  }
 
   /// Most currencies use 2 decimal places; some have 0 (e.g. JPY).
   static int _decimalDigits(String currencyCode) {

@@ -1,4 +1,4 @@
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'email_message.dart';
 import 'email_service.dart';
 
@@ -118,9 +118,10 @@ class ContactFormMailer {
       }
 
       if (attempt < _maxRetries) {
-        final delay = attempt <= _retryDelays.length
-            ? _retryDelays[attempt - 1]
-            : const Duration(seconds: 5);
+        final delay =
+            attempt <= _retryDelays.length
+                ? _retryDelays[attempt - 1]
+                : const Duration(seconds: 5);
         PrimekitLogger.warning(
           'ContactFormMailer attempt $attempt failed: ${failure.reason}. '
           'Retrying in ${delay.inSeconds}s.',
@@ -147,13 +148,14 @@ class ContactFormMailer {
     required String message,
     Map<String, String>? additionalFields,
   }) {
-    final buffer = StringBuffer()
-      ..writeln('New Contact Form Submission')
-      ..writeln('=' * 40)
-      ..writeln()
-      ..writeln('From: $senderName <$senderEmail>')
-      ..writeln('Message:')
-      ..writeln(message);
+    final buffer =
+        StringBuffer()
+          ..writeln('New Contact Form Submission')
+          ..writeln('=' * 40)
+          ..writeln()
+          ..writeln('From: $senderName <$senderEmail>')
+          ..writeln('Message:')
+          ..writeln(message);
 
     if (additionalFields != null && additionalFields.isNotEmpty) {
       buffer

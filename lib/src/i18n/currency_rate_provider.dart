@@ -23,9 +23,10 @@ class ExchangeRateApiProvider implements CurrencyRateProvider {
 
   final String? apiKey;
 
-  String get _baseUrl => apiKey != null
-      ? 'https://v6.exchangerate-api.com/v6/$apiKey/latest'
-      : 'https://open.er-api.com/v6/latest';
+  String get _baseUrl =>
+      apiKey != null
+          ? 'https://v6.exchangerate-api.com/v6/$apiKey/latest'
+          : 'https://open.er-api.com/v6/latest';
 
   @override
   Future<double> getRate(String from, String to) async {
@@ -76,7 +77,7 @@ class CachedRateProvider implements CurrencyRateProvider {
     final key = base.toUpperCase();
     final entry = _cache[key];
     if (entry != null && !entry.isExpired(ttl)) return entry.value;
-    final fresh = await _inner.getAllRates(base);
+    final fresh = await _inner.getAllRates(key);
     _cache[key] = _CacheEntry(fresh);
     return fresh;
   }

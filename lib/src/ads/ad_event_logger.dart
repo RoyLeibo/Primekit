@@ -1,6 +1,6 @@
 import '../analytics/analytics_event.dart';
 import '../analytics/event_tracker.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 
 // ---------------------------------------------------------------------------
 // AdEvent sealed union
@@ -208,7 +208,10 @@ class AdEventLogger {
       ),
       AdShown(:final adType, :final screenName) => AnalyticsEvent(
         name: 'ad_impression',
-        parameters: {'ad_type': adType, 'screen_name': ?screenName},
+        parameters: {
+          'ad_type': adType,
+          if (screenName != null) 'screen_name': screenName,
+        },
       ),
       AdClicked(:final adType) => AnalyticsEvent(
         name: 'ad_click',

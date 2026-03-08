@@ -93,9 +93,10 @@ class TierGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final service = MembershipScope.of(context);
-    final hasAccess = customCheck != null
-        ? customCheck!()
-        : service.currentTier.isAtLeast(requires);
+    final hasAccess =
+        customCheck != null
+            ? customCheck!()
+            : service.currentTier.isAtLeast(requires);
 
     if (hasAccess) return child;
     return fallback ?? const SizedBox.shrink();

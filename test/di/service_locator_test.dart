@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:primekit/di.dart';
+import 'package:primekit/core.dart';
 
 // ---------------------------------------------------------------------------
 // Test doubles

@@ -40,10 +40,11 @@ extension PrimekitStringExtensions on String {
   String get titleCase => split(' ').map((w) => w.capitalized).join(' ');
 
   /// Converts camelCase or PascalCase to snake_case.
-  String get snakeCase => replaceAllMapped(
-    RegExp(r'(?<=[a-z\d])[A-Z]'),
-    (m) => '_${m.group(0)!.toLowerCase()}',
-  ).toLowerCase();
+  String get snakeCase =>
+      replaceAllMapped(
+        RegExp(r'(?<=[a-z\d])[A-Z]'),
+        (m) => '_${m.group(0)!.toLowerCase()}',
+      ).toLowerCase();
 
   /// Converts to a URL-safe slug.
   String get slugified => toLowerCase()

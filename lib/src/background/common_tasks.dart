@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'background_task.dart';
 
 // ---------------------------------------------------------------------------

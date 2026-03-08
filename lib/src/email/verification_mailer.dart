@@ -1,4 +1,4 @@
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'email_message.dart';
 import 'email_service.dart';
 
@@ -124,8 +124,7 @@ class VerificationMailer {
   // Text templates
   // ---------------------------------------------------------------------------
 
-  String _otpTextBody({required String otp, required String ttlLabel}) =>
-      '''
+  String _otpTextBody({required String otp, required String ttlLabel}) => '''
 Your $_appName verification code
 
 $otp
@@ -137,8 +136,7 @@ If you did not request this code, please ignore this email.
 — The $_appName team
 ''';
 
-  String _linkTextBody({required String verificationUrl}) =>
-      '''
+  String _linkTextBody({required String verificationUrl}) => '''
 Verify your email address
 
 Please click the link below to verify your $_appName account:
@@ -151,8 +149,7 @@ please ignore this email.
 — The $_appName team
 ''';
 
-  String _welcomeTextBody({required String userName}) =>
-      '''
+  String _welcomeTextBody({required String userName}) => '''
 Welcome to $_appName, $userName!
 
 We're thrilled to have you on board. Your account is all set up and ready to go.

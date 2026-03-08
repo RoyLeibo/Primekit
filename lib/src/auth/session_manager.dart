@@ -3,8 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import '../storage/secure_prefs.dart' show SecurePrefs, SecurePrefsBase;
 import 'token_store.dart' show TokenStore, TokenStoreBase;
 
@@ -141,9 +140,10 @@ final class SessionManager extends ChangeNotifier
   bool get isAuthenticated => _state is SessionAuthenticated;
 
   /// The authenticated user's identifier, or `null` when unauthenticated.
-  String? get currentUserId => _state is SessionAuthenticated
-      ? (_state as SessionAuthenticated).userId
-      : null;
+  String? get currentUserId =>
+      _state is SessionAuthenticated
+          ? (_state as SessionAuthenticated).userId
+          : null;
 
   // ---------------------------------------------------------------------------
   // Restore

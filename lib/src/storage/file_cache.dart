@@ -4,8 +4,7 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 
 /// A local file cache for downloaded remote assets (images, PDFs, documents).
 ///
@@ -185,9 +184,10 @@ final class FileCache {
         if (entity is! File) continue;
         final key = entity.uri.pathSegments.last;
         final meta = await _loadMeta(key);
-        final accessedAt = meta?['accessedAt'] != null
-            ? DateTime.tryParse(meta!['accessedAt'] as String)
-            : null;
+        final accessedAt =
+            meta?['accessedAt'] != null
+                ? DateTime.tryParse(meta!['accessedAt'] as String)
+                : null;
         final size = await entity.length();
         entries.add(
           _CacheEntryStat(

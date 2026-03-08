@@ -93,7 +93,8 @@ class PkLoadingOverlayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final barrierColor = PkUiTheme.of(context)?.effectiveLoadingBarrierColor ??
+    final barrierColor =
+        PkUiTheme.of(context)?.effectiveLoadingBarrierColor ??
         Colors.black.withValues(alpha: 0.45);
 
     return Positioned.fill(

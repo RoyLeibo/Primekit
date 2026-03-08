@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 
 // ---------------------------------------------------------------------------
 // Migration contract
@@ -174,11 +173,9 @@ final class MigrationRunner {
     final applied = await _store.loadRecords();
     final appliedVersions = applied.map((r) => r.version).toSet();
 
-    final pending =
-        _migrations
-            .where((m) => !appliedVersions.contains(m.version))
-            .toList(growable: false)
-          ..sort((a, b) => a.version.compareTo(b.version));
+    final pending = _migrations
+      .where((m) => !appliedVersions.contains(m.version))
+      .toList(growable: false)..sort((a, b) => a.version.compareTo(b.version));
 
     if (pending.isEmpty) {
       PrimekitLogger.info('No pending migrations', tag: 'MigrationRunner');

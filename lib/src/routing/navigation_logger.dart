@@ -93,15 +93,17 @@ class NavigationLogger extends NavigatorObserver {
 
     analyticsProvider?.logScreenView(
       currentName,
-      parameters: {'event': event, 'previous_screen': ?previousName},
+      parameters: {
+        'event': event,
+        if (previousName != null) 'previous_screen': previousName,
+      },
     );
   }
 
   String? _routeName(Route<dynamic>? route) {
     if (route == null) return null;
     final name = route.settings.name;
-    return (name != null && name.isNotEmpty)
-        ? name
-        : route.runtimeType.toString();
+    if (name == null) return null;
+    return name.isNotEmpty ? name : route.runtimeType.toString();
   }
 }

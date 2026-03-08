@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:primekit/src/core/exceptions.dart';
+import 'package:primekit/core.dart';
 import 'package:primekit/src/storage/migration_runner.dart';
 
 // ---------------------------------------------------------------------------

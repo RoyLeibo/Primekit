@@ -103,27 +103,30 @@ class _SkeletonLoaderState extends State<SkeletonLoader>
     if (!widget.isLoading) return widget.child;
 
     final pkTheme = PkUiTheme.of(context);
-    final baseColor = pkTheme?.effectiveSkeletonBaseColor ?? const Color(0xFFE0E0E0);
+    final baseColor =
+        pkTheme?.effectiveSkeletonBaseColor ?? const Color(0xFFE0E0E0);
     final highlightColor =
         pkTheme?.effectiveSkeletonHighlightColor ?? const Color(0xFFF5F5F5);
 
     return AnimatedBuilder(
       animation: _shimmerPosition,
-      builder: (context, child) => ShaderMask(
-        blendMode: BlendMode.srcATop,
-        shaderCallback: (bounds) => LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [baseColor, highlightColor, baseColor],
-          stops: [
-            (_shimmerPosition.value - 1).clamp(0.0, 1.0),
-            (_shimmerPosition.value.clamp(0.0, 1.0)) * 0.5 + 0.5,
-            (_shimmerPosition.value + 1).clamp(0.0, 1.0),
-          ],
-          transform: _SlidingGradientTransform(_shimmerPosition.value),
-        ).createShader(bounds),
-        child: child,
-      ),
+      builder:
+          (context, child) => ShaderMask(
+            blendMode: BlendMode.srcATop,
+            shaderCallback:
+                (bounds) => LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [baseColor, highlightColor, baseColor],
+                  stops: [
+                    (_shimmerPosition.value - 1).clamp(0.0, 1.0),
+                    (_shimmerPosition.value.clamp(0.0, 1.0)) * 0.5 + 0.5,
+                    (_shimmerPosition.value + 1).clamp(0.0, 1.0),
+                  ],
+                  transform: _SlidingGradientTransform(_shimmerPosition.value),
+                ).createShader(bounds),
+            child: child,
+          ),
       child: widget.child,
     );
   }
@@ -192,19 +195,26 @@ class _ShimmerBoxState extends State<_ShimmerBox>
 
     return AnimatedBuilder(
       animation: _anim,
-      builder: (context, _) => Container(
-        width: widget.width,
-        height: widget.height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-          gradient: LinearGradient(
-            begin: Alignment(_anim.value - 1, 0),
-            end: Alignment(_anim.value + 1, 0),
-            colors: [baseColor, highlightColor, midColor, highlightColor, baseColor],
-            stops: const [0.0, 0.35, 0.5, 0.65, 1.0],
+      builder:
+          (context, _) => Container(
+            width: widget.width,
+            height: widget.height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(widget.borderRadius),
+              gradient: LinearGradient(
+                begin: Alignment(_anim.value - 1, 0),
+                end: Alignment(_anim.value + 1, 0),
+                colors: [
+                  baseColor,
+                  highlightColor,
+                  midColor,
+                  highlightColor,
+                  baseColor,
+                ],
+                stops: const [0.0, 0.35, 0.5, 0.65, 1.0],
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 }

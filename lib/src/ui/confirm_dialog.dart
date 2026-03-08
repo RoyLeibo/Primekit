@@ -36,14 +36,15 @@ class ConfirmDialog {
   }) async {
     final result = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => _ConfirmDialogWidget(
-        title: title,
-        message: message,
-        confirmText: confirmText,
-        cancelText: cancelText,
-        isDestructive: isDestructive,
-        icon: icon,
-      ),
+      builder:
+          (dialogContext) => _ConfirmDialogWidget(
+            title: title,
+            message: message,
+            confirmText: confirmText,
+            cancelText: cancelText,
+            isDestructive: isDestructive,
+            icon: icon,
+          ),
     );
 
     return result ?? false;
@@ -90,18 +91,18 @@ class _ConfirmDialogWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final confirmColor = isDestructive
-        ? colorScheme.error
-        : colorScheme.primary;
+    final confirmColor =
+        isDestructive ? colorScheme.error : colorScheme.primary;
 
     return AlertDialog(
-      icon: icon != null
-          ? Icon(
-              icon,
-              size: 32,
-              color: isDestructive ? colorScheme.error : colorScheme.primary,
-            )
-          : null,
+      icon:
+          icon != null
+              ? Icon(
+                icon,
+                size: 32,
+                color: isDestructive ? colorScheme.error : colorScheme.primary,
+              )
+              : null,
       title: Text(
         title,
         style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
@@ -125,9 +126,8 @@ class _ConfirmDialogWidget extends StatelessWidget {
           child: Text(
             confirmText,
             style: TextStyle(
-              color: isDestructive
-                  ? colorScheme.onError
-                  : colorScheme.onPrimary,
+              color:
+                  isDestructive ? colorScheme.onError : colorScheme.onPrimary,
             ),
           ),
         ),

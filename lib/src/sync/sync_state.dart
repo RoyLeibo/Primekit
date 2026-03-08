@@ -97,9 +97,8 @@ final class SyncState {
     bool clearLastSyncedAt = false,
   }) => SyncState(
     status: status ?? this.status,
-    lastSyncedAt: clearLastSyncedAt
-        ? null
-        : (lastSyncedAt ?? this.lastSyncedAt),
+    lastSyncedAt:
+        clearLastSyncedAt ? null : (lastSyncedAt ?? this.lastSyncedAt),
     pendingChanges: pendingChanges ?? this.pendingChanges,
     error: clearError ? null : (error ?? this.error),
     progress: clearProgress ? null : (progress ?? this.progress),

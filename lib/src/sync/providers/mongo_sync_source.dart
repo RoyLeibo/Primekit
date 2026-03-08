@@ -51,9 +51,10 @@ final class MongoSyncSource implements SyncDataSource {
     Dio? dio,
     this.watchPollInterval = const Duration(seconds: 30),
     this.timestampField = 'updatedAt',
-  }) : _baseUrl = baseUrl.endsWith('/')
-           ? baseUrl.substring(0, baseUrl.length - 1)
-           : baseUrl,
+  }) : _baseUrl =
+           baseUrl.endsWith('/')
+               ? baseUrl.substring(0, baseUrl.length - 1)
+               : baseUrl,
        _apiKey = apiKey,
        _dataSource = dataSource,
        _database = database,
@@ -104,8 +105,9 @@ final class MongoSyncSource implements SyncDataSource {
     };
 
     final response = await _post('/action/find', body);
-    final documents = (response['documents'] as List<dynamic>? ?? [])
-        .cast<Map<String, dynamic>>();
+    final documents =
+        (response['documents'] as List<dynamic>? ?? [])
+            .cast<Map<String, dynamic>>();
 
     return documents.map(_normaliseId).toList();
   }
@@ -195,15 +197,12 @@ final class MongoSyncSource implements SyncDataSource {
   }) async {
     // Atlas Data API does not have a batch endpoint; push sequentially.
     // Group by operation type to minimise round-trips where possible.
-    final creates = changes
-        .where((c) => c.operation == SyncOperation.create)
-        .toList();
-    final updates = changes
-        .where((c) => c.operation == SyncOperation.update)
-        .toList();
-    final deletes = changes
-        .where((c) => c.operation == SyncOperation.delete)
-        .toList();
+    final creates =
+        changes.where((c) => c.operation == SyncOperation.create).toList();
+    final updates =
+        changes.where((c) => c.operation == SyncOperation.update).toList();
+    final deletes =
+        changes.where((c) => c.operation == SyncOperation.delete).toList();
 
     // Bulk insert for creates
     if (creates.isNotEmpty) {
@@ -268,7 +267,9 @@ final class MongoSyncSource implements SyncDataSource {
   /// Renames MongoDB's `_id` field to `id` for portability.
   Map<String, dynamic> _normaliseId(Map<String, dynamic> doc) {
     final id = doc['_id']?['\$oid'] as String? ?? doc['id'] as String?;
-    return {...doc, 'id': ?id}..remove('_id');
+    final result = Map<String, dynamic>.from(doc)..remove('_id');
+    if (id != null) result['id'] = id;
+    return result;
   }
 
   /// Converts the app-level `updatedAt` ISO-8601 string to a MongoDB Extended

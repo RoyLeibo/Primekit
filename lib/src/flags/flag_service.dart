@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'feature_flag.dart';
 import 'flag_provider.dart';
 

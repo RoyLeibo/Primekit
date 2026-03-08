@@ -59,18 +59,17 @@ class PkUiTheme extends ThemeExtension<PkUiTheme> {
     Color? loadingBarrierColor,
     Color? skeletonBaseColor,
     Color? skeletonHighlightColor,
-  }) =>
-      PkUiTheme(
-        successColor: successColor ?? this.successColor,
-        errorColor: errorColor ?? this.errorColor,
-        warningColor: warningColor ?? this.warningColor,
-        infoColor: infoColor ?? this.infoColor,
-        toastTextColor: toastTextColor ?? this.toastTextColor,
-        loadingBarrierColor: loadingBarrierColor ?? this.loadingBarrierColor,
-        skeletonBaseColor: skeletonBaseColor ?? this.skeletonBaseColor,
-        skeletonHighlightColor:
-            skeletonHighlightColor ?? this.skeletonHighlightColor,
-      );
+  }) => PkUiTheme(
+    successColor: successColor ?? this.successColor,
+    errorColor: errorColor ?? this.errorColor,
+    warningColor: warningColor ?? this.warningColor,
+    infoColor: infoColor ?? this.infoColor,
+    toastTextColor: toastTextColor ?? this.toastTextColor,
+    loadingBarrierColor: loadingBarrierColor ?? this.loadingBarrierColor,
+    skeletonBaseColor: skeletonBaseColor ?? this.skeletonBaseColor,
+    skeletonHighlightColor:
+        skeletonHighlightColor ?? this.skeletonHighlightColor,
+  );
 
   @override
   PkUiTheme lerp(PkUiTheme? other, double t) {
@@ -81,12 +80,21 @@ class PkUiTheme extends ThemeExtension<PkUiTheme> {
       warningColor: Color.lerp(warningColor, other.warningColor, t),
       infoColor: Color.lerp(infoColor, other.infoColor, t),
       toastTextColor: Color.lerp(toastTextColor, other.toastTextColor, t),
-      loadingBarrierColor:
-          Color.lerp(loadingBarrierColor, other.loadingBarrierColor, t),
-      skeletonBaseColor:
-          Color.lerp(skeletonBaseColor, other.skeletonBaseColor, t),
-      skeletonHighlightColor:
-          Color.lerp(skeletonHighlightColor, other.skeletonHighlightColor, t),
+      loadingBarrierColor: Color.lerp(
+        loadingBarrierColor,
+        other.loadingBarrierColor,
+        t,
+      ),
+      skeletonBaseColor: Color.lerp(
+        skeletonBaseColor,
+        other.skeletonBaseColor,
+        t,
+      ),
+      skeletonHighlightColor: Color.lerp(
+        skeletonHighlightColor,
+        other.skeletonHighlightColor,
+        t,
+      ),
     );
   }
 }

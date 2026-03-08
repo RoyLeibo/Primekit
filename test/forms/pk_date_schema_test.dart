@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:primekit/forms.dart';
+import 'package:primekit/core.dart';
 
 void main() {
   group('PkDateSchema', () {

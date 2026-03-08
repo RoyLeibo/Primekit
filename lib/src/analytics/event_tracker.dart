@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'analytics_event.dart';
 import 'analytics_provider.dart';
 

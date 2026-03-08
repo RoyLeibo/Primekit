@@ -42,9 +42,8 @@ sealed class Result<S, F> {
   /// Returns the success value or throws a [StateError].
   S get valueOrThrow => switch (this) {
     Success(:final value) => value,
-    Failure(:final failure) => throw StateError(
-      'Called valueOrThrow on a Failure: $failure',
-    ),
+    Failure(:final failure) =>
+      throw StateError('Called valueOrThrow on a Failure: $failure'),
   };
 
   /// Executes [success] or [failure] depending on the variant.

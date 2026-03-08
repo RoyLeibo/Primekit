@@ -5,8 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'conflict_resolver.dart';
 import 'pending_change_store.dart';
 import 'sync_data_source.dart';
@@ -494,10 +493,11 @@ class SyncRepository<T> extends ChangeNotifier {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  List<T> _activeDocuments() => _localCache.values
-      .where((doc) => doc['isDeleted'] != true)
-      .map(_fromJson)
-      .toList();
+  List<T> _activeDocuments() =>
+      _localCache.values
+          .where((doc) => doc['isDeleted'] != true)
+          .map(_fromJson)
+          .toList();
 
   void _emitWatchEvent() {
     if (!_watchController.isClosed) {

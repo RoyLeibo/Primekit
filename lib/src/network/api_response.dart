@@ -1,4 +1,4 @@
-import '../core/exceptions.dart';
+import 'package:primekit/core.dart';
 
 // ---------------------------------------------------------------------------
 // Concrete state types

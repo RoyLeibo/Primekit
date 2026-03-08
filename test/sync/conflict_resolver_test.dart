@@ -187,10 +187,8 @@ void main() {
   group('ManualConflictResolver', () {
     test('invokes the onConflict callback and returns its result', () async {
       final resolver = ManualConflictResolver<Map<String, dynamic>>(
-        onConflict: (local, remote) async => {
-          'id': 'merged',
-          'source': 'manual',
-        },
+        onConflict:
+            (local, remote) async => {'id': 'merged', 'source': 'manual'},
       );
 
       final result = await resolver.resolve(

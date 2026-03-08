@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 
 /// A TTL-based JSON cache backed by [SharedPreferences].
 ///
@@ -50,9 +49,10 @@ final class JsonCache {
   }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final expiresAt = ttl != null
-          ? DateTime.now().toUtc().add(ttl).toIso8601String()
-          : null;
+      final expiresAt =
+          ttl != null
+              ? DateTime.now().toUtc().add(ttl).toIso8601String()
+              : null;
 
       final envelope = jsonEncode({
         _fieldData: data,

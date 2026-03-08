@@ -36,8 +36,8 @@ final class SyncChange {
   /// Deserialises from a JSON map produced by [toJson].
   factory SyncChange.fromJson(Map<String, dynamic> json) => SyncChange(
     id: json['id'] as String,
-    document: (json['document'] as Map<String, dynamic>)
-        .cast<String, dynamic>(),
+    document:
+        (json['document'] as Map<String, dynamic>).cast<String, dynamic>(),
     operation: SyncOperation.values.byName(json['operation'] as String),
     timestamp: DateTime.parse(json['timestamp'] as String).toUtc(),
   );

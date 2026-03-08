@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:primekit/forms.dart';
+import 'package:primekit/core.dart';
 
 void main() {
   group('PkObjectSchema', () {
@@ -86,9 +86,8 @@ void main() {
     });
 
     test('optional schema accepts null', () {
-      final optionalSchema = PkSchema.object({
-        'x': PkSchema.string(),
-      }).optional();
+      final optionalSchema =
+          PkSchema.object({'x': PkSchema.string()}).optional();
       expect(optionalSchema.validate(null).isValid, isTrue);
     });
 
@@ -97,6 +96,124 @@ void main() {
         expect(schema.fields.containsKey('email'), isTrue);
         expect(schema.fields.containsKey('age'), isTrue);
       });
+    });
+
+    // -------------------------------------------------------------------------
+    // New v1.0.0 method: refine
+    // -------------------------------------------------------------------------
+
+    group('refine', () {
+      test('passing refinement does not affect valid result', () {
+        final passwordSchema = PkSchema.object({
+          'password': PkSchema.string().minLength(8).required(),
+          'confirmPassword': PkSchema.string().required(),
+        }).refine(
+          (data) => data['password'] == data['confirmPassword'],
+          message: 'Passwords do not match',
+        );
+
+        final result = passwordSchema.validate({
+          'password': 'secret123',
+          'confirmPassword': 'secret123',
+        });
+        expect(result.isValid, isTrue);
+      });
+
+      test('failing refinement produces error under "_" key', () {
+        final passwordSchema = PkSchema.object({
+          'password': PkSchema.string().minLength(8).required(),
+          'confirmPassword': PkSchema.string().required(),
+        }).refine(
+          (data) => data['password'] == data['confirmPassword'],
+          message: 'Passwords do not match',
+        );
+
+        final result = passwordSchema.validate({
+          'password': 'secret123',
+          'confirmPassword': 'different',
+        });
+        expect(result.isValid, isFalse);
+        expect(result.hasError('_'), isTrue);
+        expect(result.errorFor('_'), equals('Passwords do not match'));
+      });
+
+      test('refinement is not run when field validation fails', () {
+        var refinementCalled = false;
+        final s = PkSchema.object({
+          'email': PkSchema.string().email().required(),
+        }).refine((data) {
+          refinementCalled = true;
+          return true;
+        }, message: 'Should not run');
+
+        s.validate({'email': 'bad-email'});
+        expect(refinementCalled, isFalse);
+      });
+
+      test('multiple refinements are all evaluated in order', () {
+        final s = PkSchema.object({
+              'start': PkSchema.number().required(),
+              'end': PkSchema.number().required(),
+            })
+            .refine(
+              (data) => (data['end'] as num) > (data['start'] as num),
+              message: 'end must be after start',
+            )
+            .refine(
+              (data) => (data['end'] as num) - (data['start'] as num) <= 100,
+              message: 'range must not exceed 100',
+            );
+
+        // Both pass
+        expect(s.validate({'start': 0, 'end': 50}).isValid, isTrue);
+
+        // First refinement fails
+        final result1 = s.validate({'start': 10, 'end': 5});
+        expect(result1.isValid, isFalse);
+        expect(result1.errorFor('_'), equals('end must be after start'));
+
+        // First passes, second fails
+        final result2 = s.validate({'start': 0, 'end': 200});
+        expect(result2.isValid, isFalse);
+        expect(result2.errorFor('_'), equals('range must not exceed 100'));
+      });
+
+      test('refine with custom cross-field message is surfaced correctly', () {
+        final s = PkSchema.object({
+          'username': PkSchema.string().required(),
+          'displayName': PkSchema.string().required(),
+        }).refine(
+          (data) => data['username'] != data['displayName'],
+          message: 'Username and display name must differ',
+        );
+
+        final result = s.validate({
+          'username': 'alice',
+          'displayName': 'alice',
+        });
+        expect(result.isValid, isFalse);
+        expect(
+          result.firstError,
+          equals('Username and display name must differ'),
+        );
+      });
+
+      test(
+        'optional schema with failing refine on non-null input still fails',
+        () {
+          final s = PkSchema.object({
+            'x': PkSchema.number().required(),
+          }).optional().refine(
+            (data) => (data['x'] as num) > 0,
+            message: 'x must be positive',
+          );
+
+          expect(s.validate(null).isValid, isTrue); // null is fine — optional
+          final result = s.validate({'x': -1});
+          expect(result.isValid, isFalse);
+          expect(result.errorFor('_'), equals('x must be positive'));
+        },
+      );
     });
   });
 }

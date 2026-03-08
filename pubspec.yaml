@@ -1,16 +1,115 @@
-name: primekit_workspace
-description: Dart workspace root for the PrimeKit package family.
+name: primekit
+description: >-
+  A modular Flutter toolkit — networking, auth, notifications, storage,
+  Firebase adapters, Riverpod helpers, and more.
+version: 2.0.0
 publish_to: none
+homepage: https://github.com/RoyLeibo/Primekit
+repository: https://github.com/RoyLeibo/Primekit
+issue_tracker: https://github.com/RoyLeibo/Primekit/issues
+
+topics:
+  - flutter
+  - utilities
+  - authentication
+  - notifications
+  - networking
 
 environment:
   sdk: '>=3.7.0 <4.0.0'
+  flutter: '>=3.16.0'
 
-# Dart native workspace — resolves cross-package deps locally.
-# Each package still declares real pub.dev version constraints
-# so they publish and resolve independently.
-workspace:
-  - packages/primekit_core
-  - packages/primekit
-  - packages/primekit_firebase
-  - packages/primekit_riverpod
-  - example
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Networking
+  dio: ^5.7.0
+  connectivity_plus: ^7.0.0
+  web_socket_channel: ^3.0.1
+
+  # Storage
+  shared_preferences: ^2.3.0
+  flutter_secure_storage: ^10.0.0
+  hive_flutter: ^1.1.0
+
+  # Contacts
+  flutter_contacts: ^1.1.9+2
+
+  # Permissions
+  permission_handler: ^12.0.0
+
+  # Device info
+  device_info_plus: ^12.3.0
+  package_info_plus: ^9.0.0
+
+  # Location
+  geolocator: ^14.0.0
+
+  # Local notifications
+  flutter_local_notifications: ^21.0.0
+  timezone: '>=0.10.1 <0.12.0'
+
+  # Biometrics
+  local_auth: ^3.0.0
+  local_auth_android: ^2.0.4
+  local_auth_darwin: ^2.0.2
+  local_auth_platform_interface: ^1.1.0
+
+  # Crash reporting (Sentry)
+  sentry_flutter: ^9.14.0
+
+  # Background tasks
+  workmanager: ^0.9.0
+
+  # Media
+  image_picker: ^1.1.2
+  croppy: ^1.4.1
+  image: ^4.0.0
+
+  # Routing
+  go_router: ^17.1.0
+
+  # Utilities
+  logger: ^2.4.0
+  collection: ^1.18.0
+  intl: ^0.20.2
+  crypto: ^3.0.3
+  uuid: ^4.5.3
+  rxdart: ^0.28.0
+  mime: ^2.0.0
+  convert: ^3.1.1
+  path_provider: ^2.1.4
+  http: ^1.2.0
+
+  # Web support
+  web: ^1.1.0
+
+  # Firebase (from primekit_firebase)
+  firebase_core: ^4.4.0
+  firebase_auth: ^6.1.4
+  cloud_firestore: ^6.1.2
+  firebase_crashlytics: ^5.0.7
+  firebase_storage: ^13.0.6
+  firebase_messaging: ^16.1.2
+  firebase_remote_config: ^6.1.4
+  firebase_database: ^12.1.3
+
+  # Google Sign-In (from primekit_firebase)
+  google_sign_in: ^7.0.0
+
+  # Riverpod (from primekit_riverpod)
+  flutter_riverpod: ^2.5.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
+  fake_async: ^1.3.1
+  test: ^1.25.2
+  coverage: ^1.9.0
+  fake_cloud_firestore: ^4.0.1
+
+flutter:
+  uses-material-design: true

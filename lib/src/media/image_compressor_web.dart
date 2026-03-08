@@ -87,8 +87,10 @@ abstract final class ImageCompressor {
   // ---------------------------------------------------------------------------
 
   /// Returns `(width: 0, height: 0)` — exact dimensions require full decode.
-  static Future<({int width, int height})> getDimensions(String path) async =>
-      (width: 0, height: 0);
+  static Future<({int width, int height})> getDimensions(String path) async => (
+    width: 0,
+    height: 0,
+  );
 
   // ---------------------------------------------------------------------------
   // Private helpers
@@ -113,14 +115,16 @@ abstract final class ImageCompressor {
 
       final loadCompleter = Completer<void>();
       // HTMLImageElement uses setter-style event handlers (not Dart streams).
-      img.onload = (web.Event _) {
-        loadCompleter.complete();
-      }.toJS;
-      img.onerror = (web.Event _) {
-        loadCompleter.completeError(
-          Exception('Failed to load image for compression'),
-        );
-      }.toJS;
+      img.onload =
+          (web.Event _) {
+            loadCompleter.complete();
+          }.toJS;
+      img.onerror =
+          (web.Event _) {
+            loadCompleter.completeError(
+              Exception('Failed to load image for compression'),
+            );
+          }.toJS;
       await loadCompleter.future;
 
       final srcW = img.naturalWidth;
@@ -138,9 +142,10 @@ abstract final class ImageCompressor {
         dstH = maxHeight;
       }
 
-      final canvas = web.HTMLCanvasElement()
-        ..width = dstW
-        ..height = dstH;
+      final canvas =
+          web.HTMLCanvasElement()
+            ..width = dstW
+            ..height = dstH;
       final ctx = canvas.getContext('2d') as web.CanvasRenderingContext2D;
       ctx.drawImage(img, 0, 0);
 
@@ -157,13 +162,15 @@ abstract final class ImageCompressor {
           }
           final reader = web.FileReader();
           // FileReader uses setter-style event handlers (not Dart streams).
-          reader.onload = (web.Event _) {
-            final arrayBuffer = reader.result as JSArrayBuffer;
-            completer.complete(arrayBuffer.toDart.asUint8List());
-          }.toJS;
-          reader.onerror = (web.Event _) {
-            completer.completeError(Exception('FileReader failed'));
-          }.toJS;
+          reader.onload =
+              (web.Event _) {
+                final arrayBuffer = reader.result as JSArrayBuffer;
+                completer.complete(arrayBuffer.toDart.asUint8List());
+              }.toJS;
+          reader.onerror =
+              (web.Event _) {
+                completer.completeError(Exception('FileReader failed'));
+              }.toJS;
           reader.readAsArrayBuffer(resultBlob);
         }.toJS,
         mimeType,

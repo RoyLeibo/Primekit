@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 
 // ---------------------------------------------------------------------------
 // Value types

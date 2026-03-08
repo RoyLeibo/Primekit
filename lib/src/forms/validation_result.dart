@@ -52,7 +52,8 @@ final class ValidationResult {
   }
 
   @override
-  String toString() => isValid
-      ? 'ValidationResult.valid($value)'
-      : 'ValidationResult.invalid($errors)';
+  String toString() =>
+      isValid
+          ? 'ValidationResult.valid($value)'
+          : 'ValidationResult.invalid($errors)';
 }

@@ -1,4 +1,4 @@
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'background_task.dart';
 import 'common_tasks.dart';
 

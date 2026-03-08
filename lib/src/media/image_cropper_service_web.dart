@@ -26,14 +26,16 @@ abstract final class ImageCropperService {
       final result = await showMaterialImageCropper(
         context,
         imageProvider: NetworkImage(source.path),
-        allowedAspectRatios: aspectRatio != null
-            ? [CropAspectRatio(width: aspectRatio.x, height: aspectRatio.y)]
-            : null,
-        themeData: toolbarColor != null
-            ? ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: toolbarColor),
-              )
-            : null,
+        allowedAspectRatios:
+            aspectRatio != null
+                ? [CropAspectRatio(width: aspectRatio.x, height: aspectRatio.y)]
+                : null,
+        themeData:
+            toolbarColor != null
+                ? ThemeData(
+                  colorScheme: ColorScheme.fromSeed(seedColor: toolbarColor),
+                )
+                : null,
       );
 
       if (result == null) return null;

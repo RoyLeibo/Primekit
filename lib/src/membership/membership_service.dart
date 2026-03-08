@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'membership_tier.dart';
 
 /// A function that asynchronously resolves the current user's [MembershipTier].

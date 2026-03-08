@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'flag_provider.dart';
 
 /// A caching decorator for any [FlagProvider].

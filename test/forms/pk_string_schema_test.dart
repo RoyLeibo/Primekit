@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:primekit/forms.dart';
+import 'package:primekit/core.dart';
 
 void main() {
   group('PkStringSchema', () {
@@ -235,6 +235,177 @@ void main() {
 
       test('calling required() makes schema required', () {
         expect(PkSchema.string().optional().required().isRequired, isTrue);
+      });
+    });
+
+    // -------------------------------------------------------------------------
+    // New v1.0.0 methods
+    // -------------------------------------------------------------------------
+
+    group('matches', () {
+      test('value matching regex passes', () {
+        final schema = PkSchema.string().matches(RegExp(r'^[A-Z]{3}$'));
+        expect(schema.validate('ABC').isValid, isTrue);
+      });
+
+      test('value not matching regex fails', () {
+        final schema = PkSchema.string().matches(RegExp(r'^[A-Z]{3}$'));
+        expect(schema.validate('abc').isValid, isFalse);
+      });
+
+      test('default error message is "Invalid format"', () {
+        final schema = PkSchema.string().matches(RegExp(r'^\d+$'));
+        final result = schema.validate('abc');
+        expect(result.firstError, equals('Invalid format'));
+      });
+
+      test('custom error message is used', () {
+        final schema = PkSchema.string().matches(
+          RegExp(r'^\d+$'),
+          message: 'Digits only',
+        );
+        final result = schema.validate('abc');
+        expect(result.firstError, equals('Digits only'));
+      });
+
+      test('empty string fails matching regex when required', () {
+        // Empty string is rejected at the required check before matches runs,
+        // but a non-empty string that does not match should fail matches.
+        final schema = PkSchema.string().matches(RegExp(r'^\d+$'));
+        expect(schema.validate('hello').isValid, isFalse);
+      });
+
+      test('chaining matches with minLength', () {
+        final schema = PkSchema.string()
+            .matches(RegExp(r'^[a-z]+$'))
+            .minLength(3);
+        expect(schema.validate('ab').isValid, isFalse); // too short
+        expect(schema.validate('abc').isValid, isTrue);
+        expect(schema.validate('ABC').isValid, isFalse); // wrong case
+      });
+    });
+
+    group('noWhitespace', () {
+      test('value without leading or trailing spaces passes', () {
+        expect(
+          PkSchema.string().noWhitespace().validate('hello').isValid,
+          isTrue,
+        );
+      });
+
+      test('value with leading space fails', () {
+        expect(
+          PkSchema.string().noWhitespace().validate(' hello').isValid,
+          isFalse,
+        );
+      });
+
+      test('value with trailing space fails', () {
+        expect(
+          PkSchema.string().noWhitespace().validate('hello ').isValid,
+          isFalse,
+        );
+      });
+
+      test('value with both leading and trailing spaces fails', () {
+        expect(
+          PkSchema.string().noWhitespace().validate('  hello  ').isValid,
+          isFalse,
+        );
+      });
+
+      test(
+        'value with internal spaces passes (only boundary whitespace checked)',
+        () {
+          expect(
+            PkSchema.string().noWhitespace().validate('hello world').isValid,
+            isTrue,
+          );
+        },
+      );
+
+      test('default error message is descriptive', () {
+        final result = PkSchema.string().noWhitespace().validate(' bad');
+        expect(
+          result.firstError,
+          equals('Must not have leading or trailing spaces'),
+        );
+      });
+
+      test('custom error message is used', () {
+        final result = PkSchema.string()
+            .noWhitespace(message: 'No spaces allowed at edges')
+            .validate(' bad');
+        expect(result.firstError, equals('No spaces allowed at edges'));
+      });
+    });
+
+    group('alphanumeric', () {
+      test('letters-only value passes', () {
+        expect(
+          PkSchema.string().alphanumeric().validate('hello').isValid,
+          isTrue,
+        );
+      });
+
+      test('digits-only value passes', () {
+        expect(
+          PkSchema.string().alphanumeric().validate('12345').isValid,
+          isTrue,
+        );
+      });
+
+      test('mixed letters and digits passes', () {
+        expect(
+          PkSchema.string().alphanumeric().validate('abc123').isValid,
+          isTrue,
+        );
+      });
+
+      test('value with space fails', () {
+        expect(
+          PkSchema.string().alphanumeric().validate('hello world').isValid,
+          isFalse,
+        );
+      });
+
+      test('value with special character fails', () {
+        expect(
+          PkSchema.string().alphanumeric().validate('hello!').isValid,
+          isFalse,
+        );
+      });
+
+      test('value with underscore fails', () {
+        expect(
+          PkSchema.string().alphanumeric().validate('hello_world').isValid,
+          isFalse,
+        );
+      });
+
+      test(
+        'default error message is "Must contain only letters and digits"',
+        () {
+          final result = PkSchema.string().alphanumeric().validate('bad!');
+          expect(
+            result.firstError,
+            equals('Must contain only letters and digits'),
+          );
+        },
+      );
+
+      test('custom error message is used', () {
+        final result = PkSchema.string()
+            .alphanumeric(message: 'Letters and numbers only')
+            .validate('bad!');
+        expect(result.firstError, equals('Letters and numbers only'));
+      });
+
+      test('chaining alphanumeric with minLength', () {
+        final schema = PkSchema.string().alphanumeric().minLength(4);
+        expect(schema.validate('ab1').isValid, isFalse); // too short
+        expect(schema.validate('ab12').isValid, isTrue);
+        expect(schema.validate('ab1!').isValid, isFalse); // non-alphanumeric
       });
     });
   });

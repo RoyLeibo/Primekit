@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'analytics_event.dart';
 import 'event_tracker.dart';
 

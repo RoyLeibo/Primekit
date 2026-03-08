@@ -6,64 +6,21 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
-  # ─── Tests ──────────────────────────────────────────────────────────────────
   test:
     name: Run Tests
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.41.3'
           channel: stable
+      - run: flutter pub get
+      - run: flutter test
 
-      - name: Resolve workspace
-        run: dart pub get
-
-      - name: Run tests (primekit_core)
-        run: cd packages/primekit_core && flutter test
-
-      - name: Run tests (primekit)
-        run: cd packages/primekit && flutter test
-
-      - name: Run tests (primekit_riverpod)
-        run: cd packages/primekit_riverpod && flutter test
-
-  # ─── Publish (in dependency order) ─────────────────────────────────────────
-  publish-core:
-    name: Publish primekit_core
+  publish:
+    name: Publish primekit
     needs: test
     permissions:
       id-token: write
     uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      working-directory: packages/primekit_core
-
-  publish-primekit:
-    name: Publish primekit
-    needs: publish-core
-    permissions:
-      id-token: write
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      working-directory: packages/primekit
-
-  publish-firebase:
-    name: Publish primekit_firebase
-    needs: publish-primekit
-    permissions:
-      id-token: write
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      working-directory: packages/primekit_firebase
-
-  publish-riverpod:
-    name: Publish primekit_riverpod
-    needs: publish-primekit
-    permissions:
-      id-token: write
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      working-directory: packages/primekit_riverpod

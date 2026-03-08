@@ -41,9 +41,10 @@ final class MongoRbacProvider implements RbacProvider {
        _dataSource = dataSource,
        _database = database,
        _usersCollection = usersCollection,
-       _dio = dio ?? Dio()
-         ..options.headers['api-key'] = apiKey
-         ..options.headers['Content-Type'] = 'application/json';
+       _dio =
+           dio ?? Dio()
+             ..options.headers['api-key'] = apiKey
+             ..options.headers['Content-Type'] = 'application/json';
 
   final RbacPolicy _policy;
   final String _baseUrl;
@@ -72,9 +73,8 @@ final class MongoRbacProvider implements RbacProvider {
 
       final doc = response.data?['document'] as Map<String, dynamic>?;
       final raw = doc?['roles'];
-      final roleIds = raw is List
-          ? raw.whereType<String>().toList()
-          : <String>[];
+      final roleIds =
+          raw is List ? raw.whereType<String>().toList() : <String>[];
 
       return RbacContext(userId: userId, roleIds: roleIds, policy: _policy);
     } catch (error) {

@@ -55,11 +55,12 @@ class PrimekitConfig {
       return;
     }
 
-    _instance = PrimekitConfig._()
-      .._environment = environment
-      .._logLevel = logLevel
-      .._enableAnalytics = enableAnalytics
-      .._enableCrashReporting = enableCrashReporting;
+    _instance =
+        PrimekitConfig._()
+          .._environment = environment
+          .._logLevel = logLevel
+          .._enableAnalytics = enableAnalytics
+          .._enableCrashReporting = enableCrashReporting;
 
     PrimekitLogger.configure(logLevel);
     PrimekitLogger.info(

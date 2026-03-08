@@ -128,9 +128,11 @@ class MessageBuffer {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  List<BufferedMessage> _decode(List<String> raw) => raw
-      .map(
-        (s) => BufferedMessage.fromJson(jsonDecode(s) as Map<String, dynamic>),
-      )
-      .toList();
+  List<BufferedMessage> _decode(List<String> raw) =>
+      raw
+          .map(
+            (s) =>
+                BufferedMessage.fromJson(jsonDecode(s) as Map<String, dynamic>),
+          )
+          .toList();
 }

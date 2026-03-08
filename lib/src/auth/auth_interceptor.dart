@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../core/exceptions.dart';
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'token_store.dart' show TokenStoreBase;
 
 /// A callback that receives the current refresh token and must return a fresh
@@ -40,7 +39,7 @@ typedef TokenRefreshCallback = Future<String?> Function(String refreshToken);
 ///   ),
 /// );
 /// ```
-final class AuthInterceptor extends Interceptor {
+class AuthInterceptor extends Interceptor {
   AuthInterceptor({
     required TokenStoreBase tokenStore,
     required TokenRefreshCallback onRefresh,

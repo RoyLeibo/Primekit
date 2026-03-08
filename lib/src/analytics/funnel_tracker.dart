@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'analytics_event.dart';
 import 'event_tracker.dart';
 
@@ -23,8 +23,7 @@ final class FunnelDefinition {
   ///
   /// [steps] must be non-empty and contain unique names.
   const FunnelDefinition({required this.name, required this.steps})
-    : assert(name != '', 'FunnelDefinition.name must not be empty'),
-      assert(steps.length > 0, 'FunnelDefinition.steps must not be empty');
+    : assert(name != '', 'FunnelDefinition.name must not be empty');
 
   /// Unique identifier for this funnel.
   final String name;
@@ -334,7 +333,7 @@ final class FunnelTracker {
         'steps_completed': state.completedSteps.length,
         'last_step': state.completedSteps.lastOrNull,
         'duration_seconds': duration.inSeconds,
-        'reason': ?reason,
+        if (reason != null) 'reason': reason,
       },
     );
 
@@ -365,7 +364,7 @@ final class FunnelTracker {
   }) {
     final params = <String, Object?>{
       'funnel_name': funnelName,
-      'user_id': ?userId,
+      if (userId != null) 'user_id': userId,
       ...extra,
     };
 

@@ -4,7 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 
 /// Monitors network connectivity and exposes a debounced stream of
 /// connection-state changes.
@@ -73,7 +73,7 @@ final class ConnectivityMonitor {
       final connected = _isConnected(results);
       _update(connected);
       return connected;
-    } on Exception catch (error, stack) {
+    } on Object catch (error, stack) {
       PrimekitLogger.error(
         'Failed to check connectivity.',
         tag: _tag,

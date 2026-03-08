@@ -123,9 +123,8 @@ class LocaleManager extends ChangeNotifier {
     await prefs.remove(_kLocaleKey);
 
     final systemLocale = WidgetsBinding.instance.platformDispatcher.locale;
-    final matched = _supportedLocales
-        .where(_localeEquals(systemLocale))
-        .firstOrNull;
+    final matched =
+        _supportedLocales.where(_localeEquals(systemLocale)).firstOrNull;
 
     _currentLocale = matched ?? _supportedLocales.first;
     notifyListeners();
@@ -142,16 +141,16 @@ class LocaleManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  static String _encodeLocale(Locale locale) => locale.countryCode != null
-      ? '${locale.languageCode}_${locale.countryCode}'
-      : locale.languageCode;
+  static String _encodeLocale(Locale locale) =>
+      locale.countryCode != null
+          ? '${locale.languageCode}_${locale.countryCode}'
+          : locale.languageCode;
 
   static Locale? _parseLocale(String? raw, List<Locale> supported) {
     if (raw == null || raw.isEmpty) return null;
     final parts = raw.split('_');
-    final candidate = parts.length >= 2
-        ? Locale(parts[0], parts[1])
-        : Locale(parts[0]);
+    final candidate =
+        parts.length >= 2 ? Locale(parts[0], parts[1]) : Locale(parts[0]);
     return supported.any(_localeEquals(candidate)) ? candidate : null;
   }
 

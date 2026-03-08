@@ -17,15 +17,17 @@ final class PresenceRecord {
       PresenceRecord(
         userId: userId,
         displayName: json['displayName'] as String?,
-        lastSeen: json['lastSeen'] is int
-            ? DateTime.fromMillisecondsSinceEpoch(json['lastSeen'] as int)
-            : DateTime.now(),
+        lastSeen:
+            json['lastSeen'] is int
+                ? DateTime.fromMillisecondsSinceEpoch(json['lastSeen'] as int)
+                : DateTime.now(),
         isOnline: json['isOnline'] as bool? ?? false,
-        metadata: json['metadata'] is Map
-            ? Map<String, dynamic>.from(
-                json['metadata'] as Map<Object?, Object?>,
-              )
-            : null,
+        metadata:
+            json['metadata'] is Map
+                ? Map<String, dynamic>.from(
+                  json['metadata'] as Map<Object?, Object?>,
+                )
+                : null,
       );
 
   /// The user's identifier.

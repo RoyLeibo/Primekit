@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 
 /// The current lifecycle state of a subscription.
 enum SubscriptionStatus {

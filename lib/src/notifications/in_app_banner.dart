@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 
 // ---------------------------------------------------------------------------
 // Configuration types
@@ -97,13 +97,14 @@ class InAppBannerService {
 
     late OverlayEntry entry;
     entry = OverlayEntry(
-      builder: (_) => _InAppBannerOverlay(
-        config: config,
-        onDismiss: () {
-          _removeCurrent();
-          config.onDismiss?.call();
-        },
-      ),
+      builder:
+          (_) => _InAppBannerOverlay(
+            config: config,
+            onDismiss: () {
+              _removeCurrent();
+              config.onDismiss?.call();
+            },
+          ),
     );
 
     _currentEntry = entry;
@@ -206,9 +207,10 @@ class _InAppBannerState extends State<InAppBanner>
       duration: const Duration(milliseconds: 300),
     );
 
-    final beginOffset = widget.position == InAppBannerPosition.top
-        ? const Offset(0.0, -1.0)
-        : const Offset(0.0, 1.0);
+    final beginOffset =
+        widget.position == InAppBannerPosition.top
+            ? const Offset(0.0, -1.0)
+            : const Offset(0.0, 1.0);
 
     _slideAnimation = Tween<Offset>(
       begin: beginOffset,
@@ -245,9 +247,10 @@ class _InAppBannerState extends State<InAppBanner>
         opacity: _fadeAnimation,
         child: Dismissible(
           key: const ValueKey('in_app_banner'),
-          direction: widget.position == InAppBannerPosition.top
-              ? DismissDirection.up
-              : DismissDirection.down,
+          direction:
+              widget.position == InAppBannerPosition.top
+                  ? DismissDirection.up
+                  : DismissDirection.down,
           onDismissed: (_) => widget.onDismiss?.call(),
           child: GestureDetector(
             onTap: () {
@@ -347,9 +350,10 @@ class _InAppBannerOverlay extends StatelessWidget {
 
     return Positioned(
       top: config.position == InAppBannerPosition.top ? topPadding + 4 : null,
-      bottom: config.position == InAppBannerPosition.bottom
-          ? bottomPadding + 4
-          : null,
+      bottom:
+          config.position == InAppBannerPosition.bottom
+              ? bottomPadding + 4
+              : null,
       left: 0,
       right: 0,
       child: InAppBanner(

@@ -4,7 +4,7 @@ import 'package:local_auth_android/local_auth_android.dart'
 import 'package:local_auth_darwin/local_auth_darwin.dart' show IOSAuthMessages;
 import 'package:local_auth_platform_interface/types/auth_messages.dart';
 
-import '../core/logger.dart';
+import 'package:primekit/core.dart';
 import 'biometric_types.dart';
 
 export 'biometric_types.dart';
@@ -76,15 +76,16 @@ abstract final class BiometricAuth {
     bool stickyAuth = true,
   }) async {
     try {
-      final authMessages = cancelButtonText != null
-          ? <AuthMessages>[
-              AndroidAuthMessages(cancelButton: cancelButtonText),
-              IOSAuthMessages(cancelButton: cancelButtonText),
-            ]
-          : <AuthMessages>[
-              const AndroidAuthMessages(),
-              const IOSAuthMessages(),
-            ];
+      final authMessages =
+          cancelButtonText != null
+              ? <AuthMessages>[
+                AndroidAuthMessages(cancelButton: cancelButtonText),
+                IOSAuthMessages(cancelButton: cancelButtonText),
+              ]
+              : <AuthMessages>[
+                const AndroidAuthMessages(),
+                const IOSAuthMessages(),
+              ];
 
       final authenticated = await _auth.authenticate(
         localizedReason: reason,
@@ -120,17 +121,17 @@ abstract final class BiometricAuth {
         _ => BiometricType.any,
       };
 
-  static BiometricResult _mapLocalAuthException(la.LocalAuthException error) =>
-      switch (error.code) {
-        la.LocalAuthExceptionCode.userCanceled ||
-        la.LocalAuthExceptionCode.systemCanceled => BiometricResult.cancelled,
-        la.LocalAuthExceptionCode.noBiometricsEnrolled ||
-        la.LocalAuthExceptionCode.noBiometricHardware ||
-        la.LocalAuthExceptionCode.noCredentialsSet =>
-          BiometricResult.notAvailable,
-        la.LocalAuthExceptionCode.temporaryLockout => BiometricResult.lockedOut,
-        la.LocalAuthExceptionCode.biometricLockout =>
-          BiometricResult.permanentlyLockedOut,
-        _ => BiometricResult.failed,
-      };
+  static BiometricResult _mapLocalAuthException(
+    la.LocalAuthException error,
+  ) => switch (error.code) {
+    la.LocalAuthExceptionCode.userCanceled ||
+    la.LocalAuthExceptionCode.systemCanceled => BiometricResult.cancelled,
+    la.LocalAuthExceptionCode.noBiometricsEnrolled ||
+    la.LocalAuthExceptionCode.noBiometricHardware ||
+    la.LocalAuthExceptionCode.noCredentialsSet => BiometricResult.notAvailable,
+    la.LocalAuthExceptionCode.temporaryLockout => BiometricResult.lockedOut,
+    la.LocalAuthExceptionCode.biometricLockout =>
+      BiometricResult.permanentlyLockedOut,
+    _ => BiometricResult.failed,
+  };
 }
