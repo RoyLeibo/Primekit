@@ -21,6 +21,19 @@ jobs:
   publish:
     name: Publish primekit
     needs: test
+    runs-on: ubuntu-latest
     permissions:
       id-token: write
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
+        with:
+          sdk: stable
+      - uses: flutter-actions/setup-flutter@54feb1e258158303e041b9eaf89314dcfbf6d38a
+        with:
+          channel: stable
+          version: latest
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Publish to pub.dev
+        run: dart pub publish -f
