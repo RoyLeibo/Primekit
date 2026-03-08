@@ -7,6 +7,39 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## 2.0.3
+
+### Fixed
+- Remove old `packages/` subdirectory — resolves pana "multiple pubspec.yaml with name: primekit" error (was causing 0/10 pubspec score)
+
+## 2.0.2
+
+### Fixed
+- Upgrade `flutter_riverpod` to `^3.2.1` (was `^2.5.1`) — resolves pub.dev dependency constraint warning
+- Fix `PkAsyncNotifierMixin` and `PkAutoDisposeAsyncNotifierMixin` for Riverpod 3.x API (`valueOrNull` → `value`, `AutoDisposeAsyncNotifier` → `AsyncNotifier`)
+
+## 2.0.1
+
+### Fixed
+- Convert all `package:primekit/...` imports to relative imports — resolves `prefer_relative_imports` lint violations (74 fixes)
+
+## 2.0.0
+
+### Breaking Changes
+- **Single-package merge**: `primekit_core`, `primekit_firebase`, and `primekit_riverpod` have been merged into this package.
+  - Replace `package:primekit_core/primekit_core.dart` → `package:primekit/core.dart`
+  - Replace `package:primekit_firebase/primekit_firebase.dart` → `package:primekit/firebase.dart`
+  - Replace `package:primekit_riverpod/primekit_riverpod.dart` → `package:primekit/riverpod.dart`
+
+### New Entry Points
+- `package:primekit/core.dart` — core utilities (Result, AsyncState, forms, DI)
+- `package:primekit/firebase.dart` — Firebase adapters
+- `package:primekit/riverpod.dart` — Riverpod helpers
+
+### New Modules
+- **AI** (`primekit/ai.dart`): OpenAI and Anthropic provider abstractions
+- **Location** (`primekit/device.dart`): `LocationService` with platform-aware geolocator integration
+
 ## 1.0.0
 
 ### Breaking Changes
