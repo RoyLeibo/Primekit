@@ -3,7 +3,7 @@ import 'dart:io' show Platform;
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 /// Immutable snapshot of device hardware and OS information.
 final class DeviceDetails {

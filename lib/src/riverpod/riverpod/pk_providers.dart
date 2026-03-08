@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:primekit/network.dart';
-import 'package:primekit/auth.dart';
-import 'package:primekit/storage.dart';
-import 'package:primekit/device.dart';
+import '../../../network.dart';
+import '../../../auth.dart';
+import '../../../storage.dart';
+import '../../../device.dart';
 
 /// Ready-to-use Riverpod providers for common PrimeKit services.
 ///

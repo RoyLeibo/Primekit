@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'email_message.dart';
 
 // ---------------------------------------------------------------------------

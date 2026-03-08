@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:primekit/currency.dart';
+import '../../../currency.dart';
 
 /// Firestore-backed [CurrencyRateSource] that reads exchange rates from a
 /// Firestore collection and falls back to the HTTP API on failure.

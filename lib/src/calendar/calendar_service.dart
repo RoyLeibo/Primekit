@@ -1,4 +1,4 @@
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'calendar_event.dart';
 import 'calendar_provider.dart';
 

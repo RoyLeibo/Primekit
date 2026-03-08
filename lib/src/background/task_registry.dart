@@ -1,4 +1,4 @@
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'background_task.dart';
 import 'common_tasks.dart';
 

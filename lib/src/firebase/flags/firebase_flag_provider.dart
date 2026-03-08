@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
-import 'package:primekit/core.dart';
-import 'package:primekit/flags.dart';
+import '../../../core.dart';
+import '../../../flags.dart';
 
 /// A [FlagProvider] backed by Firebase Remote Config.
 ///

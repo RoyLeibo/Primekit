@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 /// Static helpers for reading and writing the system clipboard.
 ///

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'permission_helper.dart';
 
 /// A single permission request step within a [PermissionFlow].

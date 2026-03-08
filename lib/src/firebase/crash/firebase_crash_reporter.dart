@@ -1,6 +1,6 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-import 'package:primekit/crash.dart';
+import '../../../crash.dart';
 
 /// Firebase Crashlytics-backed [CrashReporter].
 ///

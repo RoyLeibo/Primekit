@@ -1,6 +1,6 @@
 import '../analytics/analytics_event.dart';
 import '../analytics/event_tracker.dart';
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 // ---------------------------------------------------------------------------
 // AdEvent sealed union

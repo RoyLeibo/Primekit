@@ -2,7 +2,7 @@ import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 /// A Dio [Interceptor] that automatically retries failed requests with
 /// exponential backoff.

@@ -1,4 +1,4 @@
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'subscription_manager.dart';
 
 // ---------------------------------------------------------------------------

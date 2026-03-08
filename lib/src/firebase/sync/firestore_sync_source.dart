@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:primekit/sync.dart';
+import '../../../sync.dart';
 
 /// A [SyncDataSource] backed by Google Cloud Firestore.
 ///

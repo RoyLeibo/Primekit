@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 // ---------------------------------------------------------------------------
 // Value types

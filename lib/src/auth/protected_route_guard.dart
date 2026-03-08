@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'session_manager.dart'
     show SessionAuthenticated, SessionLoading, SessionStateProvider;
 

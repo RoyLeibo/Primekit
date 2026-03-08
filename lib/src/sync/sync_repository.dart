@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'conflict_resolver.dart';
 import 'pending_change_store.dart';
 import 'sync_data_source.dart';

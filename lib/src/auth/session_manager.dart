@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import '../storage/secure_prefs.dart' show SecurePrefs, SecurePrefsBase;
 import 'token_store.dart' show TokenStore, TokenStoreBase;
 

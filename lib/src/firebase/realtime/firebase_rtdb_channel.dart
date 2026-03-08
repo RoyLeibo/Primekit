@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:primekit/realtime.dart';
+import '../../../realtime.dart';
 
 /// Firebase Realtime Database implementation of [RealtimeChannel].
 ///

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'background_task.dart';
 import 'task_registry.dart';
 

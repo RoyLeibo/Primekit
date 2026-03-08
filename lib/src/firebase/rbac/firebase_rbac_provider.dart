@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:primekit/rbac.dart';
+import '../../../rbac.dart';
 
 /// [RbacProvider] implementation backed by Cloud Firestore and Firebase Auth.
 ///

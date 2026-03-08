@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'sync_data_source.dart';
 
 /// Persists [SyncChange] objects to [SharedPreferences] so that unsynced

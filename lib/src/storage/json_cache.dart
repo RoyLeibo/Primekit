@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 /// A TTL-based JSON cache backed by [SharedPreferences].
 ///

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 /// A typed [SharedPreferences] wrapper for common application settings.
 ///

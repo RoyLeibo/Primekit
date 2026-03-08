@@ -15,7 +15,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'ad_event_logger.dart';
 
 // The imports below are conditional — the file compiles without google_mobile_ads

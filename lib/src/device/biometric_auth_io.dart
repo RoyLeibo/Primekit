@@ -4,7 +4,7 @@ import 'package:local_auth_android/local_auth_android.dart'
 import 'package:local_auth_darwin/local_auth_darwin.dart' show IOSAuthMessages;
 import 'package:local_auth_platform_interface/types/auth_messages.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'biometric_types.dart';
 
 export 'biometric_types.dart';

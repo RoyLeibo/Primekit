@@ -5,7 +5,7 @@ import 'dart:js_interop_unsafe';
 import 'package:flutter/foundation.dart';
 import 'package:web/web.dart' as web;
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'pk_permission.dart';
 
 export 'pk_permission.dart';

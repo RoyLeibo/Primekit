@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:primekit/social.dart';
+import '../../../social.dart';
 
 export 'package:primekit/social.dart' show FollowDataSource;
 

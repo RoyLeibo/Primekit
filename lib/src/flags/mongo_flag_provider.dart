@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'flag_provider.dart';
 
 /// A [FlagProvider] backed by MongoDB Atlas Data API (REST).

@@ -5,7 +5,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'email_message.dart';
 import 'email_service.dart';
 

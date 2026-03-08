@@ -3,7 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 /// Immutable snapshot of the application version metadata.
 final class VersionInfo {

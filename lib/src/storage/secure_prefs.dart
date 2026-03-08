@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 /// Abstract interface for secure key-value persistence.
 ///

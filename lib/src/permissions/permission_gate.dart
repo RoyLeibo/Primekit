@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'permission_helper.dart';
 
 /// A widget that checks and optionally requests a device permission before

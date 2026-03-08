@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as fb;
 import 'package:uuid/uuid.dart';
 
-import 'package:primekit/media.dart';
+import '../../../media.dart';
 
 /// [MediaUploader] implementation backed by Firebase Cloud Storage.
 ///

@@ -1,6 +1,6 @@
 import 'package:workmanager/workmanager.dart' as wm;
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'background_task.dart';
 import 'task_registry.dart';
 

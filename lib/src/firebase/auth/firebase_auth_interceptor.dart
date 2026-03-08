@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:primekit/auth.dart';
+import '../../../auth.dart';
 
 /// A ready-to-use [AuthInterceptor] for Firebase Auth apps.
 ///

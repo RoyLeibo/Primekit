@@ -4,7 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 /// Monitors network connectivity and exposes a debounced stream of
 /// connection-state changes.

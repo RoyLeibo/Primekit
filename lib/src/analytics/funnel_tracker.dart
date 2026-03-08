@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'analytics_event.dart';
 import 'event_tracker.dart';
 

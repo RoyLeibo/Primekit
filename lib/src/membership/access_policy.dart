@@ -1,4 +1,4 @@
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'membership_tier.dart';
 
 /// Maps named features to the minimum [MembershipTier] required to access them.

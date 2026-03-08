@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 // ---------------------------------------------------------------------------
 // Configuration types

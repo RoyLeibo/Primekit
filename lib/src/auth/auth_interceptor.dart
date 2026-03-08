@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 import 'token_store.dart' show TokenStoreBase;
 
 /// A callback that receives the current refresh token and must return a fresh

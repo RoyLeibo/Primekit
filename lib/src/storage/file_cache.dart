@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:primekit/core.dart';
+import '../../core.dart';
 
 /// A local file cache for downloaded remote assets (images, PDFs, documents).
 ///
