@@ -168,7 +168,7 @@ void main() {
           final loadingState = container.read(_counterProvider);
           expect(loadingState.isLoading, isTrue);
           // Previous value should still be accessible.
-          expect(loadingState.valueOrNull, equals(99));
+          expect(loadingState.value, equals(99));
 
           completer.complete(100);
           await Future<void>.delayed(Duration.zero);
