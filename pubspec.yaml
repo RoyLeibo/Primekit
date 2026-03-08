@@ -3,7 +3,6 @@ description: >-
   A modular Flutter toolkit — networking, auth, notifications, storage,
   Firebase adapters, Riverpod helpers, and more.
 version: 2.0.0
-publish_to: none
 homepage: https://github.com/RoyLeibo/Primekit
 repository: https://github.com/RoyLeibo/Primekit
 issue_tracker: https://github.com/RoyLeibo/Primekit/issues
