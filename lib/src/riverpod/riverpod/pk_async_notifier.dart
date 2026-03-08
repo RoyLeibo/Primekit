@@ -23,6 +23,7 @@ mixin PkAsyncNotifierMixin<T> on AsyncNotifier<T> {
   }) async {
     _preserveData = preserveData;
     if (preserveData) {
+      // ignore: invalid_use_of_internal_member
       state = AsyncLoading<T>().copyWithPrevious(state);
     } else {
       state = const AsyncLoading();
@@ -36,7 +37,7 @@ mixin PkAsyncNotifierMixin<T> on AsyncNotifier<T> {
     final s = state;
     if (s.hasError) return null;
     if (s.isLoading && !_preserveData) return null;
-    return s.valueOrNull;
+    return s.value;
   }
 
   /// Returns true if this notifier is currently loading.
@@ -48,17 +49,23 @@ mixin PkAsyncNotifierMixin<T> on AsyncNotifier<T> {
 
 /// A base class for Riverpod [StreamNotifier]s with PrimeKit patterns.
 mixin PkStreamNotifierMixin<T> on StreamNotifier<T> {
-  T? get currentData => state.valueOrNull;
+  T? get currentData => state.value;
   bool get isLoading => state.isLoading;
 }
 
-/// A base class for Riverpod [AutoDisposeAsyncNotifier]s.
-mixin PkAutoDisposeAsyncNotifierMixin<T> on AutoDisposeAsyncNotifier<T> {
+/// A base class for auto-dispose async notifiers.
+/// In Riverpod 3.x, AutoDisposeAsyncNotifier was merged into AsyncNotifier.
+/// Use [PkAsyncNotifierMixin] directly on [AsyncNotifier].
+@Deprecated('Use PkAsyncNotifierMixin on AsyncNotifier instead. '
+    'AutoDisposeAsyncNotifier was removed in Riverpod 3.x.')
+mixin PkAutoDisposeAsyncNotifierMixin<T> on AsyncNotifier<T> {
   Future<void> guard(
     Future<T> Function() operation, {
     bool preserveData = true,
   }) async {
     if (preserveData) {
+      // ignore: invalid_use_of_internal_member
+      // ignore: invalid_use_of_internal_member
       state = AsyncLoading<T>().copyWithPrevious(state);
     } else {
       state = const AsyncLoading();
@@ -66,6 +73,6 @@ mixin PkAutoDisposeAsyncNotifierMixin<T> on AutoDisposeAsyncNotifier<T> {
     state = await AsyncValue.guard(operation);
   }
 
-  T? get currentData => state.valueOrNull;
+  T? get currentData => state.value;
   bool get isLoading => state.isLoading;
 }
