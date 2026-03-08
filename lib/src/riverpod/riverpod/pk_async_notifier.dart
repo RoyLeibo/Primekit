@@ -56,8 +56,10 @@ mixin PkStreamNotifierMixin<T> on StreamNotifier<T> {
 /// A base class for auto-dispose async notifiers.
 /// In Riverpod 3.x, AutoDisposeAsyncNotifier was merged into AsyncNotifier.
 /// Use [PkAsyncNotifierMixin] directly on [AsyncNotifier].
-@Deprecated('Use PkAsyncNotifierMixin on AsyncNotifier instead. '
-    'AutoDisposeAsyncNotifier was removed in Riverpod 3.x.')
+@Deprecated(
+  'Use PkAsyncNotifierMixin on AsyncNotifier instead. '
+  'AutoDisposeAsyncNotifier was removed in Riverpod 3.x.',
+)
 mixin PkAutoDisposeAsyncNotifierMixin<T> on AsyncNotifier<T> {
   Future<void> guard(
     Future<T> Function() operation, {
