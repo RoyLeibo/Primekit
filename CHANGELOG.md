@@ -7,6 +7,22 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## 2.1.0
+
+### Added
+- **`auth.dart`** — `FirebaseAuthInterceptor`: Dio interceptor for Firebase Auth apps (google_sign_in 7.x). Attaches ID token as Bearer, force-refreshes on 401, calls `onSessionExpired` on failure. No token store needed — Firebase manages refresh internally.
+- **`calendar.dart`** — `GoogleCalendarProvider`: `CalendarProvider` implementation using Google Calendar API v3 + `extension_google_sign_in_as_googleapis_auth ^3.0.0`. Uses `GoogleSignIn.instance.authorizationClient` (7.x API). Added `getCalendarList()` returning `List<({String id, String name})>` to `CalendarProvider` interface.
+- **`design_system.dart`** — `PkColorScheme`: semantic token set (primary, secondary, surface, error, outline, shadow) with `PkColorScheme.light()` / `.dark()` factories, `.toColorScheme()`, `.toThemeData({PkTypography?})`, and `.copyWith()`.
+- **`design_system.dart`** — `PkTypography`: font-family-injectable text scale (15 named styles: `displayLg/Md/Sm`, `headingLg/Md/Sm`, `titleLg/Md/Sm`, `bodyLg/Md/Sm`, `labelLg/Md/Sm`) with `.toTextTheme(colorScheme)`.
+- **`network.dart`** — `SyncStatusMonitor`: bridges `ConnectivityMonitor` + Firestore `hasPendingWrites` into a unified `Stream<PkSyncStatus>` and `Stream<int>` pending count. Call `setWatchPath(path)` after login.
+- **`notifications.dart`** — `RemoteNotificationPreferences`: Firestore-backed per-type notification toggles (`setEnabled`, `isEnabled`, `watchEnabled`, `watchAll`, `getAll`, `reset`). Stores at `users/{userId}/settings/notifications/{type}`.
+- **`audit.dart`** — new module: `AuditLogService` (singleton, `log()`, `logEvent()`, `query()`, `watch()`), `AuditEvent` (immutable record with auto-UUID), `AuditQuery` (flexible filters), `FirestoreAuditBackend`, `InMemoryAuditBackend`.
+
+### Changed
+- `extension_google_sign_in_as_googleapis_auth` bumped to `^3.0.0` for google_sign_in 7.x compatibility.
+
+---
+
 ## 2.0.3
 
 ### Fixed
