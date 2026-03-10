@@ -97,7 +97,7 @@ dependencies:
   # Google Sign-In + Calendar API (from primekit_firebase)
   google_sign_in: ^7.0.0
   googleapis: ^13.0.0
-  extension_google_sign_in_as_googleapis_auth: ^2.0.13
+  extension_google_sign_in_as_googleapis_auth: ^3.0.0
 
   # Riverpod (from primekit_riverpod)
   flutter_riverpod: ^3.2.1
