@@ -3,4 +3,6 @@ export 'in_app_banner.dart';
 // dart.library.io / stub) so re-exporting it here is safe on all platforms.
 export 'local_notifier.dart';
 export 'notification_channel.dart';
+export 'notification_preferences.dart';
 export 'notification_types.dart';
+export 'remote_notification_preferences.dart';

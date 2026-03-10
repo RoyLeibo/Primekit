@@ -3,6 +3,7 @@ export 'core.dart';
 
 // Main modules
 export 'ads.dart';
+export 'audit.dart';
 export 'ai.dart';
 export 'analytics.dart';
 export 'auth.dart';

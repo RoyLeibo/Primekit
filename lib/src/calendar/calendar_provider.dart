@@ -33,4 +33,13 @@ abstract class CalendarProvider {
 
   /// Returns available calendar IDs (e.g. multiple Google accounts).
   Future<List<String>> getCalendarIds();
+
+  /// Returns available calendars as `{id, name}` pairs for use in a picker UI.
+  ///
+  /// Default implementation wraps [getCalendarIds] with empty names.
+  /// Override for richer data (e.g. [GoogleCalendarProvider] returns real names).
+  Future<List<({String id, String name})>> getCalendarList() async {
+    final ids = await getCalendarIds();
+    return ids.map((id) => (id: id, name: id)).toList();
+  }
 }
