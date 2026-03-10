@@ -163,6 +163,39 @@ test(forms): add email validation edge cases
 - [ ] Example updated if public API changed
 - [ ] No breaking changes (or clearly marked and versioned)
 
+### Publish to pub.dev after every merge
+
+**Every merge to `main` that contains a feature or bug fix must be published to pub.dev.**
+Consumer apps (`Bullseye`, `Splitly`, `PawTrack`, `best_todo_list`) depend on the published version — pushing to GitHub alone is not enough.
+
+```bash
+# 1. Bump version in pubspec.yaml (semver)
+#    patch (2.1.x) — bug fix, no new API
+#    minor (2.x.0) — new feature, backward compatible
+#    major (x.0.0) — breaking change
+
+# 2. Add CHANGELOG.md entry
+
+# 3. Commit + push
+git add pubspec.yaml CHANGELOG.md
+git commit -m "chore: bump to X.Y.Z — <summary>"
+git push origin main
+
+# 4. Publish (must be from a clean git state)
+dart pub publish --force
+
+# 5. Update all apps
+#    In each app's pubspec.yaml:  primekit: ^X.Y.Z
+#    Then: flutter pub get + commit + push each app
+```
+
+**Version bump rules:**
+| Change type | Version |
+|-------------|---------|
+| Bug fix, no API change | patch `2.1.x` |
+| New exported class / method | minor `2.x.0` |
+| Breaking change (remove/rename) | major `x.0.0` |
+
 ---
 
 ## Code Standards
