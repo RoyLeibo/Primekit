@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'pk_typography.dart';
+
 /// A semantic color token set that maps to Flutter's Material 3 [ColorScheme].
 ///
 /// Define your brand colors once in `PkColorScheme` and call [toThemeData] to
