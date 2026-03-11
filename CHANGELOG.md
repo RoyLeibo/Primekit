@@ -7,6 +7,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## 2.2.0
+
+### Added
+- **`analytics.dart`** — `DebugAnalyticsProvider`: development-only `AnalyticsProvider` implementation that prints events to the debug console via `debugPrint`. Use in development builds; swap for a production provider (Firebase Analytics, Amplitude, etc.) before shipping.
+
+---
+
 ## 2.1.0
 
 ### Added
