@@ -15,7 +15,7 @@ Everything below is complete and pushed to all repos.
 - **Phase 3 — AuditLogService** — configured + event call sites added in all 4 apps
 - **Bullseye Riverpod 3.x migration** — complete
 - **PrimeKit modules built**: `currency.dart`, `contacts.dart`, `audit.dart`, `calendar.dart` (`GoogleCalendarProvider`), `design_system.dart` (`PkColorScheme`, `PkTypography`), `auth.dart` (`FirebaseAuthInterceptor`), `network.dart` (`SyncStatusMonitor`), `notifications.dart` (`RemoteNotificationPreferences`), `analytics.dart` (`DebugAnalyticsProvider`)
-- **PrimeKit 2.2.0 published** — `DebugAnalyticsProvider` added
+- **PrimeKit 2.2.0 published** — `DebugAnalyticsProvider` added; all 4 apps upgraded to `^2.2.0`
 - **pub.dev score**: 160/160
 
 ---
@@ -79,15 +79,3 @@ if (enabled) { /* show new flow */ }
 | PawTrack | `vet_telehealth_enabled`, `pdf_export_v2`, `health_insights_ai` |
 | best_todo_list | `ai_day_summary`, `kanban_view`, `habit_tracking_v2` |
 
----
-
-## 🔧 Cleanup Item (not an integration)
-
-**Upgrade all 4 apps from `^2.1.0` → `^2.2.0`** once pub.dev finishes indexing 2.2.0:
-
-1. Remove `dependency_overrides: primekit: path: ../Primekit` from each `pubspec.yaml`
-2. Update `primekit: ^2.1.0` → `primekit: ^2.2.0`
-3. Run `flutter pub get` in each app
-4. Commit + push all 4
-
-Each `pubspec.yaml` already has a `# TODO: remove once primekit ^2.2.0 is indexed` comment marking the override.
