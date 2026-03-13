@@ -2,6 +2,8 @@ export 'adaptive_scaffold.dart';
 export 'confirm_dialog.dart';
 export 'empty_state.dart';
 export 'lazy_list.dart';
+export 'legal/legal_links_config.dart';
+export 'legal/legal_links_widget.dart';
 export 'loading_overlay.dart';
 export 'pk_ui_theme.dart';
 export 'skeleton_loader.dart';

@@ -15,11 +15,15 @@ class PkSyncStatusBadge extends StatelessWidget {
   const PkSyncStatusBadge({
     required this.statusStream,
     required this.pendingCountStream,
+    this.onRetry,
     super.key,
   });
 
   final Stream<PkSyncStatus> statusStream;
   final Stream<int> pendingCountStream;
+
+  /// Called when the user taps the badge in [PkSyncStatus.error] state.
+  final VoidCallback? onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -39,42 +43,45 @@ class PkSyncStatusBadge extends StatelessWidget {
               return const SizedBox.shrink();
             }
 
-            return Tooltip(
-              message: _tooltipMessage(status, pendingCount),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: _statusColor(status, context),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: _statusColor(
-                        status,
-                        context,
-                      ).withValues(alpha: 0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _buildLeadingIcon(status),
-                    const SizedBox(width: 8),
-                    Text(
-                      _statusText(status, pendingCount),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.3,
+            return GestureDetector(
+              onTap: status == PkSyncStatus.error ? onRetry : null,
+              child: Tooltip(
+                message: _tooltipMessage(status, pendingCount),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _statusColor(status, context),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: _statusColor(
+                          status,
+                          context,
+                        ).withValues(alpha: 0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildLeadingIcon(status),
+                      const SizedBox(width: 8),
+                      Text(
+                        _statusText(status, pendingCount),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

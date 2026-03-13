@@ -7,6 +7,24 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## 2.3.1
+
+### Fixed
+- **`firebase.dart`** — `AppInitializer`: Crashlytics setup is now guarded with `!kIsWeb`. Firebase Crashlytics does not support web and previously caused apps to freeze on the splash screen when deployed to web.
+
+---
+
+## 2.3.0
+
+### Added
+- **`firebase.dart`** — `AppInitializer`: one-call Firebase boot sequence for `main()`. Handles `WidgetsFlutterBinding.ensureInitialized`, `Firebase.initializeApp`, Crashlytics wiring (`FlutterError.onError` + `PlatformDispatcher.instance.onError`), and FCM background handler registration (non-web). Returns the `FirebaseApp`. Also exports `FirebaseMessageHandler` typedef.
+- **`ui.dart`** — `LegalLinksWidget`: renders Privacy Policy and Terms of Service as tappable inline links (horizontal or vertical layout). Accepts `LegalLinksConfig`, optional `textStyle`, `linkColor`, and `separator`. Links that have a `null` URL are silently omitted.
+- **`ui.dart`** — `LegalConsentWidget`: checkbox row "I agree to the [Privacy Policy] and [Terms of Service]" for onboarding/signup screens. Required `value` + `onChanged` callback.
+- **`ui.dart`** — `LegalLinksConfig`: immutable config holding `privacyPolicyUrl`, `termsOfServiceUrl`, and their display labels. Supports `copyWith`, `==`, and `hashCode`.
+- Added `url_launcher: ^6.3.0` dependency to support opening legal URLs.
+
+---
+
 ## 2.2.0
 
 ### Added

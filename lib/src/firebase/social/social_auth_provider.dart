@@ -1,13 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../social.dart';
 
 /// [SocialAuthService] backed by Firebase Auth.
 ///
-/// Supports Google and GitHub out of the box. Apple and Facebook require
-/// additional packages and will throw a clear [UnsupportedError] when called
-/// without them.
+/// Supports Google (web + mobile) and GitHub natively.
+/// Apple and Facebook require additional packages and will throw a clear
+/// [UnsupportedError] when called without them.
+///
+/// For Google sign-in with additional OAuth scopes (e.g. Google Calendar):
+/// ```dart
+/// final user = await FirebaseSocialAuth().signInWithGoogle(
+///   additionalScopes: [
+///     'https://www.googleapis.com/auth/calendar.events',
+///   ],
+/// );
+/// ```
 final class FirebaseSocialAuth implements SocialAuthService {
   /// Creates a [FirebaseSocialAuth].
   ///
@@ -24,14 +34,14 @@ final class FirebaseSocialAuth implements SocialAuthService {
   String? get currentUserId => _auth.currentUser?.uid;
 
   // ---------------------------------------------------------------------------
-  // signIn
+  // signIn (SocialAuthService interface)
   // ---------------------------------------------------------------------------
 
   @override
   Future<SocialAuthResult?> signIn(SocialProvider provider) async {
     switch (provider) {
       case SocialProvider.google:
-        return _signInWithGoogle();
+        return _googleSignInToResult();
       case SocialProvider.apple:
         return _signInWithApple();
       case SocialProvider.github:
@@ -39,6 +49,27 @@ final class FirebaseSocialAuth implements SocialAuthService {
       case SocialProvider.facebook:
         return _signInWithFacebook();
     }
+  }
+
+  // ---------------------------------------------------------------------------
+  // signInWithGoogle — convenience method that returns User? directly
+  // ---------------------------------------------------------------------------
+
+  /// Signs in with Google and returns the Firebase [User], or `null` if the
+  /// user cancelled.
+  ///
+  /// On **web** uses [FirebaseAuth.signInWithPopup] to avoid deprecated
+  /// google_sign_in web APIs. On **mobile** uses the google_sign_in 7.x
+  /// singleton API.
+  ///
+  /// Pass [additionalScopes] to request extra OAuth scopes at sign-in time
+  /// (e.g. Google Calendar scopes). The base `email` and `profile` scopes
+  /// are always included.
+  Future<User?> signInWithGoogle({
+    List<String> additionalScopes = const [],
+  }) async {
+    final result = await _googleSignIn(additionalScopes: additionalScopes);
+    return result;
   }
 
   // ---------------------------------------------------------------------------
@@ -51,7 +82,7 @@ final class FirebaseSocialAuth implements SocialAuthService {
       await _auth.signOut();
       // Best-effort sign-out from Google (no-op if not used).
       try {
-        await GoogleSignIn.instance.signOut();
+        if (!kIsWeb) await GoogleSignIn.instance.signOut();
       } on Exception {
         // Ignore if Google Sign-In not configured.
       }
@@ -61,34 +92,59 @@ final class FirebaseSocialAuth implements SocialAuthService {
   }
 
   // ---------------------------------------------------------------------------
-  // Google
+  // Google — shared implementation
   // ---------------------------------------------------------------------------
 
-  Future<SocialAuthResult?> _signInWithGoogle() async {
+  /// Core Google sign-in. Returns the Firebase [User] or null if cancelled.
+  Future<User?> _googleSignIn({
+    List<String> additionalScopes = const [],
+  }) async {
     try {
-      await GoogleSignIn.instance.initialize();
-      final googleUser = await GoogleSignIn.instance.authenticate();
+      if (kIsWeb) {
+        // Web: Firebase Auth popup (avoids deprecated google_sign_in web APIs)
+        final result = await _auth.signInWithPopup(GoogleAuthProvider());
+        return result.user;
+      }
 
-      final googleAuth = googleUser.authentication;
+      // Mobile: google_sign_in 7.x singleton API
+      final scopes = ['email', 'profile', ...additionalScopes];
+      final GoogleSignInAccount googleUser;
+      try {
+        googleUser = await GoogleSignIn.instance.authenticate(
+          scopeHint: scopes,
+        );
+      } catch (_) {
+        return null; // User cancelled
+      }
+
+      final googleAuth = googleUser.authentication; // synchronous in 7.x
+      final authorization = await GoogleSignIn.instance.authorizationClient
+          .authorizationForScopes(scopes);
+
       final credential = GoogleAuthProvider.credential(
+        accessToken: authorization?.accessToken,
         idToken: googleAuth.idToken,
       );
 
       final userCred = await _auth.signInWithCredential(credential);
-      final user = userCred.user;
-      if (user == null) return null;
-
-      return SocialAuthResult(
-        userId: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        avatarUrl: user.photoURL,
-        accessToken: googleAuth.idToken ?? '',
-        provider: SocialProvider.google,
-      );
+      return userCred.user;
     } catch (error) {
       throw Exception('Google sign-in failed: $error');
     }
+  }
+
+  /// Wraps [_googleSignIn] into a [SocialAuthResult] for the interface.
+  Future<SocialAuthResult?> _googleSignInToResult() async {
+    final user = await _googleSignIn();
+    if (user == null) return null;
+    return SocialAuthResult(
+      userId: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      avatarUrl: user.photoURL,
+      accessToken: '',
+      provider: SocialProvider.google,
+    );
   }
 
   // ---------------------------------------------------------------------------
@@ -96,10 +152,6 @@ final class FirebaseSocialAuth implements SocialAuthService {
   // ---------------------------------------------------------------------------
 
   Future<SocialAuthResult?> _signInWithApple() async {
-    // Apple sign-in requires the `sign_in_with_apple` package.
-    // Add it to pubspec.yaml:
-    //   sign_in_with_apple: ^6.0.0
-    // Then replace this body with the real implementation.
     throw UnsupportedError(
       'Apple sign-in is not enabled. '
       'Add the `sign_in_with_apple` package and implement '
@@ -137,10 +189,6 @@ final class FirebaseSocialAuth implements SocialAuthService {
   // ---------------------------------------------------------------------------
 
   Future<SocialAuthResult?> _signInWithFacebook() async {
-    // Facebook sign-in requires the `flutter_facebook_auth` package.
-    // Add it to pubspec.yaml:
-    //   flutter_facebook_auth: ^7.0.0
-    // Then replace this body with the real implementation.
     throw UnsupportedError(
       'Facebook sign-in is not enabled. '
       'Add the `flutter_facebook_auth` package and implement '

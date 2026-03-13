@@ -217,17 +217,20 @@ class AuthInterceptor extends Interceptor {
     _refreshCompleter = Completer<String?>();
 
     try {
+      // For Firebase-based auth, the refresh callback ignores the stored
+      // refresh token and calls FirebaseAuth directly. We still attempt the
+      // callback even when no refresh token is stored so that Firebase (and
+      // similar SDK-managed auth providers) can recover from a 401 without
+      // requiring a persisted refresh token.
       final refreshToken = await _tokenStore.getRefreshToken();
       if (refreshToken == null) {
         PrimekitLogger.warning(
-          'No refresh token available',
+          'No refresh token stored — attempting refresh callback anyway',
           tag: 'AuthInterceptor',
         );
-        _refreshCompleter!.complete(null);
-        return null;
       }
 
-      final newAccessToken = await _onRefresh(refreshToken);
+      final newAccessToken = await _onRefresh(refreshToken ?? '');
 
       if (newAccessToken != null) {
         await _tokenStore.saveAccessToken(newAccessToken);

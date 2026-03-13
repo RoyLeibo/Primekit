@@ -4,7 +4,7 @@ import '../../core.dart';
 
 /// Per-user notification preference management backed by Cloud Firestore.
 ///
-/// Preferences are stored at `{basePath}/{type}` and sync in real-time
+/// Preferences are stored at `{basePath}/{type}` (e.g. `users/{uid}/notification_preferences/{type}`) and sync in real-time
 /// across all of a user's devices. Use [watchEnabled] for a live stream
 /// that rebuilds UI automatically.
 ///
@@ -30,10 +30,10 @@ class RemoteNotificationPreferences {
     required FirebaseFirestore firestore,
     required String userId,
     /// Override the default Firestore path.
-    /// Defaults to `users/{userId}/settings/notifications`.
+    /// Defaults to `users/{userId}/notification_preferences`.
     String? basePath,
   }) : _firestore = firestore,
-       _basePath = basePath ?? 'users/$userId/settings/notifications';
+       _basePath = basePath ?? 'users/$userId/notification_preferences';
 
   final FirebaseFirestore _firestore;
   final String _basePath;

@@ -26,13 +26,13 @@ import '../../core.dart';
 /// ```
 class FirebaseAuthInterceptor extends Interceptor {
   FirebaseAuthInterceptor({
-    required VoidCallback onSessionExpired,
+    VoidCallback? onSessionExpired,
     FirebaseAuth? auth,
   }) : _auth = auth ?? FirebaseAuth.instance,
        _onSessionExpired = onSessionExpired;
 
   final FirebaseAuth _auth;
-  final VoidCallback _onSessionExpired;
+  final VoidCallback? _onSessionExpired;
 
   static const String _tag = 'FirebaseAuthInterceptor';
   static const String _retriedKey = '_firebaseAuthRetried';
@@ -96,7 +96,7 @@ class FirebaseAuthInterceptor extends Interceptor {
         'Firebase token refresh loop detected — expiring session',
         tag: _tag,
       );
-      _onSessionExpired();
+      _onSessionExpired?.call();
       handler.next(err);
       return;
     }
@@ -113,7 +113,7 @@ class FirebaseAuthInterceptor extends Interceptor {
         'No authenticated Firebase user — expiring session',
         tag: _tag,
       );
-      _onSessionExpired();
+      _onSessionExpired?.call();
       handler.next(err);
       return;
     }
@@ -159,7 +159,7 @@ class FirebaseAuthInterceptor extends Interceptor {
         error: retryErr,
       );
       if (retryErr.response?.statusCode == 401) {
-        _onSessionExpired();
+        _onSessionExpired?.call();
       }
       handler.next(retryErr);
     } on Exception catch (e, st) {
@@ -179,7 +179,11 @@ class FirebaseAuthInterceptor extends Interceptor {
 
   Future<String?> _getIdToken({required bool forceRefresh}) async {
     try {
-      final user = _auth.currentUser;
+      // On web, Firebase restores auth state from IndexedDB asynchronously.
+      // currentUser is null until that completes. Wait for authStateChanges
+      // to emit so the first request on a restored session is authenticated.
+      var user = _auth.currentUser;
+      user ??= await _auth.authStateChanges().first;
       if (user == null) return null;
       return await user.getIdToken(forceRefresh);
     } catch (e, st) {
