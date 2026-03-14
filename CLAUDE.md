@@ -62,6 +62,7 @@ void main() async {
 | **contacts** | `contacts.dart` | Native contact picker | `ContactsPicker`, `PkContact` |
 | **calendar** | `calendar.dart` | Calendar events + Google Calendar | `CalendarService`, `CalendarEvent`, `GoogleCalendarProvider` |
 | **currency** | `currency.dart` | Currency conversion + cached rates | `CurrencyConverter`, `CurrencyCache`, `HttpCurrencyRateSource` |
+| **invites** | `invites.dart` | Invite code generation + sharing UI + join form | `InviteCode`, `InviteShareSheet`, `InviteShareConfig`, `InviteJoinForm` |
 | **i18n** | `i18n.dart` | Locale management + formatting | `LocaleManager`, `DateFormatter`, `CurrencyFormatter`, `PluralHelper` |
 | **design_system** | `design_system.dart` | Design tokens + shared themes | `PkAppTheme`, `PkAppThemeExtension`, `PkGradients`, `PkColorScheme`, `PkTypography`, `PkSpacing`, `PkRadius` |
 | **ui** | `ui.dart` | General-purpose UI widgets | `AdaptiveScaffold`, `SkeletonLoader`, `EmptyState`, `LazyList`, `ToastService`, `ConfirmDialog` |

@@ -18,6 +18,7 @@ export 'device.dart';
 export 'email.dart';
 export 'flags.dart';
 export 'i18n.dart';
+export 'invites.dart';
 export 'media.dart';
 export 'membership.dart';
 export 'network.dart';
