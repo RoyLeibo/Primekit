@@ -26,6 +26,9 @@ dependencies:
   # Contacts
   flutter_contacts: ^1.1.9+2
 
+  # Invites (sharing)
+  share_plus: ">=10.0.0 <13.0.0"
+
   # Permissions
   permission_handler: ^12.0.0
 
