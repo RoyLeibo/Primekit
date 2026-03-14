@@ -63,12 +63,12 @@ void main() async {
 | **calendar** | `calendar.dart` | Calendar events + Google Calendar | `CalendarService`, `CalendarEvent`, `GoogleCalendarProvider` |
 | **currency** | `currency.dart` | Currency conversion + cached rates | `CurrencyConverter`, `CurrencyCache`, `HttpCurrencyRateSource` |
 | **i18n** | `i18n.dart` | Locale management + formatting | `LocaleManager`, `DateFormatter`, `CurrencyFormatter`, `PluralHelper` |
-| **design_system** | `design_system.dart` | Design tokens (colors, type, spacing) | `PkColorScheme`, `PkTypography`, `PkSpacing`, `PkRadius`, `PkBadge`, `PkAvatar` |
+| **design_system** | `design_system.dart` | Design tokens + shared themes | `PkAppTheme`, `PkAppThemeExtension`, `PkGradients`, `PkColorScheme`, `PkTypography`, `PkSpacing`, `PkRadius` |
 | **ui** | `ui.dart` | General-purpose UI widgets | `AdaptiveScaffold`, `SkeletonLoader`, `EmptyState`, `LazyList`, `ToastService`, `ConfirmDialog` |
 | **routing** | `routing.dart` | Route guards + deep links (go_router) | `RouteGuard`, `ProtectedRouteGuard`, `DeepLinkHandler`, `TabStateManager` |
 | **ads** | `ads.dart` | Ad integration | See `lib/src/ads/` |
 | **ai** | `ai.dart` | Multi-provider AI abstraction | `AiService`, `OpenAiProvider`, `AnthropicProvider` |
-| **riverpod** | `riverpod.dart` | Riverpod base classes + helpers | `PkAsyncNotifier`, `PkProviders`, `PkPaginationNotifier` |
+| **riverpod** | `riverpod.dart` | Riverpod base classes + helpers | `PkAsyncNotifier`, `PkProviders`, `PkPaginationNotifier`, `PkThemeNotifier`, `pkThemeProvider` |
 | **firebase** | `firebase.dart` | ALL Firebase adapters (not per-module) | `AppInitializer`, `FirebaseAuthInterceptor`, `FirestoreSyncSource`, `FirebaseFlagProvider` |
 
 ## What to Ignore

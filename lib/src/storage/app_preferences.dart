@@ -26,6 +26,7 @@ final class AppPreferences {
 
   // Key constants.
   static const String _keyThemeMode = 'pk_theme_mode';
+  static const String _keyAppTheme = 'pk_app_theme';
   static const String _keyLocale = 'pk_locale';
   static const String _keyOnboardingComplete = 'pk_onboarding_complete';
   static const String _customKeyPrefix = 'pk_custom::';
@@ -48,6 +49,17 @@ final class AppPreferences {
       orElse: () => ThemeMode.system,
     );
   }
+
+  // ---------------------------------------------------------------------------
+  // App Theme (PkAppTheme id)
+  // ---------------------------------------------------------------------------
+
+  /// Persists the active app theme id (e.g. `'pawtrack'`, `'fresh_mint'`).
+  Future<void> setAppTheme(String themeId) =>
+      _setString(_keyAppTheme, themeId);
+
+  /// Returns the persisted app theme id, or `null` when nothing has been stored.
+  Future<String?> getAppTheme() => _getString(_keyAppTheme);
 
   // ---------------------------------------------------------------------------
   // Locale

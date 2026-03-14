@@ -1,8 +1,11 @@
-# design_system — Design Tokens
+# design_system — Design Tokens & Shared Themes
 
-**Purpose:** Shared design tokens (colors, typography, spacing, radii) and basic UI primitives.
+**Purpose:** Shared design tokens (colors, typography, spacing, radii), theme system, and basic UI primitives.
 
 **Key exports:**
+- `PkAppTheme` — swappable theme definitions with light/dark support. Factories: `.pawTrack()`, `.freshMint()`, `.bullseyeGold()`, `.cosmicDark()`
+- `PkAppThemeExtension` — generic ThemeExtension with surface tints, accents, glass surfaces, text colors, avatar palette
+- `PkGradients` — branded gradient definitions (hero, positive, negative, accent, celebration)
 - `PkColorScheme` — semantic colors (primary, surface, error, onPrimary, etc.)
 - `PkTypography` — text styles (display, heading, body, label sizes)
 - `PkSpacing` — margin/padding scale (xs, sm, md, lg, xl, 2xl)
@@ -10,8 +13,8 @@
 - `PkBadge` — badge widget
 - `PkAvatar` — avatar widget with deterministic color assignment
 
-**Note:** Apps with custom design systems (e.g. Bullseye uses `BsTokens`/`BsSemantics`) may not use this directly — they implement their own tokens on top of Material.
+**Theme system:** See `THEMES.md` in repo root for full theme documentation.
 
 **Dependencies:** flutter, Material Design
 
-**Maintenance:** Update when new token scale added or primitive widget added.
+**Maintenance:** Update when new theme added, token scale changed, or primitive widget added.

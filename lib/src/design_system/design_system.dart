@@ -1,6 +1,9 @@
+export 'pk_app_theme.dart';
+export 'pk_app_theme_extension.dart';
 export 'pk_avatar.dart';
 export 'pk_badge.dart';
 export 'pk_color_scheme.dart';
+export 'pk_gradients.dart';
 export 'pk_radius.dart';
 export 'pk_spacing.dart';
 export 'pk_typography.dart';
