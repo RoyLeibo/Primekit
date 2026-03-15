@@ -4,7 +4,7 @@
 
 **Key exports:**
 - `PrimekitException` (sealed) — base for all module exceptions; has `.userMessage` for UI display
-  - Subtypes: `NetworkException`, `AuthException`, `BillingException`, `ValidationException`, + more
+  - Subtypes: `NetworkException`, `AuthException`, `BillingException`, `ValidationException`, `AiQuotaException`, `AiQuotaExceededException`, + more
 - `Result<S, F>` — discriminated union (Success/Failure); use `.when()`, `.map()`, `.asyncMap()`, `.or()`
 - `PrimekitConfig` — singleton; call `PrimekitConfig.initialize()` in `main()` before anything else
 - `PrimekitLogger` — structured logging with configurable levels

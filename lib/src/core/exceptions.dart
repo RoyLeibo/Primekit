@@ -202,3 +202,81 @@ final class MessageValidationException extends ChatException {
   @override
   String get userMessage => 'Invalid message. Please check and try again.';
 }
+
+// ---------------------------------------------------------------------------
+// AI Quota
+// ---------------------------------------------------------------------------
+
+/// Thrown when an AI quota operation fails.
+final class AiQuotaException extends PrimekitException {
+  const AiQuotaException({required super.message, super.code, super.cause});
+
+  @override
+  String get userMessage => 'AI service error. Please try again.';
+}
+
+// ---------------------------------------------------------------------------
+// Habits
+// ---------------------------------------------------------------------------
+
+/// Thrown when a habit operation fails.
+final class HabitException extends PrimekitException {
+  const HabitException({required super.message, super.code, super.cause});
+
+  @override
+  String get userMessage => 'Habit operation failed. Please try again.';
+}
+
+// ---------------------------------------------------------------------------
+// Statistics
+// ---------------------------------------------------------------------------
+
+/// Thrown when a statistics operation fails.
+final class StatisticsException extends PrimekitException {
+  const StatisticsException({required super.message, super.code, super.cause});
+
+  @override
+  String get userMessage => 'Statistics error. Please try again.';
+}
+
+/// Thrown when the daily AI usage limit has been reached.
+final class AiQuotaExceededException extends AiQuotaException {
+  const AiQuotaExceededException({required int dailyLimit})
+    : super(
+        message: 'Daily AI quota exceeded (limit: $dailyLimit)',
+        code: 'AI_QUOTA_EXCEEDED',
+      );
+
+  @override
+  String get userMessage =>
+      'You have reached your daily AI limit. Please try again tomorrow.';
+}
+
+// ---------------------------------------------------------------------------
+// Speech
+// ---------------------------------------------------------------------------
+
+/// Thrown when a speech recognition operation fails.
+final class SpeechException extends PrimekitException {
+  const SpeechException({
+    required super.message,
+    super.code,
+    super.cause,
+  });
+
+  @override
+  String get userMessage => 'Speech recognition error. Please try again.';
+}
+
+/// Thrown when microphone permission is required but not granted.
+final class SpeechPermissionException extends SpeechException {
+  const SpeechPermissionException()
+      : super(
+          message: 'Microphone permission is required for speech recognition',
+          code: 'MIC_PERMISSION_DENIED',
+        );
+
+  @override
+  String get userMessage =>
+      'Microphone permission is required for voice input.';
+}

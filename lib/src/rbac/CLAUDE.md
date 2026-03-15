@@ -1,6 +1,6 @@
-# rbac — Role-Based Access Control
+# rbac — Role-Based Access Control + Sharing
 
-**Purpose:** Permission checking and policy enforcement. Backend-agnostic with Firebase/Mongo implementations.
+**Purpose:** Permission checking, policy enforcement, and multi-user document sharing. Backend-agnostic with Firebase/Mongo implementations.
 
 **Key exports:**
 - `RbacService` — singleton; load policies then check permissions
@@ -10,17 +10,32 @@
 - `Role` — role definition with assigned permissions
 - `RbacGate` — widget that shows/hides children based on permission check
 - `MongoRbacProvider`, `FirebaseRbacProvider` — implementations (Firebase via `firebase.dart`)
+- `PkSharingMixin` — Firestore sharing mixin (addMember, removeMember, getMembers, getMemberRole)
+- `PkMember` — immutable member value type (userId, role, joinedAt)
+- `PkShareRole` — role with permissions list
+- `PkSharingConfig` — configurable field names for memberIds/roles
+- `SharingException` — `PrimekitException` subtype for sharing failures
 
-**Pattern:**
+**RBAC pattern:**
 ```dart
 await RbacService.instance.loadForUser(userId);
 if (RbacService.instance.can(Permission.write('posts'))) { ... }
-// In widgets:
 RbacGate(permission: Permission.admin(), child: AdminPanel())
 ```
 
-**Planned usage:** Splitly (admin/member group roles), Bullseye-Mobile-App
+**Sharing pattern:**
+```dart
+class MyRepo with PkSharingMixin {
+  @override
+  FirebaseFirestore get firestore => FirebaseFirestore.instance;
+  // addMember('collection/docId', userId, 'editor')
+  // removeMember('collection/docId', userId)
+  // getMembers('collection/docId') → List<PkMember>
+}
+```
 
-**Dependencies:** `core`, firebase (conditional)
+**Consumers:** PawTrack (sharing), Splitly (planned), Bullseye-Mobile-App (planned)
 
-**Maintenance:** Update when new permission type added or policy inheritance model changes.
+**Dependencies:** `core`, `cloud_firestore` (sharing mixin), firebase (conditional, RBAC providers)
+
+**Maintenance:** Update when new permission type added, policy inheritance model changes, or sharing API changes.

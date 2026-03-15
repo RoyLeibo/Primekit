@@ -23,3 +23,4 @@ export 'src/firebase/currency/firestore_currency_rate_source.dart';
 export 'src/firebase/chat/firestore_message_datasource.dart';
 export 'src/firebase/chat/firestore_message_repository.dart';
 export 'src/firebase/chat/firestore_typing_datasource.dart';
+export 'src/habits/firestore_habit_service.dart';

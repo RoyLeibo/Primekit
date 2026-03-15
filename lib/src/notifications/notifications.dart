@@ -4,5 +4,8 @@ export 'in_app_banner.dart';
 export 'local_notifier.dart';
 export 'notification_channel.dart';
 export 'notification_preferences.dart';
+export 'notification_rule.dart';
+export 'notification_rule_preferences.dart';
+export 'notification_rule_service.dart';
 export 'notification_types.dart';
 export 'remote_notification_preferences.dart';

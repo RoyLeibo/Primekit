@@ -12,6 +12,6 @@
 
 **Active usage:** PawTrack uses `LocaleManager`.
 
-**Note:** best_todo_list uses full ARB-based localization (Hebrew/RTL) separately — `kosher_dart` for Hebrew calendar.
+**Note:** Hebrew calendar support lives in the separate `i18n_hebrew` module (`package:primekit/i18n_hebrew.dart`) to avoid adding `kosher_dart` to all apps.
 
 **Maintenance:** Update when new formatting helper added.

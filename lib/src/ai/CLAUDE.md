@@ -1,17 +1,20 @@
 # ai — AI Integration
 
-**Purpose:** Multi-provider AI abstraction. Swap OpenAI / Anthropic / Gemini without changing call sites.
+**Purpose:** Multi-provider AI abstraction + usage quota metering.
 
 **Key exports:**
-- `AiService` — main inference interface; `.complete(prompt)`, `.stream(prompt)`
+- `AiService` — main inference interface; `.complete(prompt)`
 - `AiProvider` — abstract backend interface
 - `OpenAiProvider` — OpenAI API implementation
 - `AnthropicProvider` — Anthropic Claude API implementation
+- `AiQuotaService` — Firestore-backed daily usage quota (configurable limit, auto-reset)
+- `AiQuotaConfig` — configuration for quota service (dailyLimit, warningThreshold, collection)
+- `AiQuotaSnapshot` — immutable snapshot of usage state (used, remaining, percentageUsed)
 
-**Dependencies:** http, `core` (Result type)
+**Dependencies:** http, cloud_firestore, `core` (Result type, PrimekitException, PrimekitLogger)
 
-**Active usage:** best_todo_list uses AI recommendations (50 calls/day metered at app level, not in Primekit).
+**Exceptions:** `AiQuotaException`, `AiQuotaExceededException` (defined in core/exceptions.dart)
 
-**Note:** Usage metering/quotas are NOT handled in this module — implement at app level.
+**Active usage:** best_todo_list delegates AI quota enforcement to `AiQuotaService` via its `AIUsageLimiter` wrapper.
 
-**Maintenance:** Update when new provider added or inference API changes.
+**Maintenance:** Update when new provider added, inference API changes, or quota logic changes.

@@ -21,6 +21,6 @@ final result = schema.validate({'email': 'x@y.com', 'age': 25});
 
 **Dependencies:** flutter (ChangeNotifier), `core` (ValidationException)
 
-**Planned usage:** PawTrack (5 form screens → PkSchema)
+**Active usage:** best_todo_list (TodoDialog, ReminderDialog, HabitDialog — PkSchema validators for name/target fields). PawTrack (5 form screens → PkSchema, planned).
 
 **Maintenance:** Update when new schema modifier or validator added.
