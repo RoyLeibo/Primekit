@@ -280,3 +280,29 @@ final class SpeechPermissionException extends SpeechException {
   String get userMessage =>
       'Microphone permission is required for voice input.';
 }
+
+// ---------------------------------------------------------------------------
+// Sharing
+// ---------------------------------------------------------------------------
+
+/// Thrown when a sharing operation fails.
+final class SharingException extends PrimekitException {
+  const SharingException({required super.message, super.cause})
+      : super(code: 'SHARING');
+
+  @override
+  String get userMessage => 'Failed to update sharing. Please try again.';
+}
+
+// ---------------------------------------------------------------------------
+// Home Widget
+// ---------------------------------------------------------------------------
+
+/// Thrown when a home widget operation fails.
+final class HomeWidgetException extends PrimekitException {
+  const HomeWidgetException({required super.message, super.cause})
+      : super(code: 'HOME_WIDGET');
+
+  @override
+  String get userMessage => 'Failed to update home screen widget.';
+}

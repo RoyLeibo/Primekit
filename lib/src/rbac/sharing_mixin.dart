@@ -199,15 +199,4 @@ mixin PkSharingMixin {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Exception
-// ---------------------------------------------------------------------------
-
-/// Thrown when a sharing operation fails.
-final class SharingException extends PrimekitException {
-  const SharingException({required super.message, super.cause})
-      : super(code: 'SHARING');
-
-  @override
-  String get userMessage => 'Failed to update sharing. Please try again.';
-}
+// SharingException is defined in core/exceptions.dart

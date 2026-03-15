@@ -156,15 +156,4 @@ class PkWidgetName {
   final String android;
 }
 
-// ---------------------------------------------------------------------------
-// Exception
-// ---------------------------------------------------------------------------
-
-/// Thrown when a home widget operation fails.
-final class HomeWidgetException extends PrimekitException {
-  const HomeWidgetException({required super.message, super.cause})
-      : super(code: 'HOME_WIDGET');
-
-  @override
-  String get userMessage => 'Failed to update home screen widget.';
-}
+// HomeWidgetException is defined in core/exceptions.dart

@@ -16,7 +16,7 @@ class PkOnboardingPage {
   const PkOnboardingPage({required this.content, this.builder});
 
   /// Convenience constructor with icon + title + subtitle layout.
-  const PkOnboardingPage.simple({
+  PkOnboardingPage.simple({
     required IconData icon,
     required String title,
     required String subtitle,
