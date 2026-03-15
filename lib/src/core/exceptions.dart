@@ -181,3 +181,24 @@ final class ConfigurationException extends PrimekitException {
   const ConfigurationException({required super.message})
     : super(code: 'MISCONFIGURED');
 }
+
+// ---------------------------------------------------------------------------
+// Chat
+// ---------------------------------------------------------------------------
+
+/// Thrown when a chat operation fails.
+final class ChatException extends PrimekitException {
+  const ChatException({required super.message, super.code, super.cause});
+
+  @override
+  String get userMessage => 'Chat error. Please try again.';
+}
+
+/// Thrown when message content fails validation.
+final class MessageValidationException extends ChatException {
+  const MessageValidationException({required super.message})
+    : super(code: 'MESSAGE_VALIDATION');
+
+  @override
+  String get userMessage => 'Invalid message. Please check and try again.';
+}

@@ -20,3 +20,6 @@ export 'src/firebase/social/follow_service.dart';
 export 'src/firebase/social/profile_service.dart';
 export 'src/firebase/social/social_auth_provider.dart';
 export 'src/firebase/currency/firestore_currency_rate_source.dart';
+export 'src/firebase/chat/firestore_message_datasource.dart';
+export 'src/firebase/chat/firestore_message_repository.dart';
+export 'src/firebase/chat/firestore_typing_datasource.dart';
