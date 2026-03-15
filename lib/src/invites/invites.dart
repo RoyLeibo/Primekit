@@ -1,3 +1,4 @@
+export 'firebase_invite_manager.dart';
 export 'invite_code.dart';
 export 'widgets/invite_contacts_tab.dart';
 export 'widgets/invite_join_form.dart';
